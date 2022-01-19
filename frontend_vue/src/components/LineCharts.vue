@@ -1,0 +1,111 @@
+<template>
+ <v-chart class="chart" :option="option" />
+
+</template>
+
+
+<script>
+import axios from 'axios';
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { LineChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent,
+  DataZoomComponent,
+} from "echarts/components";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { ref, defineComponent } from "vue";
+
+use([
+  CanvasRenderer,
+  LineChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent,
+  DataZoomComponent,
+]);
+export default {
+  name: "LineCharts",
+  components: {
+    VChart
+  },
+  provide: {
+    [THEME_KEY]: "dark"
+  },
+  setup () {
+   const option = ref({
+     xAxis: {
+    type: 'time',
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      name: "sm-0004",
+      data: [],
+      type: 'line'
+    },
+    {
+      name: "sm-0007",
+      data: [],
+      type: 'line'
+    }
+
+  ]
+
+   });
+
+   return { option };
+ },
+
+ methods: {
+     getData() {
+     try {
+       axios
+       .get(
+         "http://127.0.0.1:8000/api/posts/?range=0"
+       )
+       .then(response => response.data.posts.forEach(el=>{
+
+          if (el.devId === "sm-0004")
+          {
+            this.option.series[0].data.push([el.created_date,el.value])
+          }
+          if (el.devId === "sm-0007")
+          {
+            this.option.series[1].data.push([el.created_date,el.value])
+          }
+
+       }
+      ))
+
+
+
+
+     } catch (error) {
+       //console.log(error);
+     }
+   },
+ },
+ created (){
+   this.getData();
+
+ },
+
+
+
+
+
+};
+</script>
+
+<style scoped>
+.chart {
+  height: 400px;
+}
+</style>
