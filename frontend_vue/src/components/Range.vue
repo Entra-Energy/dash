@@ -5,7 +5,7 @@
       v-for="(item, index) in items"
       :key="item.index"
       :class="{ active: activeIndex === index }"
-      @click="setActive(index)"
+      @click="setActive(index, item.title);clickHandler()"
     >
       <slot :item="item">
         <p>
@@ -25,18 +25,19 @@ export default {
   data() {
     return {
       activeIndex: 0,
+      title: 'day',
       items: [
         {
           id: 1,
-          title: "Item #1",
+          title: "day",
         },
         {
           id: 2,
-          title: "Item #2",
+          title: "month",
         },
         {
           id: 3,
-          title: "Item #3",
+          title: "year",
         },
       ],
     };
@@ -49,16 +50,28 @@ export default {
   created (){
 
       this.activeIndex = this.$store.state.count
+      //this.title = this.$store.state.path
+
+      //let path = this.$route.path
+      //this.$router.push({path:path, query:{"range":this.title}})
+      //console.log(this.title)
+
   },
   methods: {
-    setActive(index) {
+    setActive(index, title) {
       this.activeIndex = index;
-      this.$store.commit('increment',this.activeIndex)
-
+      this.$store.commit('increment',index)
+      this.$emit("emit-it", title)
+      // let path = this.$route.path
+      // this.$router.push({path:path, query:{"range":title}})
+      //
+      this.$store.commit('setPath', title)
     },
-    clickHandler(){
+    clickHandler(index){
+    //  let query = {"range":index}
+    //  this.$emit("emit-it", query)
+  },
 
-    }
   }
 
 };

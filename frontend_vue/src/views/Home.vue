@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <Range />
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Range @emit-it="handleChange"/>
+
     <Table />
     <LineCharts />
 
@@ -29,6 +29,24 @@ export default {
     return {
 
     }
+  },
+  created (){
+    let path = this.$route.path
+    let title = this.$store.state.path
+    this.$router.push({path:path, query:{"range":title}})
+
+
+  },
+
+  methods: {
+    handleChange(payload){
+      let path = this.$route.path
+
+      this.$router.push({path:path, query:{"range":payload}})
+
+    }
+
+
   },
 }
 </script>
