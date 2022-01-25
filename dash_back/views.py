@@ -7,6 +7,7 @@ from dash_back.serializers import PostSerializer, OnlineSerializer
 from dash_back.models import Post, Online
 from datetime import datetime
 
+
 class PostView(APIView):
     def get(self, request):
         range = self.request.GET.get('range')
@@ -16,6 +17,7 @@ class PostView(APIView):
             posts = Post.month.all()
         serializer = PostSerializer(posts, many=True)
         return Response({"posts": serializer.data})
+
 
 
 class  OnlineView(APIView):

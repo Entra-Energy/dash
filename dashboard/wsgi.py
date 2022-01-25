@@ -10,8 +10,8 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
-from dashboard import mqtt
-mqtt.run()
+#from dashboard import mqtt
+#mqtt.run()
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dashboard.settings')
 

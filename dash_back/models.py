@@ -15,6 +15,7 @@ class UniqueOnlineManager(models.Manager):
         cur_hour = ten_minutes_ago.split(" ")[1].split(":")[0]
         cur_hour_min = ten_minutes_ago.split(" ")[1].split(":")[1]
         query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
+
         last_active = super().get_queryset().filter(saved_date__gte = query_date)
         unique = {}
         for elem in last_active:
@@ -28,26 +29,32 @@ class UniqueOnlineManager(models.Manager):
 
 
 class TodayPostManager(models.Manager):
-    today = datetime.now().date()
-    tomorrow = today + timedelta(1)
-    today_start = datetime.combine(today, time())
-    today_end = datetime.combine(tomorrow, time())
 
     def get_queryset(self):
-        return super().get_queryset().filter(created_date__gt = self.today_start, created_date__lt = self.today_end
-)
+        today = datetime.now(timezone('Europe/Sofia')).date()
+        tomorrow = today + timedelta(1)
+        today_start = str(today)+'T'+'00:00:00Z'
+        today_end = str(tomorrow)+'T'+'00:00:00Z'
+        print(today_start,today_end)
+        return super().get_queryset().filter(created_date__gt = today_start, created_date__lt = today_end)
+
 class MonthPostManager(models.Manager):
-    today_day = datetime.now().day
-    today = datetime.now().date()
-    tomorrow = today + timedelta(1)
-    month_begin = today - timedelta(today_day)
 
-    start = datetime.combine(month_begin, time()) + timedelta(1)
+    #start = datetime.combine(month_begin, time()) + timedelta(1)
 
-    end = datetime.combine(tomorrow, time())
+    #end = datetime.combine(tomorrow, time())
 
     def get_queryset(self):
-        return super().get_queryset().filter(created_date__gt = self.start, created_date__lt = self.end)
+        today_day = datetime.now(timezone('Europe/Sofia')).day-1
+        today = datetime.now(timezone('Europe/Sofia')).date()
+        now = datetime.now(timezone('Europe/Sofia'))
+        now = str(now)
+        cur_hour = now.split(" ")[1].split(":")[0]
+        cur_min = now.split(" ")[1].split(":")[1]
+        till_now = str(today)+'T'+cur_hour+":"+cur_min+":00Z"
+        month_begin = today - timedelta(today_day)
+        start = str(month_begin) + 'T' + '00:00:00Z'
+        return super().get_queryset().filter(created_date__gt = start, created_date__lt = till_now)
 
 class Post(models.Model):
 
