@@ -99,7 +99,7 @@ export default {
  },
  computed: {
    timeDayFormat(params) {
-     console.log(params)
+     console.log(params.value[1])
     },
   }
 
