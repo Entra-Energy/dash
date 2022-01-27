@@ -75,6 +75,7 @@ export default {
           if (el.devId === "sm-0002")
           {
             this.option.series[0].data.push([el.created_date,el.value])
+            console.log(el.created_date)
           }
           // if (el.devId === "sm-0007")
           // {
