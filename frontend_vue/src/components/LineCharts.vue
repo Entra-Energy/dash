@@ -38,8 +38,18 @@ export default {
   },
   setup () {
    const option = ref({
-     xAxis: {
+  xAxis: {
     type: 'time',
+    axisLabel: {
+        rotate:40,
+        margin:20,
+        //formatter: "t",
+
+        textStyle: {
+            color: '#fff'
+        },
+
+    },
   },
   yAxis: {
     type: 'value'
