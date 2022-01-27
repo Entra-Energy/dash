@@ -68,9 +68,14 @@ export default {
         }) )
         //console.log(this.all)
 
-      } catch (error) {
-        //console.log(error);
-      }
+      } catch(error => {
+        if (!error.response) {
+            // network error
+            this.errorStatus = 'Error: Network Error';
+        } else {
+            this.errorStatus = error.response.data.message;
+        }
+      })
     },
   },
   created (){
