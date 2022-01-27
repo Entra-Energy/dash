@@ -49,7 +49,7 @@ export default {
   methods: {
       getData() {
         try {
-     	    await axios.get('http://64.225.100.195/api/posts/?range=0')
+     	    await axios.get('/api/posts/?range=0')
      }    catch (error) {
           const err = error as AxiosError
           if (err.response) {
