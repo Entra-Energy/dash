@@ -91,7 +91,7 @@ export default {
           if (el.devId === "sm-0002")
           {
             this.option.series[0].data.push([el.created_date,el.value])
-            this.option.xAxis.axisLabel.formatter = timeDayFormat()
+            this.option.xAxis.axisLabel.formatter = this.timeDayFormat()
             //console.log(el.created_date)
           }
           // if (el.devId === "sm-0007")
