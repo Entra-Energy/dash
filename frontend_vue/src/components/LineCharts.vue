@@ -65,20 +65,7 @@ export default {
 
  methods: {
 
-   timeDayFormat(value, index) {
-                            // console.log(value)
-                var local = new Date(value)
 
-                let min = local.getMinutes()
-                if(min < 10)
-                  {
-                    min = ("0"+min).slice(-2)
-                  }
-                let hours = local.getUTCHours()
-                hours = ("0"+hours).slice(-2)
-                var texts = hours+":" + min
-                return texts
-    },
 
      getData() {
      try {
@@ -110,6 +97,22 @@ export default {
    this.getData();
 
  },
+ computed: {
+   timeDayFormat(value, index) {
+                            // console.log(value)
+                var local = new Date(value)
+
+                let min = local.getMinutes()
+                if(min < 10)
+                  {
+                    min = ("0"+min).slice(-2)
+                  }
+                let hours = local.getUTCHours()
+                hours = ("0"+hours).slice(-2)
+                var texts = hours+":" + min
+                return texts
+    },
+  }
 
 
 
