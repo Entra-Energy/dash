@@ -46,7 +46,7 @@ export default {
   },
   series: [
     {
-      name: "sm-0004",
+      name: "sm-0002",
       data: [],
       type: 'line'
     },
@@ -72,14 +72,14 @@ export default {
        )
        .then(response => response.data.posts.forEach(el=>{
 
-          if (el.devId === "sm-0004")
+          if (el.devId === "sm-0002")
           {
             this.option.series[0].data.push([el.created_date,el.value])
           }
-          if (el.devId === "sm-0007")
-          {
-            this.option.series[1].data.push([el.created_date,el.value])
-          }
+          // if (el.devId === "sm-0007")
+          // {
+          //   this.option.series[1].data.push([el.created_date,el.value])
+          // }
 
        }
       ))
