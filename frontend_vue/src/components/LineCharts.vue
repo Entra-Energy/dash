@@ -68,7 +68,7 @@ export default {
      try {
        axios
        .get(
-         "http://127.0.0.1:8000/api/posts/?range=0"
+         "http://64.225.100.195/api/posts/?range=0"
        )
        .then(response => response.data.posts.forEach(el=>{
 
