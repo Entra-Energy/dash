@@ -88,10 +88,28 @@ export default {
           if (el.devId === "sm-0002")
           {
             this.option.series[0].data.push([el.created_date,el.value])
-            this.option.xAxis.axisLabel.formatter = function(params)
-                                                            {
-                                                              console.log(params)
-                                                            }
+            this.option.xAxis.axisLabel.formatter = function(value,index)
+            {
+              var local = new Date(value)
+                                    let min = local.getMinutes()
+                                    if(min < 10)
+                                    {
+                                        min = ("0"+min).slice(-2)
+                                    }
+                                    let hours = local.getUTCHours()
+                                    hours = ("0"+hours).slice(-2)
+                                    // if (hours == -2)
+                                    // {
+                                    //     hours = 0
+                                    // }
+                                    // if (hours == -1)
+                                    // {
+                                    //     hours = 23
+                                    // }
+
+                                    var texts = hours+":" + min
+                                    return texts
+            }
             //console.log(el.created_date)
           }
           // if (el.devId === "sm-0007")
@@ -111,10 +129,8 @@ export default {
 
  },
  computed: {
-   timeDayFormat(params) {
-     console.log(params.value[1])
-    },
-  }
+
+ },
 
 
 
