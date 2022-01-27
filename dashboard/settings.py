@@ -10,7 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os,json
+from django.core.exceptions import ImproperlyConfigured
+
+with open(os.path.abspath("djangobin-secrets.json")) as f:
+    secrets = json.loads(f.read())
+
+def get_secret_setting(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +30,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 's4f+cno2%&en6dre^yk48k-yk2ag7qkzaixtw*^5qv(o!$56qg'
+SECRET_KEY = get_secret_setting('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['http://localhost:8000','127.0.0.1','http://64.225.100.195']
+ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL=True
 
@@ -56,6 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dashboard.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -80,8 +91,12 @@ WSGI_APPLICATION = 'dashboard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': get_secret_setting('DATABASE_NAME'),
+        'USER': get_secret_setting('DATABASE_USER'),
+        'PASSWORD': get_secret_setting('DATABASE_PASSWORD'),
+        'HOST': get_secret_setting('DATABASE_HOST'),
+        'PORT': get_secret_setting('DATABASE_PORT'),
     }
 }
 
