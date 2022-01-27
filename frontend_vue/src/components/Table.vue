@@ -48,34 +48,17 @@ export default {
 
   methods: {
       getData() {
-      try {
-        axios
-        .get(
-          "http://64.225.100.195/api/online/"
-        )
-        .then(response => response.data.online.forEach(el=>{
-            //this.posts.push(el)
-            //console.log(el.dev)
-            let found = this.all.find(element => element.id === el.dev)
-            if (found)
-            {
-              found.pow = el.pow
-              found.online = 'online'
-            }
+        try {
+     	    await axios.get('http://64.225.100.195/api/posts/?range=0')
+     }    catch (error) {
+          const err = error as AxiosError
+          if (err.response) {
+           console.log(err.response.status)
+           console.log(err.response.data)
+          }
+        this.handleAxiosError(error)
+     }
 
-            //console.log(this.all[0].id)
-
-        }) )
-        //console.log(this.all)
-
-      } catch(error => {
-        if (!error.response) {
-            // network error
-            this.errorStatus = 'Error: Network Error';
-        } else {
-            this.errorStatus = error.response.data.message;
-        }
-      })
     },
   },
   created (){
