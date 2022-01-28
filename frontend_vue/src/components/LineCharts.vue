@@ -98,6 +98,7 @@ export default {
           if (el.devId === "sm-0002")
           {
             this.option.series[0].data.push([el.created_date,el.value])
+            this.setTooltip()
             this.option.xAxis.axisLabel.formatter = function(value,index)
             {
               var local = new Date(value)
@@ -139,7 +140,25 @@ export default {
 
  },
  computed: {
+   setTooltip(){
+   this.option.tooltip.formatter = function (params) {
 
+                                        //var chartdate = (new Date(params[0].value[0])).toLocaleTimeString("bg-BG")
+                                        let chartdate = new Date(params[0].value[0])
+                                        let month = chartdate.getMonth()+1
+                                        month = ("0"+month).slice(-2)
+                                        let day = chartdate.getDate()
+                                        day = ("0"+day).slice(-2)
+                                        let hours  = chartdate.getUTCHours()
+                                        hours = ("0"+hours).slice(-2)
+                                        let mins = chartdate.getMinutes()
+                                        mins = ("0" + mins).slice(-2)
+                                        let formatTime = day+"."+month+"/"+hours+":"+mins
+                                        var vals = params.reduce((prev, curr) => prev + '<li style="list-style:none">' + curr.marker + curr.seriesName + "&nbsp;&nbsp;" + curr.value[1] + "</li>", "");
+
+                                        return formatTime + vals;
+                                        }
+ }
  },
 
 
