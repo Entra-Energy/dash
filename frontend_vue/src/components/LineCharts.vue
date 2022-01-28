@@ -38,6 +38,16 @@ export default {
   },
   setup () {
    const option = ref({
+
+  tooltip: {
+
+        trigger: 'axis',
+        show:true,
+        position: function (pt) {
+            return [pt[0], '10%'];
+        }
+    },
+
   xAxis: {
     type: 'time',
     axisLabel: {
