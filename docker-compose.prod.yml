@@ -25,17 +25,17 @@ services:
   redis:
     image: redis:6-alpine
 
-  celery_worker:
-    build:
-      context: ./project
-    command: celery -A dashboard worker -l info
-    volumes:
-      - ./project/:/app/
-    env_file:
-      - ./.env.prod
-    depends_on:
-      - redis
-      - web
+  # celery_worker:
+  #   build:
+  #     context: ./project
+  #   command: celery -A dashboard worker -l info
+  #   volumes:
+  #     - ./project/:/app/
+  #   env_file:
+  #     - ./.env.prod
+  #   depends_on:
+  #     - redis
+  #     - web
   #
   #
   # celery_beat:
@@ -48,21 +48,17 @@ services:
   #   depends_on:
   #     - redis
 
-
-
-
-
-  # frontend:
-  #   restart: always
-  #   build:
-  #     context: ./frontend_vue
-  #     dockerfile: Dockerfile
-  #   container_name: frontend
-  #   image: frontend_image
-  #   volumes:
-  #     - ./frontend_vue/nginx:/etc/nginx/conf.d
-  #   ports:
-  #     - 80:80
+  frontend:
+    restart: always
+    build:
+      context: ./frontend_vue
+      dockerfile: Dockerfile
+    container_name: frontend
+    image: frontend_image
+    volumes:
+      - ./frontend_vue/nginx:/etc/nginx/conf.d
+    ports:
+      - 80:80
 
 volumes:
   postgres_data:
