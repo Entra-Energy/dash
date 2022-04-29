@@ -13,3 +13,5 @@ db.sqlite3
 
 # Static folder at project root
 /static/
+
+/data/

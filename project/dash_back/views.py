@@ -37,3 +37,8 @@ class PriceViewset(viewsets.ModelViewSet):
     queryset = Price.objects.all()
     serializer_class = PriceSerializer
     filter_class = PriceFilter
+
+
+def help_price(request, dashboard):
+    test = request.GET.get('dashboard', '')
+    print(test)	

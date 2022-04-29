@@ -257,8 +257,8 @@ export default {
          this.option.tooltip.formatter =  toolTipSet
          
         // this.option.xAxis.splitNumber = 22
-         url = "http://127.0.0.1:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
-         url2 = "http://127.0.0.1:8000/api/posts/?created_date=&start_date="+end
+         url = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
+         url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
          const requestOne = axios.get(url);
          const requestTwo = axios.get(url2);
          console.log(url,url2)
@@ -291,7 +291,7 @@ export default {
          }
          //this.option.xAxis.splitNumber = 31
 
-         url = "http://127.0.0.1:8000/api/posts/?timestamp=&date_range="+query_param
+         url = "http://64.225.100.195:8000/api/posts/?timestamp=&date_range="+query_param
          console.log(url)
 
          try {

@@ -14,6 +14,9 @@ RUN apk update \
 
 # lint
 RUN pip install --upgrade pip
+
+#RUN pip install Scrapy
+
 #RUN pip install flake8==3.9.2
 COPY . .
 # RUN flake8 --ignore=E501,F401 .
@@ -39,6 +42,7 @@ RUN addgroup -S app && adduser -S app -G app
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
 WORKDIR $APP_HOME
 
 # install dependencies
@@ -55,3 +59,5 @@ RUN chown -R app:app $APP_HOME
 
 # change to the app user
 USER app
+
+CMD ["python","-u","main.py"]
