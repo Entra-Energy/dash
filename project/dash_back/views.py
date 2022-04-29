@@ -24,7 +24,6 @@ class PostViewset(viewsets.ModelViewSet):
     filter_class = PostFilter
 
 
-
 class  OnlineView(APIView):
     def get(self, request):
         online = Online.dist.all()
@@ -39,6 +38,7 @@ class PriceViewset(viewsets.ModelViewSet):
     filter_class = PriceFilter
 
 
-def help_price(request, dashboard):
-    test = request.GET.get('dashboard', '')
-    print(test)	
+# def help_price(request):
+#     #test = request.GET.get('dashboard', '')
+#     print("sdfhhhh")
+#     return HttpResponse("OK")

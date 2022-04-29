@@ -8,13 +8,12 @@ from django.urls import path
 
 app_name = "dash_back"
 router = DefaultRouter()
-
+#
 router.register(r'posts', views.PostViewset, basename='posts')
 router.register(r'price', views.PriceViewset, basename='price')
 
+# urlpatterns = [
+#     path('posts/', views.help_price, name = 'test')
+# ]
 
-
-urlpatterns = [
-    path('dashboard/', views.help_price,),
-]
-urlpatterns += router.urls
+urlpatterns = router.urls
