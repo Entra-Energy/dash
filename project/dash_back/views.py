@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
@@ -7,7 +7,7 @@ from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSeriali
 from dash_back.models import Post, Online, Price
 from datetime import datetime
 from dash_back.custom_filters import PostFilter, PriceFilter
-
+import paho.mqtt.publish as publish
 
 # class PostView(APIView):
 #     # def get(self, request):
@@ -37,7 +37,13 @@ class PriceViewset(viewsets.ModelViewSet):
     serializer_class = PriceSerializer
     filter_class = PriceFilter
 
-
+@api_view(['POST',])
+def post_data(request):
+    my_data = request.data["power"]
+    publish.single("abc", str(my_data), hostname="159.89.103.242", port=1883)
+    print(request.data)
+    print("abcdefgh")
+    return Response({"Success": "ok"})
 # def help_price(request):
 #     #test = request.GET.get('dashboard', '')
 #     print("sdfhhhh")

@@ -211,8 +211,9 @@ export default {
        let url2 = ''
        //console.log(query_param)
        if (query_param == 'today'){
-         url = "http://127.0.0.1:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
-         url2 = "http://127.0.0.1:8000/api/price/?timestamp=&start_date="+end
+
+         url = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
+         url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
          const requestOne = axios.get(url);
          const requestTwo = axios.get(url2);
          //console.log(url,url2)
@@ -230,8 +231,8 @@ export default {
           })
        }
        else {
-         url = "http://127.0.0.1:8000/api/price/?timestamp=&date_range="+query_param
-         
+         url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
+
 
          try {
            axios

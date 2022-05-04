@@ -1,6 +1,6 @@
 <template>
 
-  <select v-model="selected" @change="onChange($event)" >
+  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg" v-model="selected" @change="onChange($event)" >
     <option v-for="option in options" v-bind:value="option.value">
       {{ option.text }}
     </option>

@@ -1,25 +1,24 @@
 <template>
 
-  <div class="mt-3">
-<ul class="list-group list-group-horizontal">
-  <li
-    v-for="(item, index) in items"
-    :key="item.index"
-    :class="{ active: activeIndex === index }"
-    @click="setActive(index, item.title);clickHandler()"
-  >
-    <slot :item="item">
-      <p>
-        {{ item["title"] }}
-        {{ activeI }}
-      </p>
-    </slot>
-  </li>
-</ul>
-    <!-- <ul>
+<div class="row">
+  <div class= 'col-sm-6 d-flex d-sm-block'>
+    <ul class="list-group list-group-horizontal">
+      <li
+        v-for="(item, index) in items"
+        :key="item.index"
+        :class="{ active: activeIndex === index }"
+        @click="setActive(index, item.title);clickHandler()"
+        >
+        <slot :item="item">
 
-    </ul> -->
+            {{ item["title"] }}
+            {{ activeI }}
+
+        </slot>
+      </li>
+    </ul>
   </div>
+</div>
 
 </template>
 
@@ -86,5 +85,43 @@ export default {
 <style scoped>
 .active {
   font-weight: bold;
+  color: #fff;
+  background-color: #ba54f5!important;
+  box-shadow: 2px 2px 6px rgb(0 0 0 / 40%);
+  border: none;
+  /*border-color: #e14eca!important;*/
+  outline: 0!important;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+ul li {
+    color: #e14eca;
+    border-color: #e14eca;
+    background: transparent;
+    padding: 4px 14px;
+    cursor: pointer;
+    border-radius: 0.2857rem;
+    line-height: 1.35;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+    font-size: .75rem;
+    border: 1px solid #e14eca!important;
+}
+ul {
+  list-style-type: none;
+  margin-bottom: 15px;
+
+}
+ul.list-group {
+    float: left;
+}
+ul li:nth-child(2) {
+  border-radius:0;
+}
+ul li:nth-child(3) {
+  border-left:none !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 </style>

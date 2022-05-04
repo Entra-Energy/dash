@@ -12,8 +12,9 @@ router = DefaultRouter()
 router.register(r'posts', views.PostViewset, basename='posts')
 router.register(r'price', views.PriceViewset, basename='price')
 
-# urlpatterns = [
-#     path('posts/', views.help_price, name = 'test')
-# ]
+urlpatterns = [
+    path('online/', views.OnlineView.as_view(), name = 'test'),
+    path('correction/', views.post_data, name='post_val'), 
+]
 
-urlpatterns = router.urls
+urlpatterns += router.urls

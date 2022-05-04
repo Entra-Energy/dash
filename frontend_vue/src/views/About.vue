@@ -1,8 +1,20 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <Range @emit-it="handleChange" />
-    <Select @emit-sel="selectChange" />
+    <div class="row">
+      <div class="col-md-12">
+          <Range @emit-it="handleChange" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-left">
+          <Select @emit-sel="selectChange" />
+      </div>
+    </div>
+   </div>
+
+
+
   </div>
 </template>
 <script>
@@ -64,3 +76,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.pull-left {
+    float: left;
+}
+</style>

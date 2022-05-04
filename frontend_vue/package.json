@@ -1,40 +1,47 @@
 {
-  "name": "frontend_vue",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome": "^1.1.8",
-    "@fortawesome/fontawesome-free-brands": "^5.0.13",
-    "@fortawesome/fontawesome-free-solid": "^5.0.13",
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/vue-fontawesome": "^2.0.6",
-    "@popperjs/core": "^2.11.4",
-    "axios": "^0.24.0",
-    "bootstrap": "^4.6.1",
-    "bootstrap-vue": "^2.21.2",
-    "core-js": "^3.6.5",
-    "echarts": "^5.2.2",
-    "jquery": "^3.6.0",
-    "mitt": "^3.0.0",
-    "vue": "^3.2.31",
-    "vue-echarts": "^6.0.2",
-    "vue-router": "^4.0.0-0",
-    "vue-screen": "^2.1.0-beta.1",
-    "vue-sidebar-menu": "^5.2.2",
-    "vuex": "^4.0.0-0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
-  }
+   "name":"frontend_vue",
+   "version":"0.1.0",
+   "private":true,
+   "scripts":{
+      "serve":"vue-cli-service serve",
+      "build":"vue-cli-service build"
+   },
+   "dependencies":{
+      "@fortawesome/fontawesome":"^1.1.8",
+      "@fortawesome/fontawesome-free-brands":"^5.0.13",
+      "@fortawesome/fontawesome-free-solid":"^5.0.13",
+      "@fortawesome/fontawesome-svg-core":"^6.1.1",
+      "@fortawesome/free-solid-svg-icons":"^6.1.1",
+      "@fortawesome/vue-fontawesome":"^2.0.6",
+      "@popperjs/core":"^2.11.4",
+      "axios":"^0.24.0",
+      "bootstrap":"^4.6.1",
+      "bootstrap-vue":"^2.21.2",
+      "core-js":"^3.6.5",
+      "echarts":"^5.2.2",
+      "jquery":"^3.6.0",
+      "mitt":"^3.0.0",
+      "vue":"^3.2.31",
+      "vue-echarts":"^6.0.2",
+      "vue-router":"^4.0.0-0",
+      "vue-screen":"^2.1.0-beta.1",
+      "vue-sidebar-menu":"^5.2.2",
+      "vuex":"^4.0.0-0"
+   },
+   "devDependencies":{
+      "@vue/cli-plugin-babel":"~4.5.0",
+      "@vue/cli-plugin-router":"~4.5.0",
+      "@vue/cli-plugin-vuex":"~4.5.0",
+      "@vue/cli-service":"~4.5.0",
+      "@vue/compiler-sfc":"^3.0.0",
+      "sass":"^1.26.5",
+      "sass-loader":"^8.0.2"
+   },
+   "eslintConfig":{
+      "root":true,
+      "env":{
+         "browser": true,
+         "node":true
+      }
+   }
 }

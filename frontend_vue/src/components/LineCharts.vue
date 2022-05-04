@@ -255,7 +255,7 @@ export default {
 
          this.option.xAxis.axisLabel.formatter = '{HH}'
          this.option.tooltip.formatter =  toolTipSet
-         
+
         // this.option.xAxis.splitNumber = 22
          url = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
          url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end

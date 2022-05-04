@@ -30,8 +30,8 @@
     <router-view/> -->
 
     <div class='wrapper'>
-      <div class='sidebar'>
-        <sidebar-menu :menu="menu" :collapsed=collapsed />
+      <div class="sidebar">
+        <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" />
       </div>
       <div class='main-panel'>
         <nav class='navbar navbar-expand-lg navbar-absolute navbar-transparent'>
@@ -96,7 +96,9 @@ export default {
           },
 
         ],
-        collapsed:true
+        collapsed: false,
+        disableHover: true,
+
 
       }
     },
@@ -109,16 +111,10 @@ export default {
         {
           this.collapsed = true
         }
-        else{
+        else {
           this.collapsed = false
         }
       },
-      onToggleCollapse(collapsed) {
-        console.log(collapsed)
-      },
-      onItemClick(event, item) {
-        console.log(item)
-      }
 
     },
     created () {
@@ -185,7 +181,7 @@ export default {
     margin-bottom: 0;
 }
 .main-panel>.content {
-    padding: 78px 30px 30px 280px;
+    padding: 0px 30px 30px 280px;
     min-height: calc(100vh - 70px);
 }
 .v-sidebar-menu.vsm_expanded {
@@ -193,14 +189,14 @@ export default {
 }
 @media screen and (max-width: 991px){
 .main-panel .content {
-    padding-left: 30px;
+    padding-left: 100px;
 }
 .sidebar {
     position: fixed;
     display: block;
     top: 0;
     height: 100%;
-    max-width: 75px;
+    max-width: 68px;
     right: auto;
     left: 0;
     margin: 0;
@@ -220,8 +216,17 @@ export default {
 .navbar{
 padding-bottom: 0.625rem;
 min-height: 53px;
-border-bottom: 1px solid #ddd;
+/*border-bottom: 1px solid #ddd;*/
 }
-
+.v-sidebar-menu .vsm--header {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 15px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.v-sidebar-menu .vsm--mobile-bg {
+  background: none !important;
+}
 
 </style>
