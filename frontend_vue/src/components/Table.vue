@@ -108,7 +108,7 @@ export default {
       try {
         axios
         .get(
-          "http://127.0.0.1:8000/api/online/"
+          "http://64.225.100.195:8000/api/online/"
         )
         .then(response => response.data.online.forEach(el=>{
             //this.posts.push(el)
