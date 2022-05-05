@@ -15,6 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+
         def predicted_values(i):
             today = datetime.now(timezone('Europe/Sofia')).date()
             now = datetime.now(timezone('Europe/Sofia'))
@@ -26,8 +27,12 @@ class Command(BaseCommand):
             Post.objects.create(devId='sm-0009F',created_date=timestamp,value = 3000)
 
 
-
-        for i in range(12):
+        now = datetime.now(timezone('Europe/Sofia'))
+        now = str(now)
+        cur_hour = now.split(" ")[1].split(":")[0]
+        current_hour = int(cur_hour)
+        r = 24 - current_hour
+        for i in range(r):
             predicted_values(i)
 
 

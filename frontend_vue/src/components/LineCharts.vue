@@ -253,7 +253,7 @@ export default {
        let url2 = ''
        if (query_param == 'today'){
 
-         this.option.xAxis.axisLabel.formatter = '{HH}'
+         this.option.xAxis.axisLabel.formatter = timeLineSet
          this.option.tooltip.formatter =  toolTipSet
 
         // this.option.xAxis.splitNumber = 22
@@ -268,13 +268,13 @@ export default {
          responseOne.forEach((itemFirstRes) => {
            if (itemFirstRes.devId === "sm-0009"){
              this.option.series[0].data.push([itemFirstRes.created_date,itemFirstRes.value])
-             console.log(itemFirstRes.created_date)
-             this.option.xAxis.axisLabel.formatter = timeLineSet
+
            }
 
          });
          responseTwo.forEach((itemSecondRes) => {
-           if (itemSecondRes.devId === "sm-0009F-FF"){
+
+           if (itemSecondRes.devId === "sm-0009F"){
 
            this.option.series[1].data.push([itemSecondRes.created_date,itemSecondRes.value])
          }

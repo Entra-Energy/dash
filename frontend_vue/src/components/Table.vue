@@ -2,16 +2,16 @@
   <div class='row'>
     <div class='col-md-6'>
 
-  <form @submit.prevent="submitForm" v-on:submit="countDownTimer" class="form-inline">
-    <div class="form-group mx-sm-3 mb-2">
+  <form @submit.prevent="submitForm" v-on:submit="countDownTimer" class="form-inline col-xs-3">
+    <div class="form-group form-group-sm">
       <label for="inputpower" class="sr-only">Reduce Power</label>
       <input type="text" class="form-control" id="inputpower" v-model="power" placeholder="Power Correction">
     </div>
-    <div class="form-group mx-sm-3 mb-2">
+    <div class="form-group form-group-sm">
       <label for="inputtime" class="sr-only">Time Interval</label>
-      <input type="text" class="form-control" id="inputtime" v-model="countDown" placeholder="Time">
+      <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown" placeholder="Time">
     </div>
-    <button type="submit" :disabled='isDisabled' class="btn btn-warning mb-2">Send </button>
+    <button type="submit" :disabled='isDisabled' class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
   </form>
 </div>
 <div class="col-md-6">
@@ -37,7 +37,7 @@
         <th>Capacity</th>
         <th>Correction T {{countDown}}</th>
         <th>Correction P</th>
-        <th></th>        
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -51,12 +51,20 @@
          <td>{{ countDown }}</td>
          <td>{{ powerCorr }}</td>
          <td><div class="mx-auto"><form @submit.prevent="submitForm" v-on:submit="countDownTimer" class="form-inline">
-           <div class="form-group mx-sm-3 mb-2">
+           <div class="row">
+             <div class="col-md-6">
+           <div class="form-group form-group-sm">
              <label for="call" class="sr-only">Reduce Power</label>
+
              <input type="text" class="form-control" id="calibrate-single" v-model="call" placeholder="Calibrate">
+
            </div>
+         </div>
+         <div class="col-md-6">
+
              <button type="submit" class="btn btn-warning mb-2">Send</button>
-         </form></div>
+         </div>
+        </div> </form></div>
          </td>
 
 
@@ -84,6 +92,9 @@ export default {
         {
           "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"","capacity":"","correctionT":"","correctionP":"","calibration":""
         },
+        {
+          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"","capacity":"","correctionT":"","correctionP":"","calibration":""
+        },
 
 
     ],
@@ -103,6 +114,8 @@ export default {
             //this.posts.push(el)
             //console.log(el.dev)
             let found = this.all.find(element => element.id === el.dev)
+
+
             if (found)
             {
               found.pow = el.pow
@@ -171,5 +184,14 @@ export default {
 }
 .pull-right {
   float: right;
+}
+input#inputpower {
+    width: 128px;
+}
+input#inputtime {
+    max-width: 95px;
+}
+input#calibrate-single {
+    max-width: 100px;
 }
 </style>
