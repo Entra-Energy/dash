@@ -44,7 +44,13 @@ def post_data(request):
     print(request.data)
     print("abcdefgh")
     return Response({"Success": "ok"})
-# def help_price(request):
-#     #test = request.GET.get('dashboard', '')
-#     print("sdfhhhh")
-#     return HttpResponse("OK")
+
+@api_view(['POST',])
+def post_cali(request):
+    cali_data = request.data["calibrate"]
+
+    for key in cali_data:
+        topic = "cali/"+key
+        val = cali_data[key]
+        publish.single(topic, str(val), hostname="159.89.103.242", port=1883)
+    return Response({"Success": "ok"})

@@ -50,13 +50,13 @@
          <td>{{ 10000 }}</td>
          <td>{{ countDown }}</td>
          <td>{{ powerCorr }}</td>
-         <td><div class="mx-auto"><form @submit.prevent="submitForm" v-on:submit="countDownTimer" class="form-inline">
+         <td><div class="mx-auto"><form @submit.prevent="submitForm2" class="form-inline">
            <div class="row">
              <div class="col-md-6">
            <div class="form-group form-group-sm">
              <label for="call" class="sr-only">Reduce Power</label>
 
-             <input type="text" class="form-control" id="calibrate-single" v-model="call" placeholder="Calibrate">
+             <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
 
            </div>
          </div>
@@ -83,7 +83,7 @@ export default {
       power: '',
       powerCorr:'',
       countDown: '',
-      test: '',
+      newEntries: {},
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
 
@@ -104,6 +104,27 @@ export default {
   },
 
   methods: {
+
+
+      submitForm2(){
+
+
+        axios.post('http://64.225.100.195:8000/api/cali/', {
+          calibrate: this.newEntries,
+
+
+        }).then(response => {
+          // console.log(response);
+          // this.response = response.data
+          this.success = 'Data saved successfully';
+          this.response = JSON.stringify(response, null, 2)
+        }).catch(error => {
+          this.response = 'Error: ' + error.response.status
+        })
+        this.newEntries = {}
+
+      },
+
       getData() {
       try {
         axios
@@ -133,7 +154,7 @@ export default {
     },
     submitForm() {
       this.powerCorr = this.power
-      axios.post('http://127.0.0.1:8000/api/correction/', {
+      axios.post('http://64.225.100.195:8000/api/correction/', {
         power: this.power,
         timer: this.countDown
 
