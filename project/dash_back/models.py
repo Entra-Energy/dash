@@ -19,7 +19,7 @@ class UniqueOnlineManager(models.Manager):
 
         last_active = super().get_queryset().filter(saved_date__gte = query_date)
         unique = {}
-        for elem in last_active:
+        for elem in reversed(last_active):
             if elem.dev not in unique.keys():
 
                 unique[elem.dev] = {'dev':elem.dev,'pow':elem.pow}

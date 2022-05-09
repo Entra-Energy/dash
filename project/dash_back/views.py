@@ -26,7 +26,7 @@ class PostViewset(viewsets.ModelViewSet):
 
 class  OnlineView(APIView):
     def get(self, request):
-        online = Online.dist.all().reverse()
+        online = Online.dist.all()
 
         serializer = OnlineSerializer(online, many=True)
         return Response({"online": serializer.data})
