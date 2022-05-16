@@ -85,15 +85,15 @@ export default {
           {
             href: '/',
             title: 'Dashboard',
-            icon: 'fab fa-chart-area',
+            icon: 'fa-solid fa-chart-line',
 
           },
-          // {
-          //   href: '/About',
-          //   title: 'About',
-          //   icon: 'fa fa-chart-area',
-          //
-          // },
+          {
+            href: '/client',
+            title: 'Client',
+            icon: 'fa-solid fa-display',
+
+          },
 
         ],
         collapsed: false,

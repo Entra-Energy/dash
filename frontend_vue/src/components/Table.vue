@@ -29,6 +29,7 @@
   <table class="table table-striped">
     <thead class="thead-light">
       <tr>
+        <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
         <th>DevID</th>
         <th>Status</th>
         <th>Power</th>
@@ -42,6 +43,11 @@
     </thead>
     <tbody>
       <tr v-for="(dev,i) in all" :key="i">
+        <td>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" v-model="checked[dev.id]" @change="check($event)" id="flexCheck">
+          </div>
+        </td>
          <td>{{ dev.id }}</td>
          <td>{{ dev.online }}</td>
          <td>{{ dev.pow }}</td>
@@ -66,8 +72,6 @@
          </div>
         </div> </form></div>
          </td>
-
-
       </tr>
      </tbody>
   </table>
@@ -84,6 +88,8 @@ export default {
       powerCorr:'',
       countDown: '',
       newEntries: {},
+      checked: {'sm-0001':true,'sm-0009':true},
+      allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
 
@@ -104,6 +110,24 @@ export default {
   },
 
   methods: {
+
+      selectAll() {
+          if (this.allSelected) {
+            const selected = this.all.map((u) => u.id);
+            this.checked = selected;
+          } else {
+            this.checked = [];
+          }
+
+      },
+
+      check(e){
+        // let checked_state = {}
+        let checked_state = this.checked
+
+        this.$store.commit('setChecked', checked_state)
+        console.log(checked_state)
+      },
 
 
       submitForm2(){
@@ -187,6 +211,9 @@ export default {
 
   created (){
     this.getData();
+    // const selected = this.all.map((u) => u.id);
+    // this.checked = selected;
+    // this.$store.commit('setChecked', this.checked)
   },
   computed: {
     isDisabled: function(){

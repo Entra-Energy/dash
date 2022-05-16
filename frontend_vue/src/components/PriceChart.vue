@@ -51,16 +51,17 @@ var toolTipSet = function (params) {
   return formatTime + vals;
   }
 var timeLineSet = function(value,index){
-  var local = new Date(value)
+  let local = new Date(value)
   let min = local.getMinutes()
   if(min < 10)
   {
     min = ("0"+min).slice(-2)
   }
   let hours = local.getUTCHours()
-  hours = ("0"+hours).slice(-2)
 
-  var texts = hours+":" + min
+  //hours = ("0"+hours).slice(-2)
+
+  let texts = hours+":00"
   return texts
 }
 
@@ -105,7 +106,7 @@ export default {
   height: 250,
   xAxis: {
     type: 'time',
-    //splitNumber: 24,
+    splitNumber: 0,
     axisLabel: {
         rotate:40,
         margin:20,
@@ -211,6 +212,8 @@ export default {
        let url2 = ''
        //console.log(query_param)
        if (query_param == 'today'){
+         this.option.xAxis.axisLabel.formatter = timeLineSet
+         this.option.tooltip.formatter =  toolTipSet
 
          url = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
          url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
@@ -231,8 +234,14 @@ export default {
           })
        }
        else {
+         if (query_param == 'month')
+         {
+           this.option.xAxis.axisLabel.formatter =  '{dd}'
+         }
+         else {
+           this.option.xAxis.axisLabel.formatter =  '{MMM}'
+         }
          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
-
 
          try {
            axios
@@ -249,8 +258,6 @@ export default {
        //console.log(error);
      }
     }
-    //this.option.xAxis.axisLabel.formatter = timeLineSet
-    this.option.tooltip.formatter =  toolTipSet
   },
 
    getCurrTime(){

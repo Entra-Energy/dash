@@ -6,6 +6,7 @@ export default createStore({
     path: 'today',
     selected:'',
     zoom: {},
+    checked_devs: '',
 
 
 
@@ -25,6 +26,10 @@ export default createStore({
     setZoom (state, myZoom)
     {
       state.zoom = myZoom
+    },
+    setChecked (state, checked_state)
+    {
+      state.checked_devs = checked_state
     },
 
 

@@ -64,7 +64,6 @@ var timeLineSet = function(value,index){
   return texts
 }
 
-
 export default {
 
   props: {
@@ -75,8 +74,10 @@ export default {
   currTime: '',
   currDate:'',
   param:'today',
+  dev:'',
   myChart: null,
   zoomUpdater:{},
+  checked_update: [],
 
   name: "LineCharts",
   components: {
@@ -97,6 +98,12 @@ export default {
          right: '5%',
          top: '25%'
         },
+  legend: {
+        orient: 'vertical',
+        padding:[-500,100,0,0],
+        //data: ['sm-0009','sm-0001'],
+        selected:{'sm-0001':true,'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0005':true,'sm-0006':true,'sm-0007':true,'sm-0008':true,'sm-0009':true,'sm-00010':true},
+     },
   tooltip: {
 
         trigger: 'axis',
@@ -171,27 +178,27 @@ export default {
 
  ],
   series: [
-    {
-      name: "sm-0009",
-      data: [],
-      type: 'line',
-      itemStyle: {
-        color: '#d725bb'
-      },
-      sampling: 'lttb',
-    },
-    {
-      name: "sm-0009F",
-      data: [],
-      type: 'line',
-      lineStyle:{
-        type: 'dotted'
-      },
-      itemStyle: {
-        color: '#d725bb'
-      },
-      sampling: 'lttb',
-    },
+    // {
+    //   name: "sm-0009",
+    //   data: [],
+    //   type: 'line',
+    //   itemStyle: {
+    //     color: '#d725bb'
+    //   },
+    //   sampling: 'lttb',
+    // },
+    // {
+    //   name: "sm-0009F",
+    //   data: [],
+    //   type: 'line',
+    //   lineStyle:{
+    //     type: 'dotted'
+    //   },
+    //   itemStyle: {
+    //     color: '#d725bb'
+    //   },
+    //   sampling: 'lttb',
+    // },
 
   ],
 
@@ -211,12 +218,23 @@ export default {
  // },
   //
 
+    create_devs(){
+      let dev = 'sm-000'
+      let all_devs = {}
+      for(let i = 0; i <= 10; i++)
+      {
+        let new_dev = dev+i;
+        all_devs[new_dev] = false
+      }
+      return all_devs
+    },
+
 
      updateZoom(e) {
 
-           var start = e.start.toFixed(2)
-           var end = e.end.toFixed(2)
-           var myZoom = {}
+           let start = e.start.toFixed(2)
+           let end = e.end.toFixed(2)
+           let myZoom = {}
            myZoom.start = start;
            myZoom.end = end;
            this.zoomUpdater = myZoom;
@@ -234,8 +252,10 @@ export default {
       toDay = ('0' + toDay).slice(-2);
       let currHour = date.getHours()
       currHour = ('0' + currHour).slice(-2);
-      let currMin = ":00:00Z"
-      let now = y+"-"+thisMonth+"-"+toDay+"T"+currHour+currMin
+      let currMin = date.getMinutes()
+      currMin = ('0' + currMin).slice(-2);
+      //let currMin = ":00:00Z"
+      let now = y+"-"+thisMonth+"-"+toDay+"T"+currHour+":"+currMin
       this.currTime = now
       this.currDate = y+"-"+thisMonth+"-"+toDay+"T"+"00:00:00Z"
 
@@ -244,7 +264,7 @@ export default {
      getData() {
 
        let query_param = this.param;
-       console.log(query_param)
+
        let end = this.currTime
        let start = this.currDate
 
@@ -266,17 +286,23 @@ export default {
          const responseOne = responses[0].data
          const responseTwo = responses[1].data
          responseOne.forEach((itemFirstRes) => {
-           if (itemFirstRes.devId === "sm-0009"){
-             this.option.series[0].data.push([itemFirstRes.created_date,itemFirstRes.value])
-
+           let found = this.option.series.find(element => element.name === itemFirstRes.devId)
+           if (found)
+           {
+             found.data.push([itemFirstRes.created_date,itemFirstRes.value])
            }
+
+           // if (itemFirstRes.devId === "sm-0009"){
+           //   //this.option.series[0].data.push([itemFirstRes.created_date,itemFirstRes.value])
+           //
+           // }
 
          });
          responseTwo.forEach((itemSecondRes) => {
 
            if (itemSecondRes.devId === "sm-0009F"){
 
-           this.option.series[1].data.push([itemSecondRes.created_date,itemSecondRes.value])
+           //this.option.series[1].data.push([itemSecondRes.created_date,itemSecondRes.value])
          }
          });
          })).catch(errors => {
@@ -286,15 +312,14 @@ export default {
        else {
          if (query_param == 'month')
          {
-           this.option.xAxis.axisLabel.formatter =  '{dd}'
+          // this.option.xAxis.axisLabel.formatter =  '{dd}'
          }
          else {
-           this.option.xAxis.axisLabel.formatter =  '{MMM}'
+          // this.option.xAxis.axisLabel.formatter =  '{MMM}'
          }
          //this.option.xAxis.splitNumber = 31
 
          url = "http://64.225.100.195:8000/api/posts/?timestamp=&date_range="+query_param
-         console.log(url)
 
          try {
            axios
@@ -306,7 +331,7 @@ export default {
 
              if(el.devId=='sm-0009')
              {
-               this.option.series[0].data.push([el.created_date,el.value])
+              // this.option.series[0].data.push([el.created_date,el.value])
              }
           }
         ))
@@ -315,35 +340,6 @@ export default {
      }
     }
 
-
-
-
-
-
-
-    //    let url = "http://127.0.0.1:8000/api/posts/?created_date=&date_range="+query_param
-    //    try {
-    //      axios
-    //      .get(url)
-    //      .then(response => response.data.forEach(el=>{
-    //       if (el.devId === "sm-0009")
-    //       {
-    //         this.option.series[0].data.push([el.created_date,el.value])
-    //         this.option.tooltip.formatter =  toolTipSet
-    //
-    //       }
-    //       // if (el.devId === "sm-0007")
-    //       // {
-    //       //   this.option.series[1].data.push([el.created_date,el.value])
-    //       // }
-    //    }
-    // ))
-    //
-    //  } catch (error) {
-    //    //console.log(error);
-    //  }
-    //  //this.option.xAxis.axisLabel.formatter = timeLineSet
-    //  this.option.tooltip.formatter =  toolTipSet
 
      // let startStr =["2022-03-24T00:00:00.000Z",null]
      // this.option.series[0].data[0] = startStr
@@ -359,6 +355,34 @@ export default {
  },
  created (){
 
+    this.getCurrTime()
+
+    const devs = Object.keys(this.create_devs())
+    devs.forEach((item, i) => {
+      this.option.series.push(
+        {
+          "name": item,
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+        }
+      )
+
+    });
+
+
+
+    let path = this.$route.path
+    if (path == 'client/')
+      {
+      this.option.legend.selected = this.create_devs()
+      if(this.$store.state.selected) {
+        this.option.legend.selected[this.$store.state.selected] = true
+      }
+    }
+    else {
+    //  this.option.legend.selected = {}
+    }
 
  },
  destroyed() {
@@ -389,20 +413,47 @@ export default {
            {
              this.param = 'year'
            }
-           this.option.series[0].data = []
-           this.option.series[1].data = []
+          // this.option.series[0].data = []
+        //   this.option.series[1].data = []
            //console.log(this.option.xAxis.axisLabel.formatter)
            //this.option1.tooltip.formatter = ''
            //this.option.series[2].data = []
 
            this.getCurrTime();
            this.getData();
-
-           //console.log(this.param)
-
-
       },
    },
+   '$store.state.selected': {
+     immediate: true,
+     handler() {
+       // this.dev = this.$store.state.selected;
+       //
+       // this.option.legend.selected = this.create_devs()
+       // this.option.legend.selected[this.dev] = true
+     }
+   },
+   '$store.state.checked_devs': {
+     immediate: true,
+     handler() {
+       //this.checked_update = this.$store.state.checked_devs
+       //console.log(this.checked_update)
+       let selDevs = this.$store.state.checked_devs
+       // let selObj = {}
+       // //console.log(typeof selDevs)
+       // for (const key in selDevs)
+       // {
+       //   selObj[selDevs[key]] = true
+       // }
+       this.option.legend.selected = selDevs
+       console.log(selDevs)
+       //this.option.legend.selected = selObj
+       //console.log(this.option.legend.selected)
+
+
+
+     }
+
+   }
  }
 
 

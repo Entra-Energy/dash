@@ -47,11 +47,9 @@ export default {
   methods: {
     handleChange(payload){
       //console.log(payload)
-      // let path = this.$route.path
-      // this.query = payload
-      //console.log(payload)
-
-      //this.$router.push({path:path, query:{"range":payload}})
+      let path = this.$route.path
+      this.query = payload
+      this.$router.push({path:path, query:{"range":payload}})
 
     }
 

@@ -57,8 +57,9 @@ export default {
       this.activeIndex = this.$store.state.count
       this.title = this.$store.state.path
 
-      let path = this.$route.path
-      this.$router.push({path:path, query:{"range":this.title}})
+
+      // let path = this.$route.path
+      // this.$router.push({path:path, query:{"range":this.title}})
       //console.log(this.title)
 
   },
@@ -68,13 +69,13 @@ export default {
       this.$store.commit('increment',index)
       this.$emit("emit-it", title)
       let path = this.$route.path
-      this.$router.push({path:path, query:{"range":title}})
+      //this.$router.push({path:path, query:{"range":title}})
       //console.log(title)
       this.$store.commit('setPath', title)
     },
     clickHandler(index){
-     let query = {"range":index}
-     this.$emit("emit-it", query)
+     //let query = {"range":index}
+     //this.$emit("emit-it", query)
   },
 
   }
@@ -116,6 +117,10 @@ ul {
 ul.list-group {
     float: left;
 }
+ul li:nth-child(1) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 ul li:nth-child(2) {
   border-radius:0;
 }
@@ -123,5 +128,10 @@ ul li:nth-child(3) {
   border-left:none !important;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+ul li:nth-child(3).active {
+  border-left:none !important;
+  border-top-right-radius: 0.2857rem;
+  border-bottom-right-radius: 0.2857rem;
 }
 </style>
