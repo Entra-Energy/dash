@@ -45,7 +45,7 @@ export default {
       let dev = this.selected
 
       let query = this.$route.query
-      //console.log(query)
+      
       let path = this.$route.path
 
       //this.$router.push({path:path, query:{"range":query.range, "dev": this.selected}})

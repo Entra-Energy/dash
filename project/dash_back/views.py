@@ -21,7 +21,11 @@ import paho.mqtt.publish as publish
 class PostViewset(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
     filter_class = PostFilter
+    search_fields = (
+            '^devId',
+        )
 
 
 class  OnlineView(APIView):
@@ -40,7 +44,7 @@ class PriceViewset(viewsets.ModelViewSet):
 @api_view(['POST',])
 def post_data(request):
     my_data = request.data
-    publish.single("correction", str(my_data), hostname="159.89.103.242", port=1883)    
+    publish.single("correction", str(my_data), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
 
 @api_view(['POST',])

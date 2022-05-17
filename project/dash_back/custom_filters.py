@@ -4,12 +4,14 @@ from dash_back.models import Post, Price
 
 
 class PostFilter(FilterSet):
+
     start_date = IsoDateTimeFilter(field_name='created_date',lookup_expr=('gte'),)
     end_date = IsoDateTimeFilter(field_name='created_date',lookup_expr=('lte'))
     date_range = DateRangeFilter(field_name='created_date')
+    dev = AllValuesFilter(field_name='devId')
     class Meta:
         model = Post
-        fields = ['created_date']
+        fields = ('start_date','end_date','date_range','dev')
 
 class PriceFilter(FilterSet):
     start_date = IsoDateTimeFilter(field_name='timestamp',lookup_expr=('gte'),)

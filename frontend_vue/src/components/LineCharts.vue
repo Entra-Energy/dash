@@ -264,13 +264,13 @@ export default {
      getData() {
 
        let query_param = this.param;
-
        let end = this.currTime
        let start = this.currDate
-
+       let dev = this.dev
 
        let url = ''
        let url2 = ''
+
        if (query_param == 'today'){
 
          this.option.xAxis.axisLabel.formatter = timeLineSet
@@ -279,9 +279,9 @@ export default {
         // this.option.xAxis.splitNumber = 22
          url = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
          url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
+         //console.log(url)
          const requestOne = axios.get(url);
          const requestTwo = axios.get(url2);
-         console.log(url,url2)
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
          const responseOne = responses[0].data
          const responseTwo = responses[1].data
@@ -292,17 +292,11 @@ export default {
              found.data.push([itemFirstRes.created_date,itemFirstRes.value])
            }
 
-           // if (itemFirstRes.devId === "sm-0009"){
-           //   //this.option.series[0].data.push([itemFirstRes.created_date,itemFirstRes.value])
-           //
-           // }
-
          });
          responseTwo.forEach((itemSecondRes) => {
 
            if (itemSecondRes.devId === "sm-0009F"){
 
-           //this.option.series[1].data.push([itemSecondRes.created_date,itemSecondRes.value])
          }
          });
          })).catch(errors => {
@@ -373,12 +367,22 @@ export default {
 
 
     let path = this.$route.path
-    if (path == 'client/')
-      {
-      this.option.legend.selected = this.create_devs()
-      if(this.$store.state.selected) {
-        this.option.legend.selected[this.$store.state.selected] = true
-      }
+
+    if (path == '/client')
+    {
+
+       let devId = this.$route
+       console.log(devId)
+       // if (devId)
+       // {
+       //   console.log(devId)
+       // }
+
+      // this.option.legend.selected = this.create_devs()
+      // console.log(this.option.legend.selected)
+      // if(this.$store.state.selected) {
+      //   this.option.legend.selected[this.$store.state.selected] = true
+      // }
     }
     else {
     //  this.option.legend.selected = {}
@@ -426,7 +430,11 @@ export default {
    '$store.state.selected': {
      immediate: true,
      handler() {
-       // this.dev = this.$store.state.selected;
+
+       this.dev = this.$store.state.selected;
+       //console.log(this.dev)
+       this.getCurrTime();
+       this.getData();
        //
        // this.option.legend.selected = this.create_devs()
        // this.option.legend.selected[this.dev] = true
