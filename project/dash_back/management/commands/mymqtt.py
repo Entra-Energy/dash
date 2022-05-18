@@ -35,7 +35,11 @@ class Command(BaseCommand):
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
-                Online.objects.get_or_create(dev=dev_id, saved_date=timestamp, pow=value)
+                print(dev_id,timestamp,value)
+                online = Online.objects.all().count()
+                if online > 1000:
+                    Online.objects.all().delete()
+                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value)
 
         client = mqtt.Client()
         client.on_connect = on_connect
