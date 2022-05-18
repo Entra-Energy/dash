@@ -261,78 +261,117 @@ export default {
 
     },
 
+     get_data_helper(url,url2){
+       const requestOne = axios.get(url);
+       const requestTwo = axios.get(url2);
+       axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
+          const responseOne = responses[0].data
+          const responseTwo = responses[1].data
+          responseOne.forEach((itemFirstRes) => {
+            let found = this.option.series.find(element => element.name === itemFirstRes.devId)
+            if (found)
+            {
+              found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+            }
+
+          });
+          // responseTwo.forEach((itemSecondRes) => {
+          //
+          //   if (itemSecondRes.devId === "sm-0009F"){
+          //
+          // }
+          // });
+          })).catch(errors => {
+               // react on errors.
+           })
+      },
+
      getData() {
+       let path = this.$route.path
+       if (path == '/dashboard')
+       {
+         this.dev = ''
+       }
 
        let query_param = this.param;
        let end = this.currTime
        let start = this.currDate
-       let dev = this.dev
-
+       let devQuery = '&dev=' + this.dev
+       if(!this.dev)
+       {
+         devQuery = ''
+       }
        let url = ''
        let url2 = ''
 
-       if (query_param == 'today'){
 
-         this.option.xAxis.axisLabel.formatter = timeLineSet
-         this.option.tooltip.formatter =  toolTipSet
+      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery
+      url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
+      this.get_data_helper(url,url2)
 
-        // this.option.xAxis.splitNumber = 22
-         url = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
-         url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
-         //console.log(url)
-         const requestOne = axios.get(url);
-         const requestTwo = axios.get(url2);
-         axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
-         const responseOne = responses[0].data
-         const responseTwo = responses[1].data
-         responseOne.forEach((itemFirstRes) => {
-           let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-           if (found)
-           {
-             found.data.push([itemFirstRes.created_date,itemFirstRes.value])
-           }
-
-         });
-         responseTwo.forEach((itemSecondRes) => {
-
-           if (itemSecondRes.devId === "sm-0009F"){
-
-         }
-         });
-         })).catch(errors => {
-              // react on errors.
-          })
-       }
-       else {
-         if (query_param == 'month')
-         {
-          // this.option.xAxis.axisLabel.formatter =  '{dd}'
-         }
-         else {
-          // this.option.xAxis.axisLabel.formatter =  '{MMM}'
-         }
-         //this.option.xAxis.splitNumber = 31
-
-         url = "http://64.225.100.195:8000/api/posts/?timestamp=&date_range="+query_param
-
-         try {
-           axios
-           .get(
-             url
-
-           )
-           .then(response => response.data.forEach(el=>{
-
-             if(el.devId=='sm-0009')
-             {
-              // this.option.series[0].data.push([el.created_date,el.value])
-             }
-          }
-        ))
-      } catch (error) {
-       //console.log(error);
-     }
-    }
+    //    if (query_param == 'today'){
+    //
+    //      this.option.xAxis.axisLabel.formatter = timeLineSet
+    //      this.option.tooltip.formatter =  toolTipSet
+    //
+    //     // this.option.xAxis.splitNumber = 22
+    //      url = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end+devQuery
+    //      url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
+    //      console.log(url)
+    //      const requestOne = axios.get(url);
+    //      const requestTwo = axios.get(url2);
+    //      axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
+    //      const responseOne = responses[0].data
+    //      const responseTwo = responses[1].data
+    //      responseOne.forEach((itemFirstRes) => {
+    //        let found = this.option.series.find(element => element.name === itemFirstRes.devId)
+    //        if (found)
+    //        {
+    //          found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+    //        }
+    //
+    //      });
+    //      responseTwo.forEach((itemSecondRes) => {
+    //
+    //        if (itemSecondRes.devId === "sm-0009F"){
+    //
+    //      }
+    //      });
+    //      })).catch(errors => {
+    //           // react on errors.
+    //       })
+    //    }
+    //    else {
+    //      if (query_param == 'month')
+    //      {
+    //       // this.option.xAxis.axisLabel.formatter =  '{dd}'
+    //      }
+    //      else {
+    //       // this.option.xAxis.axisLabel.formatter =  '{MMM}'
+    //      }
+    //      //this.option.xAxis.splitNumber = 31
+    //
+    //      url = "http://64.225.100.195:8000/api/posts/?timestamp=&date_range="+query_param
+    //      console.log(query_param)
+    //
+    //      try {
+    //        axios
+    //        .get(
+    //          url
+    //
+    //        )
+    //        .then(response => response.data.forEach(el=>{
+    //
+    //          if(el.devId=='sm-0009')
+    //          {
+    //           // this.option.series[0].data.push([el.created_date,el.value])
+    //          }
+    //       }
+    //     ))
+    //   } catch (error) {
+    //    //console.log(error);
+    //  }
+    // }
 
 
      // let startStr =["2022-03-24T00:00:00.000Z",null]
@@ -348,6 +387,7 @@ export default {
 
  },
  created (){
+    this.option.series = []
 
     this.getCurrTime()
 
@@ -365,18 +405,19 @@ export default {
     });
 
 
-
     let path = this.$route.path
+    if (path == '/dashboard')
+    {
+    //  this.getData();
+    }
 
     if (path == '/client')
     {
 
-       let devId = this.$route
-       console.log(devId)
-       // if (devId)
-       // {
-       //   console.log(devId)
-       // }
+       if (this.dev)
+       {
+        // this.getData();
+       }
 
       // this.option.legend.selected = this.create_devs()
       // console.log(this.option.legend.selected)
@@ -424,17 +465,62 @@ export default {
            //this.option.series[2].data = []
 
            this.getCurrTime();
-           this.getData();
+           this.option.series = []
+           const devs = Object.keys(this.create_devs())
+           devs.forEach((item, i) => {
+             this.option.series.push(
+               {
+                 "name": item,
+                 "data": [],
+                 "type": "line",
+                 "sampling": "lttb",
+               }
+             )
+
+           });
+           console.log("click")
+           let path = this.$route.path
+           if (path == '/dashboard')
+           {
+            this.getData();
+           }
+           if (path == '/client')
+           {
+             if(this.dev){
+             this.getData();
+             }
+           }
+
       },
    },
    '$store.state.selected': {
      immediate: true,
      handler() {
+       this.option.series = []
+       const devs = Object.keys(this.create_devs())
+       devs.forEach((item, i) => {
+         this.option.series.push(
+           {
+             "name": item,
+             "data": [],
+             "type": "line",
+             "sampling": "lttb",
+           }
+         )
+
+       });
 
        this.dev = this.$store.state.selected;
-       //console.log(this.dev)
+
        this.getCurrTime();
-       this.getData();
+       let path = this.$route.path
+       if (path == '/client')
+       {
+         if(this.dev){
+         this.getData();
+         }
+       }
+
        //
        // this.option.legend.selected = this.create_devs()
        // this.option.legend.selected[this.dev] = true

@@ -16,20 +16,27 @@ class Command(BaseCommand):
             # Subscribing in on_connect() means that if we lose the connection and
             # reconnect then subscriptions will be renewed.
             client.subscribe("data/#")
+            client.subscribe("ping/#")
         def on_message(client, userdata, msg):
             print(msg.topic+" "+str(msg.payload))
             topic = msg.topic
             myList = topic.split('/')
+            if myList[0] == 'data':
+                dev_id = myList[1]
+                data_out=json.loads(msg.payload.decode())
+                timestamp = int(data_out['payload']['timestamp'])
+                timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                value = float(data_out['payload']['power'])
+                Post.objects.get_or_create(devId=dev_id,value=value, created_date=timestamp)
 
-            dev_id = myList[1]
-            data_out=json.loads(msg.payload.decode())
-            timestamp = int(data_out['payload']['timestamp'])
-            timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+            if myList[0] == 'ping':
+                dev_id = myList[1]
+                data_out=json.loads(msg.payload.decode())
+                timestamp = int(data_out['payload']['timestamp'])
+                timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                value = float(data_out['payload']['power'])
+                Online.objects.get_or_create(dev=dev_id, saved_date=timestamp, pow=value)
 
-            value = float(data_out['payload']['power'])
-            print(data_out,dev_id)
-            Post.objects.get_or_create(devId=dev_id,value=value, created_date=timestamp)
-            Online.objects.get_or_create(dev=dev_id, saved_date=timestamp, pow=value)
         client = mqtt.Client()
         client.on_connect = on_connect
         client.on_message = on_message

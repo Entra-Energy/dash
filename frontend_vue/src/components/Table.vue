@@ -51,7 +51,7 @@
          <td>{{ dev.id }}</td>
          <td>{{ dev.online }}</td>
          <td>{{ dev.pow }}</td>
-         <td>{{ "Teo" }}</td>
+         <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td>
          <td>{{ countDown }}</td>
@@ -87,8 +87,9 @@ export default {
       power: '',
       powerCorr:'',
       countDown: '',
+      polling: null,
       newEntries: {},
-      checked: {'sm-0001':true,'sm-0009':true},
+      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true},
       allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
@@ -96,10 +97,19 @@ export default {
       all: [
 
         {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
         },
         {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+        },
+        {
+          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+        },
+        {
+          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+        },
+        {
+          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":""
         },
 
 
@@ -110,6 +120,12 @@ export default {
   },
 
   methods: {
+
+      pollData () {
+          this.polling = setInterval(() => {
+            this.getData();
+        }, 10000)
+      },
 
       selectAll() {
           if (this.allSelected) {
@@ -210,10 +226,14 @@ export default {
     },
 
   created (){
-    this.getData();
+    this.pollData();
+    //this.getData();
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
     // this.$store.commit('setChecked', this.checked)
+  },
+  beforeDestroy () {
+	   clearInterval(this.polling)
   },
   computed: {
     isDisabled: function(){
