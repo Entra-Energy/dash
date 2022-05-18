@@ -56,3 +56,18 @@ def post_cali(request):
         val = cali_data[key]
         publish.single(topic, str(val), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
+
+
+@api_view(['POST',])
+def post_single_correction(request):
+    dev = request.data["dev"]
+    pow = request.data["power"]
+    timer = request.data["timer"]
+
+    topic = str(dev+"/correction")
+    single_data = {
+        "power":pow,
+        "timer":timer
+    }
+    publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
+    return Response({"Success": "ok"})

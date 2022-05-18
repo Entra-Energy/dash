@@ -15,7 +15,8 @@ router.register(r'price', views.PriceViewset, basename='price')
 urlpatterns = [
     path('online/', views.OnlineView.as_view(), name = 'test'),
     path('correction/', views.post_data, name='post_val'),
-    path('cali/',views.post_cali, name='cali')
+    path('cali/',views.post_cali, name='cali'),
+    path('single-corr/',views.post_single_correction, name='single_corr')
 ]
 
 urlpatterns += router.urls
