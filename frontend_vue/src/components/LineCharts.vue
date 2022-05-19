@@ -91,6 +91,7 @@ export default {
    const option = ref({
   test: '',
   responsive: true,
+
   maintainAspectRatio: true,
   grid: {
          left: '5%',
@@ -399,6 +400,8 @@ export default {
           "data": [],
           "type": "line",
           "sampling": "lttb",
+          "showSymbol": false,
+          //"sampling": "average"
         }
       )
 
