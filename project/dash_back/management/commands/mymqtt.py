@@ -28,8 +28,7 @@ class Command(BaseCommand):
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
                 Post.objects.get_or_create(devId=dev_id,value=value, created_date=timestamp)
-                Online.objects.get_or_create(dev=dev_id, saved_date=timestamp, pow=value)
-
+                
             if myList[0] == 'ping':
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
