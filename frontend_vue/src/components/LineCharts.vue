@@ -265,6 +265,20 @@ export default {
      get_data_helper(url,url2){
        const requestOne = axios.get(url);
        const requestTwo = axios.get(url2);
+       let test = this.param
+       if(test == 'today')
+       {
+         this.option.xAxis.axisLabel.formatter = timeLineSet
+         this.option.tooltip.formatter =  toolTipSet
+       }
+       else if (query_param == 'month')
+       {
+         this.option.xAxis.axisLabel.formatter =  '{dd}'
+       }
+       else {
+         this.option.xAxis.axisLabel.formatter =  '{MMM}'         
+       }
+
        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
           const responseOne = responses[0].data
           const responseTwo = responses[1].data
