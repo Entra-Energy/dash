@@ -271,12 +271,12 @@ export default {
          this.option.xAxis.axisLabel.formatter = timeLineSet
          this.option.tooltip.formatter =  toolTipSet
        }
-       else if (query_param == 'month')
+       else if (test == 'month')
        {
          this.option.xAxis.axisLabel.formatter =  '{dd}'
        }
        else {
-         this.option.xAxis.axisLabel.formatter =  '{MMM}'         
+         this.option.xAxis.axisLabel.formatter =  '{MMM}'
        }
 
        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
