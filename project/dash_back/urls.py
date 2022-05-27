@@ -16,7 +16,8 @@ urlpatterns = [
     path('online/', views.OnlineView.as_view(), name = 'test'),
     path('correction/', views.post_data, name='post_val'),
     path('cali/',views.post_cali, name='cali'),
-    path('single-corr/',views.post_single_correction, name='single_corr')
+    path('single-corr/',views.post_single_correction, name='single_corr'),
+    path('reset/',views.reset_data, name='reset'),
 ]
 
 urlpatterns += router.urls

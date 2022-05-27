@@ -39,7 +39,7 @@
         <th>Correction T {{countDown}}</th>
         <th>Correction P</th>
         <th></th>
-        <th></th>
+
       </tr>
     </thead>
     <tbody>
@@ -57,24 +57,33 @@
          <td>{{ 10000 }}</td>
          <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td>
-         <td><div class="mx-auto"><form @submit.prevent="submitForm2" class="form-inline">
-           <div class="row">
-             <div class="col-md-6">
-           <div class="form-group form-group-sm">
-             <label for="call" class="sr-only">Calibrate</label>
-
-             <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
-
-           </div>
-         </div>
-         <div class="col-md-6">
-
-             <button type="submit" class="btn btn-warning mb-2">Send</button>
-         </div>
-        </div> </form></div>
+         <td>
+           <div class='row'>
+             <form @submit.prevent="submitForm2" class="form-inline">
+                 <div class="form-group form-group-sm">
+                   <label for="call" class="sr-only">Calibrate</label>
+                    <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
+                 </div>
+                <button type="submit" class="btn btn-warning btn btn-warning mb-2 mt-2 ml-2">Send</button>
+             </form>
+             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">Reset </button>
+          </div>
+          <div class='row'>
+            <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
+               <div class="form-group form-group-sm">
+                 <label for="inputpower" class="sr-only">Reduce Power</label>
+                 <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Power Correction">
+               </div>
+               <div class="form-group form-group-sm">
+                 <label for="inputtime" class="sr-only">Time Interval</label>
+                 <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
+               </div>
+               <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
+            </form>
+          </div>
          </td>
-         <!-- calibrate -->
-         <td><div class="mx-auto">
+         <!-- Timer -->
+         <!-- <td><div class="mx-auto">
            <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
              <div class="form-group form-group-sm">
                <label for="inputpower" class="sr-only">Reduce Power</label>
@@ -87,8 +96,8 @@
              <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
            </form>
          </div>
-         </td>
-         <!-- end_calibrate -->
+         </td> -->
+         <!-- end_Timer -->
       </tr>
      </tbody>
   </table>
@@ -139,6 +148,26 @@ export default {
   },
 
   methods: {
+
+      reset(e)
+      {
+          axios.post('http://64.225.100.195:8000/api/reset/', {
+          reset: {
+            "devId":e,
+            "reset":true
+          },
+
+
+        }).then(response => {
+          // console.log(response);
+          // this.response = response.data
+          this.success = 'Data saved successfully';
+          this.response = JSON.stringify(response, null, 2)
+        }).catch(error => {
+          this.response = 'Error: ' + error.response.status
+        })
+
+      },
 
       pollData () {
           this.polling = setInterval(() => {

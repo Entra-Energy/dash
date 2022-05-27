@@ -71,3 +71,10 @@ def post_single_correction(request):
     }
     publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
+
+@api_view(['POST',])
+def reset_data(request):
+    reset_data = request.data
+    print(reset_data)
+    #publish.single("correction", str(my_data), hostname="159.89.103.242", port=1883)
+    return Response({"Success": "ok"})
