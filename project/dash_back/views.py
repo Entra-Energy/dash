@@ -74,7 +74,9 @@ def post_single_correction(request):
 
 @api_view(['POST',])
 def reset_data(request):
-    reset_data = request.data
-    print(reset_data)
-    #publish.single("correction", str(my_data), hostname="159.89.103.242", port=1883)
+    reset_data = request.data["reset"]
+    devId = reset_data['devId']
+    topic = str(devId+"/reset")
+    payload = reset_data["reset"]
+    publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
