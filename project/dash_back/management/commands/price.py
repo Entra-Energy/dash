@@ -25,9 +25,10 @@ class Command(BaseCommand):
             return time_hour
 
         test = os.path.join(settings.BASE_DIR, 'ibex.json')
+        print(settings.BASE_DIR)
         with open(test, 'r') as f:
             my_json_obj = json.load(f)
-            
+
             for data in my_json_obj:
                 time = convert(self, data["time"])
                 price = float(data["price"])
