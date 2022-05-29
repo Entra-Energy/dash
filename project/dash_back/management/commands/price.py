@@ -25,7 +25,7 @@ class Command(BaseCommand):
             return time_hour
 
         test = os.path.join(settings.BASE_DIR, 'ibex.json')
-        print(settings.BASE_DIR)
+        print(test)
         with open(test, 'r') as f:
             my_json_obj = json.load(f)
 
