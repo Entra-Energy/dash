@@ -24,8 +24,8 @@ class Command(BaseCommand):
             time_hour = datetime(year, month, day, hour, 0, 0, tzinfo=pytz.utc)
             return time_hour
 
-        test = os.path.join(settings.BASE_DIR, 'ibex.json')
-        print(settings.BASE_DIR)
+        test = os.path.join(settings.BASE_DIR+'/dash_back', 'ibex.json')
+        print(test)
         with open(test, 'r') as f:
             my_json_obj = json.load(f)
 
