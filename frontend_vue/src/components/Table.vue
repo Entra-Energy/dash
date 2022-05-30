@@ -26,7 +26,8 @@
 </div>
 </div>
 </div>
-  <table class="table table-striped">
+  <div class="table-responsive-sm">
+  <table class="table table-striped table-sm">
     <thead class="thead-light">
       <tr>
         <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
@@ -36,8 +37,8 @@
         <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th>
-        <th>Correction T {{countDown}}</th>
-        <th>Correction P</th>
+        <th>T['S']</th>
+        <th>P['W']</th>
         <th></th>
 
       </tr>
@@ -59,6 +60,7 @@
          <td>{{ dev.correctionP }}</td>
          <td>
            <div class='row'>
+
              <form @submit.prevent="submitForm2" class="form-inline">
                  <div class="form-group form-group-sm">
                    <label for="call" class="sr-only">Calibrate</label>
@@ -66,19 +68,20 @@
                  </div>
                 <button type="submit" class="btn btn-warning btn btn-warning mb-2 mt-2 ml-2">Send</button>
              </form>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">Reset </button>
-          </div>
+             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">R </button>
+
+        </div>
           <div class='row'>
             <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
                <div class="form-group form-group-sm">
                  <label for="inputpower" class="sr-only">Reduce Power</label>
-                 <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Power Correction">
+                 <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Correction">
                </div>
                <div class="form-group form-group-sm">
                  <label for="inputtime" class="sr-only">Time Interval</label>
-                 <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
+                 <input type="text" class="form-control ml-2 mr-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
                </div>
-               <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
+               <button type="submit" class="btn btn-warning mb-2 mt-2">Send </button>
             </form>
           </div>
          </td>
@@ -101,6 +104,7 @@
       </tr>
      </tbody>
   </table>
+</div>
 
 </template>
 
@@ -329,12 +333,22 @@ export default {
   float: right;
 }
 input#inputpower {
-    width: 128px;
+    max-width: 60px;
+    font-size: 0.65rem;
+    padding: 3px;
 }
 input#inputtime {
-    max-width: 95px;
+  max-width: 60px;
+  font-size: 0.65rem;
+  padding: 3px;
 }
 input#calibrate-single {
-    max-width: 100px;
+  max-width: 60px;
+  font-size: 0.65rem;
+  padding: 3px;
+}
+.btn{
+  font-size: 0.65rem;
+  padding: 0.375rem 0.25rem;
 }
 </style>
