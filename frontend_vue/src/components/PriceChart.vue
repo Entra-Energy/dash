@@ -170,7 +170,7 @@ export default {
       smooth: false,
       step: 'middle',
       itemStyle: {
-        color: 'rgb(255, 222, 33)'
+        color: 'rgb(102,173,62)'
       },
       sampling: 'lttb',
       data: [],
@@ -184,7 +184,7 @@ export default {
         type: 'dotted'
       },
       itemStyle: {
-        color: 'rgb(255, 222, 33)'
+        color: 'rgb(102,173,62)'
       },
       sampling: 'lttb',
       data: [],
@@ -236,10 +236,12 @@ export default {
        else {
          if (query_param == 'month')
          {
-           this.option.xAxis.axisLabel.formatter =  '{dd}'
+           this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+           this.option.xAxis.splitNumber = 31
          }
          else {
            this.option.xAxis.axisLabel.formatter =  '{MMM}'
+           this.option.xAxis.splitNumber = 12
          }
          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
 
@@ -294,6 +296,7 @@ export default {
            this.zoom = this.$store.state.zoom;
            let end = this.zoom.end
            let start = this.zoom.start
+           this.option.dataZoom[0].start = start
            this.option.dataZoom[0].end = end
 
         }

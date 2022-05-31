@@ -31,12 +31,14 @@
 
     <div class='wrapper'>
       <div class="sidebar">
-        <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" />
+        <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
+
       </div>
       <div class='main-panel'>
         <nav class='navbar navbar-expand-lg navbar-absolute navbar-transparent'>
-          <div class='container-fluid'>
-          </div>
+
+          <img src="@/assets/logo.png" />
+
         </nav>
         <div class='content'>
           <router-view/>
@@ -98,6 +100,7 @@ export default {
         ],
         collapsed: false,
         disableHover: true,
+        hideToggle: true,
 
 
       }
@@ -150,9 +153,11 @@ export default {
   }
 }
 .v-sidebar-menu {
-    background-color: #343a40 !important;
+    background-color: #782686 !important;
     top: 53px !important;
     bottom: 37px !important;
+    border-bottom-right-radius: 0.2857rem;
+    border-top-right-radius: 0.2857rem;
 }
 /*****/
 .sidebar {
@@ -227,6 +232,16 @@ min-height: 53px;
 }
 .v-sidebar-menu .vsm--mobile-bg {
   background: none !important;
+}
+.v-sidebar-menu .vsm--link_level-1 .vsm--icon {
+    background: none !important;
+}
+
+.v-sidebar-menu .vsm--header {
+    font-size: 16px;
+    padding: 6px 15px;
+    text-transform: none;
+
 }
 
 </style>

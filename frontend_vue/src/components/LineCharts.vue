@@ -239,6 +239,7 @@ export default {
            myZoom.start = start;
            myZoom.end = end;
            this.zoomUpdater = myZoom;
+           console.log(this.zoomUpdater)
            this.$store.commit('setZoom',myZoom)
            //console.log(myZoom)
     },
@@ -264,7 +265,8 @@ export default {
 
      get_data_helper(url,url2){
        const requestOne = axios.get(url);
-       const requestTwo = axios.get(url2);
+       //const requestTwo = axios.get(url2);
+       const requestTwo = []
        let test = this.param
        if(test == 'today')
        {
@@ -273,10 +275,12 @@ export default {
        }
        else if (test == 'month')
        {
-         this.option.xAxis.axisLabel.formatter =  '{dd}'
+         this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+         this.option.xAxis.splitNumber = 31
        }
        else {
          this.option.xAxis.axisLabel.formatter =  '{MMM}'
+         this.option.xAxis.splitNumber = 12
        }
 
        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
@@ -290,6 +294,12 @@ export default {
             }
 
           });
+          let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+          let endArr = [endStr,null]
+          this.option.series[1].data.push(endArr)
+          // this.option.series.forEach(elem =>{
+          //   elem.data.push(endArr)
+          // })
           // responseTwo.forEach((itemSecondRes) => {
           //
           //   if (itemSecondRes.devId === "sm-0009F"){

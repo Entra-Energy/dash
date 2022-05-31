@@ -34,15 +34,15 @@ export default {
       items: [
         {
           id: 1,
-          title: "today",
+          title: "Today",
         },
         {
           id: 2,
-          title: "month",
+          title: "Month",
         },
         {
           id: 3,
-          title: "year",
+          title: "Year",
         },
       ],
     };
@@ -87,7 +87,7 @@ export default {
 .active {
   font-weight: bold;
   color: #fff;
-  background-color: #ba54f5!important;
+  background-color: #772685!important;
   box-shadow: 2px 2px 6px rgb(0 0 0 / 40%);
   border: none;
   /*border-color: #e14eca!important;*/
