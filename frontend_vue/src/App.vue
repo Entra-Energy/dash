@@ -229,8 +229,8 @@ min-height: 53px;
     padding: 6px 15px;
     text-transform: none;
     white-space: nowrap;
-    background: #9656a1;
     border-top-right-radius: 0.2857rem;
+    border-bottom: 1px solid;
 }
 .v-sidebar-menu .vsm--mobile-bg {
   background: none !important;
