@@ -224,11 +224,13 @@ min-height: 53px;
 /*border-bottom: 1px solid #ddd;*/
 }
 .v-sidebar-menu .vsm--header {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
-    padding: 4px 15px;
-    text-transform: uppercase;
+    padding: 6px 15px;
+    text-transform: none;
     white-space: nowrap;
+    background: #9656a1;
+    border-top-right-radius: 0.2857rem;
 }
 .v-sidebar-menu .vsm--mobile-bg {
   background: none !important;
@@ -237,11 +239,6 @@ min-height: 53px;
     background: none !important;
 }
 
-.v-sidebar-menu .vsm--header {
-    font-size: 16px;
-    padding: 6px 15px;
-    text-transform: none;
 
-}
 
 </style>
