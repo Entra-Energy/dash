@@ -73,6 +73,7 @@ export default {
   },
   currTime: '',
   currDate:'',
+  daysInMonth:'',
   param:'today',
   dev:'',
   myChart: null,
@@ -213,11 +214,9 @@ export default {
 
  methods: {
 
- //   myEventHandler(e) {
- //
- //   console.log(e)
- // },
-  //
+   daysInMonth (month, year) {
+       return new Date(year, month, 0).getDate();
+   },
 
     create_devs(){
       let dev = 'sm-000'
@@ -268,20 +267,7 @@ export default {
        //const requestTwo = axios.get(url2);
        const requestTwo = []
        let test = this.param
-       if(test == 'today')
-       {
-         this.option.xAxis.axisLabel.formatter = timeLineSet
-         this.option.tooltip.formatter =  toolTipSet
-       }
-       else if (test == 'month')
-       {
-         this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
-         this.option.xAxis.splitNumber = 31
-       }
-       else {
-         this.option.xAxis.axisLabel.formatter =  '{MMM}'
-         this.option.xAxis.splitNumber = 12
-       }
+
 
        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
           const responseOne = responses[0].data
@@ -294,12 +280,37 @@ export default {
             }
 
           });
-          let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
-          let endArr = [endStr,null]
-          this.option.series[1].data.push(endArr)
-          // this.option.series.forEach(elem =>{
-          //   elem.data.push(endArr)
-          // })
+          if(test == 'today')
+          {
+            this.option.xAxis.axisLabel.formatter = timeLineSet
+            this.option.tooltip.formatter =  toolTipSet
+            this.option.xAxis.splitNumber = 12
+            let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+            let endArr = [endStr,null]
+            this.option.series[1].data.push(endArr)
+
+          }
+          else if (test == 'month')
+          {
+            this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+            let monthLenthArr = this.currDate.split("T")[0].split("-")
+            monthLenthArr[2] = this.daysInMonth.toString()
+            let monthEnd = [monthLenthArr.join("-"),null]
+            this.option.series[1].data.push(monthEnd)
+
+
+
+
+            //this.option.xAxis.splitNumber = 30
+          }
+          else {
+            this.option.xAxis.axisLabel.formatter =  '{MMM}'
+            this.option.xAxis.splitNumber = 12
+          }
+
+
+
+
           // responseTwo.forEach((itemSecondRes) => {
           //
           //   if (itemSecondRes.devId === "sm-0009F"){
@@ -415,6 +426,11 @@ export default {
     this.option.series = []
 
     this.getCurrTime()
+
+    let date = this.currDate.split("T")[0].split("-")
+    let year = parseInt(date[0])
+    let month = parseInt(date[1])
+    this.daysInMonth = this.daysInMonth(month,year)
 
     const devs = Object.keys(this.create_devs())
     devs.forEach((item, i) => {

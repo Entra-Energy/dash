@@ -96,6 +96,18 @@ export default {
             icon: 'fa-solid fa-display',
 
           },
+          {
+            href: '/system',
+            title: 'System',
+            icon: 'fa-solid fa-display',
+
+          },
+          {
+            href: '/grid',
+            title: 'Grid Support',
+            icon: 'fa-solid fa-display',
+
+          },
 
         ],
         collapsed: false,
