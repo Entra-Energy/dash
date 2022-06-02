@@ -1,6 +1,6 @@
 
   <template>
-      <p>test</p>
+      
       <div class='row'><div class='col'><TableSys /></div></div>
 
 

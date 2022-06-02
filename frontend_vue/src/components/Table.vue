@@ -37,9 +37,9 @@
         <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th>
-        <th>T['S']</th>
+        <!-- <th>T['S']</th>
         <th>P['W']</th>
-        <th></th>
+        <th></th> -->
 
       </tr>
     </thead>
@@ -56,9 +56,9 @@
          <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td>
-         <td>{{ dev.correctionT }}</td>
-         <td>{{ dev.correctionP }}</td>
-         <td>
+         <!-- <td>{{ dev.correctionT }}</td>
+         <td>{{ dev.correctionP }}</td> -->
+         <!-- <td>
            <div class='row'>
 
              <form @submit.prevent="submitForm2" class="form-inline">
@@ -84,7 +84,7 @@
                <button type="submit" class="btn btn-warning mb-2 mt-2">Send </button>
             </form>
           </div>
-         </td>
+         </td> -->
          <!-- Timer -->
          <!-- <td><div class="mx-auto">
            <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
