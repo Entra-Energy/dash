@@ -25,9 +25,10 @@ class Command(BaseCommand):
             return time_hour
 
         test = os.path.join(settings.BASE_DIR, 'ibex.json')
-        print(test)
+
         with open(test, 'r') as f:
-            my_json_obj = json.load(f)
+            d_old_str = f.read().replace('\n', '') # remove all \n
+            my_json_obj = json.load(d_old_str)
 
             for data in my_json_obj:
                 time = convert(self, data["time"])
