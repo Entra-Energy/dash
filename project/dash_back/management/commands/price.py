@@ -25,6 +25,7 @@ class Command(BaseCommand):
             return time_hour
 
         test = os.path.join(settings.BASE_DIR, 'ibex.json')
+        print(test)
 
         #priceJson = [json.loads(line) for line in open(test,'r')]
         with open(test, 'r') as f:
