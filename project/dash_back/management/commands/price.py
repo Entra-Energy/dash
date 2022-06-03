@@ -26,11 +26,13 @@ class Command(BaseCommand):
 
         test = os.path.join(settings.BASE_DIR, 'ibex.json')
 
-        with open(test, 'r') as f:
-            d_old_str = f.read().replace('\n', '') # remove all \n
-            my_json_obj = json.load(d_old_str)
+        priceJson = [json.loads(line) for line in open(test,'r')]
+        # with open(test, 'r') as f:
+        #     d_old_str = f.read().replace('\n', '') # remove all \n
+        #     my_json_obj = json.load(d_old_str)
 
-            for data in my_json_obj:
-                time = convert(self, data["time"])
-                price = float(data["price"])
-                Price.objects.get_or_create(timestamp=time, value = price)
+
+        for data in priceJson:
+            time = convert(self, data["time"])
+            price = float(data["price"])
+            Price.objects.get_or_create(timestamp=time, value = price)
