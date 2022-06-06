@@ -262,45 +262,45 @@ export default {
     //
     //
     // },
-    submitFormSingle() {
-      let dev = Object.keys(this.singleCorrection)[0];
-      let value = this.singleCorrection[dev]
-      let time = this.countDown[dev]
-      this.time = parseInt(time)
-
-      axios.post('http://64.225.100.195:8000/api/single-corr/', {
-        power: value,
-        timer: time,
-        dev: dev,
-
-      }).then(response => {
-        // console.log(response);
-        // this.response = response.data
-        this.success = 'Data saved successfully';
-        this.response = JSON.stringify(response, null, 2)
-      }).catch(error => {
-        this.response = 'Error: ' + error.response.status
-      })
-    },
-
-    countDownTimer () {
-                let dev = Object.keys(this.singleCorrection)[0];
-                //let value = this.singleCorrection[dev]
-                this.countDown[dev] = this.time
-                let found = this.all.find(element => element.id === dev)
-                if (found){
-                  found.correctionT = this.time
-                  found.correctionP = this.singleCorrection[dev]
-                }
-
-                if (this.time > 0) {
-                    setTimeout(() => {
-                        this.time -= 1
-                        this.countDownTimer()
-
-                    }, 1000)
-                }
-            },
+    // submitFormSingle() {
+    //   let dev = Object.keys(this.singleCorrection)[0];
+    //   let value = this.singleCorrection[dev]
+    //   let time = this.countDown[dev]
+    //   this.time = parseInt(time)
+    //
+    //   axios.post('http://64.225.100.195:8000/api/single-corr/', {
+    //     power: value,
+    //     timer: time,
+    //     dev: dev,
+    //
+    //   }).then(response => {
+    //     // console.log(response);
+    //     // this.response = response.data
+    //     this.success = 'Data saved successfully';
+    //     this.response = JSON.stringify(response, null, 2)
+    //   }).catch(error => {
+    //     this.response = 'Error: ' + error.response.status
+    //   })
+    // },
+    //
+    // countDownTimer () {
+    //             let dev = Object.keys(this.singleCorrection)[0];
+    //             //let value = this.singleCorrection[dev]
+    //             this.countDown[dev] = this.time
+    //             let found = this.all.find(element => element.id === dev)
+    //             if (found){
+    //               found.correctionT = this.time
+    //               found.correctionP = this.singleCorrection[dev]
+    //             }
+    //
+    //             if (this.time > 0) {
+    //                 setTimeout(() => {
+    //                     this.time -= 1
+    //                     this.countDownTimer()
+    //
+    //                 }, 1000)
+    //             }
+    //         },
 
     },
 

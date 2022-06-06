@@ -108,6 +108,12 @@ export default {
             icon: 'fa-solid fa-display',
 
           },
+          {
+            href: '/flexi',
+            title: 'Flexability',
+            icon: 'fa-solid fa-display',
+
+          },
 
         ],
         collapsed: false,

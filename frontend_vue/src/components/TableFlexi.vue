@@ -37,10 +37,7 @@
         <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th>
-        <th>T['S']</th>
-        <th>P['W']</th>
-        <th></th>
-
+        <th>Flexability</th>
 
       </tr>
     </thead>
@@ -57,51 +54,9 @@
          <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td>
-         <td>{{ dev.correctionT }}</td>
-         <td>{{ dev.correctionP }}</td>
-         <td>
-           <!-- <div class='row'>
+         <td></td>
 
-             <form @submit.prevent="submitForm2" class="form-inline">
-                 <div class="form-group form-group-sm">
-                   <label for="call" class="sr-only">Calibrate</label>
-                    <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
-                 </div>
-                <button type="submit" class="btn btn-warning btn btn-warning mb-2 mt-2 ml-2">Send</button>
-             </form>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">R </button>
 
-        </div> -->
-          <div class='row'>
-            <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-               <div class="form-group form-group-sm">
-                 <label for="inputpower" class="sr-only">Reduce Power</label>
-                 <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Correction">
-               </div>
-               <div class="form-group form-group-sm">
-                 <label for="inputtime" class="sr-only">Time Interval</label>
-                 <input type="text" class="form-control ml-2 mr-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
-               </div>
-               <button type="submit" class="btn btn-warning mb-2 mt-2">Send </button>
-            </form>
-          </div>
-         </td>
-         <!-- Timer -->
-         <!-- <td><div class="mx-auto">
-           <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-             <div class="form-group form-group-sm">
-               <label for="inputpower" class="sr-only">Reduce Power</label>
-               <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Power Correction">
-             </div>
-             <div class="form-group form-group-sm">
-               <label for="inputtime" class="sr-only">Time Interval</label>
-               <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
-             </div>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
-           </form>
-         </div>
-         </td> -->
-         <!-- end_Timer -->
       </tr>
      </tbody>
   </table>
@@ -154,45 +109,6 @@ export default {
 
   methods: {
 
-      submitFormSingle() {
-        let dev = Object.keys(this.singleCorrection)[0];
-        let value = this.singleCorrection[dev]
-        let time = this.countDown[dev]
-        this.time = parseInt(time)
-
-        axios.post('http://64.225.100.195:8000/api/single-corr/', {
-          power: value,
-          timer: time,
-          dev: dev,
-
-        }).then(response => {
-          // console.log(response);
-          // this.response = response.data
-          this.success = 'Data saved successfully';
-          this.response = JSON.stringify(response, null, 2)
-        }).catch(error => {
-          this.response = 'Error: ' + error.response.status
-        })
-      },
-
-    countDownTimer () {
-                let dev = Object.keys(this.singleCorrection)[0];
-                //let value = this.singleCorrection[dev]
-                this.countDown[dev] = this.time
-                let found = this.all.find(element => element.id === dev)
-                if (found){
-                  found.correctionT = this.time
-                  found.correctionP = this.singleCorrection[dev]
-                }
-
-                if (this.time > 0) {
-                    setTimeout(() => {
-                        this.time -= 1
-                        this.countDownTimer()
-
-                    }, 1000)
-                }
-            },
 
       pollData () {
           this.polling = setInterval(() => {
