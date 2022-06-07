@@ -7,6 +7,10 @@ export default createStore({
     selected:'',
     zoom: {},
     checked_devs: '',
+    dash_init: 'today',
+    client_init: 'today',
+    dash_zoom: {},
+    client_zoom: '',
 
 
 
@@ -31,6 +35,22 @@ export default createStore({
     {
       state.checked_devs = checked_state
     },
+    initDash(state,dash)
+    {
+      state.dash_init = dash
+    },
+    initClient(state, client)
+    {
+      state.client_init = client
+    },
+    dashZoomInit(state, dashZ)
+    {
+      state.dash_zoom = dashZ
+    },
+    clientZoomInit(state, clientZ)
+    {
+      state.client_zoom = clientZ
+    }
 
 
   },

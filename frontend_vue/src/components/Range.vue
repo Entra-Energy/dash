@@ -34,15 +34,15 @@ export default {
       items: [
         {
           id: 1,
-          title: "Today",
+          title: "today",
         },
         {
           id: 2,
-          title: "Month",
+          title: "month",
         },
         {
           id: 3,
-          title: "Year",
+          title: "year",
         },
       ],
     };
@@ -53,9 +53,46 @@ export default {
     },
   },
   created (){
+      let path = this.$route.path
+      if (path == '/dashboard')
+      {
+        let test = this.$store.state.dash_init
 
-      this.activeIndex = this.$store.state.count
-      this.title = this.$store.state.path
+        if (test == 'today')
+        {
+          this.activeIndex = 0
+        }
+
+        if (test == 'month')
+        {
+          this.activeIndex = 1
+        }
+        if (test == 'year')
+        {
+          this.activeIndex = 2
+        }
+
+      }
+      if (path == '/client')
+      {
+        let test = this.$store.state.client_init
+        if (test == 'today')
+        {
+          this.activeIndex = 0
+        }
+
+        if (test == 'month')
+        {
+          this.activeIndex = 1
+        }
+        if (test == 'year')
+        {
+          this.activeIndex = 2
+        }
+      }
+
+      //this.activeIndex = this.$store.state.count
+      //this.title = this.$store.state.path
 
 
       // let path = this.$route.path
@@ -69,9 +106,15 @@ export default {
       this.$store.commit('increment',index)
       this.$emit("emit-it", title)
       let path = this.$route.path
-      //this.$router.push({path:path, query:{"range":title}})
-      //console.log(title)
       this.$store.commit('setPath', title)
+      if (path == '/dashboard')
+      {
+        this.$store.commit('initDash', title)
+      }
+      if (path == '/client')
+      {
+        this.$store.commit('initClient', title)
+      }
     },
     clickHandler(index){
      //let query = {"range":index}

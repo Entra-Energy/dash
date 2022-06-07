@@ -35,25 +35,31 @@ export default {
     return {
       dev : {},
       query:{},
+      rangeTitle: ''
 
     }
   },
   created() {
-
+    let rangeIndex = this.rangeTitle
     let path = this.$route.path
-    let title = this.$store.state.path
+    //let title = this.$store.state.path
+
+    this.$router.push({path:path, query:{"range":rangeIndex}})
+
+    // let path = this.$route.path
+    // let title = this.$store.state.path
     let selected = this.$store.state.selected
 
     // this.query["range"] = title
     // this.query["dev"] = selected
     // console.log(this.query)
     // // //
-    this.query['range'] = title
-    if (selected){
-      this.query['dev'] = selected
-    }
-
-    this.$router.push({path:path, query:this.query})
+    // this.query['range'] = title
+    // if (selected){
+    //   this.query['dev'] = selected
+    // }
+    //
+    // this.$router.push({path:path, query:this.query})
 
 
 
@@ -96,7 +102,17 @@ export default {
       //this.$router.push({path:path,query:this.query})
 
     }
-  }
+  },
+  watch: {
+    '$store.state.client_init': {
+      immediate: true,
+      handler() {
+          this.rangeTitle = this.$store.state.client_init;
+
+
+      }
+    }
+  },
 }
 </script>
 

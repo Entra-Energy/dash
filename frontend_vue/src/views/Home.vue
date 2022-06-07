@@ -29,17 +29,18 @@ export default {
   },
   data() {
     return {
-      query:"today"
+
+      query:"today",
+      rangeTitle:'',
 
     }
   },
   created (){
+    let rangeIndex = this.rangeTitle
     let path = this.$route.path
+    //let title = this.$store.state.path
 
-    let title = this.$store.state.path
-
-
-    this.$router.push({path:path, query:{"range":title}})
+    this.$router.push({path:path, query:{"range":rangeIndex}})
 
 
   },
@@ -55,6 +56,19 @@ export default {
 
 
   },
+
+  watch: {
+    '$store.state.dash_init': {
+      immediate: true,
+      handler() {
+          this.rangeTitle = this.$store.state.dash_init;
+
+
+      }
+    }
+  },
+
+
 
 }
 </script>

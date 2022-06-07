@@ -73,6 +73,8 @@ export default {
   },
   currTime: '',
   currDate:'',
+  currYear: '',
+  currMonth: '',
   daysInMonth:'',
   param:'today',
   dev:'',
@@ -238,8 +240,17 @@ export default {
            myZoom.start = start;
            myZoom.end = end;
            this.zoomUpdater = myZoom;
-           console.log(this.zoomUpdater)
+           console.log(myZoom)
            this.$store.commit('setZoom',myZoom)
+           let path = this.$route.path
+           if (path == '/dashboard')
+           {
+             this.$store.commit('dashZoomInit', myZoom)
+           }
+           if (path == '/client')
+           {
+             this.$store.commit('clientZoomInit', myZoom)
+           }
            //console.log(myZoom)
     },
 
@@ -247,8 +258,10 @@ export default {
       let date = new Date();
       date.setDate(date.getDate());
       let y = date.getFullYear()
+      this.currYear = y
       let thisMonth = date.getMonth()+1
       thisMonth = ('0' + thisMonth).slice(-2);
+      this.currMonth = thisMonth
       let toDay = date.getDate()
       toDay = ('0' + toDay).slice(-2);
       let currHour = date.getHours()
@@ -296,7 +309,12 @@ export default {
             let monthLenthArr = this.currDate.split("T")[0].split("-")
             monthLenthArr[2] = this.daysInMonth.toString()
             let monthEnd = [monthLenthArr.join("-"),null]
+
             this.option.series[1].data.push(monthEnd)
+
+            let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+            this.option.series[1].data[0]=monthBegin
+            this.option.xAxis.splitNumber = 30
 
 
 
@@ -304,6 +322,11 @@ export default {
             //this.option.xAxis.splitNumber = 30
           }
           else {
+            let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+            let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+            this.option.series[1].data[0]=yearBegin
+            this.option.series[1].data.push(yearEnd)
+
             this.option.xAxis.axisLabel.formatter =  '{MMM}'
             this.option.xAxis.splitNumber = 12
           }
@@ -330,6 +353,7 @@ export default {
        }
 
        let query_param = this.param;
+       console.log(query_param)
        let end = this.currTime
        let start = this.currDate
        let devQuery = '&dev=' + this.dev
@@ -451,15 +475,20 @@ export default {
     let path = this.$route.path
     if (path == '/dashboard')
     {
-    //  this.getData();
+      let zoom = this.$store.state.dash_zoom
+      this.option.dataZoom[0].start = zoom.start
+      this.option.dataZoom[0].end = zoom.end
+
     }
 
     if (path == '/client')
     {
-
-       if (this.dev)
+      let zoom = this.$store.state.client_zoom
+      this.option.dataZoom[0].start = zoom.start
+      this.option.dataZoom[0].end = zoom.end
+      if (this.dev)
        {
-        // this.getData();
+        this.getData();
        }
 
       // this.option.legend.selected = this.create_devs()
@@ -487,20 +516,8 @@ export default {
    '$store.state.count': {
      immediate: true,
      handler() {
-           // update locally relevant data
-          let rangeIndex = this.$store.state.count;
 
-           if(rangeIndex == 0){
-            this.param = 'today'
-           }
-           if(rangeIndex == 1)
-           {
-             this.param = 'month'
-           }
-           if(rangeIndex == 2)
-           {
-             this.param = 'year'
-           }
+
           // this.option.series[0].data = []
         //   this.option.series[1].data = []
            //console.log(this.option.xAxis.axisLabel.formatter)
@@ -521,15 +538,20 @@ export default {
              )
 
            });
-           console.log("click")
+
            let path = this.$route.path
            if (path == '/dashboard')
            {
-            this.getData();
+             let rangeIndex = this.$store.state.dash_init;
+             this.param = rangeIndex
+             this.getData();
            }
            if (path == '/client')
            {
+             let rangeIndex = this.$store.state.client_init;
+             this.param = rangeIndex
              if(this.dev){
+
              this.getData();
              }
            }

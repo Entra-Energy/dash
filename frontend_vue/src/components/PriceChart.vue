@@ -34,7 +34,6 @@ use([
   DataZoomComponent,
 ]);
 
-
 var toolTipSet = function (params) {
   let chartdate = new Date(params[0].value[0])
   let month = chartdate.getMonth()+1
@@ -76,6 +75,9 @@ export default {
   param:'today',
   currTime:'',
   currDate:'',
+  currYear:'',
+  currMonth:'',
+  monthLenth:'',
 
   name: "PriceChart",
   components: {
@@ -200,6 +202,9 @@ export default {
 
 
  methods: {
+   daysInMonth (month, year) {
+       return new Date(year, month, 0).getDate();
+   },
 
      getData() {
 
@@ -214,6 +219,7 @@ export default {
        if (query_param == 'today'){
          this.option.xAxis.axisLabel.formatter = timeLineSet
          this.option.tooltip.formatter =  toolTipSet
+         this.option.xAxis.splitNumber = 12
 
          url = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
          url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
@@ -236,10 +242,24 @@ export default {
        else {
          if (query_param == 'month')
          {
+
            this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
-           this.option.xAxis.splitNumber = 31
+           let monthLenthArr = this.currDate.split("T")[0].split("-")
+           let monthLenth = this.daysInMonth(this.currMonth,this.currYear)
+           let monthEnd = [this.currYear+"-"+this.currMonth+"-"+monthLenth,null]
+           let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+
+           this.option.series[0].data[0]=monthBegin
+           this.option.series[0].data.push(monthEnd)
+           console.log(this.option.series[0].data)
+
+           this.option.xAxis.splitNumber = 30
          }
          else {
+           let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+           let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+           this.option.series[0].data[0]=yearBegin
+           this.option.series[0].data.push(yearEnd)
            this.option.xAxis.axisLabel.formatter =  '{MMM}'
            this.option.xAxis.splitNumber = 12
          }
@@ -266,8 +286,10 @@ export default {
      let date = new Date();
      date.setDate(date.getDate());
      let y = date.getFullYear()
+     this.currYear = y
      let thisMonth = date.getMonth()+1
      thisMonth = ('0' + thisMonth).slice(-2);
+     this.currMonth = thisMonth
      let toDay = date.getDate()
      toDay = ('0' + toDay).slice(-2);
      let currHour = date.getHours()
@@ -282,6 +304,14 @@ export default {
 
  },
  created (){
+   this.getCurrTime()
+   let date = this.currDate.split("T")[0].split("-")
+   let year = parseInt(date[0])
+   let month = parseInt(date[1])
+
+   this.monthLenth = this.daysInMonth(month,year)
+   console.log(this.monthLenth)
+
 
  },
  computed: {
@@ -305,22 +335,24 @@ export default {
      immediate: true,
      handler() {
            // update locally relevant data
-           let rangeIndex = this.$store.state.count;
-           if(rangeIndex == 0){
-            this.param = 'today'
-           }
-           if(rangeIndex == 1)
-           {
-             this.param = 'month'
-           }
-           if(rangeIndex == 2)
-           {
-             this.param = 'year'
-           }
+           // let rangeIndex = this.$store.state.count;
+           // if(rangeIndex == 0){
+           //  this.param = 'today'
+           // }
+           // if(rangeIndex == 1)
+           // {
+           //   this.param = 'month'
+           // }
+           // if(rangeIndex == 2)
+           // {
+           //   this.param = 'year'
+           // }
            this.option.series[0].data = []
            this.option.series[1].data = []
            this.option.series[2].data = []
 
+           let rangeIndex = this.$store.state.dash_init;
+           this.param = rangeIndex
            this.getCurrTime();
            this.getData();
            //console.log(this.param)
