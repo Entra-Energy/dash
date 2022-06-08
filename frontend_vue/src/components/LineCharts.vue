@@ -240,16 +240,21 @@ export default {
            myZoom.start = start;
            myZoom.end = end;
            this.zoomUpdater = myZoom;
-           console.log(myZoom)
            this.$store.commit('setZoom',myZoom)
            let path = this.$route.path
            if (path == '/dashboard')
            {
              this.$store.commit('dashZoomInit', myZoom)
+             console.log(myZoom)
            }
            if (path == '/client')
            {
              this.$store.commit('clientZoomInit', myZoom)
+           }
+           if(parseInt(myZoom.end) <= 35)
+           {
+             console.log(parseInt(myZoom.end))
+             this.option.xAxis.splitNumber = 6
            }
            //console.log(myZoom)
     },
@@ -353,7 +358,7 @@ export default {
        }
 
        let query_param = this.param;
-       console.log(query_param)
+
        let end = this.currTime
        let start = this.currDate
        let devQuery = '&dev=' + this.dev
@@ -476,6 +481,8 @@ export default {
     if (path == '/dashboard')
     {
       let zoom = this.$store.state.dash_zoom
+
+
       this.option.dataZoom[0].start = zoom.start
       this.option.dataZoom[0].end = zoom.end
 
@@ -486,10 +493,10 @@ export default {
       let zoom = this.$store.state.client_zoom
       this.option.dataZoom[0].start = zoom.start
       this.option.dataZoom[0].end = zoom.end
-      if (this.dev)
-       {
-        this.getData();
-       }
+      // if (this.dev)
+      //  {
+      //   this.getData();
+      //  }
 
       // this.option.legend.selected = this.create_devs()
       // console.log(this.option.legend.selected)
@@ -516,13 +523,6 @@ export default {
    '$store.state.count': {
      immediate: true,
      handler() {
-
-
-          // this.option.series[0].data = []
-        //   this.option.series[1].data = []
-           //console.log(this.option.xAxis.axisLabel.formatter)
-           //this.option1.tooltip.formatter = ''
-           //this.option.series[2].data = []
 
            this.getCurrTime();
            this.option.series = []
@@ -581,14 +581,12 @@ export default {
        let path = this.$route.path
        if (path == '/client')
        {
+         console.log(this.dev)
          if(this.dev){
          this.getData();
          }
        }
 
-       //
-       // this.option.legend.selected = this.create_devs()
-       // this.option.legend.selected[this.dev] = true
      }
    },
    '$store.state.checked_devs': {
@@ -604,7 +602,7 @@ export default {
        //   selObj[selDevs[key]] = true
        // }
        this.option.legend.selected = selDevs
-       console.log(selDevs)
+
        //this.option.legend.selected = selObj
        //console.log(this.option.legend.selected)
 

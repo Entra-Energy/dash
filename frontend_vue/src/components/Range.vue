@@ -103,12 +103,13 @@ export default {
   methods: {
     setActive(index, title) {
       this.activeIndex = index;
-      this.$store.commit('increment',index)
+      this.$store.commit('increment',title)
       this.$emit("emit-it", title)
       let path = this.$route.path
       this.$store.commit('setPath', title)
       if (path == '/dashboard')
       {
+        
         this.$store.commit('initDash', title)
       }
       if (path == '/client')

@@ -251,7 +251,7 @@ export default {
 
            this.option.series[0].data[0]=monthBegin
            this.option.series[0].data.push(monthEnd)
-           console.log(this.option.series[0].data)
+
 
            this.option.xAxis.splitNumber = 30
          }
@@ -310,7 +310,7 @@ export default {
    let month = parseInt(date[1])
 
    this.monthLenth = this.daysInMonth(month,year)
-   console.log(this.monthLenth)
+   
 
 
  },

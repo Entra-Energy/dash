@@ -34,10 +34,10 @@
         <th>DevID</th>
         <th>Status</th>
         <th>Power</th>
-        <th>Customer</th>
+        <!-- <th>Customer</th>
         <th>Location</th>
-        <th>Capacity</th>
-        <th>Flexability</th>
+        <th>Capacity</th> -->
+        <th>Flexibility</th>
 
       </tr>
     </thead>
@@ -51,10 +51,21 @@
          <td>{{ dev.id }}</td>
          <td>{{ dev.online }}</td>
          <td>{{ dev.pow }}</td>
-         <td>{{ dev.location }}</td>
+         <!-- <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
-         <td>{{ 10000 }}</td>
-         <td></td>
+         <td>{{ 10000 }}</td> -->
+         <td>
+           <DatePicker class="calendar" v-model="date" mode="dateTime" is24hr :popover="{ visibility: 'focus' }" @dayclick="changeDate(dev.id)">
+           <template v-slot="{ inputValue, inputEvents }">
+             <i class="far fa-calendar-alt"></i>
+             <input
+               class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+               :value="test[dev.id]"
+               v-on="inputEvents"
+             />
+           </template>
+         </DatePicker>
+       </td>
 
 
       </tr>
@@ -66,10 +77,17 @@
 
 <script>
 import axios from 'axios';
+import { Calendar, DatePicker } from 'v-calendar';
 export default {
+  components: {
+     Calendar,
+     DatePicker,
+   },
 
   data() {
     return {
+      date: new Date(),
+      test:{},
       power: '',
       powerCorr:'',
       time:'',
@@ -85,19 +103,19 @@ export default {
       all: [
 
         {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
         },
         {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
         },
         {
-          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
         },
         {
-          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
         },
         {
-          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
         },
 
 
@@ -108,7 +126,12 @@ export default {
   },
 
   methods: {
+    changeDate(dev) {
+      console.log(this.date)
+      this.test[dev] = this.date
+      console.log(this.test)
 
+    },
 
       pollData () {
           this.polling = setInterval(() => {
@@ -126,12 +149,13 @@ export default {
 
       },
 
+
       check(e){
         // let checked_state = {}
         let checked_state = this.checked
 
         this.$store.commit('setChecked', checked_state)
-        console.log(checked_state)
+        //console.log(e)
       },
 
 
@@ -167,6 +191,7 @@ export default {
 },
 
   created (){
+    console.log(this.date)
     this.pollData();
     //this.getData();
     // const selected = this.all.map((u) => u.id);
@@ -212,5 +237,13 @@ input#calibrate-single {
 .btn{
   font-size: 0.65rem;
   padding: 0.375rem 0.25rem;
+}
+.calendar i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+.calendar input {
+    background: #e9ecef;
+    cursor: pointer;
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
 
+  <!-- <Calendar /> -->
+  <!-- <DatePicker v-model="range" is-range /> -->
 
  <!-- <div class="container-fluid">
       <div class="row flex-nowrap">
@@ -31,6 +33,7 @@
 
     <div class='wrapper'>
       <div class="sidebar">
+
         <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
 
       </div>
@@ -60,6 +63,7 @@
 </template>
 <script>
 /**/
+import { Calendar, DatePicker } from 'v-calendar';
 
 
 
@@ -76,8 +80,6 @@ export default {
 // },
     data() {
       return {
-
-
 
         menu: [
           {
@@ -104,7 +106,7 @@ export default {
           },
           {
             href: '/grid',
-            title: 'Grid Support',
+            title: 'Flexability Simulate',
             icon: 'fa-solid fa-display',
 
           },

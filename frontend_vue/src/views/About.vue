@@ -93,7 +93,7 @@ export default {
       this.query["range"] = range
 
       this.query["dev"] = dev
-      console.log(this.query)
+      
       // //let query = this.$route.query
       // //this.dev = value
       //
