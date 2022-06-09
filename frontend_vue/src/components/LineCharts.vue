@@ -254,7 +254,7 @@ export default {
            if(parseInt(myZoom.end) <= 35)
            {
              console.log(parseInt(myZoom.end))
-             this.option.xAxis.splitNumber = 6
+             this.option.xAxis.splitNumber = 3
            }
            //console.log(myZoom)
     },

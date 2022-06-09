@@ -310,7 +310,7 @@ export default {
    let month = parseInt(date[1])
 
    this.monthLenth = this.daysInMonth(month,year)
-   
+
 
 
  },
@@ -328,6 +328,11 @@ export default {
            let start = this.zoom.start
            this.option.dataZoom[0].start = start
            this.option.dataZoom[0].end = end
+           if(parseInt(end) <= 35)
+           {
+
+             this.option.xAxis.splitNumber = 3
+           }
 
         }
    },

@@ -37,7 +37,7 @@
         <!-- <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th> -->
-        <th>Flexibility</th>
+        <th>Flexibility /Start Date, Duration, Power/</th>
 
       </tr>
     </thead>
@@ -55,27 +55,53 @@
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td> -->
          <td>
-           <DatePicker class="calendar" v-model="date" mode="dateTime" is24hr :popover="{ visibility: 'focus' }" @dayclick="changeDate(dev.id)">
-           <template v-slot="{ inputValue, inputEvents }">
-             <i class="far fa-calendar-alt"></i>
-             <input
-               class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-               :value="test[dev.id]"
-               v-on="inputEvents"
-             />
-           </template>
-         </DatePicker>
+           <div class='row'>
+             <div class='col-md-3'>
+               <div class="form-group form-group-sm mb-2 mt-2">
+                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr :popover="{ visibility: 'focus' }" >
+                 <template v-slot="{ inputValue, inputEvents }">
+                   <i class="far fa-calendar-alt"></i>
+                   <input
+                     class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                     :value="test[dev.id]"
+                     v-on="inputEvents"
+                   />
+                 </template>
+               </DatePicker>
+             </div>
+       </div>
+       <div class="col-md-3">
+         <div class="form-group form-group-sm duration mb-2 mt-2">
+
+         <select class="form-control d-inline-block" style="width: auto;" v-model="selected[dev.id]" @change="onChange($event)" >
+
+           <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
+         </select>
+       </div>
+     </div>
+     <div class='col-md-3'>
+       <div class="form-group form-group-sm pow mb-2 mt-2">
+         <input type="text" class="form-control d-inline-block" style="width: auto;" id="pow" v-model="powVolume[dev.id]" placeholder="Power">
+       </div>
+     </div>
+     <div class="col-md-3 sendIt">
+       <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2" @click="sendIt(dev.id)">Send</button>
+     </div>
+       </div>
+
        </td>
 
 
       </tr>
      </tbody>
   </table>
+
 </div>
 
 </template>
 
 <script>
+
 import axios from 'axios';
 import { Calendar, DatePicker } from 'v-calendar';
 export default {
@@ -87,6 +113,9 @@ export default {
   data() {
     return {
       date: new Date(),
+      powVolume:{},
+      selected: {},
+      items:[],
       test:{},
       power: '',
       powerCorr:'',
@@ -126,14 +155,22 @@ export default {
   },
 
   methods: {
-    changeDate(dev) {
-      console.log(this.date)
-      this.test[dev] = this.date
-      console.log(this.test)
+    onChange(event) {
+          //console.log(event.target.value);
+          //console.log(this.selected)
+        },
 
-    },
+      createMins(){
+        for(let i=1; i<=60; i++)
+        {
+          this.items.push({
+            'id': i,
+            'val':i
+          })
+        }
+      },
 
-      pollData () {
+      pollData(){
           this.polling = setInterval(() => {
             this.getData();
         }, 10000)
@@ -191,9 +228,12 @@ export default {
 },
 
   created (){
-    console.log(this.date)
+    //console.log(this.date)
+    this.getData();
+    this.createMins();
+
     this.pollData();
-    //this.getData();
+
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
     // this.$store.commit('setChecked', this.checked)
@@ -205,8 +245,15 @@ export default {
     isDisabled: function(){
         return !this.power || !this.countDown;
     }
-  }
-
+  },
+  watch: {
+     test: {
+        handler: function () {
+            console.log(this.test)
+        },
+        deep: true
+      }
+     },
 
 
 };
@@ -234,10 +281,7 @@ input#calibrate-single {
   font-size: 0.65rem;
   padding: 3px;
 }
-.btn{
-  font-size: 0.65rem;
-  padding: 0.375rem 0.25rem;
-}
+
 .calendar i {
     margin-right: 10px;
     font-size: 20px;
@@ -245,5 +289,30 @@ input#calibrate-single {
 .calendar input {
     background: #e9ecef;
     cursor: pointer;
+}
+.duration:before {
+  font-family: FontAwesome;
+  content: "\f254";
+  display: inline-block;
+  padding-right: 10px;
+  vertical-align: middle;
+}
+/* .datepick{
+  padding: .375rem .75rem;
+} */
+.duration select {
+    max-height: 33px;
+}
+.datepick i {
+    margin-right: 10px;
+}
+.duration {
+    text-align: left;
+}
+.pow {
+    text-align: left;
+}
+.sendIt {
+  text-align:left;
 }
 </style>

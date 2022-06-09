@@ -303,8 +303,9 @@ export default {
      },
 
   created (){
+    this.getData();
     this.pollData();
-    //this.getData();
+    
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
     // this.$store.commit('setChecked', this.checked)
@@ -345,7 +346,7 @@ input#calibrate-single {
   font-size: 0.65rem;
   padding: 3px;
 }
-.btn{
+.reset {
   font-size: 0.65rem;
   padding: 0.375rem 0.25rem;
 }

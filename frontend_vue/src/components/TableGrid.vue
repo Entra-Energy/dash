@@ -251,8 +251,9 @@ export default {
 },
 
   created (){
+    this.getData();
     this.pollData();
-    //this.getData();
+    
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
     // this.$store.commit('setChecked', this.checked)
