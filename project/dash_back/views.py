@@ -8,6 +8,8 @@ from dash_back.models import Post, Online, Price
 from datetime import datetime
 from dash_back.custom_filters import PostFilter, PriceFilter
 import paho.mqtt.publish as publish
+import time
+import datetime as dt
 
 # class PostView(APIView):
 #     # def get(self, request):
@@ -69,6 +71,7 @@ def post_single_correction(request):
         "power":pow,
         "timer":timer
     }
+    
     publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
 
@@ -80,3 +83,36 @@ def reset_data(request):
     payload = reset_data["reset"]
     publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
+
+
+@api_view(['POST',])
+def flexi_send(request):
+    time_shift = 10800
+    flexi_data = request.data
+    dev = flexi_data['myObj']['dev']
+    date = flexi_data['myObj']['date']
+    date_part = date.split("T")[0]
+    hour_part = date.split("T")[1]
+    hours = hour_part.split(":")[0]
+    mins = hour_part.split(":")[1]
+    sec = ":00Z"
+    time_part = hours+":"+mins+sec
+    date_str = date_part+"T"+time_part
+    t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
+    t = str(t).split(".")[0]
+    timestamp = int(t) + time_shift
+
+    pow = flexi_data['myObj']['pow']
+    duration = flexi_data['myObj']['duration']
+    topic = dev+"/flexi"
+    print(dev,date,pow,duration)
+    if dev and date and pow and duration:
+        payload = {
+            "pow": pow,
+            "duration": duration,
+            "date": timestamp,
+            "dev": dev
+        }
+        print(payload)
+        publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
+        return Response({"Success": "ok"})

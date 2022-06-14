@@ -73,7 +73,7 @@
        <div class="col-md-3">
          <div class="form-group form-group-sm duration mb-2 mt-2">
 
-         <select class="form-control d-inline-block" style="width: auto;" v-model="selected[dev.id]" @change="onChange($event)" >
+         <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
 
            <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
          </select>
@@ -114,7 +114,8 @@ export default {
     return {
       date: new Date(),
       powVolume:{},
-      selected: {},
+      myObjSend:{},
+      duration: {},
       items:[],
       test:{},
       power: '',
@@ -155,6 +156,42 @@ export default {
   },
 
   methods: {
+
+    sendIt(dev){
+
+
+      axios.post('http://127.0.0.1:8000/api/flexi/', {
+
+        //flexi: this.myObjSend,
+        myObj:  {
+          "date": this.test[dev],
+          "duration": this.duration[dev],
+          "dev":dev,
+          "pow": this.powVolume[dev]
+        }
+        
+
+
+      }).then(response => {
+        // console.log(response);
+        // this.response = response.data
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+      }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+      })
+      this.test = {}
+      this.items = []
+      this.duration = {}
+      this.powVolume = {}
+      this.createMins();
+      this.myObjSend = {}
+
+
+    },
+
+
+
     onChange(event) {
           //console.log(event.target.value);
           //console.log(this.selected)
@@ -246,14 +283,27 @@ export default {
         return !this.power || !this.countDown;
     }
   },
-  watch: {
-     test: {
-        handler: function () {
-            console.log(this.test)
-        },
-        deep: true
-      }
-     },
+  // watch: {
+  //    test: {
+  //       handler: function (e) {
+  //         //let dev = Object.keys()
+  //
+  //
+  //
+  //
+  //           let myObj = {
+  //             //"date": this.test[dev],
+  //             "duration": this.duration,
+  //             //"dev":dev,
+  //             "pow": this.powVolume
+  //           }
+  //           this.myObjSend = myObj
+  //
+  //
+  //       },
+  //       deep: true
+  //     }
+  //    },
 
 
 };

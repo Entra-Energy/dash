@@ -60,7 +60,7 @@ var timeLineSet = function(value,index){
 
   //hours = ("0"+hours).slice(-2)
 
-  let texts = hours+":00"
+  let texts = hours+":"+min
   return texts
 }
 
@@ -107,12 +107,12 @@ export default {
     },
   height: 250,
   xAxis: {
-    type: 'time',
-    splitNumber: 0,
+    type: 'category',
+    splitNumber: 24,
     axisLabel: {
         rotate:40,
         margin:20,
-        interval: 1,
+        //interval: 1,
         //formatter: "t",
 
         textStyle: {
@@ -121,17 +121,20 @@ export default {
 
     },
     axisLine: {
-      show: false,
+      show: true,
+
     },
     splitLine: {
       show: true,
+      interval: 24,
       lineStyle: {
         color: '#9a9a9a',
         type: 'dashed',
 
-      },
-    },
 
+      },
+
+    },
   },
   yAxis: {
     type: 'value',
@@ -169,12 +172,14 @@ export default {
     },
     {
       name: "priceBefore",
-      smooth: false,
+      smooth: true,
       step: 'middle',
+      clip: true,
+
       itemStyle: {
         color: 'rgb(102,173,62)'
       },
-      sampling: 'lttb',
+      sampling: 'average',
       data: [],
       type: 'line'
     },
@@ -219,19 +224,20 @@ export default {
        if (query_param == 'today'){
          this.option.xAxis.axisLabel.formatter = timeLineSet
          this.option.tooltip.formatter =  toolTipSet
-         this.option.xAxis.splitNumber = 12
+         //this.option.xAxis.splitNumber = 24
 
          url = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
          url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
          const requestOne = axios.get(url);
          const requestTwo = axios.get(url2);
-         //console.log(url,url2)
+         console.log(url)
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
          const responseOne = responses[0].data
          const responseTwo = responses[1].data
          responseOne.forEach((itemFirstRes) => {
            this.option.series[1].data.push([itemFirstRes.timestamp,itemFirstRes.value])
          });
+
          responseTwo.forEach((itemSecondRes) => {
            this.option.series[2].data.push([itemSecondRes.timestamp,itemSecondRes.value])
          });
@@ -328,11 +334,11 @@ export default {
            let start = this.zoom.start
            this.option.dataZoom[0].start = start
            this.option.dataZoom[0].end = end
-           if(parseInt(end) <= 35)
-           {
-
-             this.option.xAxis.splitNumber = 3
-           }
+           // if(parseInt(end) <= 35)
+           // {
+           //
+           //   this.option.xAxis.splitNumber = 3
+           // }
 
         }
    },

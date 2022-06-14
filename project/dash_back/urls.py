@@ -18,6 +18,7 @@ urlpatterns = [
     path('cali/',views.post_cali, name='cali'),
     path('single-corr/',views.post_single_correction, name='single_corr'),
     path('reset/',views.reset_data, name='reset'),
+    path('flexi/',views.flexi_send, name='flexi'),
 ]
 
 urlpatterns += router.urls

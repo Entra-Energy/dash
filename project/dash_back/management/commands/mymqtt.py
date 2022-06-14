@@ -19,6 +19,9 @@ class Command(BaseCommand):
             client.subscribe("data/#")
             client.subscribe("ping/#")
             client.subscribe("error/check/#")
+            client.subscribe("flexiResponse/#")
+            client.subscribe("corrResponse/#")
+
         def on_message(client, userdata, msg):
             #print(msg.topic+" "+str(msg.payload))
             topic = msg.topic
@@ -26,6 +29,7 @@ class Command(BaseCommand):
             if myList[0] == 'data':
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
+                print(data_out)
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
@@ -57,6 +61,18 @@ class Command(BaseCommand):
                     "pow": value,
                     }
                     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+
+            if myList[0] == 'flexiResponse':
+                dev_id = myList[1]
+                data_out=json.loads(msg.payload.decode())
+                print(data_out)
+                print(dev_id)
+
+            if myList[0] == 'corrResponse':
+                dev_id = myList[1]
+                data_out=json.loads(msg.payload.decode())
+                print(data_out)
+
 
 
         client = mqtt.Client()

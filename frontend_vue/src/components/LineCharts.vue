@@ -60,7 +60,7 @@ var timeLineSet = function(value,index){
 
   //hours = ("0"+hours).slice(-2)
 
-  let texts = hours+":00"
+  let texts = hours+":"+min
   return texts
 }
 
@@ -124,7 +124,7 @@ export default {
     axisLabel: {
         rotate:40,
         margin:20,
-        interval: 1,
+        //interval: 1,
         //formatter: "t",
 
         textStyle: {
@@ -251,11 +251,11 @@ export default {
            {
              this.$store.commit('clientZoomInit', myZoom)
            }
-           if(parseInt(myZoom.end) <= 35)
-           {
-             console.log(parseInt(myZoom.end))
-             this.option.xAxis.splitNumber = 3
-           }
+           // if(parseInt(myZoom.end) <= 35)
+           // {
+           //
+           //   this.option.xAxis.splitNumber = 3
+           // }
            //console.log(myZoom)
     },
 
@@ -300,9 +300,9 @@ export default {
           });
           if(test == 'today')
           {
-            this.option.xAxis.axisLabel.formatter = timeLineSet
+            this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
             this.option.tooltip.formatter =  toolTipSet
-            this.option.xAxis.splitNumber = 12
+            this.option.xAxis.splitNumber = 24
             let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
             let endArr = [endStr,null]
             this.option.series[1].data.push(endArr)
@@ -470,6 +470,7 @@ export default {
           "type": "line",
           "sampling": "lttb",
           "showSymbol": false,
+          "connectNulls": false
           //"sampling": "average"
         }
       )

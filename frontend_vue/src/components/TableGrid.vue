@@ -160,7 +160,7 @@ export default {
         let time = this.countDown[dev]
         this.time = parseInt(time)
 
-        axios.post('http://64.225.100.195:8000/api/single-corr/', {
+        axios.post('http://127.0.0.1:8000/api/single-corr/', {
           power: value,
           timer: time,
           dev: dev,
@@ -253,7 +253,7 @@ export default {
   created (){
     this.getData();
     this.pollData();
-    
+
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
     // this.$store.commit('setChecked', this.checked)
