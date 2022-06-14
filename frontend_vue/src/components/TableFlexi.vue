@@ -160,7 +160,7 @@ export default {
     sendIt(dev){
 
 
-      axios.post('http://127.0.0.1:8000/api/flexi/', {
+      axios.post('http://64.225.100.195:8000/api/flexi/', {
 
         //flexi: this.myObjSend,
         myObj:  {
@@ -169,7 +169,7 @@ export default {
           "dev":dev,
           "pow": this.powVolume[dev]
         }
-        
+
 
 
       }).then(response => {
