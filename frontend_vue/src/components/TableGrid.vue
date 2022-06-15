@@ -122,7 +122,7 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
-      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true},
+      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true},
       allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
@@ -143,6 +143,9 @@ export default {
         },
         {
           "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":""
+        },
+        {
+          "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":""
         },
 
 
