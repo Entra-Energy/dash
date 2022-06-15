@@ -107,7 +107,7 @@ export default {
     },
   height: 250,
   xAxis: {
-    type: 'category',
+    type: 'time',
     splitNumber: 24,
     axisLabel: {
         rotate:40,
@@ -222,6 +222,7 @@ export default {
        let url2 = ''
        //console.log(query_param)
        if (query_param == 'today'){
+         this.option.xAxis.type = 'category'
          this.option.xAxis.axisLabel.formatter = timeLineSet
          this.option.tooltip.formatter =  toolTipSet
          //this.option.xAxis.splitNumber = 24
@@ -248,19 +249,27 @@ export default {
        else {
          if (query_param == 'month')
          {
+           this.option.xAxis.type = 'time'
 
            this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
            let monthLenthArr = this.currDate.split("T")[0].split("-")
-           monthLenthArr[2] = this.daysInMonth.toString()
-           let monthEnd = [monthLenthArr.join("-"),null]
 
-           this.option.series[1].data.push(monthEnd)
+           monthLenthArr[2] = this.monthLenth.toString()
+           let monthEnd = [monthLenthArr.join("-"),null]
+           //console.log(monthEnd)
+
+
            let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-           this.option.series[1].data[0]=monthBegin
+           //console.log(monthBegin)
+           // this.option.series[0].data[0]=monthBegin
+           this.option.series[0].data.push(monthEnd)
+           console.log(this.option.series[0])
            this.option.xAxis.splitNumber = 30
+           //console.log(this.option.series[0])
 
          }
          else {
+           this.option.xAxis.type = 'time'
            let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
            let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
            this.option.series[0].data[0]=yearBegin
@@ -280,10 +289,12 @@ export default {
              this.option.series[0].data.push([el.timestamp,el.value])
 
           }
+
         ))
       } catch (error) {
        //console.log(error);
      }
+
     }
   },
 
