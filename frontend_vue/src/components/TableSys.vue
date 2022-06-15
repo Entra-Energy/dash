@@ -36,6 +36,7 @@
         <th>Power</th>
         <th>Customer</th>
         <th>Location</th>
+        <th>Signal</th>
         <th>Capacity</th>
         <th></th>
 
@@ -53,6 +54,7 @@
          <td>{{ dev.pow }}</td>
          <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
+         <td>{{ dev.signal }}</td>
          <td>{{ 10000 }}</td>
          <!-- <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td> -->
@@ -127,19 +129,19 @@ export default {
       all: [
 
         {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","signal":""
         },
         {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","signal":""
         },
         {
-          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","signal":""
         },
         {
-          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","signal":""
         },
         {
-          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":""
+          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","signal":""
         },
 
 
@@ -231,6 +233,7 @@ export default {
             {
               found.pow = el.pow
               found.online = 'online'
+              found.signal = el.signal
             }
 
             //console.log(this.all[0].id)
@@ -305,7 +308,7 @@ export default {
   created (){
     this.getData();
     this.pollData();
-    
+
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
     // this.$store.commit('setChecked', this.checked)

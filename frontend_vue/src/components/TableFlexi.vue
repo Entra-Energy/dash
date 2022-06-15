@@ -38,6 +38,7 @@
         <th>Location</th>
         <th>Capacity</th> -->
         <th>Flexibility /Start Date, Duration, Power/</th>
+        <th>Flexibility Log</th>
 
       </tr>
     </thead>
@@ -55,10 +56,11 @@
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td> -->
          <td>
-           <div class='row'>
-             <div class='col-md-3'>
-               <div class="form-group form-group-sm mb-2 mt-2">
-                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr :popover="{ visibility: 'focus' }" >
+           <div class='row flexi'>
+             <!-- <div class='col-md-3'> -->
+             <div class='col-md-12'>
+               <div class="form-group form-group-sm mb-2 mt-2 ml-2 mr-2">
+                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
                    <i class="far fa-calendar-alt"></i>
                    <input
@@ -69,26 +71,36 @@
                  </template>
                </DatePicker>
              </div>
-       </div>
-       <div class="col-md-3">
-         <div class="form-group form-group-sm duration mb-2 mt-2">
+       <!-- </div> -->
+       <!-- <div class="col-md-3"> -->
+         <div class="form-group form-group-sm duration mb-2 mt-2 ml-2 mr-2">
 
          <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
 
            <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
          </select>
        </div>
-     </div>
-     <div class='col-md-3'>
-       <div class="form-group form-group-sm pow mb-2 mt-2">
+     <!-- </div> -->
+     <!-- <div class='col-md-3'> -->
+       <div class="form-group form-group-sm pow mb-2 mt-2 ml-2 mr-2">
          <input type="text" class="form-control d-inline-block" style="width: auto;" id="pow" v-model="powVolume[dev.id]" placeholder="Power">
        </div>
+     <!-- </div> -->
+     <!-- <div class="col-md-3 sendIt"> -->
+     <div class = "form-group form-group-sm mb-2 mt-2 ml-2 mr-2 sendIt">
+       <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
      </div>
-     <div class="col-md-3 sendIt">
-       <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2" @click="sendIt(dev.id)">Send</button>
-     </div>
+     <!-- </div> -->
        </div>
+     </div>
 
+       </td>
+       <td>
+         <div class='row'>
+           <div class='col-sm-12'>
+             <p>Log data</p>
+           </div>
+         </div>
        </td>
 
 
@@ -362,7 +374,10 @@ input#calibrate-single {
 .pow {
     text-align: left;
 }
-.sendIt {
-  text-align:left;
+.flexi .form-group {
+  float: left;
 }
+/* .sendIt {
+  text-align:left;
+} */
 </style>

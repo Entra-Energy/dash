@@ -62,6 +62,8 @@ class Post(models.Model):
     devId = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=datetime.now())
     value = models.FloatField()
+    ready = models.IntegerField(default=0)
+    signal = models.IntegerField(default=0)
     objects = models.Manager()
 
     today = TodayPostManager()
