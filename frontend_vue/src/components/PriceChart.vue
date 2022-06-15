@@ -251,15 +251,14 @@ export default {
 
            this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
            let monthLenthArr = this.currDate.split("T")[0].split("-")
-           let monthLenth = this.daysInMonth(this.currMonth,this.currYear)
-           let monthEnd = [this.currYear+"-"+this.currMonth+"-"+monthLenth,null]
+           monthLenthArr[2] = this.daysInMonth.toString()
+           let monthEnd = [monthLenthArr.join("-"),null]
+
+           this.option.series[1].data.push(monthEnd)
            let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-
-           this.option.series[0].data[0]=monthBegin
-           this.option.series[0].data.push(monthEnd)
-
-
+           this.option.series[1].data[0]=monthBegin
            this.option.xAxis.splitNumber = 30
+
          }
          else {
            let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
