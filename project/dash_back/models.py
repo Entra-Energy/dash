@@ -75,6 +75,8 @@ class Online(models.Model):
     dev = models.CharField(max_length=200)
     saved_date = models.DateTimeField(default=datetime.now())
     pow = models.FloatField()
+    ready = models.IntegerField(default=0)
+    signal = models.IntegerField(default=0)
     objects = models.Manager()
     dist = UniqueOnlineManager()
 
