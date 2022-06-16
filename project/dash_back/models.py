@@ -70,7 +70,7 @@ class Post(models.Model):
         return self.devId
 
 class Online(models.Model):
-    dev = models.CharField(max_length=400)
+    dev = models.CharField(max_length=300)
     saved_date = models.DateTimeField(default=datetime.now())
     pow = models.FloatField()
     ready = models.IntegerField(default=0, null=True)
