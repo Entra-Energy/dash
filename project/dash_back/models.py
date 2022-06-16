@@ -63,18 +63,18 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=datetime.now())
     value = models.FloatField()
     objects = models.Manager()
-    grid = models.IntegerField(default=0, null=True)
+    #grid = models.IntegerField(default=0, null=True)
     today = TodayPostManager()
     month = MonthPostManager()
     def __str__(self):
         return self.devId
 
 class Online(models.Model):
-    dev = models.CharField(max_length=200)
+    dev = models.CharField(max_length=400)
     saved_date = models.DateTimeField(default=datetime.now())
     pow = models.FloatField()
-    ready = models.IntegerField(default=0, null=True)
-    signal = models.IntegerField(default=0, null=True)
+    #ready = models.IntegerField(default=0, null=True)
+    #signal = models.IntegerField(default=0, null=True)
     objects = models.Manager()
     dist = UniqueOnlineManager()
 
