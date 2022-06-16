@@ -33,9 +33,9 @@ class Command(BaseCommand):
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
-                readyness = int(data_out['payload']['gridReady'])
+                #readyness = int(data_out['payload']['gridReady'])
 
-                Post.objects.get_or_create(devId=dev_id,value=value,grid=readyness,created_date=timestamp)
+                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
 
             if myList[0] == 'ping':
                 dev_id = myList[1]
@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 online = Online.objects.all().count()
                 if online > 1000:
                     Online.objects.all().delete()
-                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready, signal=connectivity)
+                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value)
 
             if myList[0] == 'error':
                 dev_id = myList[2]
