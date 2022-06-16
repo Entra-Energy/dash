@@ -64,21 +64,21 @@ services:
     ports:
       - 80:80
 
-  # mqtt:
-  #   build:
-  #     context: ./project
-  #   command: python manage.py mymqtt
-  #   volumes:
-  #     - .:/project
-  #   environment:
-  #     - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
-  #     - POSTGRES_NAME=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #     - DEBUG=1
-  #     - SECRET_KEY=foo
-  #   depends_on:
-  #     - db
+  mqtt:
+    build:
+      context: ./project
+    command: python manage.py mymqtt
+    volumes:
+      - .:/project
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=foo
+    depends_on:
+      - db
 
 
 volumes:
