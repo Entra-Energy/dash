@@ -22,7 +22,7 @@ class UniqueOnlineManager(models.Manager):
         for elem in reversed(last_active):
             if elem.dev not in unique.keys():
 
-                unique[elem.dev] = {'dev':elem.dev,'pow':elem.pow}
+                unique[elem.dev] = {'dev':elem.dev,'pow':elem.pow, 'signal': elem.signal, 'ready': elem.ready}
         print(unique.values())
         return unique.values()
         #return super().get_queryset().filter(dev__in = unique).order_by('-saved_date')[:len(unique)]
@@ -62,10 +62,8 @@ class Post(models.Model):
     devId = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=datetime.now())
     value = models.FloatField()
-    ready = models.IntegerField(default=0)
-    signal = models.IntegerField(default=0)
     objects = models.Manager()
-
+    grid = models.IntegerField(default=0, null=True)
     today = TodayPostManager()
     month = MonthPostManager()
     def __str__(self):
@@ -75,6 +73,8 @@ class Online(models.Model):
     dev = models.CharField(max_length=200)
     saved_date = models.DateTimeField(default=datetime.now())
     pow = models.FloatField()
+    ready = models.IntegerField(default=0, null=True)
+    signal = models.IntegerField(default=0, null=True)
     objects = models.Manager()
     dist = UniqueOnlineManager()
 
