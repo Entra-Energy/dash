@@ -207,6 +207,8 @@ export default {
 
 
  methods: {
+
+
    daysInMonth (month, year) {
        return new Date(year, month, 0).getDate();
    },
@@ -256,13 +258,10 @@ export default {
 
            monthLenthArr[2] = this.monthLenth.toString()
            let monthEnd = [monthLenthArr.join("-"),null]
-           //console.log(monthEnd)
-
-
            let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-           //console.log(monthBegin)
-           // this.option.series[0].data[0]=monthBegin
-           this.option.series[0].data.push(monthEnd)
+           console.log(monthBegin)
+           this.option.series[0].data[0]=monthBegin
+           //this.option.series[0].data.push(monthEnd)
            console.log(this.option.series[0])
            this.option.xAxis.splitNumber = 30
            //console.log(this.option.series[0])
