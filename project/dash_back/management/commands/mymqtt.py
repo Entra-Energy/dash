@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 import random
 import json
-from dash_back.models import Post, Online #type: ignore
+from dash_back.models import Post, Online, Flexi #type: ignore
 from paho.mqtt import client as mqtt_client #type: ignore
 from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
@@ -76,8 +76,12 @@ class Command(BaseCommand):
             if myList[0] == 'flexiResponse':
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
-                print(data_out)
-                print(dev_id)
+                time = int(data_out['payload']['date'])
+                time_iso = datetime.fromtimestamp(time, tz=timezone.utc).isoformat()
+                res_power = float(data_out['payload']['power'])
+                durr = int(data_out['payload']['duration'])                
+                Flexi.objects.create(flexiDev = dev_id, response_time = time_iso, res_pow = res_power, res_durr = durr)
+
 
             if myList[0] == 'corrResponse':
                 dev_id = myList[1]
