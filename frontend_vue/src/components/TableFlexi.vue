@@ -98,7 +98,29 @@
        <td>
          <div class='row'>
            <div class='col-sm-12'>
-             <p>Log data</p>
+             <div class="flexi-display overflow-auto bg-light" style="max-width: 260px; max-height: 60px;">
+             <ul>
+               <li v-for="flexi in flexiResp" :key="dev.id">
+                 <span v-if="flexi.dev === dev.id"><b>{{flexi.dev}}:</b><br/>Power:{{flexi.pow}}<br/>Date:{{flexi.time}}<br/>Duration:{{flexi.duration}}</span>
+
+               </li>
+             </ul>
+           </div>
+             <!-- <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>dev</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="flexi in flexiResp" :key="dev.id">
+                    <td v-if="flexi.dev === dev.id">{{flexi.dev}}</td>
+                </tr>
+            </tbody>
+        </table> -->
+             <!-- <div class="form-group form-group-sm pow mb-2 mt-2 ml-2 mr-2">
+               <input type="text" class="form-control d-inline-block" style="width: auto;" id="pow" v-model="flexiResp[dev.id]" placeholder="">
+             </div> -->
            </div>
          </div>
        </td>
@@ -130,6 +152,7 @@ export default {
       duration: {},
       items:[],
       test:{},
+      flexiResp:[],
       power: '',
       powerCorr:'',
       time:'',
@@ -145,22 +168,22 @@ export default {
       all: [
 
         {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
+          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
         {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
+          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
         {
-          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
+          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
         {
-          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
+          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
         {
-          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
+          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
         {
-          "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","date":new Date()
+          "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
 
 
@@ -204,14 +227,14 @@ export default {
 
 
     },
-
-
-
-    onChange(event) {
-          //console.log(event.target.value);
-          //console.log(this.selected)
-        },
-
+//
+//
+//
+//     onChange(event) {
+//           //console.log(event.target.value);
+//           //console.log(this.selected)
+//         },
+//
       createMins(){
         for(let i=1; i<=60; i++)
         {
@@ -221,13 +244,13 @@ export default {
           })
         }
       },
-
+//
       pollData(){
           this.polling = setInterval(() => {
             this.getData();
         }, 10000)
       },
-
+//
       selectAll() {
           if (this.allSelected) {
             const selected = this.all.map((u) => u.id);
@@ -237,8 +260,8 @@ export default {
           }
 
       },
-
-
+//
+//
       check(e){
         // let checked_state = {}
         let checked_state = this.checked
@@ -246,9 +269,9 @@ export default {
         this.$store.commit('setChecked', checked_state)
         //console.log(e)
       },
-
-
-
+//
+//
+//
       getData() {
       try {
         axios
@@ -263,8 +286,19 @@ export default {
 
             if (found)
             {
+              found.ready = el.ready
               found.pow = el.pow
               found.online = 'online'
+              console.log(found)
+              if (found.ready == 1)
+              {
+                found.online = 'ready'
+              }
+              else if (found.ready == 0)
+              {
+              found.online = 'not ready'
+              }
+
             }
 
             //console.log(this.all[0].id)
@@ -276,14 +310,40 @@ export default {
         //console.log(error);
       }
     },
+    getFlexi(){
+      try {
+        axios
+        .get(
+          "http://64.225.100.195:8000/api/flexi_res/"
+        )
+        .then(response => response.data.forEach(el=>{
 
-},
+
+            let respObj = {
+              'dev': el.flexiDev,
+              'time': el.response_time,
+              'pow': el.res_pow,
+              'duration': el.res_durr
+            }
+            this.flexiResp.push(respObj)
+
+        }
+
+      ))
+
+    } catch (error) {
+      //console.log(error);
+    }
+    console.log(this.flexiResp)
+  }
+
+  },
 
   created (){
     //console.log(this.date)
     this.getData();
     this.createMins();
-
+    this.getFlexi();
     this.pollData();
 
     // const selected = this.all.map((u) => u.id);
@@ -383,4 +443,15 @@ input#calibrate-single {
 /* .sendIt {
   text-align:left;
 } */
+
+.flexi-display ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: gray;
+    text-align: left;
+}
+.flexi-display {
+    margin: 0 auto;
+}
 </style>
