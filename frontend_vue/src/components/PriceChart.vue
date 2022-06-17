@@ -244,57 +244,54 @@ export default {
          responseTwo.forEach((itemSecondRes) => {
            this.option.series[2].data.push([itemSecondRes.timestamp,itemSecondRes.value])
          });
-         })).catch(errors => {
+         }))
+         .catch(errors => {
               // react on errors.
-          })
+         })
        }
-       else {
-         if (query_param == 'month')
-         {
-           this.option.xAxis.type = 'time'
-
-           this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
-           let monthLenthArr = this.currDate.split("T")[0].split("-")
-
-           monthLenthArr[2] = this.monthLenth.toString()
-           let monthEnd = [monthLenthArr.join("-"),null]
-           let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-           console.log(monthBegin)
-           this.option.series[0].data[0]=monthBegin
-           //this.option.series[0].data.push(monthEnd)
-           console.log(this.option.series[0])
-           this.option.xAxis.splitNumber = 30
-           //console.log(this.option.series[0])
-
-         }
-         else {
-           this.option.xAxis.type = 'time'
-           let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-           let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-           this.option.series[0].data[0]=yearBegin
-           this.option.series[0].data.push(yearEnd)
-           this.option.xAxis.axisLabel.formatter =  '{MMM}'
-           this.option.xAxis.splitNumber = 12
-         }
+       else if(query_param == 'month'){
+         this.option.xAxis.type = 'time'
+         this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
+           axios.get(url)
+                 .then(response => response.data.forEach(el=>{
+                    this.option.series[0].data.push([el.timestamp,el.value])
+                 }))
+                .catch(errors => {
 
-         try {
-           axios
-           .get(
-             url
-           )
-           .then(response => response.data.forEach(el=>{
+                })
+                .finally(() => {
+                    let monthLenthArr = this.currDate.split("T")[0].split("-")
+                    monthLenthArr[2] = this.monthLenth.toString()
+                    let monthEnd = [monthLenthArr.join("-"),null]
+                    let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+                    this.option.series[0].data[0]=monthBegin
+                    this.option.series[0].data.push(monthEnd)
+                    this.option.xAxis.splitNumber = 30
 
-             this.option.series[0].data.push([el.timestamp,el.value])
+                });
+        }
+        else {
+          this.option.xAxis.type = 'time'
+          this.option.xAxis.axisLabel.formatter =  '{MMM}'
+          this.option.xAxis.splitNumber = 12
+          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
+          axios.get(url)
+                .then(response => response.data.forEach(el=>{
+                   this.option.series[0].data.push([el.timestamp,el.value])
+                }))
+               .catch(errors => {
 
-          }
+               })
+               .finally(() => {
+                 let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+                 let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+                 this.option.series[0].data[0]=yearBegin
+                 this.option.series[0].data.push(yearEnd)
 
-        ))
-      } catch (error) {
-       //console.log(error);
-     }
+               });
 
-    }
+        }
   },
 
    getCurrTime(){

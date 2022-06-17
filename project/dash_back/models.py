@@ -81,3 +81,10 @@ class Online(models.Model):
 class Price(models.Model):
     timestamp = models.DateTimeField(default=datetime.now())
     value = models.FloatField()
+
+
+class Flexi(models.Model):
+    flexiDev = models.CharField(max_length=300)
+    response_time = models.DateTimeField(default=datetime.now())
+    res_pow = models.FloatField()
+    res_durr = models.IntegerField()

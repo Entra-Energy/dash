@@ -75,7 +75,7 @@ export default {
   currDate:'',
   currYear: '',
   currMonth: '',
-  daysInMonth:'',
+  monthLenthDays:'',
   param:'today',
   dev:'',
   myChart: null,
@@ -298,56 +298,45 @@ export default {
             }
 
           });
-          if(test == 'today')
-          {
-            this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
-            this.option.tooltip.formatter =  toolTipSet
-            this.option.xAxis.splitNumber = 24
-            let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
-            let endArr = [endStr,null]
-            this.option.series[1].data.push(endArr)
 
-          }
-          else if (test == 'month')
-          {
-            this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
-            let monthLenthArr = this.currDate.split("T")[0].split("-")
-            monthLenthArr[2] = this.daysInMonth.toString()
-            let monthEnd = [monthLenthArr.join("-"),null]
+          }))
+          .catch(errors => {
 
-            this.option.series[1].data.push(monthEnd)
-
-            let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-            this.option.series[1].data[0]=monthBegin
-            this.option.xAxis.splitNumber = 30
-
-
-
-
-            //this.option.xAxis.splitNumber = 30
-          }
-          else {
-            let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-            let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-            this.option.series[1].data[0]=yearBegin
-            this.option.series[1].data.push(yearEnd)
-
-            this.option.xAxis.axisLabel.formatter =  '{MMM}'
-            this.option.xAxis.splitNumber = 12
-          }
-
-
-
-
-          // responseTwo.forEach((itemSecondRes) => {
-          //
-          //   if (itemSecondRes.devId === "sm-0009F"){
-          //
-          // }
-          // });
-          })).catch(errors => {
-               // react on errors.
            })
+          .finally(() => {
+            if(test == 'today'){
+              this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
+              this.option.tooltip.formatter =  toolTipSet
+              this.option.xAxis.splitNumber = 24
+              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+              let endArr = [endStr,null]
+              this.option.series[1].data.push(endArr)
+            }
+            else if(test == 'month')
+            {
+                this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+                let monthLenthArr = this.currDate.split("T")[0].split("-")
+                monthLenthArr[2] = this.monthLenthDays.toString()
+                let monthEnd = [monthLenthArr.join("-"),null]
+
+
+                let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+                this.option.series[1].data[0]=monthBegin
+                this.option.series[1].data.push(monthEnd)
+                this.option.xAxis.splitNumber = 30
+                console.log(this.option.series[1].data)
+            }
+            else {
+                let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+                let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+                this.option.series[1].data[0]=yearBegin
+                this.option.series[1].data.push(yearEnd)
+                this.option.xAxis.axisLabel.formatter =  '{MMM}'
+                this.option.xAxis.splitNumber = 12
+
+            }
+
+          })
       },
 
      getData() {
@@ -374,79 +363,6 @@ export default {
       url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
       this.get_data_helper(url,url2)
 
-    //    if (query_param == 'today'){
-    //
-    //      this.option.xAxis.axisLabel.formatter = timeLineSet
-    //      this.option.tooltip.formatter =  toolTipSet
-    //
-    //     // this.option.xAxis.splitNumber = 22
-    //      url = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+start+"&end_date="+end+devQuery
-    //      url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
-    //      console.log(url)
-    //      const requestOne = axios.get(url);
-    //      const requestTwo = axios.get(url2);
-    //      axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
-    //      const responseOne = responses[0].data
-    //      const responseTwo = responses[1].data
-    //      responseOne.forEach((itemFirstRes) => {
-    //        let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-    //        if (found)
-    //        {
-    //          found.data.push([itemFirstRes.created_date,itemFirstRes.value])
-    //        }
-    //
-    //      });
-    //      responseTwo.forEach((itemSecondRes) => {
-    //
-    //        if (itemSecondRes.devId === "sm-0009F"){
-    //
-    //      }
-    //      });
-    //      })).catch(errors => {
-    //           // react on errors.
-    //       })
-    //    }
-    //    else {
-    //      if (query_param == 'month')
-    //      {
-    //       // this.option.xAxis.axisLabel.formatter =  '{dd}'
-    //      }
-    //      else {
-    //       // this.option.xAxis.axisLabel.formatter =  '{MMM}'
-    //      }
-    //      //this.option.xAxis.splitNumber = 31
-    //
-    //      url = "http://64.225.100.195:8000/api/posts/?timestamp=&date_range="+query_param
-    //      console.log(query_param)
-    //
-    //      try {
-    //        axios
-    //        .get(
-    //          url
-    //
-    //        )
-    //        .then(response => response.data.forEach(el=>{
-    //
-    //          if(el.devId=='sm-0009')
-    //          {
-    //           // this.option.series[0].data.push([el.created_date,el.value])
-    //          }
-    //       }
-    //     ))
-    //   } catch (error) {
-    //    //console.log(error);
-    //  }
-    // }
-
-
-     // let startStr =["2022-03-24T00:00:00.000Z",null]
-     // this.option.series[0].data[0] = startStr
-     // let endStr = "2022-03-24T23:00:00.000Z"
-     // let time = [endStr,null]
-     // this.option.series[0].data.push(time)
-     //let timeBegin = [startStr,null]
-     //this.option.series[0].data.unshift(startStr)
-     //console.log(this.option.series[0].data)
 
    },
 
@@ -459,7 +375,7 @@ export default {
     let date = this.currDate.split("T")[0].split("-")
     let year = parseInt(date[0])
     let month = parseInt(date[1])
-    this.daysInMonth = this.daysInMonth(month,year)
+    this.monthLenthDays = this.daysInMonth(month,year)
 
     const devs = Object.keys(this.create_devs())
     devs.forEach((item, i) => {
