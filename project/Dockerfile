@@ -42,7 +42,7 @@ RUN addgroup -S app && adduser -S app -G app
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
+RUN mkdir $APP_HOME/static
 WORKDIR $APP_HOME
 
 # install dependencies
@@ -50,7 +50,7 @@ RUN apk update && apk add libpq
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
-
+RUN python manage.py collectstatic -v 2 --noinput
 # copy project
 COPY . $APP_HOME
 
