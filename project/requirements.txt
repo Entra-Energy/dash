@@ -5,6 +5,5 @@ celery==5.1.2
 redis==3.5.3
 djangorestframework
 django-cors-headers
-django-filter
+#django-filter
 paho-mqtt
-
