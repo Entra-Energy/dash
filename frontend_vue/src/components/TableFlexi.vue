@@ -50,7 +50,7 @@
           </div>
         </td>
          <td>{{ dev.id }}</td>
-         <td>{{ dev.online }}</td>
+         <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
          <!-- <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
@@ -146,6 +146,7 @@ export default {
 
   data() {
     return {
+      isActive: true,
       date: new Date(),
       powVolume:{},
       myObjSend:{},
@@ -296,7 +297,7 @@ export default {
               }
               else if (found.ready == 0)
               {
-              found.online = 'not ready'
+              found.online = 'not-ready'
               }
 
             }
@@ -356,7 +357,7 @@ export default {
   computed: {
     isDisabled: function(){
         return !this.power || !this.countDown;
-    }
+    },
   },
   // watch: {
   //    test: {
@@ -452,6 +453,31 @@ input#calibrate-single {
     text-align: left;
 }
 .flexi-display {
+    margin: 0 auto;
+}
+.red {
+  color: red
+}
+.offline {
+    width: 15px;
+    height: 15px;
+    background: gray;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+.not-ready {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: skyblue;
+    margin: 0 auto;
+}
+
+.ready {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #5fd85f;
     margin: 0 auto;
 }
 </style>

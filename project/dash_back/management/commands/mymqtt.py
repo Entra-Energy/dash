@@ -44,6 +44,7 @@ class Command(BaseCommand):
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
                 gridSupp = data_out['payload'].get('gridReady', None)
+
                 if gridSupp:
                     ready = int(gridSupp)
                 else:
@@ -53,10 +54,15 @@ class Command(BaseCommand):
                     connectivity = int(signal)
                 else:
                     connectivity = 0
+                providing = data_out['payload'].get('providing', None)
+                if providing:
+                    prov = int(providing)
+                else:
+                    prov = 0
                 online = Online.objects.all().count()
                 if online > 1000:
                     Online.objects.all().delete()
-                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity)
+                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov)
 
             if myList[0] == 'error':
                 dev_id = myList[2]
@@ -79,7 +85,7 @@ class Command(BaseCommand):
                 time = int(data_out['payload']['date'])
                 time_iso = datetime.fromtimestamp(time, tz=timezone.utc).isoformat()
                 res_power = float(data_out['payload']['power'])
-                durr = int(data_out['payload']['duration'])                
+                durr = int(data_out['payload']['duration'])
                 Flexi.objects.create(flexiDev = dev_id, response_time = time_iso, res_pow = res_power, res_durr = durr)
 
 

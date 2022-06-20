@@ -75,6 +75,7 @@ class Online(models.Model):
     pow = models.FloatField()
     ready = models.IntegerField(default=0, null=True)
     signal = models.IntegerField(default=0, null=True)
+    providing = models.IntegerField(default=0, null=True)
     objects = models.Manager()
     dist = UniqueOnlineManager()
 
