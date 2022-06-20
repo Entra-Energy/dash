@@ -45,6 +45,7 @@ class Command(BaseCommand):
                 value = float(data_out['payload']['power'])
                 gridSupp = data_out['payload'].get('gridReady', None)
 
+
                 if gridSupp:
                     ready = int(gridSupp)
                 else:
@@ -60,8 +61,10 @@ class Command(BaseCommand):
                 else:
                     prov = 0
                 online = Online.objects.all().count()
+                #print(str(prov)+"||"+dev_id)
                 if online > 1000:
                     Online.objects.all().delete()
+                print(prov)
                 Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov)
 
             if myList[0] == 'error':
@@ -92,7 +95,7 @@ class Command(BaseCommand):
             if myList[0] == 'corrResponse':
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
-                print(data_out)
+                #print(data_out)
 
 
 

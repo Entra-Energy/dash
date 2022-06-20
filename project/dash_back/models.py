@@ -22,7 +22,7 @@ class UniqueOnlineManager(models.Manager):
         for elem in reversed(last_active):
             if elem.dev not in unique.keys():
 
-                unique[elem.dev] = {'dev':elem.dev,'pow':elem.pow, 'ready':elem.ready, 'signal':elem.signal}
+                unique[elem.dev] = {'dev':elem.dev,'pow':elem.pow, 'ready':elem.ready, 'signal':elem.signal, 'providing':elem.providing}
         print(unique.values())
         return unique.values()
         #return super().get_queryset().filter(dev__in = unique).order_by('-saved_date')[:len(unique)]
