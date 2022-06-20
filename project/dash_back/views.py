@@ -41,10 +41,10 @@ class  OnlineView(APIView):
 
 class PriceViewset(viewsets.ModelViewSet):
     queryset = Price.objects.all()
+    
     serializer_class = PriceSerializer
     filter_class = PriceFilter
-    print(serializer_class)
-    print(filter_class)
+
 
 
 class FlexiViewset(viewsets.ModelViewSet):
