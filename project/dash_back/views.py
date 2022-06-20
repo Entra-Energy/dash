@@ -6,7 +6,7 @@ from rest_framework import viewsets, generics
 from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer
 from dash_back.models import Post, Online, Price, Flexi
 from datetime import datetime
-from dash_back.custom_filters import PostFilter, PriceFilter
+from dash_back.custom_filters import PriceFilter, PostFilter
 import paho.mqtt.publish as publish
 import time
 import datetime as dt
@@ -41,9 +41,10 @@ class  OnlineView(APIView):
 
 class PriceViewset(viewsets.ModelViewSet):
     queryset = Price.objects.all()
-    
+
     serializer_class = PriceSerializer
     filter_class = PriceFilter
+
 
 
 

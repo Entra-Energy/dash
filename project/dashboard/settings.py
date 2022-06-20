@@ -41,9 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dash_back',
     'rest_framework',
-    'django_filters',
     'corsheaders',
-
+    'django_filters',
 ]
 
 MIDDLEWARE = [
