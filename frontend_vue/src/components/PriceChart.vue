@@ -247,7 +247,7 @@ export default {
          }))
          .catch(errors => {
               // react on errors.
-         })
+          })
        }
        else if(query_param == 'month'){
          this.option.xAxis.type = 'time'

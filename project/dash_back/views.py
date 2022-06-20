@@ -35,6 +35,7 @@ class  OnlineView(APIView):
         online = Online.dist.all()
 
         serializer = OnlineSerializer(online, many=True)
+        print(serializer)
         return Response({"online": serializer.data})
 
 
