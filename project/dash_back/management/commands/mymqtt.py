@@ -64,7 +64,7 @@ class Command(BaseCommand):
 
                 if online > 1000:
                     Online.objects.all().delete()
-
+                print(prov)
                 Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov)
 
             if myList[0] == 'error':

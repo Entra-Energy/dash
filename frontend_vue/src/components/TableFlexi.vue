@@ -161,7 +161,7 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
-      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true},
+      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true},
       allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
@@ -186,6 +186,13 @@ export default {
         {
           "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
+        {
+          "id":"sm-00011","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
+        },
+        {
+          "id":"sm-00012","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
+        },
+
 
 
     ],
@@ -289,16 +296,29 @@ export default {
             {
               found.ready = el.ready
               found.pow = el.pow
+              found.providing = el.providing
               found.online = 'online'
-              console.log(found)
+
               if (found.ready == 1)
               {
+                if (found.providing == 0)
+                {
                 found.online = 'ready'
+                }
+                else if (found.providing == 1)
+                {
+                  found.online = 'providing'
+                }
               }
               else if (found.ready == 0)
               {
-              found.online = 'not-ready'
+                found.online = 'not-ready'
               }
+              else{
+                found.online = 'offline'
+              }
+
+
 
             }
 
@@ -328,6 +348,7 @@ export default {
             }
             this.flexiResp.push(respObj)
 
+
         }
 
       ))
@@ -335,7 +356,7 @@ export default {
     } catch (error) {
       //console.log(error);
     }
-    console.log(this.flexiResp)
+
   }
 
   },
@@ -478,6 +499,13 @@ input#calibrate-single {
     height: 15px;
     border-radius: 50%;
     background: #5fd85f;
+    margin: 0 auto;
+}
+.providing {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: orange;
     margin: 0 auto;
 }
 </style>

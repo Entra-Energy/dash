@@ -13,6 +13,7 @@
     </div>
    </div>
    <div class='row'><div class='col'><LineCharts :query="query" /></div></div>
+   <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
 
 
 
@@ -23,6 +24,7 @@
 import Range from '@/components/Range.vue'
 import Select from '@/components/Select.vue'
 import LineCharts from '@/components/LineCharts.vue'
+import PriceChart from '@/components/PriceChart.vue'
 
 export default {
   name: 'About',
@@ -30,6 +32,7 @@ export default {
     Range,
     Select,
     LineCharts,
+    PriceChart,
   },
   data() {
     return {
@@ -93,7 +96,7 @@ export default {
       this.query["range"] = range
 
       this.query["dev"] = dev
-      
+
       // //let query = this.$route.query
       // //this.dev = value
       //

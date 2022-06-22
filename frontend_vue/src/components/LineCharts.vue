@@ -106,7 +106,7 @@ export default {
         orient: 'vertical',
         padding:[-500,100,0,0],
         //data: ['sm-0009','sm-0001'],
-        selected:{'sm-0001':true,'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0005':true,'sm-0006':true,'sm-0007':true,'sm-0008':true,'sm-0009':true,'sm-00010':true},
+        selected:{'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-0011':true,'sm-0012':true},
      },
   tooltip: {
 
@@ -223,7 +223,7 @@ export default {
     create_devs(){
       let dev = 'sm-000'
       let all_devs = {}
-      for(let i = 0; i <= 10; i++)
+      for(let i = 0; i <= 12; i++)
       {
         let new_dev = dev+i;
         all_devs[new_dev] = false
@@ -364,6 +364,7 @@ export default {
       url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery
       url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
       this.get_data_helper(url,url2)
+
 
 
    },
