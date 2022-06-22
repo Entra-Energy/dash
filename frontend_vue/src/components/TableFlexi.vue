@@ -98,10 +98,10 @@
        <td>
          <div class='row'>
            <div class='col-sm-12'>
-             <div class="flexi-display overflow-auto bg-light" style="max-width: 260px; max-height: 60px;">
+             <div class="flexi-display overflow-auto pt-3 pb-2" style="max-height: 60px;">
              <ul>
                <li v-for="flexi in flexiResp" :key="dev.id">
-                 <span v-if="flexi.dev === dev.id"><b>{{flexi.dev}}:</b><br/>Power:{{flexi.pow}}<br/>Date:{{flexi.time}}<br/>Duration:{{flexi.duration}}</span>
+                 <span v-if="flexi.dev === dev.id"><b>{{flexi.dev}}</b>|{{flexi.time}}|Power:{{flexi.pow}}|Duration:{{flexi.duration}}</span>
 
                </li>
              </ul>
