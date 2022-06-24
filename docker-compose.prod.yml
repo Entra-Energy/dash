@@ -51,7 +51,7 @@ services:
   celery_beat:
     build:
        context: ./project
-    command: celery -A core beat -l info
+    command: celery -A dashboard beat -l info
     volumes:
       - ./peoject/:/app/
     env_file:
