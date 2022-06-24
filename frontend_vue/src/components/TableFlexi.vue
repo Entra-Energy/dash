@@ -476,9 +476,7 @@ input#calibrate-single {
 .flexi-display {
     margin: 0 auto;
 }
-.red {
-  color: red
-}
+
 .offline {
     width: 15px;
     height: 15px;

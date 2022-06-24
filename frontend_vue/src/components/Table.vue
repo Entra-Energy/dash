@@ -51,7 +51,7 @@
           </div>
         </td>
          <td>{{ dev.id }}</td>
-         <td>{{ dev.online }}</td>
+         <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
          <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
@@ -240,8 +240,29 @@ export default {
 
             if (found)
             {
+              found.ready = el.ready
               found.pow = el.pow
+              found.providing = el.providing
               found.online = 'online'
+
+              if (found.ready == 1)
+              {
+                if (found.providing == 0)
+                {
+                found.online = 'ready'
+                }
+                else if (found.providing == 1)
+                {
+                  found.online = 'providing'
+                }
+              }
+              else if (found.ready == 0)
+              {
+                found.online = 'not-ready'
+              }
+              else{
+                found.online = 'offline'
+              }
             }
 
             //console.log(this.all[0].id)
@@ -360,5 +381,34 @@ input#calibrate-single {
 .btn{
   font-size: 0.65rem;
   padding: 0.375rem 0.25rem;
+}
+.offline {
+    width: 15px;
+    height: 15px;
+    background: gray;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+.not-ready {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: skyblue;
+    margin: 0 auto;
+}
+
+.ready {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #5fd85f;
+    margin: 0 auto;
+}
+.providing {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: orange;
+    margin: 0 auto;
 }
 </style>

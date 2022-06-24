@@ -116,6 +116,18 @@ export default {
             icon: 'fa-solid fa-display',
 
           },
+          {
+            href: '/producer',
+            title: 'Producer',
+            icon: 'fa-solid fa-display',
+
+          },
+          {
+            href: '/storage',
+            title: 'Storage',
+            icon: 'fa-solid fa-display',
+
+          },
 
         ],
         collapsed: false,
