@@ -32,6 +32,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  redis:
+    image: redis:6-alpine
+
   celery_worker:
     build:
       context: ./project
