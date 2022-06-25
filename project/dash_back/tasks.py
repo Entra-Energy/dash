@@ -1,5 +1,5 @@
-from celery.task.schedules import crontab # type: ignore
-from celery.decorators import periodic_task # type: ignore
+# from celery.task.schedules import crontab # type: ignore
+# from celery.decorators import periodic_task # type: ignore
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
@@ -26,11 +26,7 @@ logger = get_task_logger(__name__)
 #    save_latest_flickr_image()
 #    logger.info("Saved image from Flickr")
 
-@periodic_task(
-    run_every=(crontab(minute='*/1')),
-    name="task_test",
-    ignore_result=True
-)
+@shared_task()
 def task_test():
     """
     test!!!
