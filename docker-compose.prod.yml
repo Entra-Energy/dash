@@ -50,16 +50,16 @@ services:
       - web
 
 
-  celery_beat:
-    build:
-       context: ./project
-    command: celery -A dashboard beat -l info
-    volumes:
-      - ./peoject/:/app/
-    env_file:
-      - ./.env.prod
-    depends_on:
-      - redis
+  # celery_beat:
+  #   build:
+  #      context: ./project
+  #   command: celery -A dashboard beat -l info
+  #   volumes:
+  #     - ./peoject/:/app/
+  #   env_file:
+  #     - ./.env.prod
+  #   depends_on:
+  #     - redis
 
 
   frontend:
