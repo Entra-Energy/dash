@@ -22,3 +22,10 @@ def convert(self, str):
 def price_to_db():
     price_path = os.path.join(settings.BASE_DIR, 'ibex.json')
     print(price_path)
+    with open(price_path, 'r') as f:
+        my_json_obj = json.load(f)
+    for data in my_json_obj:
+        time = convert(self, data["time"])
+        price = float(data["price"])
+        print(price)
+        Price.objects.get_or_create(timestamp=time, value = price)
