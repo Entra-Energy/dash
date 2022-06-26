@@ -108,17 +108,18 @@ DATABASES = {
 # CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://127.0.0.1:6379/0")
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_TIMEZONE = 'Europe/Sofia'
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 CELERY_BEAT_SCHEDULE = {
       'add-every-30-seconds': {
         'task': 'dash_back.tasks.task_test',
-        'schedule': crontab(hour=18, minute=59),
+        'schedule': crontab(hour=19, minute=8),
         #'schedule': 30.0,
         #'args': (16, 16),
         'options': {
-            'expires': 15.0,
+            #'expires': 15.0,
         },
     },
 }
