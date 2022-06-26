@@ -7,7 +7,7 @@ from pytz import timezone
 from django.conf import settings
 import os
 
-def convert(self, str):
+def convert(str):
     todays_date = date.today()
     year = todays_date.year
     month = todays_date.month
@@ -25,7 +25,7 @@ def price_to_db():
     with open(price_path, 'r') as f:
         my_json_obj = json.load(f)
     for data in my_json_obj:
-        time = convert(self, data["time"])
+        time = convert(data["time"])
         price = float(data["price"])
         print(price)
         Price.objects.get_or_create(timestamp=time, value = price)
