@@ -4,6 +4,7 @@ from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
 from pytz import timezone
+from django.conf import settings
 import os
 
 def convert(self, str):
