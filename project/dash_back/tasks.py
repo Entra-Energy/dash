@@ -32,7 +32,10 @@ def task_test():
     test!!!
     """
     test()
-    logger.info("test!!!")
+    logger.info("test!!! abcdef")
+
+
+
 
 
 # @periodic_task(

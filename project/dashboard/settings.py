@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+from celery import Celery
+from celery.schedules import crontab
 from pathlib import Path
 import os
 
@@ -112,7 +114,8 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_BEAT_SCHEDULE = {
       'add-every-30-seconds': {
         'task': 'dash_back.tasks.task_test',
-        'schedule': 30.0,
+        'schedule': crontab(hour=18, minute=59),
+        #'schedule': 30.0,
         #'args': (16, 16),
         'options': {
             'expires': 15.0,
