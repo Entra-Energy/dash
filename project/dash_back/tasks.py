@@ -3,7 +3,7 @@
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
-from dash_back.utils import test
+from dash_back.utils import price_to_db
 #from photos.utils import emptying_variants_table
 
 logger = get_task_logger(__name__)
@@ -31,7 +31,7 @@ def task_test():
     """
     test!!!
     """
-    test()
+    price_to_db()
     logger.info("test!!! abcdef")
 
 
