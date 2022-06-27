@@ -115,7 +115,7 @@ CELERY_TIMEZONE = 'Europe/Sofia'
 CELERY_BEAT_SCHEDULE = {
       'add-every-30-seconds': {
         'task': 'dash_back.tasks.task_test',
-        'schedule': crontab(hour=0, minute=5),
+        'schedule': crontab(hour=23, minute=5),
         #'schedule': 30.0,
         #'args': (16, 16),
         'options': {
