@@ -384,7 +384,7 @@ input#calibrate-single {
 .offline {
     width: 15px;
     height: 15px;
-    background: gray;
+    background: #535353;
     border-radius: 50%;
     margin: 0 auto;
 }
