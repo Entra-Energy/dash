@@ -32,7 +32,7 @@ class PostViewset(viewsets.ModelViewSet):
             queryset = Post.objects.all()
             return queryset
         if(range == 'year'):
-            queryset = Post.month.all()
+            queryset = Post.month.filter(devId='sm-0000')
             return queryset
         if(range == 'month'):
             queryset = Post.month.filter(devId='sm-0000')
