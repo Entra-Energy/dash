@@ -414,7 +414,7 @@ export default {
        let url2 = ''
        //let page = "&page=2"
 
-      url = "http://127.0.0.1:8000/api/posts/?date_range="+query_param+devQuery//+page
+      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+page
       url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
       this.get_data_helper(url,url2)
 
