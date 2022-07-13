@@ -304,9 +304,10 @@ export default {
 
             responseOne.forEach((itemFirstRes) => {
               let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-
-              if (found)
+              //let found = this.option.series.find(element => element.name === 'sm-0000')
+              if (found.name == 'sm-0000')
               {
+                
                 if (test == 'year')
                 {
 
@@ -316,6 +317,10 @@ export default {
                 if (test == 'today')
                 {
                   found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+                }
+                if(test == 'month')
+                {
+                  found.data.push([itemFirstRes.created,itemFirstRes.value])
                 }
               }
 
@@ -404,6 +409,7 @@ export default {
        let query_param = this.param;
 
        let end = this.currTime
+
        let start = this.currDate
        let devQuery = '&dev=' + this.dev
        if(!this.dev)
