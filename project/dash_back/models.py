@@ -48,7 +48,7 @@ class MonthPostManager(models.Manager):
     #end = datetime.combine(tomorrow, time())
 
     def get_queryset(self):
-        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value')
+        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value').order_by('-created')
         #print(dataset)
         return dataset
 
@@ -76,6 +76,7 @@ class Post(models.Model):
     month = MonthPostManager()
     def __str__(self):
         return self.devId
+
 
 class Online(models.Model):
     dev = models.CharField(max_length=300)
