@@ -320,7 +320,7 @@ export default {
    let date = this.currDate.split("T")[0].split("-")
    let year = parseInt(date[0])
    let month = parseInt(date[1])
-
+   console.log(this.param)
    this.monthLenth = this.daysInMonth(month,year)
 
 
@@ -367,12 +367,25 @@ export default {
            this.option.series[0].data = []
            this.option.series[1].data = []
            this.option.series[2].data = []
+           let path = this.$route.path
+           if (path == '/dashboard')
+           {
+             
+             let rangeIndex = this.$store.state.dash_init;
+             this.param = rangeIndex
 
-           let rangeIndex = this.$store.state.dash_init;
-           this.param = rangeIndex
+           }
+           if (path == '/client')
+           {
+
+             let rangeIndex = this.$store.state.client_init;
+             this.param = rangeIndex
+
+           }
+
            this.getCurrTime();
            this.getData();
-           //console.log(this.param)
+           console.log(this.param)
 
         }
    },

@@ -11,6 +11,7 @@ export default createStore({
     client_init: 'today',
     dash_zoom: {},
     client_zoom: '',
+    monthData:[]
 
 
 
@@ -50,6 +51,10 @@ export default createStore({
     clientZoomInit(state, clientZ)
     {
       state.client_zoom = clientZ
+    },
+    loadMonthData(state, month)
+    {
+      state.monthData = month
     }
 
 

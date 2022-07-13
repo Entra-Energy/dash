@@ -287,58 +287,111 @@ export default {
        const requestTwo = []
        let test = this.param
 
+       // if (test != 'month')
+       // {
 
-       axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
-          const responseOne = responses[0].data
-          const responseTwo = responses[1].data
-          responseOne.forEach((itemFirstRes) => {
-            let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-            if (found)
-            {
-              found.data.push([itemFirstRes.created_date,itemFirstRes.value])
-            }
+         axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
+           const responseOne = responses[0].data
 
-          });
+            // if (test === 'month')
+            // {
+            //
+            // }
 
-          }))
-          .catch(errors => {
-
-           })
-          .finally(() => {
-            if(test == 'today'){
-              this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
-              this.option.tooltip.formatter =  toolTipSet
-              this.option.xAxis.splitNumber = 24
-              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
-              let endArr = [endStr,null]
-              this.option.series[1].data.push(endArr)
-              //console.log(endArr)
-            }
-            else if(test == 'month')
-            {
-                this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
-                let monthLenthArr = this.currDate.split("T")[0].split("-")
-                monthLenthArr[2] = this.monthLenthDays.toString()
-                let monthEnd = [monthLenthArr.join("-"),null]
+            const responseTwo = responses[1].data
 
 
-                let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-                this.option.series[1].data[0]=monthBegin
-                this.option.series[1].data.push(monthEnd)
-                this.option.xAxis.splitNumber = 30
-                console.log(this.option.series[1].data)
-            }
-            else {
-                let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-                let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-                this.option.series[1].data[0]=yearBegin
-                this.option.series[1].data.push(yearEnd)
-                this.option.xAxis.axisLabel.formatter =  '{MMM}'
-                this.option.xAxis.splitNumber = 12
 
-            }
+            responseOne.forEach((itemFirstRes) => {
+              let found = this.option.series.find(element => element.name === itemFirstRes.devId)
 
-          })
+              if (found)
+              {
+                if (test == 'year')
+                {
+
+                  found.data.push([itemFirstRes.created,itemFirstRes.value])
+
+                }
+                if (test == 'today')
+                {
+                  found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+                }
+              }
+
+            });
+
+            }))
+            .catch(errors => {
+
+             })
+            .finally(() => {
+              if(test == 'today'){
+                this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
+                this.option.tooltip.formatter =  toolTipSet
+                this.option.xAxis.splitNumber = 24
+                let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+                let endArr = [endStr,null]
+                this.option.series[1].data.push(endArr)
+                //console.log(endArr)
+              }
+              else if(test == 'month')
+              {
+                  this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+                  let monthLenthArr = this.currDate.split("T")[0].split("-")
+                  monthLenthArr[2] = this.monthLenthDays.toString()
+                  let monthEnd = [monthLenthArr.join("-"),null]
+
+
+                  let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+                  this.option.series[1].data[0]=monthBegin
+                  this.option.series[1].data.push(monthEnd)
+                  this.option.xAxis.splitNumber = 30
+                  console.log(this.option.series[1].data)
+              }
+              else {
+                  let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+                  let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+                  this.option.series[1].data[0]=yearBegin
+                  this.option.series[1].data.push(yearEnd)
+                  this.option.xAxis.axisLabel.formatter =  '{MMM}'
+                  this.option.xAxis.splitNumber = 12
+
+              }
+              console.log(this.option.series)
+
+            })
+
+      // }
+       // else {
+       //   let monthArrData = this.$store.state.monthData
+       //
+       //   monthArrData.forEach((itemFirstRes) => {
+       //    // console.log(itemFirstRes)
+       //     let found = this.option.series.find(element => element.name === itemFirstRes.devId)
+       //
+       //     if (found)
+       //     {
+       //       found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+       //     }
+       //
+       //   });
+       //   this.option.xAxis.axisLabel.formatter = timeLineSet
+       //   let monthLenthArr = this.currDate.split("T")[0].split("-")
+       //   monthLenthArr[2] = this.monthLenthDays.toString()
+       //   let monthEnd = [monthLenthArr.join("-"),null]
+       //
+       //
+       //   let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+       //   this.option.series[1].data[0]=monthBegin
+       //   this.option.series[1].data.push(monthEnd)
+       //   this.option.xAxis.splitNumber = 30
+       //
+       // }
+
+
+
+
       },
 
      getData() {
@@ -359,9 +412,9 @@ export default {
        }
        let url = ''
        let url2 = ''
+       //let page = "&page=2"
 
-
-      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery
+      url = "http://127.0.0.1:8000/api/posts/?date_range="+query_param+devQuery//+page
       url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
       this.get_data_helper(url,url2)
 
@@ -371,6 +424,20 @@ export default {
 
  },
  created (){
+    // let urlMonth = "http://64.225.100.195:8000/api/posts/?date_range=month"
+    // let monthData = []
+    // axios.get(urlMonth)
+    //       .then(response => response.data.forEach(el=>{
+    //          monthData.push(el)
+    //       }))
+    //      .catch(errors => {
+    //
+    //      }).finally(() => {
+    //
+    //          this.$store.commit('loadMonthData', Object.freeze(monthData))
+    //
+    //      });
+
     this.option.series = []
 
     this.getCurrTime()

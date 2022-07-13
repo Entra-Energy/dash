@@ -21,7 +21,24 @@ import datetime as dt
 #     serializer = PostSerializer(posts, many=True)
 #     # return Response({"posts": serializer.data})
 class PostViewset(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    def get_queryset(self):
+
+        #queryset = Post.objects.all()
+        range = self.request.query_params['date_range']
+        print(range)
+        #return queryset
+
+        if(range == 'today'):
+            queryset = Post.objects.all()
+            return queryset
+        if(range == 'year'):
+            queryset = Post.month.all()
+            return queryset
+        if(range == 'month'):
+            queryset = Post.month.all()
+            return queryset
+
+    #queryset = Post.objects.all()
     serializer_class = PostSerializer
 
     filter_class = PostFilter

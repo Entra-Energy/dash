@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.utils.timezone import activate
 from pytz import timezone
 import pytz
+from django.db.models import Avg
+from django.db.models.functions import TruncHour
 
 
 class UniqueOnlineManager(models.Manager):
@@ -46,16 +48,22 @@ class MonthPostManager(models.Manager):
     #end = datetime.combine(tomorrow, time())
 
     def get_queryset(self):
-        today_day = datetime.now(timezone('Europe/Sofia')).day-1
-        today = datetime.now(timezone('Europe/Sofia')).date()
-        now = datetime.now(timezone('Europe/Sofia'))
-        now = str(now)
-        cur_hour = now.split(" ")[1].split(":")[0]
-        cur_min = now.split(" ")[1].split(":")[1]
-        till_now = str(today)+'T'+cur_hour+":"+cur_min+":00Z"
-        month_begin = today - timedelta(today_day)
-        start = str(month_begin) + 'T' + '00:00:00Z'
-        return super().get_queryset().filter(created_date__gt = start, created_date__lt = till_now)
+        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value')
+        #print(dataset)
+        return dataset
+
+
+
+        # today_day = datetime.now(timezone('Europe/Sofia')).day-1
+        # today = datetime.now(timezone('Europe/Sofia')).date()
+        # now = datetime.now(timezone('Europe/Sofia'))
+        # now = str(now)
+        # cur_hour = now.split(" ")[1].split(":")[0]
+        # cur_min = now.split(" ")[1].split(":")[1]
+        # till_now = str(today)+'T'+cur_hour+":"+cur_min+":00Z"
+        # month_begin = today - timedelta(today_day)
+        # start = str(month_begin) + 'T' + '00:00:00Z'
+        # return super().get_queryset().filter(created_date__gt = start, created_date__lt = till_now)
 
 class Post(models.Model):
 

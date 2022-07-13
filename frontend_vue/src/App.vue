@@ -104,15 +104,16 @@ export default {
             icon: 'fa-solid fa-display',
 
           },
+
           {
-            href: '/grid',
-            title: 'Flexability Simulate',
+            href: '/flexi',
+            title: 'Flexability',
             icon: 'fa-solid fa-display',
 
           },
           {
-            href: '/flexi',
-            title: 'Flexability',
+            href: '/grid',
+            title: 'Flexability Simulate',
             icon: 'fa-solid fa-display',
 
           },

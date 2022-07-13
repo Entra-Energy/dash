@@ -76,6 +76,7 @@ export default {
       let path = this.$route.path
 
       this.query["range"] = payload
+      console.log(this.query)
       //
       // //
 
@@ -110,7 +111,7 @@ export default {
     '$store.state.client_init': {
       immediate: true,
       handler() {
-          this.rangeTitle = this.$store.state.client_init;
+          this.rangeTitle = this.$store.state.client_init ;
 
 
       }
