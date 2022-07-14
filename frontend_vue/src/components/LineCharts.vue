@@ -295,7 +295,7 @@ export default {
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
            const responseOne = responses[0].data.results
            this.nextP = responses[0].data.next
-           //console.log(nextPage)
+           console.log(responseOne)
 
             // if (test === 'month')
             // {
@@ -315,6 +315,7 @@ export default {
               }
 
             });
+
 
             }))
             .catch(errors => {
