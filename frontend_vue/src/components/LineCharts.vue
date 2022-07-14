@@ -370,10 +370,11 @@ export default {
               //console.log(this.nextP)
               if(this.nextP)
               {
+                console.log(this.nextP)
                 let url2 = ""
                 this.get_data_helper(this.nextP,url2)
               }
-              //console.log(this.option.series)
+              console.log(this.option.series)
             })
 
       // }
