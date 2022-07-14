@@ -29,7 +29,7 @@ class PostViewset(viewsets.ModelViewSet):
         #return queryset
 
         if(range == 'today'):
-            queryset = Post.objects.filter(devId='sm-0000')
+            queryset = Post.today.filter(devId='sm-0000')
             return queryset
         if(range == 'year'):
             queryset = Post.month.filter(devId='sm-0000')
@@ -41,10 +41,10 @@ class PostViewset(viewsets.ModelViewSet):
     #queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    filter_class = PostFilter
-    search_fields = (
-            '^devId',
-        )
+    # filter_class = PostFilter
+    # search_fields = (
+    #         '^devId',
+    #     )
 
 
 class  OnlineView(APIView):
