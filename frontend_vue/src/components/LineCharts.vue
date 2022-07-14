@@ -77,6 +77,8 @@ export default {
   currMonth: '',
   monthLenthDays:'',
   param:'today',
+  nextP:'',
+  pageNum:1,
   dev:'',
   myChart: null,
   zoomUpdater:{},
@@ -282,7 +284,7 @@ export default {
 
      get_data_helper(url,url2){
        const requestOne = axios.get(url);
-       console.log(url)
+       //console.log(url)
        //const requestTwo = axios.get(url2);
        const requestTwo = []
        let test = this.param
@@ -291,8 +293,9 @@ export default {
        // {
 
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
-           const responseOne = responses[0].data
-           console.log(responseOne)
+           const responseOne = responses[0].data.results
+           this.nextP = responses[0].data.next
+           //console.log(nextPage)
 
             // if (test === 'month')
             // {
@@ -364,8 +367,13 @@ export default {
                   this.option.xAxis.splitNumber = 12
 
               }
+              //console.log(this.nextP)
+              if(this.nextP)
+              {
+                let url2 = ""
+                this.get_data_helper(this.nextP,url2)
+              }
               //console.log(this.option.series)
-
             })
 
       // }
@@ -419,9 +427,10 @@ export default {
        }
        let url = ''
        let url2 = ''
-       //let page = "&page=2"
+       //let page = "&page="
+       //let num = 1
 
-      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+page
+      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+page+num
       url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
       this.get_data_helper(url,url2)
 
