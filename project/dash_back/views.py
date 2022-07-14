@@ -29,7 +29,7 @@ class PostViewset(viewsets.ModelViewSet):
         #return queryset
 
         if(range == 'today'):
-            queryset = Post.today.filter(devId='sm-0001').order_by(created_date)
+            queryset = Post.today.filter(devId='sm-0001').order_by('created_date')
             return queryset
         if(range == 'year'):
             queryset = Post.month.filter(devId='sm-0001')
