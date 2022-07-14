@@ -335,38 +335,7 @@ export default {
 
              })
             .finally(() => {
-              if(test == 'today'){
-                this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
-                this.option.tooltip.formatter =  toolTipSet
-                this.option.xAxis.splitNumber = 24
-                let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
-                let endArr = [endStr,null]
-                this.option.series[1].data.push(endArr)
-                //console.log(endArr)
-              }
-              else if(test == 'month')
-              {
-                  this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
-                  let monthLenthArr = this.currDate.split("T")[0].split("-")
-                  monthLenthArr[2] = this.monthLenthDays.toString()
-                  let monthEnd = [monthLenthArr.join("-"),null]
 
-
-                  let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-                  this.option.series[1].data[0]=monthBegin
-                  this.option.series[1].data.push(monthEnd)
-                  this.option.xAxis.splitNumber = 30
-                  //console.log(this.option.series[1].data)
-              }
-              else {
-                  let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-                  let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-                  this.option.series[1].data[0]=yearBegin
-                  this.option.series[1].data.push(yearEnd)
-                  this.option.xAxis.axisLabel.formatter =  '{MMM}'
-                  this.option.xAxis.splitNumber = 12
-
-              }
               //console.log(this.nextP)
               if(this.nextP)
               {
@@ -374,7 +343,41 @@ export default {
                 let url2 = ""
                 this.get_data_helper(this.nextP,url2)
               }
-              console.log(this.option.series)
+              else {
+                if(test == 'today'){
+                  this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
+                  this.option.tooltip.formatter =  toolTipSet
+                  this.option.xAxis.splitNumber = 24
+                  let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+                  let endArr = [endStr,null]
+                  this.option.series[1].data.push(endArr)
+                  //console.log(endArr)
+                }
+                else if(test == 'month')
+                {
+                    this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+                    let monthLenthArr = this.currDate.split("T")[0].split("-")
+                    monthLenthArr[2] = this.monthLenthDays.toString()
+                    let monthEnd = [monthLenthArr.join("-"),null]
+
+
+                    let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+                    this.option.series[1].data[0]=monthBegin
+                    this.option.series[1].data.push(monthEnd)
+                    this.option.xAxis.splitNumber = 30
+                    //console.log(this.option.series[1].data)
+                }
+                else {
+                    let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+                    let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+                    this.option.series[1].data[0]=yearBegin
+                    this.option.series[1].data.push(yearEnd)
+                    this.option.xAxis.axisLabel.formatter =  '{MMM}'
+                    this.option.xAxis.splitNumber = 12
+
+                }
+
+              }
             })
 
       // }
