@@ -311,7 +311,7 @@ export default {
               //let found = this.option.series.find(element => element.name === 'sm-0000')
               if (found)
               {
-                console.log(found)
+                console.log(itemFirstRes)
                 found.data.push([itemFirstRes.created_date,itemFirstRes.value])
               }
 
