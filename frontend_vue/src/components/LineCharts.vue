@@ -292,6 +292,7 @@ export default {
 
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
            const responseOne = responses[0].data
+           console.log(responseOne)
 
             // if (test === 'month')
             // {
@@ -307,7 +308,7 @@ export default {
               //let found = this.option.series.find(element => element.name === 'sm-0000')
               if (found.name == 'sm-0000')
               {
-                
+
                 if (test == 'year')
                 {
 
@@ -352,7 +353,7 @@ export default {
                   this.option.series[1].data[0]=monthBegin
                   this.option.series[1].data.push(monthEnd)
                   this.option.xAxis.splitNumber = 30
-                  console.log(this.option.series[1].data)
+                  //console.log(this.option.series[1].data)
               }
               else {
                   let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
@@ -363,7 +364,7 @@ export default {
                   this.option.xAxis.splitNumber = 12
 
               }
-              console.log(this.option.series)
+              //console.log(this.option.series)
 
             })
 
