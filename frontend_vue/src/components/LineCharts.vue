@@ -305,14 +305,20 @@ export default {
             const responseTwo = responses[1].data
 
 
-            console.log(responseOne)
+
             responseOne.forEach((itemFirstRes) => {
               let found = this.option.series.find(element => element.name === itemFirstRes.devId)
               //let found = this.option.series.find(element => element.name === 'sm-0000')
               if (found)
               {
-
-                found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+                if (test == 'today')
+                {
+                  found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+                }
+                else
+                {
+                  found.data.push([itemFirstRes.created,itemFirstRes.value])
+                }
               }
 
             });

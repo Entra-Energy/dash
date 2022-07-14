@@ -3,13 +3,13 @@ from datetime import datetime, timedelta, time
 from dash_back.models import Post,Online,Price, Flexi #type ignore
 
 class PostSerializer(serializers.ModelSerializer):
-    created_date = serializers.ReadOnlyField(source='created')
+    created = serializers.ReadOnlyField()
 
     class Meta:
         model = Post
         value = serializers.FloatField()
         #fields = "__all__"
-        fields = ('devId','value','created_date','grid')
+        fields = ('devId','value','created_date','created','grid')
 
 
 class PriceSerializer(serializers.ModelSerializer):
