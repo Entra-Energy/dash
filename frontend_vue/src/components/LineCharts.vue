@@ -311,21 +311,7 @@ export default {
               //let found = this.option.series.find(element => element.name === 'sm-0000')
               if (found)
               {
-
-                if (test == 'year')
-                {
-
-                  found.data.push([itemFirstRes.created,itemFirstRes.value])
-
-                }
-                if (test == 'today')
-                {
-                  found.data.push([itemFirstRes.created_date,itemFirstRes.value])
-                }
-                if(test == 'month')
-                {
-                  found.data.push([itemFirstRes.created,itemFirstRes.value])
-                }
+                found.data.push([itemFirstRes.created_date,itemFirstRes.value])
               }
 
             });
@@ -344,6 +330,7 @@ export default {
                 this.get_data_helper(this.nextP,url2)
               }
               else {
+                console.log()
                 if(test == 'today'){
                   this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
                   this.option.tooltip.formatter =  toolTipSet
