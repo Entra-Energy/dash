@@ -29,13 +29,13 @@ class PostViewset(viewsets.ModelViewSet):
         #return queryset
 
         if(range == 'today'):
-            queryset = Post.today.filter(devId='sm-0000')
+            queryset = Post.today.filter(devId='sm-0001')
             return queryset
         if(range == 'year'):
-            queryset = Post.month.filter(devId='sm-0000')
+            queryset = Post.month.filter(devId='sm-0001')
             return queryset
         if(range == 'month'):
-            queryset = Post.month.filter(devId='sm-0000')
+            queryset = Post.month.filter(devId='sm-0001')
             return queryset
 
     #queryset = Post.objects.all()

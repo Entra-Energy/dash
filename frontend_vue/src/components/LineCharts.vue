@@ -309,7 +309,7 @@ export default {
             responseOne.forEach((itemFirstRes) => {
               let found = this.option.series.find(element => element.name === itemFirstRes.devId)
               //let found = this.option.series.find(element => element.name === 'sm-0000')
-              if (found.name == 'sm-0000')
+              if (found.name == 'sm-0001')
               {
 
                 if (test == 'year')
