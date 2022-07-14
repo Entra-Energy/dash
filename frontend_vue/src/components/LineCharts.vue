@@ -295,7 +295,7 @@ export default {
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
            const responseOne = responses[0].data.results
            this.nextP = responses[0].data.next
-           console.log(responseOne)
+
 
             // if (test === 'month')
             // {
@@ -311,6 +311,7 @@ export default {
               //let found = this.option.series.find(element => element.name === 'sm-0000')
               if (found)
               {
+                console.log(found)
                 found.data.push([itemFirstRes.created_date,itemFirstRes.value])
               }
 
