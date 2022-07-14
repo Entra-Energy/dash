@@ -305,13 +305,13 @@ export default {
             const responseTwo = responses[1].data
 
 
-
+            console.log(responseOne)
             responseOne.forEach((itemFirstRes) => {
               let found = this.option.series.find(element => element.name === itemFirstRes.devId)
               //let found = this.option.series.find(element => element.name === 'sm-0000')
               if (found)
               {
-                console.log(itemFirstRes)
+
                 found.data.push([itemFirstRes.created_date,itemFirstRes.value])
               }
 
