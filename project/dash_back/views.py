@@ -26,7 +26,7 @@ class PostViewset(viewsets.ModelViewSet):
         #queryset = Post.objects.all()
         range = self.request.query_params['date_range']
         test = self.request.query_params
-        print("QUERY PARAMS"+"|| "+test)
+        print(test)
         #return queryset
 
         if(range == 'today'):
