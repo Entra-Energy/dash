@@ -34,15 +34,17 @@ class PostViewset(viewsets.ModelViewSet):
                 queryset = Post.today.all().order_by('created_date')
             return queryset
         if range == 'year':
-            queryset = Post.month.all()
+            if device is not None:
+                queryset = Post.month.filter(devId=device)
+            else:
+                queryset = Post.month.all()
             return queryset
         if range == 'month':
-            queryset = Post.month.all()
+            if device is not None:
+                queryset = Post.month.filter(devId=device)
+            else:
+                queryset = Post.month.all()
             return queryset
-
-
-
-
     #queryset = Post.objects.all()
     serializer_class = PostSerializer
 
