@@ -25,19 +25,23 @@ class PostViewset(viewsets.ModelViewSet):
 
         #queryset = Post.objects.all()
         range = self.request.query_params['date_range']
-        test = self.request.query_params
-        print(test)
-        #return queryset
+        device = self.request.query_params['dev']
 
-        if(range == 'today'):
-            queryset = Post.today.all().order_by('created_date')
+        if range == 'today':
+            if device is not None:
+                queryset = Post.today.filter(devId=device).order_by('created_date')
+            else:
+                queryset = Post.today.all().order_by('created_date')
             return queryset
-        if(range == 'year'):
+        if range == 'year':
             queryset = Post.month.all()
             return queryset
-        if(range == 'month'):
+        if range == 'month':
             queryset = Post.month.all()
             return queryset
+
+
+
 
     #queryset = Post.objects.all()
     serializer_class = PostSerializer
