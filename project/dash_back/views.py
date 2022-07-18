@@ -26,6 +26,9 @@ class PostViewset(viewsets.ModelViewSet):
         #queryset = Post.objects.all()
         range = self.request.query_params.get('date_range',None)
         device = self.request.query_params.get('dev', None)
+        today = datetime.today()
+        datem = str(datetime(today.year, today.month, 1))
+        datem = datem.split(" ")[0]
 
         if range is not None:
             if range == 'today':
@@ -42,9 +45,9 @@ class PostViewset(viewsets.ModelViewSet):
                 return queryset
             if range == 'month':
                 if device is not None:
-                    queryset = Post.month.filter(devId=device,created__gte='2022-07-01')
+                    queryset = Post.month.filter(devId=device,created__gte=datem)
                 else:
-                    queryset = Post.month.all()
+                    queryset = Post.month.filter(created__gte=datem)
                 return queryset
     #queryset = Post.objects.all()
     serializer_class = PostSerializer
