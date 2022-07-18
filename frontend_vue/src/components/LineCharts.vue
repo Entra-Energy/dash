@@ -284,7 +284,7 @@ export default {
 
      get_data_helper(url,url2){
        const requestOne = axios.get(url);
-       //console.log(url)
+       console.log(url)
        //const requestTwo = axios.get(url2);
        const requestTwo = []
        let test = this.param

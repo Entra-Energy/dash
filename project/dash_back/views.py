@@ -24,27 +24,28 @@ class PostViewset(viewsets.ModelViewSet):
     def get_queryset(self):
 
         #queryset = Post.objects.all()
-        range = self.request.query_params['date_range']
-        device = self.request.query_params['dev']
+        range = self.request.query_params.get('date_range',None)
+        device = self.request.query_params.get('dev', None)
 
-        if range == 'today':
-            if device is not None:
-                queryset = Post.today.filter(devId=device).order_by('created_date')
-            else:
-                queryset = Post.today.all().order_by('created_date')
-            return queryset
-        if range == 'year':
-            if device is not None:
-                queryset = Post.month.filter(devId=device)
-            else:
-                queryset = Post.month.all()
-            return queryset
-        if range == 'month':
-            if device is not None:
-                queryset = Post.month.filter(devId=device)
-            else:
-                queryset = Post.month.all()
-            return queryset
+        if range is not None:
+            if range == 'today':
+                if device is not None:
+                    queryset = Post.today.filter(devId=device).order_by('created_date')
+                else:
+                    queryset = Post.today.all().order_by('created_date')
+                return queryset
+            if range == 'year':
+                if device is not None:
+                    queryset = Post.month.filter(devId=device)
+                else:
+                    queryset = Post.month.all()
+                return queryset
+            if range == 'month':
+                if device is not None:
+                    queryset = Post.month.filter(devId=device)
+                else:
+                    queryset = Post.month.all()
+                return queryset
     #queryset = Post.objects.all()
     serializer_class = PostSerializer
 
