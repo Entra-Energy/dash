@@ -111,7 +111,7 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 CELERY_BEAT_SCHEDULE = {
       'task_test_it': {
         'task': 'dash_back.tasks.task_test',
-        'schedule': crontab(hour=11, minute=55),
+        'schedule': crontab(hour=3, minute=15),
     },
 }
 CELERY_TIMEZONE = 'Europe/Sofia'
