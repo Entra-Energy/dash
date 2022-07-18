@@ -63,6 +63,25 @@ var timeLineSet = function(value,index){
   let texts = hours+":"+min
   return texts
 }
+var timeLineSetMonth = function(value,index){
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+  let local = new Date(value)
+  let min = local.getMinutes()
+  if(min < 10)
+  {
+    min = ("0"+min).slice(-2)
+  }
+  let hours = local.getHours()
+  let day = local.getDate()
+  //hours = ("0"+hours).slice(-2)
+  let year = local.getFullYear()
+  let month = monthNames[local.getMonth()]
+
+  let texts = day+"/"+month+'\n'+hours+":00"
+  return texts
+}
 
 export default {
 
@@ -331,7 +350,7 @@ export default {
               }
               else if(test == 'month')
               {
-                  this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+                  this.option.xAxis.axisLabel.formatter =  timeLineSetMonth
                   let monthLenthArr = this.currDate.split("T")[0].split("-")
                   monthLenthArr[2] = this.monthLenthDays.toString()
                   let monthEnd = [monthLenthArr.join("-"),null]
