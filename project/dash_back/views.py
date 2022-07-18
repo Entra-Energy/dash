@@ -42,7 +42,7 @@ class PostViewset(viewsets.ModelViewSet):
                 return queryset
             if range == 'month':
                 if device is not None:
-                    queryset = Post.month.filter(devId=device)
+                    queryset = Post.month.filter(devId=device,created__gte='2022-06-01T01:00')
                 else:
                     queryset = Post.month.all()
                 return queryset

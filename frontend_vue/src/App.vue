@@ -95,26 +95,26 @@ export default {
           {
             href: '/client',
             title: 'Client',
-            icon: 'fa-solid fa-display',
+            icon: 'fa-solid fa-microchip',
 
           },
           {
             href: '/system',
             title: 'System',
-            icon: 'fa-solid fa-display',
+            icon: 'fa-solid fa-list-check',
 
           },
 
           {
             href: '/flexi',
             title: 'Flexability',
-            icon: 'fa-solid fa-display',
+            icon: 'fa-solid fa-dice-d20',
 
           },
           {
             href: '/grid',
             title: 'Flexability Simulate',
-            icon: 'fa-solid fa-display',
+            icon: 'fa-solid fa-sliders',
 
           },
           {
