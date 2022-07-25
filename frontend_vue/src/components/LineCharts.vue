@@ -141,10 +141,11 @@ export default {
 
   xAxis: {
     type: 'time',
-    splitNumber: 0,
+    //splitNumber: 0,
     axisLabel: {
         rotate:40,
         margin:20,
+        //hideOverlap: true,
         //interval: 1,
         //formatter: "t",
 
@@ -347,6 +348,7 @@ export default {
                 let endArr = [endStr,null]
                 this.option.series[1].data.push(endArr)
                 //console.log(endArr)
+                console.log(this.option.series)
               }
               else if(test == 'month')
               {
@@ -360,7 +362,7 @@ export default {
                   this.option.series[1].data[0]=monthBegin
                   this.option.series[1].data.push(monthEnd)
                   this.option.xAxis.splitNumber = 30
-                  console.log(this.option.series[1].data)
+                  //console.log(this.option.series[1].data)
               }
               else {
                   let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]

@@ -32,6 +32,7 @@
     <router-view/> -->
 
     <div class='wrapper'>
+      <Login/>
       <div class="sidebar">
 
         <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
@@ -64,10 +65,13 @@
 <script>
 /**/
 import { Calendar, DatePicker } from 'v-calendar';
-
+import Login from '@/components/Login.vue'
 
 
 export default {
+  components: {
+    Login,
+  },
 
 // setup() {
 //  const screen = useScreen()

@@ -20,6 +20,7 @@ urlpatterns = [
     path('single-corr/',views.post_single_correction, name='single_corr'),
     path('reset/',views.reset_data, name='reset'),
     path('flexi/',views.flexi_send, name='flexi'),
+    path('login-data/',views.login_data, name='login_data'),
 ]
 
 urlpatterns += router.urls

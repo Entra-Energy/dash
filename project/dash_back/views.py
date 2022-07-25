@@ -117,6 +117,7 @@ def post_single_correction(request):
 @api_view(['POST',])
 def reset_data(request):
     reset_data = request.data["reset"]
+    print(reset_data)
     devId = reset_data['devId']
     topic = str(devId+"/reset")
     payload = reset_data["reset"]
@@ -155,3 +156,11 @@ def flexi_send(request):
         print(payload)
         publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
         return Response({"Success": "ok"})
+
+
+@api_view(['POST',])
+def login_data(request):
+    print("Test!!!!")
+    login_data = request.data
+    print(login_data)
+    return Response({"Success": "ok"})

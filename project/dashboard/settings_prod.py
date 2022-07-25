@@ -77,8 +77,8 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 400,
 }
 
 WSGI_APPLICATION = 'dashboard.wsgi.application'
@@ -111,10 +111,10 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 CELERY_BEAT_SCHEDULE = {
       'task_test_it': {
         'task': 'dash_back.tasks.task_test',
-        'schedule': crontab(hour=3, minute=30),
+        'schedule': crontab(hour=3, minute=15),
     },
 }
-
+CELERY_TIMEZONE = 'Europe/Sofia'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
