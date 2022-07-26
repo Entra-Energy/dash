@@ -98,3 +98,9 @@ class Flexi(models.Model):
     response_time = models.DateTimeField(default=datetime.now())
     res_pow = models.FloatField()
     res_durr = models.IntegerField()
+
+class FlexabilitySim(models.Model):
+    provided_dev = models.CharField(max_length=300)
+    scheduled = models.DateTimeField(default=datetime.now())
+    sched_pow = models.FloatField()
+    sched_durration = models.IntegerField()
