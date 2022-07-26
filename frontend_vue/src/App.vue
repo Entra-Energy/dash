@@ -124,13 +124,13 @@ export default {
           {
             href: '/producer',
             title: 'Producer',
-            icon: 'fa-solid fa-display',
+            icon: 'fa-solid fa-solar-panel',
 
           },
           {
             href: '/storage',
             title: 'Storage',
-            icon: 'fa-solid fa-display',
+            icon: 'fa-solid fa-battery-quarter',
 
           },
 

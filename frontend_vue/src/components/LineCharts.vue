@@ -352,7 +352,15 @@ export default {
               }
               else if(test == 'month')
               {
-                  this.option.xAxis.axisLabel.formatter =  timeLineSetMonth
+                this.option.xAxis.axisLabel.formatter = {
+                  day: '{dayStyle|{d}}',
+                  hour: '{hourStyle|{HH}}'
+                }
+                this.option.xAxis.axisLabel.rich = {
+                  hourStyle: {
+                    color: '#27293d'
+                  }
+                }
                   let monthLenthArr = this.currDate.split("T")[0].split("-")
                   monthLenthArr[2] = this.monthLenthDays.toString()
                   let monthEnd = [monthLenthArr.join("-"),null]
@@ -365,11 +373,14 @@ export default {
                   //console.log(this.option.series[1].data)
               }
               else {
+                  this.option.xAxis.axisLabel.formatter = {
+                    month:'{MMM}',
+                    day: '{d}',
+                  }
                   let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
                   let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
                   this.option.series[1].data[0]=yearBegin
                   this.option.series[1].data.push(yearEnd)
-                  this.option.xAxis.axisLabel.formatter =  '{MMM}'
                   this.option.xAxis.splitNumber = 12
 
               }

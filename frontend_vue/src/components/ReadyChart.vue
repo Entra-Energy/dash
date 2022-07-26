@@ -31,6 +31,36 @@ use([
   DataZoomComponent,
 ]);
 
+var timeLineSet = function(value,index){
+  let local = new Date(value)
+  let min = local.getMinutes()
+  if(min < 10)
+  {
+    min = ("0"+min).slice(-2)
+  }
+  let hours = local.getUTCHours()
+
+  //hours = ("0"+hours).slice(-2)
+
+  let texts = hours+":"+min
+  return texts
+}
+var toolTipSet = function (params) {
+  let chartdate = new Date(params[0].value[0])
+  let month = chartdate.getMonth()+1
+  month = ("0"+month).slice(-2)
+  let day = chartdate.getDate()
+  day = ("0"+day).slice(-2)
+  let hours  = chartdate.getUTCHours()
+  hours = ("0"+hours).slice(-2)
+  let mins = chartdate.getMinutes()
+  mins = ("0" + mins).slice(-2)
+  let formatTime = day+"."+month+"/"+hours+":"+mins
+  var vals = params.reduce((prev, curr) => prev + '<li style="list-style:none">' + curr.marker + curr.seriesName + "&nbsp;&nbsp;" + curr.value[1] + "</li>", "");
+
+  return formatTime + vals;
+  }
+
 export default {
 
   props: {
@@ -110,7 +140,7 @@ export default {
      show: false
    },
    axisLabel: {
-        formatter: '{value} kW'
+        formatter: ''
       }
   },
 
@@ -231,6 +261,70 @@ export default {
 
 
         }))
+        .catch(errors => {
+
+         })
+         .finally(() => {
+           if(test == 'today'){
+             this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
+             this.option.tooltip.formatter =  toolTipSet
+             this.option.xAxis.splitNumber = 24
+             let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+             let endArr = [endStr,null]
+             this.option.series[1].data.push(endArr)
+           }
+           else if(test == 'month')
+           {
+               this.option.xAxis.axisLabel.formatter = {
+                 day: '{dayStyle|{d}}',
+                 hour: '{hourStyle|{HH}}'
+               }
+               this.option.xAxis.axisLabel.rich = {
+                 // dayStyle: {
+                 //   color: '#fff'
+                 // },
+                 hourStyle: {
+                   color: '#27293d'
+                 }
+               }
+
+               let monthLenthArr = this.currDate.split("T")[0].split("-")
+               monthLenthArr[2] = this.monthLenthDays.toString()
+               let monthEnd = [monthLenthArr.join("-"),null]
+
+
+               let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+               this.option.series[1].data[0]=monthBegin
+               this.option.series[1].data.push(monthEnd)
+               this.option.xAxis.splitNumber = 30
+               //console.log(this.option.series[1].data)
+           }
+           else {
+               this.option.xAxis.axisLabel.formatter = {
+                 month:'{MMM}',
+                 day: '{d}',
+               }
+
+               let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+               let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+               this.option.series[1].data[0]=yearBegin
+               this.option.series[1].data.push(yearEnd)
+               this.option.xAxis.splitNumber = 12
+
+           }
+
+           //console.log(this.nextP)
+           // if(this.nextP)
+           // {
+           //   console.log(this.nextP)
+           //   let url2 = ""
+           //   this.get_data_helper(this.nextP,url2)
+           // }
+           // else{
+           //
+           // }
+
+         })
 
 
 

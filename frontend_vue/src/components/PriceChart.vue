@@ -227,13 +227,13 @@ export default {
          this.option.xAxis.type = 'category'
          this.option.xAxis.axisLabel.formatter = timeLineSet
          this.option.tooltip.formatter =  toolTipSet
-         //this.option.xAxis.splitNumber = 24
+         this.option.xAxis.splitNumber = 20
 
          url = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
          url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
          const requestOne = axios.get(url);
          const requestTwo = axios.get(url2);
-         console.log(url)
+
          axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
          const responseOne = responses[0].data
          const responseTwo = responses[1].data
@@ -251,7 +251,15 @@ export default {
        }
        else if(query_param == 'month'){
          this.option.xAxis.type = 'time'
-         this.option.xAxis.axisLabel.formatter =  '{dd}/{MMM}'
+         this.option.xAxis.axisLabel.formatter = {
+           day: '{dayStyle|{d}}',
+           hour: '{hourStyle|{HH}}'
+         }
+         this.option.xAxis.axisLabel.rich = {
+           hourStyle: {
+             color: '#27293d'
+           }
+         }
          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
            axios.get(url)
                  .then(response => response.data.forEach(el=>{
@@ -273,7 +281,10 @@ export default {
         }
         else {
           this.option.xAxis.type = 'time'
-          this.option.xAxis.axisLabel.formatter =  '{MMM}'
+          this.option.xAxis.axisLabel.formatter = {
+            month:'{MMM}',
+            day: '{d}',
+          }
           this.option.xAxis.splitNumber = 12
           url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
           axios.get(url)
@@ -370,7 +381,7 @@ export default {
            let path = this.$route.path
            if (path == '/dashboard')
            {
-             
+
              let rangeIndex = this.$store.state.dash_init;
              this.param = rangeIndex
 
