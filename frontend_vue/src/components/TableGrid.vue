@@ -198,44 +198,39 @@ export default {
   },
 
   methods: {
+    onChange(event) {
+          //console.log(event.target.value);
+          //console.log(this.selected)
+        },
 
     sendIt(dev){
 
-      let myObj =  {
+      axios.post('http://127.0.0.1:8000/api/sched/', {
+
+        myObj:  {
           "date": this.test[dev],
           "duration": this.duration[dev],
           "dev":dev,
           "pow": this.powVolume[dev]
         }
-        console.log(myObj)
 
 
-      // axios.post('http://64.225.100.195:8000/api/flexi/', {
-      //
-      //   //flexi: this.myObjSend,
-      //   myObj:  {
-      //     "date": this.test[dev],
-      //     "duration": this.duration[dev],
-      //     "dev":dev,
-      //     "pow": this.powVolume[dev]
-      //   }
-      //
-      //
-      //
-      // }).then(response => {
-      //   // console.log(response);
-      //   // this.response = response.data
-      //   this.success = 'Data saved successfully';
-      //   this.response = JSON.stringify(response, null, 2)
-      // }).catch(error => {
-      //   this.response = 'Error: ' + error.response.status
-      // })
-      // this.test = {}
-      // this.items = []
-      // this.duration = {}
-      // this.powVolume = {}
-      // this.createMins();
-      // this.myObjSend = {}
+
+
+      }).then(response => {
+        // console.log(response);
+        // this.response = response.data
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+      }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+      })
+      this.test = {}
+      this.items = []
+      this.duration = {}
+      this.powVolume = {}
+      this.createMins();
+      this.myObjSend = {}
 
 
     },

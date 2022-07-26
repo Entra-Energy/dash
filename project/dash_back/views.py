@@ -4,12 +4,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
 from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer
-from dash_back.models import Post, Online, Price, Flexi
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, PostFilter
 import paho.mqtt.publish as publish
 import time
 import datetime as dt
+
 
 # class PostView(APIView):
 #     # def get(self, request):
@@ -98,7 +99,7 @@ def post_cali(request):
         publish.single(topic, str(val), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
 
-
+#flexi sim
 @api_view(['POST',])
 def post_single_correction(request):
     dev = request.data["dev"]
@@ -113,6 +114,21 @@ def post_single_correction(request):
 
     publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     return Response({"Success": "ok"})
+
+#flexi sim with calendar
+@api_view(['POST',])
+def sched_flexi(request):
+
+    sched_data = request.data
+    device = sched_data['myObj']['dev']
+    date_for_sched = sched_data['myObj']['date']
+    pow = sched_data['myObj']['pow']
+    duration = sched_data['myObj']['duration']
+    if device and date_for_sched and pow and duration:
+        FlexabilitySim.objects.create(provided_dev=device,scheduled=date_for_sched,sched_pow=pow,sched_durration=duration)        
+        return Response({"Success": "ok"})
+
+
 
 @api_view(['POST',])
 def reset_data(request):

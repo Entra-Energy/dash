@@ -21,6 +21,7 @@ urlpatterns = [
     path('reset/',views.reset_data, name='reset'),
     path('flexi/',views.flexi_send, name='flexi'),
     path('login-data/',views.login_data, name='login_data'),
+    path('sched/',views.sched_flexi, name='sched_flexi'),
 ]
 
 urlpatterns += router.urls
