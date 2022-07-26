@@ -6,6 +6,7 @@ import pytz
 from pytz import timezone
 from django.conf import settings
 import os
+from dateutil import parser
 
 def convert(str):
     todays_date = date.today()
@@ -33,4 +34,6 @@ def price_to_db():
 def scheduled_flexi():
     test = FlexabilitySim.objects.all()
     for t in test:
-        print(t.scheduled)
+        yourdate = parser.parse(t)
+        yourdate = yourdate + 7200
+        print(yourdate)
