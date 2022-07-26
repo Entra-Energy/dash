@@ -13,6 +13,7 @@
     </div>
    </div>
    <div class='row'><div class='col'><LineCharts :query="query" /></div></div>
+   <div class='row'><div class='col'><ReadyChart :query="query" /></div></div>
    <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
 
 
@@ -25,6 +26,7 @@ import Range from '@/components/Range.vue'
 import Select from '@/components/Select.vue'
 import LineCharts from '@/components/LineCharts.vue'
 import PriceChart from '@/components/PriceChart.vue'
+import ReadyChart from '@/components/ReadyChart.vue'
 
 export default {
   name: 'About',
@@ -33,6 +35,7 @@ export default {
     Select,
     LineCharts,
     PriceChart,
+    ReadyChart,
   },
   data() {
     return {

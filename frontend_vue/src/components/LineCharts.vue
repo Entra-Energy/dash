@@ -348,7 +348,7 @@ export default {
                 let endArr = [endStr,null]
                 this.option.series[1].data.push(endArr)
                 //console.log(endArr)
-                console.log(this.option.series)
+                //console.log(this.option.series)
               }
               else if(test == 'month')
               {
@@ -597,7 +597,7 @@ export default {
        let path = this.$route.path
        if (path == '/client')
        {
-         console.log(this.dev)
+         //console.log(this.dev)
          if(this.dev){
          this.getData();
          }

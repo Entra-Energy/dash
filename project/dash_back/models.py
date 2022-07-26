@@ -48,7 +48,7 @@ class MonthPostManager(models.Manager):
     #end = datetime.combine(tomorrow, time())
 
     def get_queryset(self):
-        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value').order_by('created')
+        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(grid=Avg('grid')).values('grid').annotate(value=Avg('value')).values('devId','created','value','grid').order_by('created')
         #print(dataset)
         return dataset
 

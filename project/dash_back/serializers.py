@@ -8,6 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         value = serializers.FloatField()
+        grid = serializers.IntegerField()
         #fields = "__all__"
         fields = ('devId','value','created_date','created','grid')
 
