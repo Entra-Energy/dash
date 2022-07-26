@@ -205,7 +205,7 @@ export default {
 
     sendIt(dev){
 
-      axios.post('http://127.0.0.1:8000/api/sched/', {
+      axios.post('http://64.225.100.195:8000/api/sched/', {
 
         myObj:  {
           "date": this.test[dev],
