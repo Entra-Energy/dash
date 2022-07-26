@@ -113,6 +113,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'dash_back.tasks.task_test',
         'schedule': crontab(hour=3, minute=15),
     },
+    'task_schedule_it': {
+      'task': 'dash_back.tasks.task_schedule',
+      'schedule': crontab(),
+  },
 }
 CELERY_TIMEZONE = 'Europe/Sofia'
 

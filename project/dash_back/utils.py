@@ -1,5 +1,5 @@
 import json
-from dash_back.models import Price
+from dash_back.models import Price, FlexabilitySim
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
@@ -29,3 +29,7 @@ def price_to_db():
         price = float(data["price"])
         print(price)
         Price.objects.get_or_create(timestamp=time, value = price)
+
+def scheduled_flexi():
+    test = FlexabilitySim.objects.all()
+    print(test.values())

@@ -3,7 +3,7 @@
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
-from dash_back.utils import price_to_db
+from dash_back.utils import price_to_db, scheduled_flexi
 #from photos.utils import emptying_variants_table
 
 logger = get_task_logger(__name__)
@@ -34,7 +34,13 @@ def task_test():
     price_to_db()
     logger.info("test!!! abcdef")
 
-
+@shared_task()
+def task_schedule():
+    """
+    scheduleFlexi!!!
+    """
+    scheduled_flexi()
+    logger.info("FLEXI")
 
 
 
