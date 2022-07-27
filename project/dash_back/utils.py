@@ -6,6 +6,7 @@ import pytz
 from pytz import timezone
 from django.conf import settings
 import os
+import paho.mqtt.publish as publish
 
 def get_curr_time():
     now = datetime.now(timezone('Europe/Sofia'))
@@ -46,6 +47,14 @@ def scheduled_flexi():
     sched_obj = FlexabilitySim.objects.filter(scheduled=curr)
     if(sched_obj):
         for obj in sched_obj:
-            print(obj.provided_dev+"||"+str(obj.sched_pow)+"||"+str(obj.sched_durration))
+            dev = obj.provided_dev
+            pow = obj.sched_pow
+            timer = obj.sched_durration
+            topic = str(dev+"/correction")
+            single_data = {
+                "power":pow,
+                "timer":timer
+            }
+            publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)            
     else:
         print("There is no objects")
