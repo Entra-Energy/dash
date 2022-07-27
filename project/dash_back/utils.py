@@ -9,6 +9,7 @@ import os
 
 def get_curr_time():
     now = datetime.now(timezone('Europe/Sofia'))
+    now = str(now)
     currDate = now.split(" ")[0]+"T"
     cur_hour = now.split(" ")[1].split(":")[0]
     cur_hour_min = now.split(" ")[1].split(":")[1]
