@@ -34,6 +34,5 @@ def price_to_db():
 def scheduled_flexi():
     test = FlexabilitySim.objects.all()
     test = test.reverse()[0]
-    for t in test:
-        yourdate = t.scheduled
-        print(yourdate)
+    yourdate = test.scheduled
+    print(yourdate)
