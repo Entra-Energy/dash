@@ -32,7 +32,8 @@ def price_to_db():
         Price.objects.get_or_create(timestamp=time, value = price)
 
 def scheduled_flexi():
-    test = FlexabilitySim.objects.all()[::1]
+    test = FlexabilitySim.objects.all()
+    test = test.reverse()[0]
     for t in test:
         yourdate = t.scheduled
         print(yourdate)
