@@ -43,4 +43,9 @@ def scheduled_flexi():
     # test = FlexabilitySim.objects.all().last()
     # yourdate = test.scheduled
     curr = get_curr_time()
-    print(curr)
+    sched_obj = FlexabilitySim.objects.filter(scheduled=curr)
+    if(sched_obj):
+        for obj in sched_obj:
+            print(obj.provided_dev+"||"+obj.sched_pow+"||"+obj.sched_durration)
+    else:
+        print("There is no objects")
