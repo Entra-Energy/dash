@@ -92,7 +92,7 @@
              <!-- <div class='col-md-3'> -->
              <div class='col-md-12'>
                <div class="form-group form-group-sm mb-2 mt-2 ml-2 mr-2">
-                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
+                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
                    <i class="far fa-calendar-alt"></i>
                    <input
@@ -147,6 +147,10 @@ export default {
 
   data() {
     return {
+      modelConfig: {
+        type: 'string',
+        mask: 'YYYY-MM-DDTHH:mm',
+      },
       power: '',
       powerCorr:'',
       time:'',
@@ -204,6 +208,8 @@ export default {
         },
 
     sendIt(dev){
+      let date = this.test[dev]
+      console.log(date)
 
       axios.post('http://64.225.100.195:8000/api/sched/', {
 
