@@ -69,4 +69,4 @@ def exec_all():
             scheduled_req = req.response_time
             pow_req = req.res_pow
             durr_req = req.res_durr
-            print(dev_req+"||"+str(scheduled_req))
+            FlexabilitySim.objects.get_or_create(provided_dev=dev_req,scheduled=scheduled_req,sched_pow=pow_req,sched_durration=durr_req)
