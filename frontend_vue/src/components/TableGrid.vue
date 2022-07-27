@@ -2,27 +2,11 @@
   <div class='row'>
     <div class='col-md-6'>
 
-  <!-- <form @submit.prevent="submitForm" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-    <div class="form-group form-group-sm">
-      <label for="inputpower" class="sr-only">Reduce Power</label>
-      <input type="text" class="form-control" id="inputpower" v-model="power" placeholder="Power Correction">
-    </div>
-    <div class="form-group form-group-sm">
-      <label for="inputtime" class="sr-only">Time Interval</label>
-      <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown" placeholder="Time">
-    </div>
-    <button type="submit" :disabled='isDisabled' class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
-  </form> -->
+
 </div>
 <div class="col-md-6">
   <div class="pull-right">
-  <!-- <form @submit.prevent="submitFormCali" v-on:submit="cali" class="form-inline">
-    <div class="form-group mx-sm-3 mb-2">
-      <label for="calibration" class="sr-only">Calibration</label>
-      <input type="text" class="form-control" id="calibration" v-model="cali" placeholder="Calibration">
-    </div>
-    <button type="submit" :disabled='isDisabled' class="btn btn-warning mb-2">Send </button>
-  </form> -->
+
 </div>
 </div>
 </div>
@@ -41,6 +25,7 @@
         <th>P['W']</th>
         <th></th>
         <th>Provide /Start Date, Duration, Power/</th>
+        <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all requests!</button></th>
 
 
       </tr>
@@ -127,6 +112,7 @@
      </div>
 
        </td>
+       <td></td>
 
       </tr>
      </tbody>
@@ -202,6 +188,20 @@ export default {
   },
 
   methods: {
+
+    execAll(){
+      axios.post('http://64.225.100.195:8000/api/execall/', {
+        "execAll":"all"
+      }).then(response => {
+        // console.log(response);
+        // this.response = response.data
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+      }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+      })
+    },
+
     onChange(event) {
           //console.log(event.target.value);
           //console.log(this.selected)

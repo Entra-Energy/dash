@@ -22,6 +22,7 @@ urlpatterns = [
     path('flexi/',views.flexi_send, name='flexi'),
     path('login-data/',views.login_data, name='login_data'),
     path('sched/',views.sched_flexi, name='sched_flexi'),
+    path('execall/',views.exec_all, name='exec_all'),
 ]
 
 urlpatterns += router.urls

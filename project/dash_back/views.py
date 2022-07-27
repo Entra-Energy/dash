@@ -7,9 +7,11 @@ from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSeriali
 from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, PostFilter
+from dash_back.tasks import task_exec_all
 import paho.mqtt.publish as publish
 import time
 import datetime as dt
+
 
 
 # class PostView(APIView):
@@ -125,7 +127,7 @@ def sched_flexi(request):
     pow = sched_data['myObj']['pow']
     duration = sched_data['myObj']['duration']
     if device and date_for_sched and pow and duration:
-        FlexabilitySim.objects.create(provided_dev=device,scheduled=date_for_sched,sched_pow=pow,sched_durration=duration)        
+        FlexabilitySim.objects.create(provided_dev=device,scheduled=date_for_sched,sched_pow=pow,sched_durration=duration)
         return Response({"Success": "ok"})
 
 
@@ -179,4 +181,13 @@ def login_data(request):
     print("Test!!!!")
     login_data = request.data
     print(login_data)
+    return Response({"Success": "ok"})
+
+@api_view(['POST',])
+def exec_all(request):
+    req_data = request.data["execAll"]
+    if(req_data == 'all'):
+        task_exec_all.delay()
+
+
     return Response({"Success": "ok"})

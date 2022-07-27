@@ -55,6 +55,9 @@ def scheduled_flexi():
                 "power":pow,
                 "timer":timer
             }
-            publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)            
+            publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     else:
         print("There is no objects")
+
+def exec_all():
+    print("All Reqs Has Been Executed!!!")
