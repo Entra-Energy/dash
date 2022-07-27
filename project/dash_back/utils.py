@@ -1,5 +1,5 @@
 import json
-from dash_back.models import Price, FlexabilitySim
+from dash_back.models import Price, FlexabilitySim, Flexi
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
@@ -60,4 +60,13 @@ def scheduled_flexi():
         print("There is no objects")
 
 def exec_all():
-    print("All Reqs Has Been Executed!!!")
+
+    today = get_curr_time()
+    future_reqs = Flexi.objects.filter(response_time__gte=today)
+    if future_reqs:
+        for req in future_reqs:
+            dev_req = req.flexiDev
+            scheduled_req = req.response_time
+            pow_req = req.res_pow
+            durr_req = req.res_durr
+            print(dev_req+"||"+str(scheduled_req))
