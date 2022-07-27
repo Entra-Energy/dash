@@ -7,6 +7,13 @@ from pytz import timezone
 from django.conf import settings
 import os
 
+def get_curr_time():
+    now = datetime.now(timezone('Europe/Sofia'))
+    currDate = now.split(" ")[0]+"T"
+    cur_hour = now.split(" ")[1].split(":")[0]
+    cur_hour_min = now.split(" ")[1].split(":")[1]
+    query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
+    return query_date
 
 def convert(str):
     todays_date = date.today()
@@ -32,6 +39,7 @@ def price_to_db():
         Price.objects.get_or_create(timestamp=time, value = price)
 
 def scheduled_flexi():
-    test = FlexabilitySim.objects.all().last()    
-    yourdate = test.scheduled
-    print(yourdate)
+    # test = FlexabilitySim.objects.all().last()
+    # yourdate = test.scheduled
+    curr = get_curr_time()
+    print(curr)
