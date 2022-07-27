@@ -46,6 +46,6 @@ def scheduled_flexi():
     sched_obj = FlexabilitySim.objects.filter(scheduled=curr)
     if(sched_obj):
         for obj in sched_obj:
-            print(obj.provided_dev+"||"+obj.sched_pow+"||"+obj.sched_durration)
+            print(obj.provided_dev+"||"+str(obj.sched_pow)+"||"+str(obj.sched_durration))
     else:
         print("There is no objects")
