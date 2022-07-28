@@ -20,12 +20,12 @@
         <th>Power</th>
         <th>Customer</th>
         <th>Location</th>
-        <th>Capacity</th>
-        <th>T['S']</th>
-        <th>P['W']</th>
-        <th></th>
+        <!-- <th>Capacity</th> -->
+        <!-- <th>T['S']</th>
+        <th>P['W']</th> -->
+        <!-- <th></th> -->
         <th>Provide /Start Date, Duration, Power/</th>
-        <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all requests!</button></th>
+        <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></th>
 
 
       </tr>
@@ -42,22 +42,10 @@
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
          <td>{{ dev.location }}</td>
-         <td>{{ 10000 }}</td>
-         <td>{{ dev.correctionT }}</td>
-         <td>{{ dev.correctionP }}</td>
-         <td>
-           <!-- <div class='row'>
-
-             <form @submit.prevent="submitForm2" class="form-inline">
-                 <div class="form-group form-group-sm">
-                   <label for="call" class="sr-only">Calibrate</label>
-                    <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
-                 </div>
-                <button type="submit" class="btn btn-warning btn btn-warning mb-2 mt-2 ml-2">Send</button>
-             </form>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">R </button>
-
-        </div> -->
+         <!-- <td>{{ 10000 }}</td> -->
+         <!-- <td>{{ dev.correctionT }}</td>
+         <td>{{ dev.correctionP }}</td> -->
+         <!-- <td>
           <div class='row'>
             <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
                <div class="form-group form-group-sm">
@@ -71,44 +59,38 @@
                <button type="submit" class="btn btn-warning mb-2 mt-2">Send </button>
             </form>
           </div>
-         </td>
+         </td> -->
          <td>
            <div class='row flexi'>
              <!-- <div class='col-md-3'> -->
-             <div class='col-md-12'>
-               <div class="form-group form-group-sm mb-2 mt-2 ml-2 mr-2">
+             <div class='form-row'>
+               <div class="form-group form-group-sm col-md-8 calendar-pick">
                  <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
-                   <i class="far fa-calendar-alt"></i>
+                   <!-- <i class="far fa-calendar-alt"></i> -->
                    <input
-                     class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                     class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
                      :value="test[dev.id]"
                      v-on="inputEvents"
                    />
                  </template>
                </DatePicker>
              </div>
-       <!-- </div> -->
-       <!-- <div class="col-md-3"> -->
-         <div class="form-group form-group-sm duration mb-2 mt-2 ml-2 mr-2">
 
-         <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
-
-           <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
-         </select>
-       </div>
-     <!-- </div> -->
-     <!-- <div class='col-md-3'> -->
-       <div class="form-group form-group-sm pow mb-2 mt-2 ml-2 mr-2">
-         <input type="text" class="form-control d-inline-block" style="width: auto;" id="pow" v-model="powVolume[dev.id]" placeholder="Power">
-       </div>
-     <!-- </div> -->
-     <!-- <div class="col-md-3 sendIt"> -->
-     <div class = "form-group form-group-sm mb-2 mt-2 ml-2 mr-2 sendIt">
-       <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
-     </div>
-     <!-- </div> -->
-       </div>
+             <div class="form-group form-group-sm col-md-4 duration">
+               <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
+               <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
+               </select>
+             </div>
+          </div>
+          <div class="form-row">
+             <div class="form-group form-group-sm pow col-md-8">
+               <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" placeholder="Power">
+             </div>
+             <div class = "form-group form-group-sm col-md-4 sendIt">
+               <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
+             </div>
+           </div>
      </div>
 
        </td>
@@ -509,7 +491,7 @@ input#calibrate-single {
     background: #e9ecef;
     cursor: pointer;
 }
-.duration:before {
+.duration::before {
   font-family: FontAwesome;
   content: "\f254";
   display: inline-block;
@@ -521,6 +503,7 @@ input#calibrate-single {
 } */
 .duration select {
     max-height: 33px;
+    max-width: 52%;
 }
 .datepick i {
     margin-right: 10px;
@@ -530,6 +513,22 @@ input#calibrate-single {
 }
 .pow {
     text-align: left;
+}
+.pow::before{
+      font-family: FontAwesome;
+      content: "\f884";
+      display: inline-block;
+      padding-right: 5px;
+      vertical-align: middle;
+      padding-left: 12px;
+}
+.datepick::before{
+  font-family: FontAwesome;
+  content: "\f073";
+  display: inline-block;
+  padding-right: 5px;
+  vertical-align: middle;
+  padding-left: 8px;
 }
 .flexi .form-group {
   float: left;
@@ -577,6 +576,23 @@ input#calibrate-single {
     border-radius: 50%;
     background: orange;
     margin: 0 auto;
+}
+
+input.cal-input {
+    max-width: 72%;
+}
+input.power-in {
+    max-height: 36px;
+    max-width: 74%;
+}
+.sendIt .btn {
+    max-height: 36px;
+}
+.flexi {
+  padding-top: 14px;
+}
+.table td, .table th {
+    vertical-align: middle;
 }
 
 </style>
