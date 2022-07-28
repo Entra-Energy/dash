@@ -56,42 +56,38 @@
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td> -->
          <td>
-           <div class='row flexi'>
+           <div class='row request-date-pick' >
              <!-- <div class='col-md-3'> -->
-             <div class='col-md-12'>
-               <div class="form-group form-group-sm mb-2 mt-2 ml-2 mr-2">
-                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
-                 <template v-slot="{ inputValue, inputEvents }">
-                   <i class="far fa-calendar-alt"></i>
-                   <input
-                     class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                     :value="test[dev.id]"
-                     v-on="inputEvents"
-                   />
-                 </template>
-               </DatePicker>
+               <div class='form-row'>
+                 <div class="form-group form-group-sm col-md-8 calendar-pick">
+                   <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
+                   <template v-slot="{ inputValue, inputEvents }">
+                     <!-- <i class="far fa-calendar-alt"></i> -->
+                     <input
+                       class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                       :value="test[dev.id]"
+                       v-on="inputEvents"
+                     />
+                   </template>
+                  </DatePicker>
+                </div>
+               <div class="form-group form-group-sm col-md-4 duration">
+                 <select class="form-control d-inline-block" v-model="duration[dev.id]" @change="onChange($event)" >
+                   <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
+                 </select>
+               </div>
              </div>
-       <!-- </div> -->
-       <!-- <div class="col-md-3"> -->
-         <div class="form-group form-group-sm duration mb-2 mt-2 ml-2 mr-2">
+             <div class='form-row'>
+               <div class="form-group form-group-sm pow col-md-8">
+                 <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" placeholder="Power">
+               </div>
 
-         <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
+               <div class = "form-group form-group-sm col-md-4 sendIt">
+                 <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
+               </div>
+           </div>
 
-           <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
-         </select>
-       </div>
-     <!-- </div> -->
-     <!-- <div class='col-md-3'> -->
-       <div class="form-group form-group-sm pow mb-2 mt-2 ml-2 mr-2">
-         <input type="text" class="form-control d-inline-block" style="width: auto;" id="pow" v-model="powVolume[dev.id]" placeholder="Power">
-       </div>
-     <!-- </div> -->
-     <!-- <div class="col-md-3 sendIt"> -->
-     <div class = "form-group form-group-sm mb-2 mt-2 ml-2 mr-2 sendIt">
-       <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
-     </div>
-     <!-- </div> -->
-       </div>
+
      </div>
 
        </td>
@@ -437,7 +433,7 @@ input#calibrate-single {
     background: #e9ecef;
     cursor: pointer;
 }
-.duration:before {
+.duration::before {
   font-family: FontAwesome;
   content: "\f254";
   display: inline-block;
@@ -449,6 +445,7 @@ input#calibrate-single {
 } */
 .duration select {
     max-height: 33px;
+    max-width: 52%;
 }
 .datepick i {
     margin-right: 10px;
@@ -457,11 +454,27 @@ input#calibrate-single {
     text-align: left;
 }
 .pow {
-    text-align: left;
+    /* text-align: left; */
+  }
+.pow::before{
+      font-family: FontAwesome;
+      content: "\f884";
+      display: inline-block;
+      padding-right: 5px;
+      vertical-align: middle;
+      padding-left: 12px;
 }
-.flexi .form-group {
+.datepick::before{
+  font-family: FontAwesome;
+  content: "\f073";
+  display: inline-block;
+  padding-right: 5px;
+  vertical-align: middle;
+  padding-left: 8px;
+}
+/* .flexi .form-group {
   float: left;
-}
+} */
 /* .sendIt {
   text-align:left;
 } */
@@ -505,5 +518,22 @@ input#calibrate-single {
     border-radius: 50%;
     background: orange;
     margin: 0 auto;
+}
+input.cal-input {
+    max-width: 72%;
+}
+input.power-in {
+    max-height: 36px;
+    max-width: 74%;
+}
+.sendIt .btn {
+    max-height: 36px;
+
+}
+.table td, .table th {
+    vertical-align: middle;
+}
+.request-date-pick {
+  padding-top: 14px;
 }
 </style>

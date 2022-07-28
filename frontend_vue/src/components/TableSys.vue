@@ -36,7 +36,6 @@
         <th>Power</th>
         <th>Customer</th>
         <th>Location</th>
-        <th>Signal</th>
         <th>Capacity</th>
         <th></th>
 
@@ -54,7 +53,6 @@
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
          <td>{{ dev.location }}</td>
-         <td>{{ dev.signal }}</td>
          <td>{{ 10000 }}</td>
          <!-- <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td> -->
