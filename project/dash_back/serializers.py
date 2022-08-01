@@ -13,16 +13,9 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('devId','value','created_date','created','grid')
 
 class ArisSerializer(serializers.ModelSerializer):
-    created = serializers.ReadOnlyField()
-    power = serializers.ReadOnlyField()
-    #wind_aris = serializers.FloatField()
-
     class Meta:
         model = Aris
-
-
-        #fields = "__all__"
-        fields = ('timestamp_aris','created','power')
+        fields = "__all__"
 
 
 class PriceSerializer(serializers.ModelSerializer):

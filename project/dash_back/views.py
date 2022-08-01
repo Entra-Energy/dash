@@ -15,22 +15,10 @@ import datetime as dt
 
 
 class ArisViewset(viewsets.ModelViewSet):
-    def get_queryset(self):
-        range = self.request.query_params.get('date_range',None)
-        today = datetime.today()
-        datem = str(datetime(today.year, today.month, 1))
-        datem = datem.split(" ")[0]
-        if range is not None:
-            if range == 'today':
-                queryset = Aris.today.all().order_by('timestamp_aris')
-            if range == 'month':
-                queryset = Post.month.filter(created__gte=datem)
-            if range == 'year':
-                queryset = Post.month.all()
-            return queryset
+    queryset = Aris.objects.all()
+
     serializer_class = ArisSerializer
-
-
+    filter_class = ArisFilter
 
 
 
