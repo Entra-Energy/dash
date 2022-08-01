@@ -10,6 +10,7 @@ app_name = "dash_back"
 router = DefaultRouter()
 #
 router.register(r'posts', views.PostViewset, basename='posts')
+router.register(r'aris', views.ArisViewset, basename='aris')
 router.register(r'price', views.PriceViewset, basename='price')
 router.register(r'flexi_res', views.FlexiViewset, basename='flexi_res')
 

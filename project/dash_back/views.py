@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer
-from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, PostFilter
 from dash_back.tasks import task_exec_all
@@ -14,15 +14,26 @@ import datetime as dt
 
 
 
-# class PostView(APIView):
-#     # def get(self, request):
-#     #     range = self.request.GET.get('range')
-#     #     if range == '0':
-#     #         posts = Post.today.all()
-#     #     else:
-#     #         posts = Post.month.all()
-#     serializer = PostSerializer(posts, many=True)
-#     # return Response({"posts": serializer.data})
+class ArisViewset(viewsets.ModelViewSet):
+    def get_queryset(self):
+        range = self.request.query_params.get('date_range',None)
+        today = datetime.today()
+        datem = str(datetime(today.year, today.month, 1))
+        datem = datem.split(" ")[0]
+        if range is not None:
+            if range == 'today':
+                queryset = Aris.today.all().order_by('created_date')
+            if range == 'month':
+                queryset = Post.month.filter(created__gte=datem)
+            if range == 'year':
+                queryset = Post.month.all()
+            return queryset
+    serializer_class = ArisSerializer
+
+
+
+
+
 class PostViewset(viewsets.ModelViewSet):
     def get_queryset(self):
 
