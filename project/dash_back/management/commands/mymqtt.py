@@ -6,6 +6,8 @@ from paho.mqtt import client as mqtt_client #type: ignore
 from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+from django.utils.timezone import activate
+#from pytz import timezone
 
 class Command(BaseCommand):
 
@@ -103,7 +105,13 @@ class Command(BaseCommand):
                 wind = round(wind,2)
                 power = data_aris["active"]
                 power = round(power, 2)
-                Aris.objects.create(power_aris=power,wind_aris=wind)
+                now = datetime.now()
+                now = str(now)
+                currDate = now.split(" ")[0]+"T"
+                cur_hour = now.split(" ")[1].split(":")[0]
+                cur_hour_min = now.split(" ")[1].split(":")[1]
+                query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
+                Aris.objects.create(power_aris=power,wind_aris=wind,timestamp_aris = query_date)
 
 
         client = mqtt.Client()
