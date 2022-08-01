@@ -26,5 +26,5 @@ class ArisFilter(FilterSet):
     end_date = IsoDateTimeFilter(field_name='timestamp_aris',lookup_expr=('lte'))
     date_range = DateRangeFilter(field_name='timestamp_aris')
     class Meta:
-        model = Price
+        model = Aris
         fields = ['timestamp_aris']
