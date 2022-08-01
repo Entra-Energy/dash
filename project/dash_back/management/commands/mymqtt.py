@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 import random
 import json
-from dash_back.models import Post, Online, Flexi #type: ignore
+from dash_back.models import Post, Online, Flexi, Aris #type: ignore
 from paho.mqtt import client as mqtt_client #type: ignore
 from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
@@ -21,6 +21,7 @@ class Command(BaseCommand):
             client.subscribe("error/check/#")
             client.subscribe("flexiResponse/#")
             client.subscribe("corrResponse/#")
+            client.subscribe("windData")
 
         def on_message(client, userdata, msg):
             #print(msg.topic+" "+str(msg.payload))
@@ -64,7 +65,7 @@ class Command(BaseCommand):
 
                 if online > 1000:
                     Online.objects.all().delete()
-                print(prov)
+                #print(prov)
                 Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov)
 
             if myList[0] == 'error':
@@ -96,7 +97,13 @@ class Command(BaseCommand):
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
                 #print(data_out)
-
+            if topic == 'windData':
+                data_aris = json.loads(msg.payload.decode())
+                wind = data_aris["wind"]
+                wind = round(wind,2)
+                power = data_aris["active"]
+                power = round(power, 2)
+                Aris.objects.create(power_aris=power,wind_aris=wind)
 
 
         client = mqtt.Client()
