@@ -22,7 +22,7 @@ class ArisViewset(viewsets.ModelViewSet):
         datem = datem.split(" ")[0]
         if range is not None:
             if range == 'today':
-                queryset = Aris.today.all().order_by('created_date')
+                queryset = Aris.today.all().order_by('timestamp_aris')
             if range == 'month':
                 queryset = Post.month.filter(created__gte=datem)
             if range == 'year':
