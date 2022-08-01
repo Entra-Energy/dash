@@ -6,7 +6,7 @@ from rest_framework import viewsets, generics
 from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer
 from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris
 from datetime import datetime
-from dash_back.custom_filters import PriceFilter, PostFilter
+from dash_back.custom_filters import PriceFilter, PostFilter, ArisFilter
 from dash_back.tasks import task_exec_all
 import paho.mqtt.publish as publish
 import time
