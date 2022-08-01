@@ -104,3 +104,13 @@ class FlexabilitySim(models.Model):
     scheduled = models.DateTimeField(default=datetime.now())
     sched_pow = models.FloatField()
     sched_durration = models.IntegerField()
+
+class Aris(models.Model):
+    power_aris = models.FloatField()
+    timestamp_aris = models.DateTimeField(default=datetime.now())
+    wind_aris = models.FloatField()
+
+class Neykovo(models.Model):
+    power_neykovo = models.FloatField()
+    timestamp_neykovo = models.DateTimeField(default=datetime.now())
+    wind_neykovo = models.FloatField()

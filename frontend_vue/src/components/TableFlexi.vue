@@ -66,24 +66,25 @@
                      <input
                        class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
                        :value="test[dev.id]"
+                       :disabled="!dev.ready"
                        v-on="inputEvents"
                      />
                    </template>
                   </DatePicker>
                 </div>
                <div class="form-group form-group-sm col-md-4 duration">
-                 <select class="form-control d-inline-block" v-model="duration[dev.id]" @change="onChange($event)" >
-                   <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
+                 <select class="form-control d-inline-block" :class="testClass" v-model="duration[dev.id]" @change="onChange($event)" :disabled="!dev.ready">
+                   <option v-for="item in items" :value="item.val" :key="item.id" >{{item.val}}</option>
                  </select>
                </div>
              </div>
              <div class='form-row'>
                <div class="form-group form-group-sm pow col-md-8">
-                 <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" placeholder="Power">
+                 <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" :disabled="!dev.ready" placeholder="Power">
                </div>
 
                <div class = "form-group form-group-sm col-md-4 sendIt">
-                 <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
+                 <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)" :disabled="!dev.ready">Send</button>
                </div>
            </div>
 
@@ -142,6 +143,8 @@ export default {
 
   data() {
     return {
+      testClass : 'disabled',
+      disabled: true,
       isActive: true,
       date: new Date(),
       powVolume:{},
@@ -535,5 +538,8 @@ input.power-in {
 }
 .request-date-pick {
   padding-top: 14px;
+}
+.form-control:disabled, .form-control[readonly] {
+  background-color: #5c5c66;
 }
 </style>
