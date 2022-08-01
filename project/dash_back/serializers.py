@@ -14,11 +14,12 @@ class PostSerializer(serializers.ModelSerializer):
 
 class ArisSerializer(serializers.ModelSerializer):
     created = serializers.ReadOnlyField()
+    wind_aris = serializers.FloatField()
 
     class Meta:
         model = Aris
         #power_aris = serializers.FloatField()
-        wind_aris = serializers.FloatField()
+
         #fields = "__all__"
         fields = ('timestamp_aris','created','wind_aris')
 
