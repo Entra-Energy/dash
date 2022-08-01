@@ -54,7 +54,7 @@ class TodayArisManager(models.Manager):
 class MonthArisManager(models.Manager):
 
     def get_queryset(self):
-        dataset = super().get_queryset().annotate(created=TruncHour('timestamp_aris')).values('created').annotate(power_aris=Avg('power_aris')).values('power_aris','created','wind_aris')
+        dataset = super().get_queryset().annotate(created=TruncHour('timestamp_aris')).values('created').annotate(power_aris=Avg('power_aris')).values('power_aris','created')
         print(dataset)
         return dataset
 
