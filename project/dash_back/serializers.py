@@ -20,7 +20,7 @@ class ArisSerializer(serializers.ModelSerializer):
         #power_aris = serializers.FloatField()
         wind_aris = serializers.FloatField()
         #fields = "__all__"
-        fields = ('power_aris','timestamp_aris','created','wind_aris')
+        fields = ('timestamp_aris','created','wind_aris')
 
 
 class PriceSerializer(serializers.ModelSerializer):
