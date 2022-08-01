@@ -18,7 +18,7 @@ class ArisSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Aris
-        #power_aris = serializers.FloatField()
+        power_aris = serializers.FloatField(allow_blank=True)
 
         #fields = "__all__"
         fields = ('timestamp_aris','created','power_aris')
