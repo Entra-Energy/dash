@@ -109,12 +109,15 @@ export default {
       this.$store.commit('setPath', title)
       if (path == '/dashboard')
       {
-        
         this.$store.commit('initDash', title)
       }
       if (path == '/client')
       {
         this.$store.commit('initClient', title)
+      }
+      if (path == '/producer')
+      {
+        this.$store.commit('initProducer', title)
       }
     },
     clickHandler(index){

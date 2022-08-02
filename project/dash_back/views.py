@@ -15,7 +15,7 @@ import datetime as dt
 
 
 class ArisViewset(viewsets.ModelViewSet):
-    queryset = Aris.objects.all()
+    queryset = Aris.objects.all().order_by('timestamp_aris')
 
     serializer_class = ArisSerializer
     filter_class = ArisFilter

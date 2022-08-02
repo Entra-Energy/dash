@@ -9,6 +9,7 @@ export default createStore({
     checked_devs: '',
     dash_init: 'today',
     client_init: 'today',
+    producer_init: 'today',
     dash_zoom: {},
     client_zoom: '',
     monthData:[]
@@ -43,6 +44,10 @@ export default createStore({
     initClient(state, client)
     {
       state.client_init = client
+    },
+    initProducer(state, prod)
+    {
+      state.producer_init = prod
     },
     dashZoomInit(state, dashZ)
     {

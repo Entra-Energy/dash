@@ -62,8 +62,6 @@ export default {
       immediate: true,
       handler() {
           this.rangeTitle = this.$store.state.dash_init;
-
-
       }
     }
   },
