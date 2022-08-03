@@ -42,14 +42,14 @@ class TodayPostManager(models.Manager):
         return super().get_queryset().filter(created_date__gt = today_start, created_date__lt = today_end)
 
 
-# class TodayArisManager(models.Manager):
-#
-#     def get_queryset(self):
-#         today = datetime.now(timezone('Europe/Sofia')).date()
-#         tomorrow = today + timedelta(1)
-#         today_start = str(today)+'T'+'00:00:00Z'
-#         today_end = str(tomorrow)+'T'+'00:00:00Z'
-#         return super().get_queryset().filter(timestamp_aris__gt = today_start, timestamp_aris__lt = today_end)
+class TodayArisManager(models.Manager):
+
+    def get_queryset(self):
+        today = datetime.now(timezone('Europe/Sofia')).date()
+        tomorrow = today + timedelta(1)
+        today_start = str(today)+'T'+'00:00:00Z'
+        today_end = str(tomorrow)+'T'+'00:00:00Z'
+        return super().get_queryset().filter(timestamp_aris__gt = today_start, timestamp_aris__lt = today_end)
 #
 class MonthArisManager(models.Manager):
 
@@ -111,7 +111,7 @@ class Aris(models.Model):
     timestamp_aris = models.DateTimeField(default=datetime.now())
     wind_aris = models.FloatField()
     objects = models.Manager()
-    #today = TodayArisManager()
+    today = TodayArisManager()
     month = MonthArisManager()
 
 class Neykovo(models.Model):
