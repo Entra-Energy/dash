@@ -50,13 +50,12 @@ class TodayArisManager(models.Manager):
         today_start = str(today)+'T'+'00:00:00Z'
         today_end = str(tomorrow)+'T'+'00:00:00Z'
         return super().get_queryset().filter(timestamp_aris__gt = today_start, timestamp_aris__lt = today_end)
-#
+
 class MonthArisManager(models.Manager):
 
     def get_queryset(self):
         dataset = super().get_queryset().annotate(created=TruncHour('timestamp_aris')).values('created').annotate(power=Avg('power_aris')).values('power','created').annotate(wind=Avg('wind_aris')).values('wind','created','power')
         return dataset
-
 
 
 

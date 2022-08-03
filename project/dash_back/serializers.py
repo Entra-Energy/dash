@@ -20,7 +20,7 @@ class ArisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aris
         #wind_aris = serializers.FloatField()
-        fields = ('power','created','wind')
+        fields = ('power','created','wind','timestamp_aris','power_aris')
 
 
 
