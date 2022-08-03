@@ -14,12 +14,29 @@ import datetime as dt
 
 
 
+# class ArisViewset(viewsets.ModelViewSet):
+#     queryset = Aris.objects.all().order_by('timestamp_aris')
+#
+#     serializer_class = ArisSerializer
+#     filter_class = ArisFilter
+
 class ArisViewset(viewsets.ModelViewSet):
-    queryset = Aris.objects.all().order_by('timestamp_aris')
+    def get_queryset(self):
+        today = datetime.today()
+        datem = str(datetime(today.year, today.month, 1))
+        datem = datem.split(" ")[0]
+        range = self.request.query_params.get('date_range',None)
+        if range is not None:
+            if range == 'today':
+                queryset = Aris.today.all().order_by('created')
+            if range == 'year':
+                queryset = Post.month.all()
+            if range == 'month':
+                queryset = Post.month.filter(created__gte=datem)
+            return queryset
+
 
     serializer_class = ArisSerializer
-    filter_class = ArisFilter
-
 
 
 class PostViewset(viewsets.ModelViewSet):

@@ -208,14 +208,10 @@ export default {
        let url = ''
        let url2 = ''
        //console.log(query_param)
-       if (query_param == 'today'){
-         this.option.xAxis.type = 'time'
-         this.option.xAxis.axisLabel.formatter = timeLineSet
-         this.option.tooltip.formatter =  toolTipSet
-         this.option.xAxis.splitNumber = 20
 
          url = "http://64.225.100.195:8000/api/aris/?date_range="+query_param
          //url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
+         console.log(url)
          const requestOne = axios.get(url);
          //const requestTwo = axios.get(url2);
          const requestTwo = []
@@ -224,9 +220,9 @@ export default {
          const responseOne = responses[0].data
          const responseTwo = responses[1].data
          console.log(responseOne)
-         // responseOne.forEach((itemFirstRes) => {
-         //   this.option.series[1].data.push([itemFirstRes.timestamp,itemFirstRes.value])
-         // });
+         responseOne.forEach((itemFirstRes) => {
+           this.option.series[0].data.push([itemFirstRes.timestamp_aris,itemFirstRes.power_aris])
+         });
          //
          // responseTwo.forEach((itemSecondRes) => {
          //   this.option.series[2].data.push([itemSecondRes.timestamp,itemSecondRes.value])
@@ -235,9 +231,14 @@ export default {
          .catch(errors => {
               // react on errors.
           })
+
+       if (query_param == 'today')
+       {
+         this.option.xAxis.axisLabel.formatter = timeLineSet
+         this.option.tooltip.formatter =  toolTipSet
+         this.option.xAxis.splitNumber = 20
        }
        else if(query_param == 'month'){
-         this.option.xAxis.type = 'time'
          this.option.xAxis.axisLabel.formatter = {
            day: '{dayStyle|{d}}',
            hour: '{hourStyle|{HH}}'
@@ -247,48 +248,19 @@ export default {
              color: '#27293d'
            }
          }
-         url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
-           axios.get(url)
-                 .then(response => response.data.forEach(el=>{
-                    this.option.series[0].data.push([el.timestamp,el.value])
-                 }))
-                .catch(errors => {
 
-                })
-                .finally(() => {
-                    let monthLenthArr = this.currDate.split("T")[0].split("-")
-                    monthLenthArr[2] = this.monthLenth.toString()
-                    let monthEnd = [monthLenthArr.join("-"),null]
-                    let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-                    this.option.series[0].data[0]=monthBegin
-                    this.option.series[0].data.push(monthEnd)
-                    this.option.xAxis.splitNumber = 30
-
-                });
         }
         else {
-          this.option.xAxis.type = 'time'
-          this.option.xAxis.axisLabel.formatter = {
-            month:'{MMM}',
-            day: '{d}',
-          }
-          this.option.xAxis.splitNumber = 12
-          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
-          axios.get(url)
-                .then(response => response.data.forEach(el=>{
-                   this.option.series[0].data.push([el.timestamp,el.value])
-                }))
-               .catch(errors => {
 
-               })
-               .finally(() => {
-                 let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-                 let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-                 this.option.series[0].data[0]=yearBegin
-                 this.option.series[0].data.push(yearEnd)
-
-               });
-
+            this.option.xAxis.axisLabel.formatter = {
+              month:'{MMM}',
+              day: '{d}',
+            }
+           this.option.xAxis.splitNumber = 12
+           let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+           let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+           this.option.series[0].data[0]=yearBegin
+           this.option.series[0].data.push(yearEnd)
         }
   },
 
@@ -317,7 +289,7 @@ export default {
    this.getCurrTime()
    let date = this.currDate.split("T")[0].split("-")
    let year = parseInt(date[0])
-   let month = parseInt(date[1])   
+   let month = parseInt(date[1])
    this.monthLenth = this.daysInMonth(month,year)
   },
  computed: {

@@ -9,13 +9,19 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         value = serializers.FloatField()
         grid = serializers.IntegerField()
-        #fields = "__all__"
+        # fields = "__all__"
         fields = ('devId','value','created_date','created','grid')
 
+
 class ArisSerializer(serializers.ModelSerializer):
+    created = serializers.ReadOnlyField()
+    power = serializers.ReadOnlyField()
+    wind = serializers.ReadOnlyField()
     class Meta:
         model = Aris
-        fields = "__all__"
+        #wind_aris = serializers.FloatField()
+        fields = ('power','created','wind')
+
 
 
 class PriceSerializer(serializers.ModelSerializer):

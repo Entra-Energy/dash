@@ -51,39 +51,20 @@ class TodayPostManager(models.Manager):
 #         today_end = str(tomorrow)+'T'+'00:00:00Z'
 #         return super().get_queryset().filter(timestamp_aris__gt = today_start, timestamp_aris__lt = today_end)
 #
-# class MonthArisManager(models.Manager):
-#
-#     def get_queryset(self):
-#         dataset = super().get_queryset().annotate(created=TruncHour('timestamp_aris')).values('created').annotate(power=Avg('power_aris')).values('power','created')
-#         print(dataset)
-#         return dataset
+class MonthArisManager(models.Manager):
+
+    def get_queryset(self):
+        dataset = super().get_queryset().annotate(created=TruncHour('timestamp_aris')).values('created').annotate(power=Avg('power_aris')).values('power','created').annotate(wind=Avg('wind_aris')).values('wind','created','power')
+        return dataset
 
 
 
 
 class MonthPostManager(models.Manager):
-
-    #start = datetime.combine(month_begin, time()) + timedelta(1)
-
-    #end = datetime.combine(tomorrow, time())
-
     def get_queryset(self):
         dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value','grid').order_by('created')
-        #print(dataset)
         return dataset
 
-
-
-        # today_day = datetime.now(timezone('Europe/Sofia')).day-1
-        # today = datetime.now(timezone('Europe/Sofia')).date()
-        # now = datetime.now(timezone('Europe/Sofia'))
-        # now = str(now)
-        # cur_hour = now.split(" ")[1].split(":")[0]
-        # cur_min = now.split(" ")[1].split(":")[1]
-        # till_now = str(today)+'T'+cur_hour+":"+cur_min+":00Z"
-        # month_begin = today - timedelta(today_day)
-        # start = str(month_begin) + 'T' + '00:00:00Z'
-        # return super().get_queryset().filter(created_date__gt = start, created_date__lt = till_now)
 
 class Post(models.Model):
 
@@ -129,9 +110,9 @@ class Aris(models.Model):
     power_aris = models.FloatField()
     timestamp_aris = models.DateTimeField(default=datetime.now())
     wind_aris = models.FloatField()
-    #objects = models.Manager()
-    # today = TodayArisManager()
-    # month = MonthPostManager()
+    objects = models.Manager()
+    #today = TodayArisManager()
+    month = MonthArisManager()
 
 class Neykovo(models.Model):
     power_neykovo = models.FloatField()
