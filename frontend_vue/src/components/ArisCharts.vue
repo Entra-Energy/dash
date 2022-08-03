@@ -221,7 +221,13 @@ export default {
          const responseTwo = responses[1].data
          console.log(responseOne)
          responseOne.forEach((itemFirstRes) => {
-           this.option.series[0].data.push([itemFirstRes.timestamp_aris,itemFirstRes.power_aris])
+           if (query_param == 'today')
+           {
+             this.option.series[0].data.push([itemFirstRes.timestamp_aris,itemFirstRes.power_aris])
+           }
+           else{
+             this.option.series[0].data.push([itemFirstRes.created,itemFirstRes.power_aris])
+           }
          });
          //
          // responseTwo.forEach((itemSecondRes) => {
@@ -231,37 +237,52 @@ export default {
          .catch(errors => {
               // react on errors.
           })
-
-       if (query_param == 'today')
-       {
-         this.option.xAxis.axisLabel.formatter = timeLineSet
-         this.option.tooltip.formatter =  toolTipSet
-         this.option.xAxis.splitNumber = 20
-       }
-       else if(query_param == 'month'){
-         this.option.xAxis.axisLabel.formatter = {
-           day: '{dayStyle|{d}}',
-           hour: '{hourStyle|{HH}}'
-         }
-         this.option.xAxis.axisLabel.rich = {
-           hourStyle: {
-             color: '#27293d'
-           }
-         }
-
-        }
-        else {
-
-            this.option.xAxis.axisLabel.formatter = {
-              month:'{MMM}',
-              day: '{d}',
+          .finally(() => {
+            if(query_param == 'today'){
+              this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
+              this.option.tooltip.formatter =  toolTipSet
+              this.option.xAxis.splitNumber = 24
+              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+              let endArr = [endStr,null]
+              this.option.series[0].data.push(endArr)
             }
-           this.option.xAxis.splitNumber = 12
-           let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-           let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-           this.option.series[0].data[0]=yearBegin
-           this.option.series[0].data.push(yearEnd)
-        }
+            else if(query_param == 'month')
+            {
+              // this.option.xAxis.axisLabel.formatter = {
+              //   day: '{dayStyle|{d}}',
+              //   hour: '{hourStyle|{HH}}'
+              // }
+              // this.option.xAxis.axisLabel.rich = {
+              //   hourStyle: {
+              //     color: '#27293d'
+              //   }
+              // }
+              //   let monthLenthArr = this.currDate.split("T")[0].split("-")
+              //   monthLenthArr[2] = this.monthLenthDays.toString()
+              //   let monthEnd = [monthLenthArr.join("-"),null]
+              //
+              //
+              //   let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+              //   this.option.series[0].data[0]=monthBegin
+              //   this.option.series[0].data.push(monthEnd)
+              //   this.option.xAxis.splitNumber = 30
+                //console.log(this.option.series[1].data)
+            }
+            else {
+                this.option.xAxis.axisLabel.formatter = {
+                  month:'{MMM}',
+                  day: '{d}',
+                }
+                let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
+                let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
+                this.option.series[0].data[0]=yearBegin
+                this.option.series[0].data.push(yearEnd)
+                this.option.xAxis.splitNumber = 12
+
+            }
+          })
+
+
   },
 
    getCurrTime(){
