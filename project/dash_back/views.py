@@ -28,11 +28,11 @@ class ArisViewset(viewsets.ModelViewSet):
         range = self.request.query_params.get('date_range',None)
         if range is not None:
             if range == 'today':
-                queryset = Aris.today.all().order_by('created')
+                queryset = Aris.today.all().order_by('timestamp_aris')
             if range == 'year':
-                queryset = Post.month.all()
+                queryset = Aris.month.all()
             if range == 'month':
-                queryset = Post.month.filter(created__gte=datem)
+                queryset = Aris.month.filter(created__gte=datem)
             return queryset
 
 
