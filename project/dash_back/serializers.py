@@ -31,7 +31,7 @@ class PriceSerializer(serializers.ModelSerializer):
 class OnlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Online
-        fields = "__all__"
+        fields = ('saved_date','dev')
 
 class FlexiSerializer(serializers.ModelSerializer):
     class Meta:
