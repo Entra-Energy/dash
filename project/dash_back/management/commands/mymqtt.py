@@ -43,6 +43,7 @@ class Command(BaseCommand):
             if myList[0] == 'ping':
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
+                print(data_out)
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
