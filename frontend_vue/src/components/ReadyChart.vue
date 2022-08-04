@@ -81,6 +81,11 @@ export default {
   },
   setup () {
    const option = ref({
+   title: {
+   text: 'Grid Ready/ Not Ready',
+   left: 'left',
+   color:'#fff'
+  },
   test: '',
   responsive: true,
 
@@ -139,6 +144,7 @@ export default {
     splitLine: {
      show: false
    },
+   boundaryGap: [0, '800%'],
    axisLabel: {
         formatter: ''
       }
@@ -373,7 +379,10 @@ export default {
           "type": "line",
           "sampling": "lttb",
           "showSymbol": false,
-          "connectNulls": false
+          "connectNulls": false,
+          "areaStyle": {
+            "color": "#28a745"
+    }
 
         }
       )

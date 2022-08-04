@@ -142,7 +142,7 @@ export default {
      show: false
    },
    axisLabel: {
-        formatter: '{value} BGN'
+      //  formatter: '{value} BGN'
       }
     // splitLine: {
     //             lineStyle: {
@@ -166,20 +166,23 @@ export default {
       itemStyle: {
         color: 'rgb(255, 222, 33)'
       },
-      sampling: 'lttb',
+      //sampling: 'lttb',
       data: [],
-      type: 'line'
+      type: 'line',
+      showSymbol: false,
+      connectNulls: false,
+      lineStyle: {
+          width: 1
+      },
+
     },
     {
       name: "wind",
-      smooth: true,
-      step: 'middle',
-      clip: true,
-
+      smooth: false,
       itemStyle: {
         color: 'rgb(102,173,62)'
       },
-      sampling: 'average',
+      sampling: 'lttb',
       data: [],
       type: 'line'
     },
@@ -224,6 +227,7 @@ export default {
            if (query_param == 'today')
            {
              this.option.series[0].data.push([itemFirstRes.timestamp_aris,itemFirstRes.power_aris])
+
            }
            else{
              this.option.series[0].data.push([itemFirstRes.created,itemFirstRes.power_aris])
@@ -248,24 +252,24 @@ export default {
             }
             else if(query_param == 'month')
             {
-              // this.option.xAxis.axisLabel.formatter = {
-              //   day: '{dayStyle|{d}}',
-              //   hour: '{hourStyle|{HH}}'
-              // }
-              // this.option.xAxis.axisLabel.rich = {
-              //   hourStyle: {
-              //     color: '#27293d'
-              //   }
-              // }
-              //   let monthLenthArr = this.currDate.split("T")[0].split("-")
-              //   monthLenthArr[2] = this.monthLenthDays.toString()
-              //   let monthEnd = [monthLenthArr.join("-"),null]
-              //
-              //
-              //   let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-              //   this.option.series[0].data[0]=monthBegin
-              //   this.option.series[0].data.push(monthEnd)
-              //   this.option.xAxis.splitNumber = 30
+              this.option.xAxis.axisLabel.formatter = {
+                day: '{dayStyle|{d}}',
+                hour: '{hourStyle|{HH}}'
+              }
+              this.option.xAxis.axisLabel.rich = {
+                hourStyle: {
+                  color: '#27293d'
+                }
+              }
+                let monthLenthArr = this.currDate.split("T")[0].split("-")
+                monthLenthArr[2] = this.monthLenth.toString()
+                let monthEnd = [monthLenthArr.join("-"),null]
+
+
+                let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+                this.option.series[0].data[0]=monthBegin
+                this.option.series[0].data.push(monthEnd)
+                this.option.xAxis.splitNumber = 30
                 //console.log(this.option.series[1].data)
             }
             else {

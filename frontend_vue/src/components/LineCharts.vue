@@ -496,7 +496,10 @@ export default {
           "type": "line",
           "sampling": "lttb",
           "showSymbol": false,
-          "connectNulls": false
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1
+          },
           //"sampling": "average"
         }
       )
