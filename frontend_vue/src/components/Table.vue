@@ -252,7 +252,8 @@ export default {
       pollData () {
           this.polling = setInterval(() => {
             this.getData();
-        }, 10000)
+          
+        }, 4000)
       },
 
       selectAll() {

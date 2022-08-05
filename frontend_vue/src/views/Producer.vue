@@ -2,12 +2,14 @@
   <template>
         <div class='row'><div class='col'><Range @emit-it="handleChange"/></div></div>
         <div class='row'><div class='col'><ArisCharts :query="query" /></div></div>
+      
   </template>
 
 
 <script>
   import Range from '@/components/Range.vue'
   import ArisCharts from '@/components/ArisCharts.vue'
+
 
   export default {
     name: 'Producer',

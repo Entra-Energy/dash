@@ -1,6 +1,9 @@
 <template>
   <div class="card card-chart">
   <div class="card-body">
+    <div v-if="dataLoader">
+      <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>
+    </div>
     <v-chart class="chart" ref='lineChart' style="background-color:#27293d;max-width: 100%; height: 350px" @dataZoom="updateZoom" :option="option" autoresize />
   </div>
 </div>
@@ -8,6 +11,7 @@
 
 
 <script>
+
 import axios from 'axios';
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -85,11 +89,18 @@ var timeLineSetMonth = function(value,index){
 
 export default {
 
+  data() {
+    return {
+      dataLoader:false,
+    }
+  },
+
   props: {
     query: {
       type: String,
     },
   },
+
   currTime: '',
   currDate:'',
   currYear: '',
@@ -347,6 +358,7 @@ export default {
                 let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
                 let endArr = [endStr,null]
                 this.option.series[1].data.push(endArr)
+                this.dataLoader = false
                 //console.log(endArr)
                 //console.log(this.option.series)
               }
@@ -370,6 +382,7 @@ export default {
                   this.option.series[1].data[0]=monthBegin
                   this.option.series[1].data.push(monthEnd)
                   this.option.xAxis.splitNumber = 30
+                  this.dataLoader = false
                   //console.log(this.option.series[1].data)
               }
               else {
@@ -382,9 +395,10 @@ export default {
                   this.option.series[1].data[0]=yearBegin
                   this.option.series[1].data.push(yearEnd)
                   this.option.xAxis.splitNumber = 12
+                  this.dataLoader = false
 
               }
-
+            
               //console.log(this.nextP)
               // if(this.nextP)
               // {
@@ -464,6 +478,7 @@ export default {
 
  },
  created (){
+   this.dataLoader = true
     // let urlMonth = "http://64.225.100.195:8000/api/posts/?date_range=month"
     // let monthData = []
     // axios.get(urlMonth)
@@ -574,6 +589,7 @@ export default {
            {
              let rangeIndex = this.$store.state.dash_init;
              this.param = rangeIndex
+             this.dataLoader = true;
              this.getData();
            }
            if (path == '/client')
