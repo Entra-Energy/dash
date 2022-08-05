@@ -632,6 +632,7 @@ export default {
          //console.log(this.dev)
          if(this.dev){
          this.getData();
+         this.dataLoader = true;
          }
        }
 
