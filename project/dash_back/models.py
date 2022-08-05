@@ -105,6 +105,7 @@ class FlexabilitySim(models.Model):
     scheduled = models.DateTimeField(default=datetime.now())
     sched_pow = models.FloatField()
     sched_durration = models.IntegerField()
+    #requested_power = models.FloatField()
 
 class Aris(models.Model):
     power_aris = models.FloatField()

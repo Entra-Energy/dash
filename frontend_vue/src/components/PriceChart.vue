@@ -168,7 +168,12 @@ export default {
       },
       sampling: 'lttb',
       data: [],
-      type: 'line'
+      type: 'line',
+      "showSymbol": false,
+      "connectNulls": false,
+      "lineStyle": {
+          "width": 1
+      },
     },
     {
       name: "priceBefore",

@@ -91,7 +91,7 @@ export default {
 
   data() {
     return {
-      dataLoader:false,
+      dataLoader:true,
     }
   },
 
@@ -398,7 +398,7 @@ export default {
                   this.dataLoader = false
 
               }
-            
+
               //console.log(this.nextP)
               // if(this.nextP)
               // {
@@ -538,6 +538,7 @@ export default {
       let zoom = this.$store.state.client_zoom
       this.option.dataZoom[0].start = zoom.start
       this.option.dataZoom[0].end = zoom.end
+      this.dataLoader = false;
       // if (this.dev)
       //  {
       //   this.getData();
@@ -596,6 +597,7 @@ export default {
            {
              let rangeIndex = this.$store.state.client_init;
              this.param = rangeIndex
+
              if(this.dev){
 
              this.getData();
