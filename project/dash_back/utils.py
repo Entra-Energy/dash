@@ -90,9 +90,9 @@ def get_hydro():
     
     date_part = iso_date.split("T")[0].split("-")
 
-    year = date_part[0]
-    month = date_part[1]
-    day = date_part[2]
+    year = int(date_part[0])
+    month = int(date_part[1])
+    day = int(date_part[2])
 
     hour_part = iso_date.split("T")[1].split(":")
 
