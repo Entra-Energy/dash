@@ -63,24 +63,28 @@
                    <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                    <template v-slot="{ inputValue, inputEvents }">
                      <!-- <i class="far fa-calendar-alt"></i> -->
+                     <label for="schedule">Schedule</label>
                      <input
-                       class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                       class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300 form-control"
                        :value="test[dev.id]"
                        :disabled="!dev.ready"
                        v-on="inputEvents"
+                       name="schedule"
                      />
                    </template>
                   </DatePicker>
                 </div>
                <div class="form-group form-group-sm col-md-4 duration">
-                 <select class="form-control d-inline-block" :class="testClass" v-model="duration[dev.id]" @change="onChange($event)" :disabled="!dev.ready">
+                <label for="duration">Duration:</label>
+                 <select class="form-control d-inline-block" id="duration" :class="testClass" v-model="duration[dev.id]" @change="onChange($event)" :disabled="!dev.ready">
                    <option v-for="item in items" :value="item.val" :key="item.id" >{{item.val}}</option>
                  </select>
                </div>
              </div>
              <div class='form-row'>
                <div class="form-group form-group-sm pow col-md-8">
-                 <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" :disabled="!dev.ready" placeholder="Power">
+                 <label for="power">Power</label>
+                 <input type="text" name="power" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" :disabled="!dev.ready" >
                </div>
 
                <div class = "form-group form-group-sm col-md-4 sendIt">
@@ -446,10 +450,10 @@ input#calibrate-single {
 /* .datepick{
   padding: .375rem .75rem;
 } */
-.duration select {
+/* .duration select {
     max-height: 33px;
     max-width: 52%;
-}
+} */
 .datepick i {
     margin-right: 10px;
 }
@@ -523,14 +527,14 @@ input#calibrate-single {
     margin: 0 auto;
 }
 input.cal-input {
-    max-width: 72%;
+    /* max-width: 72%; */
 }
 input.power-in {
-    max-height: 36px;
-    max-width: 74%;
+    /* max-height: 36px;
+    max-width: 74%; */
 }
 .sendIt .btn {
-    max-height: 36px;
+    /* max-height: 36px; */
 
 }
 .table td, .table th {
@@ -541,5 +545,8 @@ input.power-in {
 }
 .form-control:disabled, .form-control[readonly] {
   background-color: #5c5c66;
+}
+.sendIt {
+    margin-top: 31px;
 }
 </style>

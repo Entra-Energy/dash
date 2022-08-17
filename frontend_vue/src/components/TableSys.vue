@@ -220,15 +220,6 @@ export default {
             foundSix.customer = responseSix.value
           }
 
-
-
-
-
-
-
-
-
-
            }))
            .catch(errors => {
 

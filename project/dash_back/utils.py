@@ -1,4 +1,5 @@
 import json
+import requests
 from dash_back.models import Price, FlexabilitySim, Flexi
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
@@ -70,3 +71,20 @@ def exec_all():
             pow_req = req.res_pow
             durr_req = req.res_durr
             FlexabilitySim.objects.get_or_create(provided_dev=dev_req,scheduled=scheduled_req,sched_pow=pow_req,sched_durration=durr_req)
+
+def get_hydro():
+    
+    
+    url = "https://api.thingspeak.com/channels/867128/feeds.json?api_key=9KHXETAXFJX8DWF9&results=2"
+
+    r = requests.get(url)
+    page_content = r.text
+    # It turns out Flickr escapes single quotes (')
+    # and apparently this isn't allowed and makes the JSON invalid.
+    # we use String.replace to get around this
+    probably_json = page_content.replace("\\'", "'")
+    # now we load the json
+    feed = json.loads(probably_json)
+    data = feed['result']
+    print (data)
+    #return data

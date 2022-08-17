@@ -117,6 +117,11 @@ CELERY_BEAT_SCHEDULE = {
       'task': 'dash_back.tasks.task_schedule',
       'schedule': crontab(),
   },
+    'task_hydro_data':{
+        'task':'dash_back.tasks.task_hydro',
+        'schedule': crontab(),
+        
+    },
 }
 CELERY_TIMEZONE = 'Europe/Sofia'
 
