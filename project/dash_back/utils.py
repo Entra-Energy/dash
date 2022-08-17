@@ -85,6 +85,6 @@ def get_hydro():
     probably_json = page_content.replace("\\'", "'")
     # now we load the json
     feed = json.loads(probably_json)
-    data = feed["feeds"]
+    data = feed["feeds"][-1]
     print (data)
     #return data
