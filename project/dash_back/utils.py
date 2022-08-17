@@ -122,9 +122,7 @@ def get_hydro():
         "HY_GT":HY_GT,
         "HY_GC":HY_GC,
         "HY_GVOL":HY_GVOL
-    }
-    
-    
-    print(str(hydro))
-
+    }    
+    topic = 'hydro'
+    publish.single(topic, str(hydro), hostname="159.89.103.242", port=1883)
     #return data
