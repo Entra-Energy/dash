@@ -1,5 +1,4 @@
 import json
-from sqlite3 import Timestamp
 import requests
 from dash_back.models import Price, FlexabilitySim, Flexi
 from datetime import datetime,tzinfo,timedelta
@@ -87,6 +86,22 @@ def get_hydro():
     # now we load the json
     feed = json.loads(probably_json)
     data = feed["feeds"][-1]
-    timestamp = data["created_at"]
-    print (timestamp)
+    iso_date = data["created_at"]
+    
+    date_part = iso_date.split("T")[0].split("-")
+
+    year = date_part[0]
+    month = date_part[1]
+    day = date_part[2]
+
+    hour_part = iso_date.split("T")[1].split(":")
+
+    hour = hour_part[0]
+    last_min = hour_part[1]
+    sec = hour_part[2]
+
+    timestamp = datetime(year, month, day, hour, last_min, sec, tzinfo=pytz.utc)
+
+    print(timestamp)
+
     #return data
