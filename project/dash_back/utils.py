@@ -100,8 +100,8 @@ def get_hydro():
     last_min = int(hour_part[1])
     sec = hour_part[2]
 
-    timestamp = datetime(year, month, day, hour, last_min, 0, tzinfo=pytz.utc)
+    timestamp_now = datetime(year, month, day, hour, last_min, 0, tzinfo=pytz.utc).timestamp()
 
-    print(str(timestamp))
+    print(str(timestamp_now))
 
     #return data
