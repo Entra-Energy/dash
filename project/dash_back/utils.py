@@ -87,6 +87,12 @@ def get_hydro():
     feed = json.loads(probably_json)
     data = feed["feeds"][-1]
     iso_date = data["created_at"]
+    power = data["field1"]
+    guide_vains = data["field2"]
+    level = data["field3"]
+    gen_tmp = data["field4"]
+    gen_u = data["field5"]
+    gen_curr = data["field6"]
     
     date_part = iso_date.split("T")[0].split("-")
 
@@ -98,10 +104,27 @@ def get_hydro():
 
     hour = int(hour_part[0])
     last_min = int(hour_part[1])
-    sec = hour_part[2]
+    
 
     timestamp_now = datetime(year, month, day, hour, last_min, 0, tzinfo=pytz.utc).timestamp()
-
-    print(str(timestamp_now))
+    stamp = str(timestamp_now)
+    HY_PW = str(power)
+    HY_GV = str(guide_vains)
+    HY_WL = str(level)
+    HY_GT = str(gen_tmp)
+    HY_GC = str(gen_curr)
+    HY_GVOL = str(gen_u)
+    hydro = {
+        "stamp":stamp,
+        "HY_PW":HY_PW,
+        "HY_GV":HY_GV,
+        "HY_WL":HY_WL,
+        "HY_GT":HY_GT,
+        "HY_GC":HY_GC,
+        "HY_GVOL":HY_GVOL
+    }
+    
+    
+    print(str(hydro))
 
     #return data
