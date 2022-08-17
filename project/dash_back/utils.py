@@ -96,11 +96,11 @@ def get_hydro():
 
     hour_part = iso_date.split("T")[1].split(":")
 
-    hour = hour_part[0]
-    last_min = hour_part[1]
+    hour = int(hour_part[0])
+    last_min = int(hour_part[1])
     sec = hour_part[2]
 
-    timestamp = datetime(year, month, day, hour, last_min, sec, tzinfo=pytz.utc)
+    timestamp = datetime(year, month, day, hour, last_min, 0, tzinfo=pytz.utc)
 
     print(str(timestamp))
 
