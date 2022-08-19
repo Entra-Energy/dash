@@ -16,4 +16,9 @@ db.sqlite3
 
 /data/
 dashboard/settings.py
-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
+
+#docker-compose -f docker-compose.prod.yml down -v --remove-orphans
+
+#docker-compose -f docker-compose.prod.yml up -d --build
+
+#docker-compose -f docker-compose.prod.yml logs -f
