@@ -36,5 +36,5 @@ class Command(BaseCommand):
         for data in my_json_obj:
             time = convert(self, data["time"])
             price = float(data["price"])
-            print(price)
+            print(time)
             Price.objects.get_or_create(timestamp=time, value = price)
