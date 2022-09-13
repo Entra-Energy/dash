@@ -86,7 +86,7 @@ def get_hydro():
     # now we load the json
     feed = json.loads(probably_json)
     data = feed["feeds"][-1]
-    iso_date = data["created_at"]
+    #iso_date = data["created_at"]
     power = data["field1"]
     guide_vains = data["field2"]
     level = data["field3"]
@@ -94,19 +94,29 @@ def get_hydro():
     gen_u = data["field5"]
     gen_curr = data["field6"]
     
-    date_part = iso_date.split("T")[0].split("-")
+    #date_part = iso_date.split("T")[0].split("-")
 
-    year = int(date_part[0])
-    month = int(date_part[1])
-    day = int(date_part[2])
+    # year = int(date_part[0])
+    # month = int(date_part[1])
+    # day = int(date_part[2])
 
-    hour_part = iso_date.split("T")[1].split(":")
+    # hour_part = iso_date.split("T")[1].split(":")
 
-    hour = int(hour_part[0])
-    last_min = int(hour_part[1])
-    
+    # hour = int(hour_part[0])
+    # last_min = int(hour_part[1])
+    now = datetime.now()
 
-    timestamp_now = datetime(year, month, day, hour, last_min, 0, tzinfo=pytz.utc).timestamp()
+    year_part = int(str(now).split(" ")[0].split("-")[0])
+    month_part = int(str(now).split(" ")[0].split("-")[1])
+    day_part = int(str(now).split(" ")[0].split("-")[2])
+
+    hour_part = int(str(now).split(" ")[1].split(":")[0])
+    min_part = int(str(now).split(" ")[1].split(":")[1])
+    sec_part = str(now).split(" ")[1].split(":")[2]
+
+    sec_part = float(sec_part)
+    sec_part = int(sec_part)
+    timestamp_now = datetime(year_part, month_part, day_part, hour_part, min_part, sec_part, tzinfo=pytz.utc).timestamp()    
     stamp = str(timestamp_now)
     HY_PW = str(power)
     HY_GV = str(guide_vains)
@@ -115,7 +125,7 @@ def get_hydro():
     HY_GC = str(gen_curr)
     HY_GVOL = str(gen_u)
     hydro = {
-        "stamp":stamp,
+        "timestamp":stamp,
         "HY_PW":HY_PW,
         "HY_GV":HY_GV,
         "HY_WL":HY_WL,

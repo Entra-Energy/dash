@@ -34,7 +34,7 @@
         <th>DevID</th>
         <th>Status</th>
         <th>Power</th>
-        <th>Customer</th>
+        <th>Device Name</th>
         <th>Location</th>
         <th>Capacity</th>
         <th></th>

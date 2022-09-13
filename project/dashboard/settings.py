@@ -119,7 +119,7 @@ CELERY_BEAT_SCHEDULE = {
   },
     'task_hydro_data':{
         'task':'dash_back.tasks.task_hydro',
-        'schedule': crontab(),
+        'schedule': 10.0,
         
     },
 }
