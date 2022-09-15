@@ -210,6 +210,7 @@ def login_data(request):
     password = login_data["login"]["password"]
     ip = login_data["login"]["ip"]
     if username == 'admin' and password == 'aA12121212':   
+        print(ip)
         UserIp.objects.get_or_create(user_ip=ip)
         return Response({"Success": "ok"})
 
