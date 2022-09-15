@@ -28,7 +28,7 @@ export default {
     loginForm(){
       console.log(this.username)
 
-      axios.post('http://127.0.0.1:8000/api/login-data/', {
+      axios.post('http://64.225.100.195:8000/api/login-data/', {
         //"test":"test2"
 
         login: {
