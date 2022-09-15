@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer
-from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, PostFilter, ArisFilter
 from dash_back.tasks import task_exec_all
@@ -19,6 +19,12 @@ import datetime as dt
 #
 #     serializer_class = ArisSerializer
 #     filter_class = ArisFilter
+
+
+class userIpView(viewsets.ModelViewSet):    
+    queryset = UserIp.objects.all()
+    serializer_class = UserIpSerializer
+
 
 class ArisViewset(viewsets.ModelViewSet):
     def get_queryset(self):
@@ -202,7 +208,9 @@ def login_data(request):
     print(login_data)
     username = login_data["login"]['username']
     password = login_data["login"]["password"]
+    ip = login_data["login"]["ip"]
     if username == 'admin' and password == 'aA12121212':   
+        UserIp.objects.get_or_create(user_ip=ip)
         return Response({"Success": "ok"})
 
 @api_view(['POST',])
