@@ -1,7 +1,7 @@
 from rest_framework import serializers #type ignore
 from datetime import datetime, timedelta, time
-from dash_back.models import Post,Online,Price, Flexi, Aris,UserIp
-from project.dash_back.models import UserIp #type ignore
+from dash_back.models import Post,Online,Price, Flexi, Aris, UserIp
+
 
 class PostSerializer(serializers.ModelSerializer):
     created = serializers.ReadOnlyField()

@@ -121,4 +121,4 @@ class Neykovo(models.Model):
     wind_neykovo = models.FloatField()
 
 class UserIp(models.Model):
-    user_ip = models.CharField(max_length=300)
+    user_ip = models.CharField(max_length=900)
