@@ -200,7 +200,10 @@ def login_data(request):
     print("Test!!!!")
     login_data = request.data
     print(login_data)
-    return Response({"Success": "ok"})
+    username = login_data["login"]['username']
+    password = login_data["login"]["password"]
+    if username == 'admin' and password == 'aA12121212':   
+        return Response({"Success": "ok"})
 
 @api_view(['POST',])
 def exec_all(request):

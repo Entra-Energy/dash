@@ -119,3 +119,6 @@ class Neykovo(models.Model):
     power_neykovo = models.FloatField()
     timestamp_neykovo = models.DateTimeField(default=datetime.now())
     wind_neykovo = models.FloatField()
+
+class UserIp(models.Model):
+    user_ip = models.CharField(max_length=300)

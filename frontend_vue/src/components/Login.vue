@@ -19,7 +19,9 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      ipArr: [],
+      userIp:'',
     };
   },
   methods: {
@@ -27,16 +29,20 @@ export default {
       console.log(this.username)
 
       axios.post('http://127.0.0.1:8000/api/login-data/', {
-        "test":"test2"
+        //"test":"test2"
 
-        // login: {
-        //   "username": this.username,
-        //   "password": this.password
-        // },
+        login: {
+          "username": this.username,
+          "password": this.password,
+          "ip": this.userIp
+        },
 
 
       }).then(response => {
-        console.log(response);
+        
+        if(response.data){
+          //this.fetchIp()          
+        }
         // this.response = response.data
         this.success = 'Data saved successfully';
         this.response = JSON.stringify(response, null, 2)
@@ -46,7 +52,24 @@ export default {
       //this.newEntries = {}
 
     },
+    fetchIp(){
+    try {
+        axios
+        .get(
+          "https://api.ipify.org?format=json"
+        )
+        .then(response => this.userIp = response.data.ip )//console.log(response.data.ip))       
+
+      }catch (error) {
+        //console.log(error);
+      }
+
   }
+  },
+  created(){
+    this.fetchIp();
+  }
+
 };
 </script>
 
