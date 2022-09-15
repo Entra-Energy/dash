@@ -13,6 +13,7 @@ router.register(r'posts', views.PostViewset, basename='posts')
 router.register(r'aris', views.ArisViewset, basename='aris')
 router.register(r'price', views.PriceViewset, basename='price')
 router.register(r'flexi_res', views.FlexiViewset, basename='flexi_res')
+router.register(r'userip', views.userIpViewset, basename='userip')
 
 urlpatterns = [
     path('online/', views.OnlineView.as_view(), name = 'test'),

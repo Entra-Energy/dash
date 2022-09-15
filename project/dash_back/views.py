@@ -21,7 +21,7 @@ import datetime as dt
 #     filter_class = ArisFilter
 
 
-class userIpView(viewsets.ModelViewSet):    
+class userIpViewset(viewsets.ModelViewSet):    
     queryset = UserIp.objects.all()
     serializer_class = UserIpSerializer
 
