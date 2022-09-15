@@ -64,10 +64,24 @@ export default {
         //console.log(error);
       }
 
-  }
+  },
+    getIps(){
+      try {
+        axios
+        .get(
+          "http://64.225.100.195:8000/api/userip/"
+        )
+        .then(response => console.log(response.data))       
+
+      }catch (error) {
+        //console.log(error);
+      }
+
+    },
   },
   created(){
     this.fetchIp();
+    this.getIps();
   }
 
 };
