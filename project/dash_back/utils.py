@@ -137,6 +137,9 @@ def get_hydro():
     topic = 'hydro'
     publish.single(topic, str(hydro), hostname="159.89.103.242", port=1883)
     if power:
+        count = Hydro.objects.all().count()
+        if count > 200:
+            Hydro.objects.all().delete()
         Hydro.objects.create(hydro_pow=power,guide_vains=guide_vains,level=level,gen_temp=gen_tmp,gen_curr=gen_curr,gen_vol=gen_u)
         
     #return data
