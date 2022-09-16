@@ -122,3 +122,12 @@ class Neykovo(models.Model):
 
 class UserIp(models.Model):
     user_ip = models.CharField(max_length=900)
+    
+class Hydro(models.Model):
+    timestamp_hydro = models.DateTimeField(default=datetime.now())
+    hydro_pow = models.FloatField()
+    guide_vains = models.FloatField()
+    level = models.FloatField()
+    gen_temp = models.FloatField()
+    gen_curr = models.FloatField()
+    gen_vol = models.FloatField()

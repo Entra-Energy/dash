@@ -1,6 +1,6 @@
 import json
 import requests
-from dash_back.models import Price, FlexabilitySim, Flexi
+from dash_back.models import Price, FlexabilitySim, Flexi, Hydro
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
@@ -133,6 +133,10 @@ def get_hydro():
         "HY_GC":HY_GC,
         "HY_GVOL":HY_GVOL
     }    
+    
     topic = 'hydro'
     publish.single(topic, str(hydro), hostname="159.89.103.242", port=1883)
+    if power:
+        Hydro.objects.create(timestamp_hydro=timestamp_now, hydro_pow=power,guide_vains=guide_vains,level=level,gen_temp=gen_tmp,gen_curr=gen_curr,gen_vol=gen_u)
+        
     #return data

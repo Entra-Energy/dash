@@ -26,7 +26,8 @@ export default {
   },
   methods: {
     loginForm(){
-      console.log(this.username)
+      console.log(this.ipArr)
+      console.log(this.userIp)
 
       axios.post('http://64.225.100.195:8000/api/login-data/', {
         //"test":"test2"
@@ -71,17 +72,30 @@ export default {
         .get(
           "http://64.225.100.195:8000/api/userip/"
         )
-        .then(response => console.log(response.data))       
+        .then(response => response.data.forEach(el=>{
+          this.ipArr.push(el.user_ip)
+        }))       
 
       }catch (error) {
         //console.log(error);
       }
-
     },
+
+    checkIp(){
+      let found = this.ipArr.find(element => element === this.userIp)
+      console.log(found)
+    }
+
+
+
+
+
   },
   created(){
     this.fetchIp();
     this.getIps();
+    this.checkIp();
+    
   }
 
 };
