@@ -147,4 +147,8 @@ def get_hydro():
     
 def get_pv():
     test = os.path.join(settings.BASE_DIR, 'pv-data.json')
-    print(test)
+    with open(test, 'r') as f:
+        #d_old_str = f.read().replace('\n', '') # remove all \n
+        my_json_obj = json.load(f)
+        for data in my_json_obj:
+            print(data)
