@@ -168,11 +168,11 @@ def get_pv():
             if data["timestamp"] == timestamp_curr:
                 pv = {
                     "timestamp": data["timestamp"],
-                    "pow_active" : data["Power Active"],
-                    "pow_react" : data["Power Reactive"],
-                    "temp" : data["Temperature"],
-                    "wind_spd" : data["Wind Speed"],
-                    "irradiance" : data["Solar Irradiance"],
+                    "PV_AP" : data["Power Active"],
+                    "PV_RP" : data["Power Reactive"],
+                    "PV_ET" : data["Temperature"],
+                    "PV_WS" : data["Wind Speed"],
+                    "PV_SI" : data["Solar Irradiance"],
                     "alarm" : data["alarm"],
                 }
                 topic = "pv/local"
