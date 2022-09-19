@@ -166,4 +166,14 @@ def get_pv():
         for data in my_json_obj:
             timestamp_curr = convert()            
             if data["timestamp"] == timestamp_curr:
-                print(data["Temperature"])
+                pv = {
+                    "pow_active" : data["Power Active"],
+                    "pow_react" : data["Power Reactive"],
+                    "temp" : data["Temperature"],
+                    "wind_spd" : data["Wind Speed"],
+                    "irradiance" : data["Solar Irradiance"],
+                    "alarm" : data["alarm"],
+                }
+                topic = "pv/local"
+                publish.single(topic, str(pv), hostname="159.89.103.242", port=1883)
+                
