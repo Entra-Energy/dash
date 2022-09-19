@@ -167,6 +167,7 @@ def get_pv():
             timestamp_curr = convert()            
             if data["timestamp"] == timestamp_curr:
                 pv = {
+                    "timestamp": data["timestamp"],
                     "pow_active" : data["Power Active"],
                     "pow_react" : data["Power Reactive"],
                     "temp" : data["Temperature"],
