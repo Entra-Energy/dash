@@ -156,7 +156,7 @@ def get_pv():
         sec = todays_date.second
         time_hour = datetime(year, month, day, hour, min, sec ,tzinfo=pytz.utc).timestamp()    
         toStr = str(time_hour).split(".")[0]
-        int_stamp = int(toStr)-10800
+        int_stamp = int(toStr)
         return int_stamp
     
     test = os.path.join(settings.BASE_DIR, 'pv-data.json')
