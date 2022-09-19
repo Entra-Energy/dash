@@ -53,18 +53,25 @@ export default {
       //this.newEntries = {}
 
     },
-    fetchIp(){
+    fetchIp(){      
+      let test = 'x'
     try {
         axios
         .get(
           "https://api.ipify.org?format=json"
         )
-        .then(response => this.userIp = response.data.ip )//console.log(response.data.ip))       
+        .then(response => {
+            test = response.data["ip"]
+            this.userIp = test
+            console.log(this.userIp)
+            console.log(this.ipArr)
+        }      
+        )
 
       }catch (error) {
         //console.log(error);
       }
-
+      //console.log(test)
   },
     getIps(){
       try {
@@ -79,11 +86,13 @@ export default {
       }catch (error) {
         //console.log(error);
       }
+      
     },
 
     checkIp(){
-      let found = this.ipArr.find(element => element === this.userIp)
-      console.log(found)
+      
+      // let found = this.ipArr.find(element => element === this.userIp)
+      // console.log(found)
     }
 
 
@@ -92,9 +101,10 @@ export default {
 
   },
   created(){
-    this.fetchIp();
     this.getIps();
+    this.fetchIp();    
     this.checkIp();
+    
     
   }
 

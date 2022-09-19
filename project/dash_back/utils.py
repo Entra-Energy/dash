@@ -1,5 +1,6 @@
 import json
 import requests
+from django.conf import settings
 from dash_back.models import Price, FlexabilitySim, Flexi, Hydro
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
@@ -143,3 +144,7 @@ def get_hydro():
         Hydro.objects.create(hydro_pow=power,guide_vains=guide_vains,level=level,gen_temp=gen_tmp,gen_curr=gen_curr,gen_vol=gen_u)
         
     #return data
+    
+def get_pv():
+    test = os.path.join(settings.BASE_DIR, 'pv-data.json')
+    print(test)
