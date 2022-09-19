@@ -146,9 +146,24 @@ def get_hydro():
     #return data
     
 def get_pv():
+    def convert():
+        todays_date = datetime.now()
+        year = todays_date.year
+        month = 9
+        day = 1
+        hour = todays_date.hour 
+        min = todays_date.minute
+        sec = todays_date.second
+        time_hour = datetime(year, month, day, hour, min, sec ,tzinfo=pytz.utc).timestamp()    
+        toStr = str(time_hour).split(".")[0]
+        int_stamp = int(toStr)-10800
+        return int_stamp
+    
     test = os.path.join(settings.BASE_DIR, 'pv-data.json')
     with open(test, 'r') as f:
         #d_old_str = f.read().replace('\n', '') # remove all \n
         my_json_obj = json.load(f)
         for data in my_json_obj:
-            print(data)
+            timestamp_curr = convert()            
+            if data["timestamp"] == timestamp_curr:
+                print(data["Temperature"])
