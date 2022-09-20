@@ -171,8 +171,9 @@ def get_pv():
         for data in my_json_obj:
             timestamp_curr = convert()[0]            
             if data["timestamp"] == timestamp_curr:
+                curr_ts = convert()[1]
                 pv = {
-                    "timestamp": data["timestamp"],
+                    "timestamp": curr_ts,
                     "PV_AP" : data["Power Active"],
                     "PV_RP" : data["Power Reactive"],
                     "PV_ET" : data["Temperature"],
