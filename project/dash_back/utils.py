@@ -151,20 +151,25 @@ def get_pv():
         year = todays_date.year
         month = 9
         day = 1
+        month_curr = todays_date.month
+        day_curr = todays_date.day
         hour = todays_date.hour 
         min = todays_date.minute
         sec = todays_date.second
-        time_hour = datetime(year, month, day, hour, min, sec ,tzinfo=pytz.utc).timestamp()    
+        time_hour = datetime(year, month, day, hour, min, sec ,tzinfo=pytz.utc).timestamp()            
         toStr = str(time_hour).split(".")[0]
         int_stamp = int(toStr)
-        return int_stamp
+        time_hour_curr = datetime(year, month_curr, day_curr, hour, min, sec ,tzinfo=pytz.utc).timestamp()
+        toStr_curr = str(time_hour_curr).split(".")[0]
+        int_stamp_curr = int(toStr_curr)
+        return [int_stamp,int_stamp_curr]
     
     test = os.path.join(settings.BASE_DIR, 'pv-data.json')
     with open(test, 'r') as f:
         #d_old_str = f.read().replace('\n', '') # remove all \n
         my_json_obj = json.load(f)
         for data in my_json_obj:
-            timestamp_curr = convert()            
+            timestamp_curr = convert()[0]            
             if data["timestamp"] == timestamp_curr:
                 pv = {
                     "timestamp": data["timestamp"],

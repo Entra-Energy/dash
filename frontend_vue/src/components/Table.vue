@@ -194,7 +194,7 @@ export default {
         let foundOne = this.all.find(element => element.id === responseOne.id)
         if (foundOne)
         {
-          console.log(foundOne)
+          
           foundOne.customer = responseOne.value
         }
         let foundTwo = this.all.find(element => element.id === responseTwo.id)

@@ -63,8 +63,22 @@ export default {
         .then(response => {
             test = response.data["ip"]
             this.userIp = test
-            console.log(this.userIp)
-            console.log(this.ipArr)
+            let vals = this.ipArr
+            vals.forEach(el=>{
+
+              
+              if (el == test)
+               {
+                 console.log("test")
+                 console.log(test)
+               }
+            })
+           // console.log(this.userIp)
+           // console.log(this.ipArr)
+            //let vals = Object.values(this.ipArr)
+            //console.log(vals)
+           // const found = this.vals.find(element => element = this.userIp);
+           // console.log(vals)
         }      
         )
 
