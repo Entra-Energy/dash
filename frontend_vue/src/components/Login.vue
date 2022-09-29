@@ -132,7 +132,8 @@ export default {
     min-width: 500px;
     min-height: 500px;
     background: #837676;
-    z-index: 999;    
+    z-index: 999;   
+    display: none; 
 }
 .loginShowed{
     position: absolute;
