@@ -138,7 +138,7 @@ export default {
         orient: 'vertical',
         padding:[-500,100,0,0],
         //data: ['sm-0009','sm-0001'],
-        selected:{'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true},
+        selected:{'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true,'sm-00013':true,'sm-00014':true},
      },
   tooltip: {
 

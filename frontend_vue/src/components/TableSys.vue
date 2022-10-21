@@ -119,7 +119,7 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
-      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true},
+      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true,'sm-00013':true,'sm-00014':true},
       allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
@@ -150,6 +150,14 @@ export default {
         {
           "id":"sm-00012","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
         },
+        {
+          "id":"sm-00013","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
+        },
+        {
+          "id":"sm-00014","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
+        },
+
+
 
     ],
       posts: [],
@@ -191,7 +199,7 @@ export default {
           let foundOne = this.all.find(element => element.id === responseOne.id)
           if (foundOne)
           {
-            console.log(foundOne)
+            
             foundOne.customer = responseOne.value
           }
           let foundTwo = this.all.find(element => element.id === responseTwo.id)
