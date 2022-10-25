@@ -96,23 +96,23 @@ class Command(BaseCommand):
                 Flexi.objects.create(flexiDev = dev_id, response_time = time_iso, res_pow = res_power, res_durr = durr)
 
 
-            if myList[0] == 'corrResponse':
-                dev_id = myList[1]
-                data_out=json.loads(msg.payload.decode())
+            # if myList[0] == 'corrResponse':
+            #     dev_id = myList[1]
+            #     data_out=json.loads(msg.payload.decode())
                 #print(data_out)
-            if topic == 'windData':
-                data_aris = json.loads(msg.payload.decode())
-                wind = data_aris["wind"]
-                wind = round(wind,2)
-                power = data_aris["active"]
-                power = round(power, 2)
-                now = datetime.now()
-                now = str(now)
-                currDate = now.split(" ")[0]+"T"
-                cur_hour = now.split(" ")[1].split(":")[0]
-                cur_hour_min = now.split(" ")[1].split(":")[1]
-                query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
-                Aris.objects.create(power_aris=power,wind_aris=wind,timestamp_aris = query_date)
+            # if topic == 'windData':
+            #     data_aris = json.loads(msg.payload.decode())
+            #     wind = data_aris["wind"]
+            #     wind = round(wind,2)
+            #     power = data_aris["active"]
+            #     power = round(power, 2)
+            #     now = datetime.now()
+            #     now = str(now)
+            #     currDate = now.split(" ")[0]+"T"
+            #     cur_hour = now.split(" ")[1].split(":")[0]
+            #     cur_hour_min = now.split(" ")[1].split(":")[1]
+            #     query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
+            #     Aris.objects.create(power_aris=power,wind_aris=wind,timestamp_aris = query_date)
 
 
         client = mqtt.Client()
