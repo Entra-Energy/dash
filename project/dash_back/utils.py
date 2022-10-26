@@ -169,6 +169,7 @@ def get_pv():
         #d_old_str = f.read().replace('\n', '') # remove all \n
         my_json_obj = json.load(f)
         for data in my_json_obj:
+            print(data)
             timestamp_curr = convert()[0]            
             if data["timestamp"] == timestamp_curr:
                 curr_ts = convert()[1]
