@@ -146,6 +146,7 @@ def get_hydro():
     #return data
     
 def get_pv():
+    print("PVPVPVPVPVPVPV")
     def convert():
         todays_date = datetime.now()
         year = todays_date.year
