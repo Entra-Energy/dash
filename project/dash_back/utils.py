@@ -145,8 +145,7 @@ def get_hydro():
         
     #return data
     
-def get_pv():
-    print("PVPVPVPVPVPVPV")
+def get_pv():   
     def convert():
         todays_date = datetime.now()
         year = todays_date.year
@@ -171,11 +170,7 @@ def get_pv():
         my_json_obj = json.load(f)
         for data in my_json_obj:            
             timestamp_curr = convert()[0]
-            test = convert()
-            print(test)
-            break            
-            if data["timestamp"] == timestamp_curr:
-                
+            if data["timestamp"] == timestamp_curr:                
                 curr_ts = convert()[1]
                 pv = {
                     "timestamp": curr_ts,
@@ -188,4 +183,5 @@ def get_pv():
                 }
                 topic = "pv/local"
                 publish.single(topic, str(pv), hostname="159.89.103.242", port=1883)
+                break
                 
