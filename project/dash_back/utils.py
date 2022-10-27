@@ -132,7 +132,8 @@ def get_hydro():
         "HY_WL":HY_WL,
         "HY_GT":HY_GT,
         "HY_GC":HY_GC,
-        "HY_GVOL":HY_GVOL
+        "HY_GVOL":HY_GVOL,
+        "HY_ALRM":0
     }    
     
     topic = 'hydro'
@@ -179,7 +180,7 @@ def get_pv():
                     "PV_ET" : data["Temperature"],
                     "PV_WS" : data["Wind Speed"],
                     "PV_SI" : data["Solar Irradiance"],
-                    "alarm" : data["alarm"],
+                    "PV_ALRM" : data["alarm"],
                 }
                 topic = "pv/local"
                 publish.single(topic, str(pv), hostname="159.89.103.242", port=1883)
