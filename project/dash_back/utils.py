@@ -172,6 +172,7 @@ def get_pv():
         for data in my_json_obj:            
             timestamp_curr = convert()[0]            
             if data["timestamp"] == timestamp_curr:
+                print("CHECKED SUCCESS")
                 curr_ts = convert()[1]
                 pv = {
                     "timestamp": curr_ts,
