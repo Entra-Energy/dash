@@ -171,7 +171,8 @@ def get_pv():
         my_json_obj = json.load(f)
         for data in my_json_obj:            
             timestamp_curr = convert()[0]
-            print(timestamp_curr)
+            test = convert()
+            print(test)
             break            
             if data["timestamp"] == timestamp_curr:
                 
