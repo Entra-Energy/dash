@@ -278,7 +278,7 @@ export default {
              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
              let endArr = [endStr,null]
              this.option.series[1].data.push(endArr)
-             console.log(this.option.series[1])
+             //console.log(this.option.series[1])
            }
            else if(test == 'month')
            {
@@ -447,7 +447,7 @@ export default {
        let path = this.$route.path
        if (path == '/client')
        {
-         console.log(this.dev)
+         //console.log(this.dev)
          if(this.dev){
          this.getData();
          }

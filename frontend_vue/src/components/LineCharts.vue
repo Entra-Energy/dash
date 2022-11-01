@@ -138,7 +138,7 @@ export default {
         orient: 'vertical',
         padding:[-500,100,0,0],
         //data: ['sm-0009','sm-0001'],
-        selected:{'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true,'sm-00013':true,'sm-00014':true},
+        selected:{'sm-0001':true,'sm-0005':true,'sm-0006':true,'sm-0007':true,'sm-0008':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true,'sm-00013':true,'sm-00014':true,'sm-00015':true,'sm-00016':true,'sm-00017':true,'sm-00018':true},
      },
   tooltip: {
 
@@ -256,7 +256,7 @@ export default {
     create_devs(){
       let dev = 'sm-000'
       let all_devs = {}
-      for(let i = 0; i <= 12; i++)
+      for(let i = 0; i <= 18; i++)
       {
         let new_dev = dev+i;
         all_devs[new_dev] = false
