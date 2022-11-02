@@ -32,7 +32,7 @@ class PriceSerializer(serializers.ModelSerializer):
 class OnlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Online
-        fields = ('pow','dev','ready','providing')
+        fields = ('pow','dev','ready','providing','dev_name','lat','long')
 
 class FlexiSerializer(serializers.ModelSerializer):
     class Meta:
