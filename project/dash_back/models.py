@@ -88,7 +88,7 @@ class Online(models.Model):
     providing = models.IntegerField(default=0, null=True)
     objects = models.Manager()
     dist = UniqueOnlineManager()
-    dev_name = models.CharField(max_length=300)
+    dev_name = models.CharField(default='lab', max_length=300)
     lat = models.FloatField(default=0, null=True)
     long = models.FloatField(default=0, null=True)
 
