@@ -69,11 +69,17 @@ class Command(BaseCommand):
                     prov = 0
                 if dev_name:
                     name = str(dev_name)
+                else:
+                    name = 'lab'
                     
                 if lat:
                     latitude = float(lat)
+                else:
+                    latitude = 0.0
                 if long:
                     longitude = float(long)
+                else:
+                    longitude = 0.0
                 online = Online.objects.all().count()
 
                 if online > 1000:
