@@ -88,6 +88,9 @@ class Online(models.Model):
     providing = models.IntegerField(default=0, null=True)
     objects = models.Manager()
     dist = UniqueOnlineManager()
+    dev_name = models.CharField(max_length=300)
+    lat = models.FloatField(default=0, null=True)
+    long = models.FloatField(default=0, null=True)
 
 class Price(models.Model):
     timestamp = models.DateTimeField(default=datetime.now())
