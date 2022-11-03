@@ -44,9 +44,11 @@ class Command(BaseCommand):
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
                 #print(data_out)
-                timestamp = (data_out['payload']['timestamp'], None)
-                timestamp = int(timestamp)
-                timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                timestamp = (data_out['payload'].get('timestamp', None))
+                if timestamp:
+                    timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                else:
+                    timestamp = 0
                 value = float(data_out['payload']['power'])
                 gridSupp = data_out['payload'].get('gridReady', None)
                 dev_name = data_out['payload'].get('blynkName', None)
