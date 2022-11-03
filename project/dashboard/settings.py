@@ -117,19 +117,19 @@ CELERY_BEAT_SCHEDULE = {
       'task': 'dash_back.tasks.task_schedule',
       'schedule': crontab(),
   },
-    'task_hydro_data':{
-        'task':'dash_back.tasks.task_hydro',
-        'schedule': 5.0,
-        #'schedule': crontab()
+    # 'task_hydro_data':{
+    #     'task':'dash_back.tasks.task_hydro',
+    #     'schedule': 5.0,
+    #     #'schedule': crontab()
         
         
-    },
-    'task_pv_data':{
-        'task':'dash_back.tasks.task_pv',
-        'schedule': 1.0,
-        #'schedule': crontab()
+    # },
+    # 'task_pv_data':{
+    #     'task':'dash_back.tasks.task_pv',
+    #     'schedule': 1.0,
+    #     #'schedule': crontab()
         
-    },
+    # },
 }
 CELERY_TIMEZONE = 'Europe/Sofia'
 
