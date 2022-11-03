@@ -242,14 +242,14 @@ export default {
             //console.log(el.dev)
             let found = this.all.find(element => element.id === el.dev)
 
-
+            
             if (found)
-            {
+            {              
               found.ready = el.ready
               found.pow = el.pow
               found.providing = el.providing
               found.online = 'online'
-              found.customer = el.blynkName
+              found.customer = el.dev_name
 
               if (found.ready == 1)
               {
@@ -343,7 +343,7 @@ export default {
   created (){
     this.getData();
     this.pollData();
-    this.getDevName();
+    
 
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;

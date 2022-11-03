@@ -162,73 +162,7 @@ export default {
 
   methods: {
 
-    getDevName()
-    {
-
-      let url1 = "https://blynk.cloud/external/api/device/meta?token=7cxB4CX0Zcmn_8xidXJ1o0wUMwerjvRh&metaFieldId=1" //sm-0001
-      let url2 = "https://blynk.cloud/external/api/device/meta?token=Kus3KqYGsvlDXdp3gS9oEnnebcd52S8q&metaFieldId=1" //sm-0002
-      let url3 = "https://blynk.cloud/external/api/device/meta?token=fGSKqYFHSviVVzDF4LmKUyMAsUr0tFuZ&metaFieldId=1" //sm-0004
-      let url4 = "https://blynk.cloud/external/api/device/meta?token=LoL1TQESpT8N6Mvoc28NrrNwkGtWyLzL&metaFieldId=1" //sm-0003
-      let url5 = "https://blynk.cloud/external/api/device/meta?token=WatW7M2so1CIwhqD2VpZ5HB3OwoFeaCq&metaFieldId=1" //sm-00011
-      let url6 = "https://blynk.cloud/external/api/device/meta?token=aUXVv0mef5GLXZqvEv48Z1f0jiHweetw&metaFieldId=1" //sm-00012
-      const requestOne = axios.get(url1);
-      const requestTwo = axios.get(url2);
-      const requestThree = axios.get(url3);
-      const requestFour = axios.get(url4);
-      const requestFive = axios.get(url5);
-      const requestSix = axios.get(url6);
-      axios.all([requestOne, requestTwo, requestThree, requestFour, requestFive, requestSix]).then(axios.spread((...responses) => {
-        const responseOne = responses[0].data
-        const responseTwo = responses[1].data
-        const responseThree = responses[2].data
-        const responseFour = responses[3].data
-        const responseFive = responses[4].data
-        const responseSix = responses[5].data
-        responseOne["id"] = "sm-0001"
-        responseTwo["id"] = "sm-0002"
-        responseThree["id"] = "sm-0004"
-        responseFour["id"] = "sm-0003"
-        responseFive["id"] = "sm-00011"
-        responseSix["id"] = "sm-00012"
-
-        let foundOne = this.all.find(element => element.id === responseOne.id)
-        if (foundOne)
-        {
-          
-          foundOne.customer = responseOne.value
-        }
-        let foundTwo = this.all.find(element => element.id === responseTwo.id)
-        if (foundTwo)
-        {
-          foundTwo.customer = responseTwo.value
-        }
-        let foundThree = this.all.find(element => element.id === responseThree.id)
-        if (foundThree)
-        {
-          foundThree.customer = responseThree.value
-        }
-        let foundFour = this.all.find(element => element.id === responseFour.id)
-        if (foundFour)
-        {
-          foundFour.customer = responseFour.value
-        }
-        let foundFive = this.all.find(element => element.id === responseFive.id)
-        if (foundFive)
-        {
-          foundFive.customer = responseFive.value
-        }
-        let foundSix = this.all.find(element => element.id === responseSix.id)
-        if (foundSix)
-        {
-          foundSix.customer = responseSix.value
-        }
-
-         }))
-         .catch(errors => {
-
-          })
-    },
-
+ 
       reset(e)
       {
           axios.post('http://64.225.100.195:8000/api/reset/', {
@@ -312,6 +246,7 @@ export default {
               found.pow = el.pow
               found.providing = el.providing
               found.online = 'online'
+              found.customer = el.dev_name
 
               if (found.ready == 1)
               {
@@ -403,7 +338,7 @@ export default {
     },
 
   created (){
-    this.getDevName();
+    
     this.getData();
     this.pollData();
 
