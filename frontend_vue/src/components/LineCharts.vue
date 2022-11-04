@@ -135,11 +135,9 @@ export default {
          top: '25%'
         },
   legend: {
-        orient: 'vertical',
-        padding:[-500,100,0,0],
-        //data: ['sm-0009','sm-0001'],
-        selected:{'sm-0001':true,'sm-0005':true,'sm-0006':true,'sm-0007':true,'sm-0008':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true,'sm-00013':true,'sm-00014':true,'sm-00015':true,'sm-00016':true,'sm-00017':true,'sm-00018':true},
-     },
+          orient: 'vertical',
+          padding:[-500,100,0,0],
+        },
   tooltip: {
 
         trigger: 'axis',
@@ -260,8 +258,9 @@ export default {
       {
         let new_dev = dev+i;
         all_devs[new_dev] = false
-      }
+      }      
       return all_devs
+
     },
 
 
@@ -478,6 +477,8 @@ export default {
 
  },
  created (){
+
+
    this.dataLoader = true
     // let urlMonth = "http://64.225.100.195:8000/api/posts/?date_range=month"
     // let monthData = []
@@ -502,7 +503,8 @@ export default {
     let month = parseInt(date[1])
     this.monthLenthDays = this.daysInMonth(month,year)
 
-    const devs = Object.keys(this.create_devs())
+    //const devs = Object.keys(this.create_devs())
+    let devs = this.$store.state.allIds    
     devs.forEach((item, i) => {
       this.option.series.push(
         {
@@ -572,7 +574,7 @@ export default {
 
            this.getCurrTime();
            this.option.series = []
-           const devs = Object.keys(this.create_devs())
+           let devs = this.$store.state.allIds            
            devs.forEach((item, i) => {
              this.option.series.push(
                {
@@ -610,7 +612,7 @@ export default {
      immediate: true,
      handler() {
        this.option.series = []
-       const devs = Object.keys(this.create_devs())
+       let devs = this.$store.state.allIds 
        devs.forEach((item, i) => {
          this.option.series.push(
            {
@@ -644,6 +646,7 @@ export default {
        //this.checked_update = this.$store.state.checked_devs
        //console.log(this.checked_update)
        let selDevs = this.$store.state.checked_devs
+       
        // let selObj = {}
        // //console.log(typeof selDevs)
        // for (const key in selDevs)

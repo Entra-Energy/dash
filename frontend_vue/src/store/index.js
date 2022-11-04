@@ -12,10 +12,10 @@ export default createStore({
     producer_init: 'today',
     dash_zoom: {},
     client_zoom: '',
-    monthData:[]
-
-
-
+    monthData:[],
+    allDevs:[],
+    allIds:[],
+    
   },
   mutations: {
     increment (state, n) {
@@ -60,6 +60,14 @@ export default createStore({
     loadMonthData(state, month)
     {
       state.monthData = month
+    },
+    createAllDevs(state, all)
+    {
+      state.allDevs = all
+    },
+    createAllIds(state, ids)
+    {
+      state.allIds = ids
     }
 
 

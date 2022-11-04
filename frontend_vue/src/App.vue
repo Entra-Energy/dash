@@ -138,12 +138,30 @@ export default {
         collapsed: false,
         disableHover: true,
         hideToggle: true,
+        all:[]
 
 
       }
     },
 
     methods: {
+      createAllDevs(){          
+          let prefix = 'sm-'          
+          for(let i = 0; i <= 30; i++)
+          {
+            let new_dev = prefix+'000'+i; 
+            if (i >= 10){
+              new_dev = prefix + '00'+i;
+            }                       
+            this.all.push({"id":new_dev,"online":"offline"})
+          }          
+          let ids = []
+          this.all.forEach(el=>{
+            ids.push(el.id)
+          })
+          this.$store.commit('createAllDevs', this.all)
+          this.$store.commit('createAllIds', ids)
+      },
 
       detectIt(){
 
@@ -157,8 +175,8 @@ export default {
       },
 
     },
-    created () {
-
+    created () {  
+     this.createAllDevs()
      this.detectIt()
     },
     computed: {

@@ -2,7 +2,7 @@
 
   <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg" v-model="selected" @change="onChange($event)" >
     <option v-for="option in options" v-bind:value="option.value">
-      {{option.text}}/{{ option.value }}
+      {{option.value}}/{{ option.text }}
     </option>
   </select>
   <p class="blynk-name">{{  }}</p>
@@ -45,11 +45,6 @@ export default {
   created (){
     this.selected = this.$store.state.selected
     this.blynkGetNames()
-  //  let query = this.$route.query
-  //  let path = this.$route.path
-  //  console.log(this.$route)
-    //this.$router.push({path:path, query:{"range":query.range, "dev": this.selected}})
-
   },
   methods: {
 

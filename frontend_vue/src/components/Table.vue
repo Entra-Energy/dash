@@ -30,7 +30,7 @@
   <table class="table table-striped table-sm">
     <thead class="thead-light">
       <tr>
-        <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
+        <th><input type="checkbox" v-model="allSelected" @change="selectAll($event)" /></th>
         <th>DevID</th>
         <th>Status</th>
         <th>Power</th>
@@ -54,7 +54,7 @@
          <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
-         <td>{{ dev.location }}</td>
+         <td>{{ dev.lat+"/"+dev.long }}</td>
          <td>{{ 10000 }}</td>
          <!-- <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td> -->
@@ -121,67 +121,18 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
-      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true},
+      
+      checked: {},
       allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
-
-      all: [
-
-        {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00011","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00012","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-
-
-    ],
-      posts: [],
-      errors: []
+      all:[],    
+    posts: [],
+    errors: []
     };
   },
 
-  methods: {
-
- 
-      reset(e)
-      {
-          axios.post('http://64.225.100.195:8000/api/reset/', {
-          reset: {
-            "devId":e,
-            "reset":true
-          },
-
-
-        }).then(response => {
-          // console.log(response);
-          // this.response = response.data
-          this.success = 'Data saved successfully';
-          this.response = JSON.stringify(response, null, 2)
-        }).catch(error => {
-          this.response = 'Error: ' + error.response.status
-        })
-
-      },
+  methods: { 
 
       pollData () {
           this.polling = setInterval(() => {
@@ -190,12 +141,16 @@ export default {
         }, 4000)
       },
 
-      selectAll() {
+      selectAll(e) {
+          let ids = this.$store.state.allIds
           if (this.allSelected) {
-            const selected = this.all.map((u) => u.id);
-            this.checked = selected;
-          } else {
-            this.checked = [];
+            Object.keys(this.checked).forEach(key => {this.checked[key] = true;});
+            
+            this.$store.commit('setChecked', this.checked)
+
+          } else {         
+            Object.keys(this.checked).forEach(key => {this.checked[key] = false;});
+            this.$store.commit('setChecked', this.checked)
           }
 
       },
@@ -205,28 +160,9 @@ export default {
         let checked_state = this.checked
 
         this.$store.commit('setChecked', checked_state)
-        console.log(checked_state)
+        
       },
 
-
-      submitForm2(){
-
-
-        axios.post('http://64.225.100.195:8000/api/cali/', {
-          calibrate: this.newEntries,
-
-
-        }).then(response => {
-          // console.log(response);
-          // this.response = response.data
-          this.success = 'Data saved successfully';
-          this.response = JSON.stringify(response, null, 2)
-        }).catch(error => {
-          this.response = 'Error: ' + error.response.status
-        })
-        this.newEntries = {}
-
-      },
 
       getData() {
       try {
@@ -235,8 +171,7 @@ export default {
           "http://64.225.100.195:8000/api/online/"
         )
         .then(response => response.data.online.forEach(el=>{
-            //this.posts.push(el)
-            //console.log(el.dev)
+
             let found = this.all.find(element => element.id === el.dev)
 
 
@@ -247,6 +182,8 @@ export default {
               found.providing = el.providing
               found.online = 'online'
               found.customer = el.dev_name
+              found.lat = el.lat
+              found.long = el.long
 
               if (found.ready == 1)
               {
@@ -277,74 +214,19 @@ export default {
         //console.log(error);
       }
     },
-    // submitForm() {
-    //   this.powerCorr = this.power
-    //   axios.post('http://64.225.100.195:8000/api/correction/', {
-    //     power: this.power,
-    //     timer: this.countDown
-    //
-    //   }).then(response => {
-    //     // console.log(response);
-    //     // this.response = response.data
-    //     this.success = 'Data saved successfully';
-    //     this.response = JSON.stringify(response, null, 2)
-    //   }).catch(error => {
-    //     this.response = 'Error: ' + error.response.status
-    //   })
-    //   this.power = '';
-    //
-    //
-    // },
-    // submitFormSingle() {
-    //   let dev = Object.keys(this.singleCorrection)[0];
-    //   let value = this.singleCorrection[dev]
-    //   let time = this.countDown[dev]
-    //   this.time = parseInt(time)
-    //
-    //   axios.post('http://64.225.100.195:8000/api/single-corr/', {
-    //     power: value,
-    //     timer: time,
-    //     dev: dev,
-    //
-    //   }).then(response => {
-    //     // console.log(response);
-    //     // this.response = response.data
-    //     this.success = 'Data saved successfully';
-    //     this.response = JSON.stringify(response, null, 2)
-    //   }).catch(error => {
-    //     this.response = 'Error: ' + error.response.status
-    //   })
-    // },
-    //
-    // countDownTimer () {
-    //             let dev = Object.keys(this.singleCorrection)[0];
-    //             //let value = this.singleCorrection[dev]
-    //             this.countDown[dev] = this.time
-    //             let found = this.all.find(element => element.id === dev)
-    //             if (found){
-    //               found.correctionT = this.time
-    //               found.correctionP = this.singleCorrection[dev]
-    //             }
-    //
-    //             if (this.time > 0) {
-    //                 setTimeout(() => {
-    //                     this.time -= 1
-    //                     this.countDownTimer()
-    //
-    //                 }, 1000)
-    //             }
-    //         },
-
-    },
+  },
 
   created (){
     
     this.getData();
     this.pollData();
-
-    // const selected = this.all.map((u) => u.id);
-    // this.checked = selected;
-    // this.$store.commit('setChecked', this.checked)
+    this.all = this.$store.state.allDevs
+    let ids = this.$store.state.allIds
+    ids.forEach(el=>{
+      this.checked[el]=true
+    })
+   // console.log(this.checked)
+    
   },
   beforeDestroy () {
 	   clearInterval(this.polling)
@@ -354,6 +236,7 @@ export default {
         return !this.power || !this.countDown;
     }
   }
+  
 
 
 
