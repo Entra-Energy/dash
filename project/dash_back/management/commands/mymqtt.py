@@ -75,11 +75,11 @@ class Command(BaseCommand):
                 else:
                     name = 'lab'
                     
-                if lat:
+                if lat is not "null":
                     latitude = float(lat)
                 else:
                     latitude = 0.0
-                if long:
+                if long is not "null":
                     longitude = float(long)
                 else:
                     longitude = 0.0

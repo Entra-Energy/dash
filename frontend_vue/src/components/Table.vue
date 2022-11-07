@@ -30,7 +30,9 @@
   <table class="table table-striped table-sm">
     <thead class="thead-light">
       <tr>
-        <th><input type="checkbox" v-model="allSelected" @change="selectAll($event)" /></th>
+        <th>
+          <div class="form-check"> <input class="sel-all" type="checkbox" v-model="allSelected" @change="selectAll($event)" /></div>
+        </th>
         <th>DevID</th>
         <th>Status</th>
         <th>Power</th>

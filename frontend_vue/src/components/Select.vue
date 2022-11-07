@@ -18,26 +18,8 @@ export default {
   data() {
     return {
 
-      selected: 'sm-0001',
-    //   options: [
-    //   { text: 'sm-0001', value: 'sm-0001' },
-    //   { text: 'sm-0002', value: 'sm-0002' },
-    //   { text: 'sm-0003', value: 'sm-0003' },
-    //   { text: 'sm-0004', value: 'sm-0004' },
-    //   { text: 'sm-0005', value: 'sm-0005' },
-    //   { text: 'sm-0006', value: 'sm-0006' },
-    //   { text: 'sm-0007', value: 'sm-0007' },
-    //   { text: 'sm-0008', value: 'sm-0008' },
-    //   { text: 'sm-0009', value: 'sm-0009' },
-    //   { text: 'sm-00010', value: 'sm-00010' },
-    //   { text: 'sm-00011', value: 'sm-00011' },
-    //   { text: 'sm-00012', value: 'sm-00012' },
-    //   { text: 'sm-00013', value: 'sm-00013' },
-    //   { text: 'sm-00014', value: 'sm-00014' },
-    //   { text: 'sm-00015', value: 'sm-00015' },
-    //   { text: 'sm-00016', value: 'sm-00016' },
-    // ],
-    options:[],
+      selected: 'sm-0001',  
+      options:[{"text":"","value":"sm-0004"}],
 
     };
   },
@@ -53,7 +35,7 @@ export default {
       let url1 = "https://blynk.cloud/external/api/device/meta?token=7cxB4CX0Zcmn_8xidXJ1o0wUMwerjvRh&metaFieldId=1" //sm-0001
       let url2 = "https://blynk.cloud/external/api/device/meta?token=Kus3KqYGsvlDXdp3gS9oEnnebcd52S8q&metaFieldId=1" //sm-0002
       let url3 = "https://blynk.cloud/external/api/device/meta?token=fGSKqYFHSviVVzDF4LmKUyMAsUr0tFuZ&metaFieldId=1" //sm-0004
-      let url4 = "https://blynk.cloud/external/api/device/meta?token=LoL1TQESpT8N6Mvoc28NrrNwkGtWyLzL&metaFieldId=1" //sm-0003
+      let url4 = "" //sm-0003
       let url5 = "https://blynk.cloud/external/api/device/meta?token=WatW7M2so1CIwhqD2VpZ5HB3OwoFeaCq&metaFieldId=1" //sm-00011
       let url6 = "https://blynk.cloud/external/api/device/meta?token=aUXVv0mef5GLXZqvEv48Z1f0jiHweetw&metaFieldId=1" //sm-00012
       
