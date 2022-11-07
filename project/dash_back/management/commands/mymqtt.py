@@ -41,54 +41,55 @@ class Command(BaseCommand):
                 Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness)
 
             if myList[0] == 'ping':
-                dev_id = myList[1]
-                data_out=json.loads(msg.payload.decode())
-                print(data_out)
-                timestamp = (data_out['payload'].get('timestamp', None))
-                if timestamp:
-                    timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
-                else:
-                    timestamp = 0
-                value = float(data_out['payload']['power'])
-                gridSupp = data_out['payload'].get('gridReady', None)
-                dev_name = data_out['payload'].get('blynkName', None)
-                # lat = data_out['payload'].get('lat', None)
-                # long = data_out['payload'].get('long', None)
+                pass
+                # dev_id = myList[1]
+                # data_out=json.loads(msg.payload.decode())
+                # print(data_out)
+                # timestamp = (data_out['payload'].get('timestamp', None))
+                # if timestamp:
+                #     timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                # else:
+                #     timestamp = 0
+                # value = float(data_out['payload']['power'])
+                # gridSupp = data_out['payload'].get('gridReady', None)
+                # dev_name = data_out['payload'].get('blynkName', None)
+                # # lat = data_out['payload'].get('lat', None)
+                # # long = data_out['payload'].get('long', None)
 
 
-                if gridSupp:
-                    ready = int(gridSupp)
-                else:
-                    ready = 0
-                signal = data_out['payload'].get('signal', None)
-                if signal:
-                    connectivity = int(signal)
-                else:
-                    connectivity = 0
-                providing = data_out['payload'].get('providing', None)
-                if providing:
-                    prov = int(providing)
-                else:
-                    prov = 0
-                if dev_name:
-                    name = str(dev_name)
-                else:
-                    name = 'lab'
+                # if gridSupp:
+                #     ready = int(gridSupp)
+                # else:
+                #     ready = 0
+                # signal = data_out['payload'].get('signal', None)
+                # if signal:
+                #     connectivity = int(signal)
+                # else:
+                #     connectivity = 0
+                # providing = data_out['payload'].get('providing', None)
+                # if providing:
+                #     prov = int(providing)
+                # else:
+                #     prov = 0
+                # if dev_name:
+                #     name = str(dev_name)
+                # else:
+                #     name = 'lab'
                 
-                # if lat == "null" or lat == None:
-                #     latitude = 0.0
-                # else:
-                #     latitude = float(lat)
-                # if long == "null" or long == None:
-                #     longitude = 0.0
-                # else:
-                #     longitude = float(long)
-                online = Online.objects.all().count()
+                # # if lat == "null" or lat == None:
+                # #     latitude = 0.0
+                # # else:
+                # #     latitude = float(lat)
+                # # if long == "null" or long == None:
+                # #     longitude = 0.0
+                # # else:
+                # #     longitude = float(long)
+                # online = Online.objects.all().count()
 
-                if online > 1000:
-                    Online.objects.all().delete()
-                #print(prov)
-                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name)
+                # if online > 1000:
+                #     Online.objects.all().delete()
+                # #print(prov)
+                # Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name)
 
             if myList[0] == 'error':
                 dev_id = myList[2]
