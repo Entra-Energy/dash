@@ -74,15 +74,15 @@ class Command(BaseCommand):
                     name = str(dev_name)
                 else:
                     name = 'lab'
-                    
-                if lat is not "null":
-                    latitude = float(lat)
-                else:
+                print(lat)
+                if lat == "null":
                     latitude = 0.0
-                if long is not "null":
-                    longitude = float(long)
                 else:
+                    latitude = float(lat)
+                if long == "null":
                     longitude = 0.0
+                else:
+                    longitude = float(long)
                 online = Online.objects.all().count()
 
                 if online > 1000:
