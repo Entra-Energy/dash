@@ -74,12 +74,12 @@ class Command(BaseCommand):
                     name = str(dev_name)
                 else:
                     name = 'lab'
-                print(lat)
-                if lat == "null":
+                
+                if lat == "null" or lat == None:
                     latitude = 0.0
                 else:
                     latitude = float(lat)
-                if long == "null":
+                if long == "null" or long == None:
                     longitude = 0.0
                 else:
                     longitude = float(long)
