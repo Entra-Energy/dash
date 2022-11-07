@@ -52,8 +52,8 @@ class Command(BaseCommand):
                 value = float(data_out['payload']['power'])
                 gridSupp = data_out['payload'].get('gridReady', None)
                 dev_name = data_out['payload'].get('blynkName', None)
-                lat = data_out['payload'].get('lat', None)
-                long = data_out['payload'].get('long', None)
+                # lat = data_out['payload'].get('lat', None)
+                # long = data_out['payload'].get('long', None)
 
 
                 if gridSupp:
@@ -75,14 +75,14 @@ class Command(BaseCommand):
                 else:
                     name = 'lab'
                 
-                if lat == "null" or lat == None:
-                    latitude = 0.0
-                else:
-                    latitude = float(lat)
-                if long == "null" or long == None:
-                    longitude = 0.0
-                else:
-                    longitude = float(long)
+                # if lat == "null" or lat == None:
+                #     latitude = 0.0
+                # else:
+                #     latitude = float(lat)
+                # if long == "null" or long == None:
+                #     longitude = 0.0
+                # else:
+                #     longitude = float(long)
                 online = Online.objects.all().count()
 
                 if online > 1000:
