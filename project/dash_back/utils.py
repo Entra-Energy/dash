@@ -165,7 +165,7 @@ def get_pv():
         int_stamp_curr = int(toStr_curr)
         return [int_stamp,int_stamp_curr]
     
-    test = os.path.join(settings.BASE_DIR, 'pv-data.json')
+    test = os.path.join(settings.BASE_DIR, 'pv-data-new.json')
     with open(test, 'r') as f:
         #d_old_str = f.read().replace('\n', '') # remove all \n
         my_json_obj = json.load(f)
