@@ -14,6 +14,14 @@ class Command(BaseCommand):
     help = 'Displays current time'
 
     def handle(self, *args, **kwargs):
+        
+        def validateJSON(jsonData):
+            try:
+                json.loads(jsonData)
+            except ValueError as err:
+                return False
+            return True       
+        
         def on_connect(client, userdata, flags, rc):
             #print("Connected with result code "+str(rc))
             # Subscribing in on_connect() means that if we lose the connection and
@@ -24,15 +32,15 @@ class Command(BaseCommand):
             client.subscribe("flexiResponse/#")
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
+            
 
         def on_message(client, userdata, msg):
             #print(msg.topic+" "+str(msg.payload))
             topic = msg.topic
             myList = topic.split('/')
             if myList[0] == 'data':
-                dev_id = myList[1]
-                data_out=json.loads(msg.payload.decode())
-                #print(data_out)
+                dev_id = myList[1]                
+                data_out=json.loads(msg.payload.decode())                
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
                 value = float(data_out['payload']['power'])
@@ -42,53 +50,56 @@ class Command(BaseCommand):
 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
-                data_out=json.loads(msg.payload.decode())
-                print(data_out)
-                timestamp = (data_out['payload'].get('timestamp', None))
-                if timestamp:
-                    timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
-                else:
-                    timestamp = 0
-                value = float(data_out['payload']['power'])
-                gridSupp = data_out['payload'].get('gridReady', None)
-                dev_name = data_out['payload'].get('blynkName', None)
-                lat = data_out['payload'].get('lat', None)
-                long = data_out['payload'].get('long', None)
-
-
-                if gridSupp:
-                    ready = int(gridSupp)
-                else:
-                    ready = 0
-                signal = data_out['payload'].get('signal', None)
-                if signal:
-                    connectivity = int(signal)
-                else:
-                    connectivity = 0
-                providing = data_out['payload'].get('providing', None)
-                if providing:
-                    prov = int(providing)
-                else:
-                    prov = 0
-                if dev_name:
-                    name = str(dev_name)
-                else:
-                    name = 'lab'
+                is_valid = validateJSON(msg.payload)
+                if is_valid:      
                 
-                if lat == "null" or lat == None:
-                    latitude = 0.0
-                else:
-                    latitude = float(lat)
-                if long == "null" or long == None:
-                    longitude = 0.0
-                else:
-                    longitude = float(long)
-                online = Online.objects.all().count()
+                    data_out=json.loads(msg.payload.decode())
+                    
+                    timestamp = (data_out['payload'].get('timestamp', None))
+                    if timestamp:
+                        timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                    else:
+                        timestamp = 0
+                    value = float(data_out['payload']['power'])
+                    gridSupp = data_out['payload'].get('gridReady', None)
+                    dev_name = data_out['payload'].get('blynkName', None)
+                    lat = data_out['payload'].get('lat', None)
+                    long = data_out['payload'].get('long', None)
 
-                if online > 1000:
-                    Online.objects.all().delete()
-                #print(prov)
-                Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
+
+                    if gridSupp:
+                        ready = int(gridSupp)
+                    else:
+                        ready = 0
+                    signal = data_out['payload'].get('signal', None)
+                    if signal:
+                        connectivity = int(signal)
+                    else:
+                        connectivity = 0
+                    providing = data_out['payload'].get('providing', None)
+                    if providing:
+                        prov = int(providing)
+                    else:
+                        prov = 0
+                    if dev_name:
+                        name = str(dev_name)
+                    else:
+                        name = 'lab'
+                    
+                    if lat == "null" or lat == None:
+                        latitude = 0.0
+                    else:
+                        latitude = float(lat)
+                    if long == "null" or long == None:
+                        longitude = 0.0
+                    else:
+                        longitude = float(long)
+                    online = Online.objects.all().count()
+
+                    if online > 1000:
+                        Online.objects.all().delete()
+                    #print(prov)
+                    Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':
                 dev_id = myList[2]
