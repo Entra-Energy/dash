@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from dash_back.models import Price, FlexabilitySim, Flexi, Hydro
+from dash_back.models import Price, FlexabilitySim, Flexi, Hydro, PostForecast
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
@@ -51,6 +51,7 @@ def scheduled_flexi():
     # test = FlexabilitySim.objects.all().last()
     # yourdate = test.scheduled
     curr = get_curr_time()
+    print(curr)
     sched_obj = FlexabilitySim.objects.filter(scheduled=curr)
     if(sched_obj):
         for obj in sched_obj:
@@ -191,3 +192,5 @@ def get_pv():
                 publish.single(topic, str(pv), hostname="159.89.103.242", port=1883)
                 break
                 
+# def device_forecast():
+#     PostForecast.objects.create(devId='sm-0002', value = )

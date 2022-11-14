@@ -202,7 +202,7 @@ def reset_data(request):
 
 @api_view(['POST',])
 def flexi_send(request):
-    time_shift = 10800
+    time_shift = 7200
     flexi_data = request.data
     dev = flexi_data['myObj']['dev']
     date = flexi_data['myObj']['date']
