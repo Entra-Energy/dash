@@ -3,10 +3,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer
-from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast
 from datetime import datetime
-from dash_back.custom_filters import PriceFilter, PostFilter, ArisFilter
+from dash_back.custom_filters import PriceFilter, ArisFilter
 from dash_back.tasks import task_exec_all
 import paho.mqtt.publish as publish
 import time
@@ -82,6 +82,37 @@ class PostViewset(viewsets.ModelViewSet):
     #         '^devId',
     #     )
 
+class PostForecastViewset(viewsets.ModelViewSet):
+    def get_queryset(self):
+        range = self.request.query_params.get('date_range',None)
+        device = self.request.query_params.get('dev', None)
+        today = datetime.today()
+        datem = str(datetime(today.year, today.month, 1))
+        datem = datem.split(" ")[0]
+        if range is not None:
+            if range == 'today':
+                if device is not None:
+                    queryset = PostForecast.today.filter(devId=device).order_by('created_date')
+                else:
+                    queryset = PostForecast.today.all().order_by('created_date')
+                return queryset
+            if range == 'year':
+                if device is not None:
+                    queryset = PostForecast.month.filter(devId=device)
+                else:
+                    queryset = PostForecast.month.all()
+                return queryset
+            if range == 'month':
+                if device is not None:
+                    queryset = PostForecast.month.filter(devId=device,created__gte=datem)
+                else:
+                    queryset = PostForecast.month.filter(created__gte=datem)
+                return queryset
+    serializer_class = PostForecastSerializer
+
+        
+        
+
 
 class  OnlineView(APIView):
     def get(self, request):
@@ -148,10 +179,11 @@ def sched_flexi(request):
     date_for_sched = sched_data['myObj']['date']
     pow = sched_data['myObj']['pow']
     duration = sched_data['myObj']['duration']
+    print(duration)
     # Put the requested power into new db field into FlexabilitySim
     #requested = Flexi.objects.filter(response_time=date_for_sched,flexiDev=device)
     #requested_pow = requested.res_pow
-    if device and date_for_sched and pow and duration and requested_pow:
+    if device and date_for_sched and pow and duration:
         FlexabilitySim.objects.create(provided_dev=device,scheduled=date_for_sched,sched_pow=pow,sched_durration=duration)
         return Response({"Success": "ok"})
 

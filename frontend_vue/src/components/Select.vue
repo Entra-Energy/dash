@@ -19,83 +19,64 @@ export default {
     return {
 
       selected: 'sm-0001',  
-      options:[{"text":"","value":"sm-0004"}],
+      options:[],
+      all:[]
 
     };
   },
 
   created (){
     this.selected = this.$store.state.selected
+    this.all = this.$store.state.allDevs
+    //console.log(this.all)
     this.blynkGetNames()
+    //this.setSelectOptions()
+    
   },
+
   methods: {
 
-    blynkGetNames(){
+    setSelectOptions(){
+      // this.blynkGetNames()
+      // let allDevs = this.all
       
-      let url1 = "https://blynk.cloud/external/api/device/meta?token=7cxB4CX0Zcmn_8xidXJ1o0wUMwerjvRh&metaFieldId=1" //sm-0001
-      let url2 = "https://blynk.cloud/external/api/device/meta?token=Kus3KqYGsvlDXdp3gS9oEnnebcd52S8q&metaFieldId=1" //sm-0002
-      let url3 = "https://blynk.cloud/external/api/device/meta?token=fGSKqYFHSviVVzDF4LmKUyMAsUr0tFuZ&metaFieldId=1" //sm-0004
-      let url4 = "" //sm-0003
-      let url5 = "https://blynk.cloud/external/api/device/meta?token=WatW7M2so1CIwhqD2VpZ5HB3OwoFeaCq&metaFieldId=1" //sm-00011
-      let url6 = "https://blynk.cloud/external/api/device/meta?token=aUXVv0mef5GLXZqvEv48Z1f0jiHweetw&metaFieldId=1" //sm-00012
-      
-      let blynkDevObj = {
-        'sm-0001':url1,
-        'sm-0002':url2,
-        'sm-0004':url3,
-        'sm-0003':url4,
-        'sm-00011':url5,
-        'sm-00012':url6,
-
-      }
-
-      for (const key in blynkDevObj) {
-
-          //console.log(`${key}: ${blynkDevObj[key]}`);
-
-          let url = blynkDevObj[key]
-          
-          try{
-            axios
-            .get(url)
-            //.then(response=>this.blynkName.push({[key]:response.data.value}))  
-            .then(response=>this.options.push({"text":response.data.value,"value":key})) 
-            
-
-          }catch (error) {
-            console.log(error);
-          }
-          // axios
-          //   .get(url)
-          //   const response = response.data
-          //   console.log(response)       
-
-      }
-
-
-
-      // let selected = this.selected
-      // let url = blynkDevObj[selected]
-      // console.log(url)
-      // try{
-      //   axios
-      //   .get(url)
-      //   .then(
-      //     response => this.blynkName = response.data.value
-      //     // response => response.data.forEach(el=>{
-      //     //   console.log(el)
-      //     // }) 
-            
-           
+      // allDevs.forEach(el=>{
+      //   //console.log(el)
+      //   this.options.push(
+      //     {
+      //       "text":el.customer,
+      //       "value":el.id
+      //     }
       //   )
-      // }catch (error) {
-      //   console.log(error);
-      // }
-      
-      
-      
+      // })
+    },
 
-    
+    blynkGetNames(){        
+        let onlineUrl = "http://64.225.100.195:8000/api/online/"
+        axios.get(onlineUrl)
+             .then(response => response.data.online.forEach(el=>{
+                  let found = this.all.find(element => element.id === el.dev)
+                 
+                  found.customer = el.dev_name  
+                  //console.log(found)  
+                                
+             }))
+             .catch(errors => {})
+             .finally(() => {
+              //console.log(this.all)
+              this.all.forEach(elm => {
+                this.options.push(
+                {
+                  "text":elm.customer,
+                  "value":elm.id
+
+                })
+              })
+             })
+             
+        
+
+        
     },
 
 
@@ -113,7 +94,8 @@ export default {
       //this.$router.push({path:path, query:{"range":query.range, "dev": this.selected}})
       this.$store.commit('setSelect', this.selected)
       //this.blynkGetNames()
-      //console.log(typeof(this.blynkName))
+     // console.log(this.selected)
+     // this.setSelectOptions()
       
       
 

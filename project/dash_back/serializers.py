@@ -1,6 +1,7 @@
+from multiprocessing.sharedctypes import Value
 from rest_framework import serializers #type ignore
 from datetime import datetime, timedelta, time
-from dash_back.models import Post,Online,Price, Flexi, Aris, UserIp
+from dash_back.models import Post,Online,Price, Flexi, Aris, UserIp, PostForecast
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -22,7 +23,12 @@ class ArisSerializer(serializers.ModelSerializer):
         power_aris = serializers.FloatField()
         fields = ('created','timestamp_aris','power_aris','wind_aris')
 
-
+class PostForecastSerializer(serializers.ModelSerializer):
+     created = serializers.ReadOnlyField()
+     class Meta:
+         model = PostForecast
+         value = serializers.FloatField()
+         fields = ('devId','value','created_date','created')
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:

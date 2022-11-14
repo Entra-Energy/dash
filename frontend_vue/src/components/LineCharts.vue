@@ -222,18 +222,18 @@ export default {
     //   },
     //   sampling: 'lttb',
     // },
-    // {
-    //   name: "sm-0009F",
-    //   data: [],
-    //   type: 'line',
-    //   lineStyle:{
-    //     type: 'dotted'
-    //   },
-    //   itemStyle: {
-    //     color: '#d725bb'
-    //   },
-    //   sampling: 'lttb',
-    // },
+     {
+      name: "sm-0001F",
+      data: [],
+      type: 'line',
+      lineStyle:{
+        type: 'dotted'
+      },
+      itemStyle: {
+        color: '#d725bb'
+      },
+      sampling: 'lttb',
+    },
 
   ],
 
@@ -312,41 +312,75 @@ export default {
 
     },
 
-     get_data_helper(url,url2){
-       const requestOne = axios.get(url);
-       console.log(url)
-       //const requestTwo = axios.get(url2);
-       const requestTwo = []
-       let test = this.param
-
-         axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
-           const responseOne = responses[0].data
-           //this.nextP = responses[0].data.next
-
-            const responseTwo = responses[1].data
-
-
-
-            responseOne.forEach((itemFirstRes) => {
-              let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-              //let found = this.option.series.find(element => element.name === 'sm-0000')
-              if (found)
+    get_data_helper(url,url2){
+      
+        console.log(url)
+        console.log(url2)        
+        let test = this.param
+        const requestOne = axios.get(url);
+       
+        let requestTwo = [] 
+        if (url2)
+        {
+          requestTwo = axios.get(url2); 
+        }
+       
+       
+        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
+          
+          const responseOne = responses[0].data
+          const responseTwo = responses[1]    
+          
+          let resObj = Object.keys(responseTwo)
+          
+          if (resObj.length > 0)
+          {
+            if(responseTwo.data.results.length > 0)
+            {
+              console.log(this.option.series) 
+              responseTwo.data.results.forEach(elm=>{
+                
+                let found = this.option.series.find(element => element.name === elm.devId)
+                
+                if (found)
+                {
+                  if (test == 'today')
+                  {
+                    found.data.push([elm.created_date,elm.value])
+                  }
+                  else{
+                    found.data.push([elm.created,elm.value])
+                  }
+                  
+                }
+              })
+              
+            }
+          } 
+       
+          
+          responseOne.forEach((itemFirstRes) => {
+           
+            let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
+            if (found)
+            {
+             
+              if (test == 'today')
               {
-                if (test == 'today')
-                {
-                  found.data.push([itemFirstRes.created_date,itemFirstRes.value])
-                }
-                else
-                {
-                  found.data.push([itemFirstRes.created,itemFirstRes.value])
-                }
+                found.data.push([itemFirstRes.created_date,itemFirstRes.value])
               }
-
-            });
-
-
-            }))
-            .catch(errors => {
+              else
+              {
+                found.data.push([itemFirstRes.created,itemFirstRes.value])
+              }
+            }
+          });
+   
+          }))     
+        
+      
+            .catch(errors =>  {
+                         
 
              })
             .finally(() => {
@@ -396,18 +430,7 @@ export default {
                   this.option.xAxis.splitNumber = 12
                   this.dataLoader = false
 
-              }
-
-              //console.log(this.nextP)
-              // if(this.nextP)
-              // {
-              //   console.log(this.nextP)
-              //   let url2 = ""
-              //   this.get_data_helper(this.nextP,url2)
-              // }
-              // else{
-              //
-              // }
+              }        
 
             })
 
@@ -453,22 +476,30 @@ export default {
        }
 
        let query_param = this.param;
+       
 
        let end = this.currTime
 
        let start = this.currDate
        let devQuery = '&dev=' + this.dev
+       let devQueryF = '&dev=' + this.dev + 'F'
+       
        if(!this.dev)
        {
          devQuery = ''
+         devQueryF = ''
        }
+
        let url = ''
        let url2 = ''
        //let page = "&page="
        //let num = 1
 
       url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+page+num
-      url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
+      if (this.dev){
+      url2 = "http://127.0.0.1:8000/api/post_forecast/?date_range="+query_param+devQueryF
+      }
+      
       this.get_data_helper(url,url2)
 
 
@@ -505,7 +536,9 @@ export default {
 
     //const devs = Object.keys(this.create_devs())
     let devs = this.$store.state.allIds    
-    devs.forEach((item, i) => {
+    
+   
+    devs.forEach(item => {
       this.option.series.push(
         {
           "name": item,
@@ -516,14 +549,12 @@ export default {
           "connectNulls": false,
           "lineStyle": {
               "width": 1
-          },
-          //"sampling": "average"
+          },          
         }
       )
-
-    });
-
-
+    })
+  
+      
     let path = this.$route.path
     if (path == '/dashboard')
     {
@@ -586,6 +617,24 @@ export default {
              )
 
            });
+      let forecastDevs = this.$store.state.allForecastIds
+      forecastDevs.forEach(item => {
+      
+      this.option.series.push(
+        {
+          "name": item,
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1,
+              "type":"dotted"
+          },          
+        }
+      )
+    })
 
            let path = this.$route.path
            if (path == '/dashboard')
@@ -624,6 +673,24 @@ export default {
          )
 
        });
+      let forecastDevs = this.$store.state.allForecastIds
+      forecastDevs.forEach(item => {
+      
+      this.option.series.push(
+        {
+          "name": item,
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1,
+              "type":"dotted"
+          },          
+        }
+      )
+    })
 
        this.dev = this.$store.state.selected;
 

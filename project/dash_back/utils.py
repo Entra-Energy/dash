@@ -31,6 +31,11 @@ def convert(str):
     time_hour = datetime(year, month, day, hour, 0, 0, tzinfo=pytz.utc)
     return time_hour
 
+def post_forecast():
+    pass
+
+
+
 def price_to_db():
     price_path = os.path.join(settings.BASE_DIR, 'ibex.json')
     print(price_path)

@@ -167,6 +167,7 @@ export default {
 
 
       getData() {
+        
       try {
         axios
         .get(
@@ -205,12 +206,10 @@ export default {
               else{
                 found.online = 'offline'
               }
-            }
-
-            //console.log(this.all[0].id)
+          }          
 
         }) )
-        //console.log(this.all)
+        
 
       } catch (error) {
         //console.log(error);
@@ -237,8 +236,9 @@ export default {
     isDisabled: function(){
         return !this.power || !this.countDown;
     }
-  }
+  },
   
+ 
 
 
 

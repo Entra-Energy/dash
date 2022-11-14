@@ -39,12 +39,14 @@ class Command(BaseCommand):
             topic = msg.topic
             myList = topic.split('/')
             if myList[0] == 'data':
-                dev_id = myList[1]                
-                data_out=json.loads(msg.payload.decode())                
-                timestamp = int(data_out['payload']['timestamp'])
-                timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
-                value = float(data_out['payload']['power'])
-                readyness = int(data_out['payload']['gridReady'])
+                dev_id = myList[1]
+                is_valid = validateJSON(msg.payload)
+                if is_valid:                      
+                    data_out=json.loads(msg.payload.decode())                
+                    timestamp = int(data_out['payload']['timestamp'])
+                    timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                    value = float(data_out['payload']['power'])
+                    readyness = int(data_out['payload']['gridReady'])
 
                 Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness)
 

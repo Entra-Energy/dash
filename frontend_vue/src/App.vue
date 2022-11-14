@@ -145,22 +145,26 @@ export default {
     },
 
     methods: {
-      createAllDevs(){          
+
+        createAllDevs(){          
           let prefix = 'sm-'          
           for(let i = 0; i <= 30; i++)
           {
-            let new_dev = prefix+'000'+i; 
+            let new_dev = prefix+'000'+i;            
             if (i >= 10){
-              new_dev = prefix + '00'+i;
-            }                       
+              new_dev = prefix + '00' + i;              
+            }                         
             this.all.push({"id":new_dev,"online":"offline"})
           }          
           let ids = []
+          let forecastIds = []
           this.all.forEach(el=>{
             ids.push(el.id)
+            forecastIds.push(el.id + 'F')
           })
           this.$store.commit('createAllDevs', this.all)
           this.$store.commit('createAllIds', ids)
+          this.$store.commit('createAllForecastIds', forecastIds)
       },
 
       detectIt(){
@@ -178,6 +182,7 @@ export default {
     created () {  
      this.createAllDevs()
      this.detectIt()
+     
     },
     computed: {
 
