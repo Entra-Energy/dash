@@ -329,15 +329,15 @@ export default {
         axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
           
           const responseOne = responses[0].data
+          
           const responseTwo = responses[1]    
           
           let resObj = Object.keys(responseTwo)
-          
+          console.log(resObj)
           if (resObj.length > 0)
           {
-            if(responseTwo.data.results.length > 0)
+            if (responseTwo.data.length > 0)
             {
-              console.log(this.option.series) 
               responseTwo.data.results.forEach(elm=>{
                 
                 let found = this.option.series.find(element => element.name === elm.devId)
@@ -354,12 +354,9 @@ export default {
                   
                 }
               })
-              
             }
-          } 
-       
-          
-          responseOne.forEach((itemFirstRes) => {
+          }         
+          responseOne.forEach((itemFirstRes) => {           
            
             let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
             if (found)
