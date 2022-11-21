@@ -497,7 +497,7 @@ export default {
 
       url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+page+num
       if (this.dev){
-      url2 = "http://127.0.0.1:8000/api/post_forecast/?date_range="+query_param+devQueryF
+      url2 = "http://64.225.100.195:8000/api/post_forecast/?date_range="+query_param+devQueryF
       }
       
       this.get_data_helper(url,url2)
