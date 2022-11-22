@@ -237,8 +237,8 @@ class Command(BaseCommand):
                     'costD':costPerD,
                     'costM':costPerM,
                     'budgetH':budgetPerH,
-                    'budgetH':budgetPerD,
-                    'budgetH':budgetPerM
+                    'budgetD':budgetPerD,
+                    'budgetM':budgetPerM
                     
                 }
                 topic = "initial/"+dev_id
