@@ -7,6 +7,9 @@ from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 from django.utils.timezone import activate
+import pytz
+from pytz import timezone
+from django.db.models import Sum
 #from pytz import timezone
 
 class Command(BaseCommand):
@@ -32,6 +35,7 @@ class Command(BaseCommand):
             client.subscribe("flexiResponse/#")
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
+            client.subscribe("init/#")
             
 
         def on_message(client, userdata, msg):
@@ -145,6 +149,43 @@ class Command(BaseCommand):
             #     cur_hour_min = now.split(" ")[1].split(":")[1]
             #     query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
             #     Aris.objects.create(power_aris=power,wind_aris=wind,timestamp_aris = query_date)
+            
+            if myList[0] == 'init':
+                dev_id = myList[1]
+                now = datetime.now(timezone('Europe/Sofia'))
+                datem = str(datetime(now.year, now.month, 1))
+                datem = datem.split(" ")[0]
+                now = str(now)
+                currDate = now.split(" ")[0]
+                cur_hour = now.split(" ")[1].split(":")[0]
+                query_hour = currDate+" "+cur_hour+":"+"00"
+                for_last_hour = Post.objects.filter(created_date__gte=query_hour,devId = dev_id).aggregate(Sum('value'))
+                if for_last_hour['value__sum']:                    
+                    for_last_hour_consumption = for_last_hour/60
+                else:
+                    for_last_hour_consumption = 0 
+                
+                for_today = Post.today.filter(devId=dev_id).aggregate(Sum('value'))
+                if for_today['value__sum']:
+                    for_today_consumption = for_today/60
+                else:
+                    for_today_consumption = 0
+                for_month = Post.month.filter(devId=dev_id,created__gte=datem).aggregate(Sum('value'))
+                if for_month['value__sum']:
+                    for_month_consumption = for_month/60
+                else:
+                    for_month_consumption = 0
+                grid_ready = Post.objects.filter(devId = dev_id).last()
+                grid = grid_ready.grid
+                consum_obj = {
+                    'for_hour':for_last_hour_consumption,
+                    'for_today':for_today_consumption,
+                    'for_month':for_month_consumption,
+                    'ready':grid
+                }
+                topic = "initial/"+dev_id
+                publish.single(topic, str(consum_obj), hostname="159.89.103.242", port=1883)               
+                
 
 
         client = mqtt.Client()
