@@ -209,16 +209,37 @@ class Command(BaseCommand):
                     for_month_consumption = float(for_month['value__sum']/60)
                 else:
                     for_month_consumption = 0
-                grid_ready = Post.objects.filter(devId = dev_id).last()
-                if grid_ready:
-                    grid = int(grid_ready.grid)
+                last_obj = Post.objects.filter(devId = dev_id).last()
+                if last_obj:
+                    grid = int(last_obj.grid)
+                    costPerH = float(last_obj.costH)
+                    costPerD = float(last_obj.costD)
+                    costPerM = float(last_obj.costM)
+                    budgetPerH = int(last_obj.budgetH)
+                    budgetPerD = int(last_obj.budgetD)
+                    budgetPerM = int(last_obj.budgetM)
+                    
                 else:
                     grid = 0
+                    costPerH = 0
+                    costPerD = 0
+                    costPerM = 0
+                    budgetPerH = 0
+                    budgetPerD = 0
+                    budgetPerM = 0
+                
                 consum_obj = {
                     'for_hour':for_last_hour_consumption,
                     'for_today':for_today_consumption,
                     'for_month':for_month_consumption,
-                    'ready':grid
+                    'ready':grid,
+                    'costH':costPerH,
+                    'costD':costPerD,
+                    'costM':costPerM,
+                    'budgetH':budgetPerH,
+                    'budgetH':budgetPerD,
+                    'budgetH':budgetPerM
+                    
                 }
                 topic = "initial/"+dev_id
                 publish.single(topic, str(consum_obj), hostname="159.89.103.242", port=1883)               
