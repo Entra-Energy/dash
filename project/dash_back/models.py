@@ -80,6 +80,13 @@ class Post(models.Model):
     grid = models.IntegerField(default=0, null=True)
     today = TodayPostManager()
     month = MonthPostManager()
+    costH = models.FloatField(default=0, null=True)
+    costD = models.FloatField(default=0, null=True)
+    costM = models.FloatField(default=0, null=True)
+    budgetH = models.IntegerField(default=0, null=True)
+    budgetD = models.IntegerField(default=0, null=True)
+    budgetM = models.IntegerField(default=0, null=True)
+    
     def __str__(self):
         return self.devId
     

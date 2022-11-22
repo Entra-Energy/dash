@@ -51,8 +51,14 @@ class Command(BaseCommand):
                     timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     value = float(data_out['payload']['power'])
                     readyness = int(data_out['payload']['gridReady'])
+                    costHour = float(data_out['payload']['costH'])
+                    costDay = float(data_out['payload']['costD'])
+                    costMonth = float(data_out['payload']['costM'])
+                    budgetHour = int(data_out['payload']['budgetH'])
+                    budgetDay = int(data_out['payload']['budgetD'])
+                    budgetMonth = int(data_out['payload']['budgetM'])
 
-                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness)
+                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costHour, costD = costDay, costM = costMonth, budgetH = budgetHour,budgetD = budgetDay, budgetM = budgetMonth)
 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
@@ -162,22 +168,25 @@ class Command(BaseCommand):
                 query_hour = currDate+" "+cur_hour+":"+"00"
                 for_last_hour = Post.objects.filter(created_date__gte=query_hour,devId = dev_id).aggregate(Sum('value'))
                 if for_last_hour['value__sum']:                    
-                    for_last_hour_consumption = for_last_hour/60
+                    for_last_hour_consumption = float(for_last_hour['value__sum']/60)
                 else:
                     for_last_hour_consumption = 0 
                 
                 for_today = Post.today.filter(devId=dev_id).aggregate(Sum('value'))
                 if for_today['value__sum']:
-                    for_today_consumption = for_today/60
+                    for_today_consumption = float(for_today['value__sum']/60)
                 else:
                     for_today_consumption = 0
                 for_month = Post.month.filter(devId=dev_id,created__gte=datem).aggregate(Sum('value'))
                 if for_month['value__sum']:
-                    for_month_consumption = for_month/60
+                    for_month_consumption = float(for_month['value__sum']/60)
                 else:
                     for_month_consumption = 0
                 grid_ready = Post.objects.filter(devId = dev_id).last()
-                grid = grid_ready.grid
+                if grid_ready:
+                    grid = int(grid_ready.grid)
+                else:
+                    grid = 0
                 consum_obj = {
                     'for_hour':for_last_hour_consumption,
                     'for_today':for_today_consumption,
