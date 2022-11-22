@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 if is_valid:                      
                     data_out=json.loads(msg.payload.decode())                
                     timestamp = int(data_out['payload']['timestamp'])
-                    timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                    timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     value = float(data_out['payload']['power'])
                     readyness = int(data_out['payload']['gridReady'])
 
@@ -63,7 +63,8 @@ class Command(BaseCommand):
                     
                     timestamp = (data_out['payload'].get('timestamp', None))
                     if timestamp:
-                        timestamp = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                        print(timestamp)
+                        timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     else:
                         timestamp = 0
                     value = float(data_out['payload']['power'])
@@ -111,7 +112,7 @@ class Command(BaseCommand):
                 dev_id = myList[2]
                 data_out = json.loads(msg.payload.decode())
                 timestamp = int(data_out['payload']['timestamp'])
-                timestamp_iso = datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+                timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
                 value = float(data_out['payload']['power'])
                 test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
                 topic = dev_id + "/timestamp"
@@ -126,7 +127,7 @@ class Command(BaseCommand):
                 dev_id = myList[1]
                 data_out=json.loads(msg.payload.decode())
                 time = int(data_out['payload']['date'])
-                time_iso = datetime.fromtimestamp(time, tz=timezone.utc).isoformat()
+                time_iso = datetime.fromtimestamp(time).isoformat()
                 res_power = float(data_out['payload']['power'])
                 durr = int(data_out['payload']['duration'])
                 Flexi.objects.create(flexiDev = dev_id, response_time = time_iso, res_pow = res_power, res_durr = durr)
