@@ -51,14 +51,41 @@ class Command(BaseCommand):
                     timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     value = float(data_out['payload']['power'])
                     readyness = int(data_out['payload']['gridReady'])
-                    costHour = float(data_out['payload']['costH'])
-                    costDay = float(data_out['payload']['costD'])
-                    costMonth = float(data_out['payload']['costM'])
-                    budgetHour = int(data_out['payload']['budgetH'])
-                    budgetDay = int(data_out['payload']['budgetD'])
-                    budgetMonth = int(data_out['payload']['budgetM'])
+                   
+                    costHour = data_out['payload'].get('costH', None)
+                    if costHour:
+                        costH = costHour
+                    else:
+                        costH = 0
+                    costDay = data_out['payload'].get('costD', None)
+                    if costDay:
+                        costD = costDay
+                    else:
+                        costD = 0
+                    costMonth = data_out['payload'].get('costM', None)
+                    if costMonth:
+                        costM = costMonth
+                    else:
+                        costM = 0                    
+                    
+                    budgetHour = data_out['payload'].get('budgetH', None)
+                    if budgetHour:
+                        budgetH = budgetHour
+                    else:
+                        budgetH = 0              
+                    budgetDay = data_out['payload'].get('budgetD', None)                    
+                    if budgetDay:
+                        budgetD = budgetDay
+                    else:
+                        budgetD = 0   
+                    budgetMonth= data_out['payload'].get('budgetM', None)                    
+                    if budgetMonth:
+                        budgetM = budgetMonth
+                    else:
+                        budgetM = 0               
+                   
 
-                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costHour, costD = costDay, costM = costMonth, budgetH = budgetHour,budgetD = budgetDay, budgetM = budgetMonth)
+                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM)
 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
