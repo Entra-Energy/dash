@@ -195,18 +195,18 @@ class Command(BaseCommand):
                 query_hour = currDate+" "+cur_hour+":"+"00"
                 for_last_hour = Post.objects.filter(created_date__gte=query_hour,devId = dev_id).aggregate(Sum('value'))
                 if for_last_hour['value__sum']:                    
-                    for_last_hour_consumption = float(for_last_hour['value__sum']/60)
+                    for_last_hour_consumption = float(for_last_hour['value__sum'])
                 else:
                     for_last_hour_consumption = 0 
                 
                 for_today = Post.today.filter(devId=dev_id).aggregate(Sum('value'))
                 if for_today['value__sum']:
-                    for_today_consumption = float(for_today['value__sum']/60)
+                    for_today_consumption = float(for_today['value__sum'])
                 else:
                     for_today_consumption = 0
                 for_month = Post.month.filter(devId=dev_id,created__gte=datem).aggregate(Sum('value'))
                 if for_month['value__sum']:
-                    for_month_consumption = float(for_month['value__sum']/60)
+                    for_month_consumption = float(for_month['value__sum'])
                 else:
                     for_month_consumption = 0
                 last_obj = Post.objects.filter(devId = dev_id).last()
