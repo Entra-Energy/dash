@@ -204,7 +204,7 @@ class Command(BaseCommand):
                     for_today_consumption = float(for_today['value__sum'])
                 else:
                     for_today_consumption = 0
-                for_month = Post.month.filter(devId=dev_id,created__gte=datem).aggregate(Sum('value'))
+                for_month = Post.objects.filter(devId=dev_id,created__gte=datem).aggregate(Sum('value'))
                 if for_month['value__sum']:
                     for_month_consumption = float(for_month['value__sum'])
                 else:
