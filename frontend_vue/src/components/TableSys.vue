@@ -119,47 +119,12 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
-      checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true,'sm-00013':true,'sm-00014':true},
+      checked: {},
       allSelected: true,
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
 
-      all: [
-
-        {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0,"token":""
-        },
-        {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0,"token":"7cxB4CX0Zcmn_8xidXJ1o0wUMwerjvRh"
-        },
-        {
-          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0,"token":"Kus3KqYGsvlDXdp3gS9oEnnebcd52S8q"
-        },
-        {
-          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00011","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00012","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00013","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00014","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-
-
-
-    ],
+      all: [],
       posts: [],
       errors: []
     };
@@ -193,12 +158,16 @@ export default {
         }, 10000)
       },
 
-      selectAll() {
+      selectAll(e) {
+          let ids = this.$store.state.allIds
           if (this.allSelected) {
-            const selected = this.all.map((u) => u.id);
-            this.checked = selected;
-          } else {
-            this.checked = [];
+            Object.keys(this.checked).forEach(key => {this.checked[key] = true;});
+            
+            this.$store.commit('setChecked', this.checked)
+
+          } else {         
+            Object.keys(this.checked).forEach(key => {this.checked[key] = false;});
+            this.$store.commit('setChecked', this.checked)
           }
 
       },
@@ -208,7 +177,7 @@ export default {
         let checked_state = this.checked
 
         this.$store.commit('setChecked', checked_state)
-        console.log(checked_state)
+        
       },
 
 
@@ -343,6 +312,11 @@ export default {
   created (){
     this.getData();
     this.pollData();
+    this.all = this.$store.state.allDevs
+    let ids = this.$store.state.allIds
+    ids.forEach(el=>{
+      this.checked[el]=true
+    })
     
 
     // const selected = this.all.map((u) => u.id);
