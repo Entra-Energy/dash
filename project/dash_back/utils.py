@@ -66,6 +66,19 @@ def scheduled_flexi():
             publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     else:
         print("There is no objects")
+    actual_provide = Flexi.objects.filter(response_time=curr)
+    if (actual_provide):
+        for act_obj in actual_provide:
+            dev_id = act_obj.flexiDev
+            power = act_obj.res_pow
+            duration = act_obj.res_durr
+            actual_topic = str(dev_id+"/actualProvide")
+            actual_data = {
+                "power":power,
+                "timer":duration
+            }
+            publish.single(actual_topic, str(actual_data), hostname="159.89.103.242", port=1883)
+            
 
 def exec_all():
 
