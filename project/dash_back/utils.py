@@ -57,7 +57,8 @@ def scheduled_flexi():
         for obj in sched_obj:
             dev = obj.provided_dev
             pow = obj.sched_pow
-            timer = obj.sched_durration
+            timer = int(obj.sched_durration)*60
+            
             topic = str(dev+"/correction")
             single_data = {
                 "power":pow,
@@ -71,7 +72,7 @@ def scheduled_flexi():
         for act_obj in actual_provide:
             dev_id = act_obj.flexiDev
             power = act_obj.res_pow
-            duration = act_obj.res_durr
+            duration = int(act_obj.res_durr)*60
             actual_topic = str(dev_id+"/actualProvide")
             actual_data = {
                 "power":power,

@@ -159,7 +159,7 @@ def post_cali(request):
 def post_single_correction(request):
     dev = request.data["dev"]
     pow = request.data["power"]
-    timer = request.data["timer"]
+    timer = request.data["timer"]    
 
     topic = str(dev+"/correction")
     single_data = {
