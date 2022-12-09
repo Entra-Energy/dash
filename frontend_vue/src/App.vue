@@ -222,7 +222,7 @@ export default {
 /*****/
 .sidebar {
   height: calc(100vh - 90px);
-  width: 230px;
+  width: 197px;
   position: fixed;
   top: 0;
   left: 0;
@@ -246,11 +246,12 @@ export default {
     margin-bottom: 0;
 }
 .main-panel>.content {
-    padding: 0px 30px 30px 280px;
+    //padding: 0px 30px 30px 280px;
+    padding: 0px 8px 30px 233px;
     min-height: calc(100vh - 70px);
 }
 .v-sidebar-menu.vsm_expanded {
-  max-width:250px !important;
+  max-width:215px !important;
 }
 @media screen and (max-width: 991px){
 .main-panel .content {

@@ -37,7 +37,7 @@
         <!-- <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th> -->
-        <th>Flexibility /Start Date, Duration, Power/</th>
+        <th>Flexibility</th>
         <th>Flexibility Log</th>
 
       </tr>
@@ -56,10 +56,14 @@
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td> -->
          <td>
-           <div class='row request-date-pick' >
-             <!-- <div class='col-md-3'> -->
+          <div class="inter">
+          <div class="row">
+            <div class="col-md-12">
+           <div class='request-date-pick' >
+             
                <div class='form-row'>
-                 <div class="form-group form-group-sm col-md-8 calendar-pick">
+                <div class="form-inline">
+                 <div class="calendar-pick">
                    <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                    <template v-slot="{ inputValue, inputEvents }">
                      <!-- <i class="far fa-calendar-alt"></i> -->
@@ -74,32 +78,38 @@
                    </template>
                   </DatePicker>
                 </div>
-               <div class="form-group form-group-sm col-md-4 duration">
-                <label for="duration">Duration:</label>
+               <div class="duration">
+                <label for="duration">duration /min/</label>
                  <select class="form-control d-inline-block" id="duration" :class="testClass" v-model="duration[dev.id]" @change="onChange($event)" :disabled="!dev.ready">
                    <option v-for="item in items" :value="item.val" :key="item.id" >{{item.val}}</option>
                  </select>
                </div>
-             </div>
-             <div class='form-row'>
-               <div class="form-group form-group-sm pow col-md-8">
-                 <label for="power">Power</label>
+               </div>
+               <div class="form-inline second-inline">
+               <div class="pow">
+                 <label for="power">Power /kW/</label>
                  <input type="text" name="power" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" :disabled="!dev.ready" >
                </div>
 
-               <div class = "form-group form-group-sm col-md-4 sendIt">
+               <div class = "sendIt">
                  <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)" :disabled="!dev.ready">Send</button>
+               </div> 
+               </div>              
                </div>
-           </div>
+
+           
 
 
      </div>
-
+     </div>
+     </div>
+     </div>
        </td>
        <td>
-         <div class='row'>
-           <div class='col-sm-12'>
-             <div class="flexi-display overflow-auto pt-3 pb-2" style="max-height: 60px;">
+        
+         <div class='rowww'>
+           <div class='col-sm-12w'>
+             <div class="flexi-display overflow-auto pt-3 pb-2" style="max-height: 35px;">
              <ul>
                <li v-for="flexi in flexiResp" :key="dev.id">
                  <span v-if="flexi.dev === dev.id"><b>{{flexi.dev}}</b>|{{flexi.time}}|Power:{{flexi.pow}}|Duration:{{flexi.duration}}</span>
@@ -107,21 +117,6 @@
                </li>
              </ul>
            </div>
-             <!-- <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>dev</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="flexi in flexiResp" :key="dev.id">
-                    <td v-if="flexi.dev === dev.id">{{flexi.dev}}</td>
-                </tr>
-            </tbody>
-        </table> -->
-             <!-- <div class="form-group form-group-sm pow mb-2 mt-2 ml-2 mr-2">
-               <input type="text" class="form-control d-inline-block" style="width: auto;" id="pow" v-model="flexiResp[dev.id]" placeholder="">
-             </div> -->
            </div>
          </div>
        </td>
@@ -176,6 +171,13 @@ export default {
   },
 
   methods: {
+
+    testIt(dev){
+//       $('#myModal').on('shown.bs.modal', function () {
+//       $('#myInput').trigger('focus')
+// })
+
+    },
 
     sendIt(dev){
 
@@ -396,11 +398,11 @@ selectAll(e) {
 .pull-right {
   float: right;
 }
-input#inputpower {
-    max-width: 60px;
+/* input#inputpower {
+    max-width: 160px;
     font-size: 0.65rem;
     padding: 3px;
-}
+} */
 input#inputtime {
   max-width: 60px;
   font-size: 0.65rem;
@@ -437,10 +439,16 @@ input#calibrate-single {
 .datepick i {
     margin-right: 10px;
 }
-.duration {
-    text-align: left;
+.duration {    
+    /* margin-left: 9px; */
+}
+select#duration {
+    max-width: 53px;
+    padding: 3px;
 }
 .pow {
+  max-width: 65%;
+    margin-left: -9px;
     /* text-align: left; */
   }
 .pow::before{
@@ -472,9 +480,12 @@ input#calibrate-single {
     padding: 0;
     color: gray;
     text-align: left;
+    font-size: 12px;
+    
 }
 .flexi-display {
     margin: 0 auto;
+    
 }
 
 .offline {
@@ -510,23 +521,41 @@ input.cal-input {
     /* max-width: 72%; */
 }
 input.power-in {
-    /* max-height: 36px;
-    max-width: 74%; */
+    /* max-height: 36px; */
+    max-width: 50%;
 }
 .sendIt .btn {
-    /* max-height: 36px; */
+    padding: 5px 7px;
+    font-size: 13px;
+    color: #3c3a3a;
+
 
 }
 .table td, .table th {
     vertical-align: middle;
 }
 .request-date-pick {
-  padding-top: 14px;
+  /* padding-top: 14px; */
 }
 .form-control:disabled, .form-control[readonly] {
   background-color: #5c5c66;
 }
 .sendIt {
-    margin-top: 31px;
+  margin-top: 43px;
+    margin-left: -5px;
+ }
+
+.form-inline .form-control {
+    max-height: 31px;
+    font-size: 13px;
+}
+.form-inline label {
+    font-size: 12px;
+}
+.second-inline {
+    max-width: 140px;
+}
+.cal-input {
+    max-width: 120px;
 }
 </style>

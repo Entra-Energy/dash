@@ -133,7 +133,7 @@ class PriceViewset(viewsets.ModelViewSet):
 
 
 class FlexiViewset(viewsets.ModelViewSet):
-    queryset = Flexi.objects.all()
+    queryset = Flexi.objects.all().order_by('-response_time')
     serializer_class = FlexiSerializer
 
 

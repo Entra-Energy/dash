@@ -18,13 +18,13 @@
         <th>DevID</th>
         <th>Status</th>
         <th>Power</th>
-        <th>Device Name</th>
-        <th>Location</th>
+        <!-- <th>Device Name</th>
+        <th>Location</th> -->
         <!-- <th>Capacity</th> -->
         <!-- <th>T['S']</th>
         <th>P['W']</th> -->
         <!-- <th></th> -->
-        <th>Provide /Start Date, Duration, Power/</th>
+        <th>Simulate</th>
         <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></th>
 
 
@@ -40,8 +40,8 @@
          <td>{{ dev.id }}</td>
          <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
-         <td>{{ dev.customer }}</td>
-         <td>{{ dev.location }}</td>
+         <!-- <td>{{ dev.customer }}</td>
+         <td>{{ dev.location }}</td> -->
          <!-- <td>{{ 10000 }}</td> -->
          <!-- <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td> -->
@@ -64,10 +64,12 @@
            <div class='row flexi'>
              <!-- <div class='col-md-3'> -->
              <div class='form-row'>
-               <div class="form-group form-group-sm col-md-8 calendar-pick">
+              <div class="form-inline">
+               <div class="calendar-pick">
                  <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
                    <!-- <i class="far fa-calendar-alt"></i> -->
+                   <label for="schedule">Schedule</label>
                    <input
                      class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
                      :value="test[dev.id]"
@@ -75,22 +77,24 @@
                    />
                  </template>
                </DatePicker>
-             </div>
+              </div>
 
-             <div class="form-group form-group-sm col-md-4 duration">
+             <div class="duration">
+              <label for="duration">duration /min/</label>
                <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
                <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
                </select>
              </div>
-          </div>
-          <div class="form-row">
-             <div class="form-group form-group-sm pow col-md-8">
-               <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" placeholder="Power">
+         
+             <div class="pow">
+              <label for="power">Power /kW/</label>
+               <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" >
              </div>
-             <div class = "form-group form-group-sm col-md-4 sendIt">
+             <div class = "sendIt">
                <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
              </div>
            </div>
+     </div>
      </div>
 
        </td>
@@ -440,17 +444,18 @@ input#calibrate-single {
   padding: .375rem .75rem;
 } */
 .duration select {
-    max-height: 33px;
-    max-width: 52%;
+    /* max-height: 33px;
+    max-width: 52%; */
 }
 .datepick i {
     margin-right: 10px;
 }
 .duration {
-    text-align: left;
+    /* text-align: left; */
 }
 .pow {
-    text-align: left;
+  margin-left: 20px;
+  max-width: 94px;
 }
 .pow::before{
       font-family: FontAwesome;
@@ -532,5 +537,7 @@ input.power-in {
 .table td, .table th {
     vertical-align: middle;
 }
-
+.sendIt {
+    margin-top: 48px;
+}
 </style>

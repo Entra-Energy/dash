@@ -11,6 +11,9 @@ import VueScreen from 'vue-screen';
 import 'v-calendar/dist/style.css';
 import { SetupCalendar } from 'v-calendar';
 import loader from "vue-ui-preloader";
+
+import 'bootstrap/dist/css/bootstrap.css'
+
 //import Userfront from "@userfront/vue";
 
 
