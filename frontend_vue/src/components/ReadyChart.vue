@@ -211,16 +211,7 @@ export default {
    daysInMonth (month, year) {
        return new Date(year, month, 0).getDate();
    },
-   create_devs(){
-     let dev = 'sm-000'
-     let all_devs = {}
-     for(let i = 0; i <= 12; i++)
-     {
-       let new_dev = dev+i;
-       all_devs[new_dev] = false
-     }
-     return all_devs
-   },
+
    getCurrTime(){
      let date = new Date();
      date.setDate(date.getDate());
@@ -243,14 +234,15 @@ export default {
    },
    get_data_helper(url,url2){
      const requestOne = axios.get(url);
-     console.log(url)
+     
      const requestTwo = []
      let test = this.param
      axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
        const responseOne = responses[0].data
+       
        responseOne.forEach((itemFirstRes) => {
           let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-
+          
           if (found)
           {
             if (test == 'today')
@@ -277,8 +269,8 @@ export default {
              this.option.xAxis.splitNumber = 24
              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
              let endArr = [endStr,null]
-             this.option.series[1].data.push(endArr)
-             //console.log(this.option.series[1])
+             this.option.series[0].data.push(endArr)
+             
            }
            else if(test == 'month')
            {
@@ -301,8 +293,8 @@ export default {
 
 
                let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-               this.option.series[1].data[0]=monthBegin
-               this.option.series[1].data.push(monthEnd)
+               this.option.series[0].data[0]=monthBegin
+               this.option.series[0].data.push(monthEnd)
                this.option.xAxis.splitNumber = 30
                //console.log(this.option.series[1].data)
            }
@@ -314,8 +306,8 @@ export default {
 
                let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
                let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-               this.option.series[1].data[0]=yearBegin
-               this.option.series[1].data.push(yearEnd)
+               this.option.series[0].data[0]=yearBegin
+               this.option.series[0].data.push(yearEnd)
                this.option.xAxis.splitNumber = 12
 
            }
@@ -354,7 +346,20 @@ export default {
       let readyParam = '&ready=1'
       //let page = "&page="
       //let num = 1
-
+     
+      this.option.series.push(
+        {
+          "name": this.dev,
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1
+          },          
+        }
+      )
      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+readyParam
      url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
      this.get_data_helper(url,url2)
@@ -370,26 +375,6 @@ export default {
     let year = parseInt(date[0])
     let month = parseInt(date[1])
     this.monthLenthDays = this.daysInMonth(month,year)
-
-    const devs = Object.keys(this.create_devs())
-    devs.forEach((item, i) => {
-      this.option.series.push(
-        {
-          "name": item,
-          "data": [],
-          "type": "line",
-          "sampling": "lttb",
-          "showSymbol": false,
-          "connectNulls": false,
-          "areaStyle": {
-            "color": "#28a745"
-    }
-
-        }
-      )
-
-    });
-
  },
 
  watch: {
@@ -398,19 +383,7 @@ export default {
      handler() {
 
            this.getCurrTime();
-           this.option.series = []
-           const devs = Object.keys(this.create_devs())
-           devs.forEach((item, i) => {
-             this.option.series.push(
-               {
-                 "name": item,
-                 "data": [],
-                 "type": "line",
-                 "sampling": "lttb",
-               }
-             )
-
-           });
+           this.option.series = []  
 
            let path = this.$route.path
            if (path == '/client')
@@ -427,19 +400,7 @@ export default {
    '$store.state.selected': {
      immediate: true,
      handler() {
-       this.option.series = []
-       const devs = Object.keys(this.create_devs())
-       devs.forEach((item, i) => {
-         this.option.series.push(
-           {
-             "name": item,
-             "data": [],
-             "type": "line",
-             "sampling": "lttb",
-           }
-         )
-
-       });
+       this.option.series = []     
 
        this.dev = this.$store.state.selected;
 

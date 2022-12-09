@@ -218,7 +218,7 @@ def flexi_send(request):
     timestamp = int(t) + time_shift
 
     pow = flexi_data['myObj']['pow']
-    duration = flexi_data['myObj']['duration']
+    duration = int(flexi_data['myObj']['duration'])*60
     topic = dev+"/flexi"
     print(dev,date,pow,duration)
     if dev and date and pow and duration:

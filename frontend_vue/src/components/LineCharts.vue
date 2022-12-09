@@ -247,24 +247,10 @@ export default {
 
  methods: {
 
-   daysInMonth (month, year) {
-       return new Date(year, month, 0).getDate();
-   },
-
-    create_devs(){
-      let dev = 'sm-000'
-      let all_devs = {}
-      for(let i = 0; i <= 18; i++)
-      {
-        let new_dev = dev+i;
-        all_devs[new_dev] = false
-      }      
-      return all_devs
-
-    },
-
-
-     updateZoom(e) {
+      daysInMonth (month, year) {
+          return new Date(year, month, 0).getDate();
+      },
+      updateZoom(e) {
 
            let start = e.start.toFixed(2)
            let end = e.end.toFixed(2)
