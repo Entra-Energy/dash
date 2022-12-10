@@ -72,7 +72,7 @@ def scheduled_flexi():
         for act_obj in actual_provide:
             dev_id = act_obj.flexiDev
             power = act_obj.res_pow
-            duration = int(act_obj.res_durr)*60
+            duration = int(act_obj.res_durr)
             actual_topic = str(dev_id+"/actualProvide")
             actual_data = {
                 "power":power,
