@@ -91,9 +91,9 @@ export default {
 
   maintainAspectRatio: true,
   grid: {
-         left: '5%',
+         left: '10%',
          bottom: '0%',
-         right: '5%',
+         right: '10%',
          top: '25%'
         },
   legend: {

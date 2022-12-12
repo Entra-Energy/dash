@@ -30,20 +30,22 @@
   <table class="table table-striped table-sm">
     <thead class="thead-light">
       <tr>
-        <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
+        <th>
+          <div class="form-check select-all-box"> <input class="sel-all" type="checkbox" v-model="allSelected" @change="selectAll($event)" /></div>
+        </th>
         <th>DevID</th>
         <th>Status</th>
-        <th>Power</th>
+        <th>Power kW</th>
         <th>Device Name</th>
-        <th>Location</th>
-        <th>Capacity</th>
+        <!-- <th>Location</th> -->
+        <th>Capacity kW</th>
         <th></th>
 
       </tr>
     </thead>
     <tbody>
       <tr v-for="(dev,i) in all" :key="i">
-        <td>
+        <td class="check-dev">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="checked[dev.id]" @change="check($event)" id="flexCheck">
           </div>
@@ -52,8 +54,8 @@
          <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
-         <td>{{ dev.location }}</td>
-         <td>{{ 10000 }}</td>
+         <!-- <td>{{ dev.location }}</td> -->
+         <td>{{ 22 }}</td>
          <!-- <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td> -->
          <td>
@@ -63,10 +65,10 @@
                  <div class="form-group form-group-sm">
                    <label for="call" class="sr-only">Calibrate</label>
                     <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
-                 </div>
-                <button type="submit" class="btn btn-warning btn btn-warning mb-2 mt-2 ml-2">Send</button>
+                 </div>                 
+                <button type="submit" class="btn btn-warning btn mb-2 mt-2 ml-2">Send</button>               
              </form>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">R </button>
+             <button type="submit" class="btn btn-danger mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">Reset</button>
 
         </div>
           <!-- <div class='row'>
@@ -134,7 +136,7 @@ export default {
 
       reset(e)
       {
-          axios.post('http://127.0.0.1:8000/api/reset/', {
+          axios.post('http://64.225.100.195:8000/api/reset/', {
           reset: {
             "devId":e,
             "reset":true
@@ -355,12 +357,11 @@ input#inputtime {
   padding: 3px;
 }
 input#calibrate-single {
-  max-width: 60px;
-  font-size: 0.65rem;
+  max-width: 73px;  
   padding: 3px;
 }
 .reset {
-  font-size: 0.65rem;
+  /* font-size: 0.65rem; */
   padding: 0.375rem 0.25rem;
 }
 .offline {
@@ -391,5 +392,18 @@ input#calibrate-single {
     border-radius: 50%;
     background: orange;
     margin: 0 auto;
+}
+.form-check.select-all-box {
+    padding: 0;
+    margin-left: -5px;
+}
+
+td.check-dev {
+    padding-top: 22px;
+    vertical-align: top !important;
+}
+
+.table td {    
+    vertical-align: middle;   
 }
 </style>

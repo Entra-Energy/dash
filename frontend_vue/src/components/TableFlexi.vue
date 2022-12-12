@@ -33,12 +33,12 @@
         <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
         <th>DevID</th>
         <th>Status</th>
-        <th>Power</th>
+        <th>Power kW</th>
         <!-- <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th> -->
         <th>Flexibility</th>
-        <th>Flexibility Log</th>
+        <th>Log</th>
 
       </tr>
     </thead>
@@ -67,7 +67,7 @@
                    <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                    <template v-slot="{ inputValue, inputEvents }">
                      <!-- <i class="far fa-calendar-alt"></i> -->
-                     <label for="schedule">Schedule</label>
+                     <label for="schedule">Start</label>
                      <input
                        class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300 form-control"
                        :value="test[dev.id]"
@@ -422,13 +422,13 @@ input#calibrate-single {
     background: #e9ecef;
     cursor: pointer;
 }
-.duration::before {
+/* .duration::before {
   font-family: FontAwesome;
   content: "\f254";
   display: inline-block;
   padding-right: 10px;
   vertical-align: middle;
-}
+} */
 /* .datepick{
   padding: .375rem .75rem;
 } */
@@ -451,7 +451,7 @@ select#duration {
     margin-left: -9px;
     /* text-align: left; */
   }
-.pow::before{
+/* .pow::before{
       font-family: FontAwesome;
       content: "\f884";
       display: inline-block;
@@ -466,7 +466,7 @@ select#duration {
   padding-right: 5px;
   vertical-align: middle;
   padding-left: 8px;
-}
+} */
 /* .flexi .form-group {
   float: left;
 } */
@@ -541,7 +541,7 @@ input.power-in {
   background-color: #5c5c66;
 }
 .sendIt {
-  margin-top: 43px;
+    margin-top: 18px;
     margin-left: -5px;
  }
 

@@ -17,15 +17,15 @@
         <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
         <th>DevID</th>
         <th>Status</th>
-        <th>Power</th>
+        <th>Power kW</th>
         <!-- <th>Device Name</th>
         <th>Location</th> -->
         <!-- <th>Capacity</th> -->
         <!-- <th>T['S']</th>
         <th>P['W']</th> -->
         <!-- <th></th> -->
-        <th>Simulate</th>
-        <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></th>
+        <th>Simulate <div class="pull-right"><button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></div></th>
+        <!-- <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></th> -->
 
 
       </tr>
@@ -69,7 +69,7 @@
                  <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
                    <!-- <i class="far fa-calendar-alt"></i> -->
-                   <label for="schedule">Schedule</label>
+                   <label for="schedule">Start</label>
                    <input
                      class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
                      :value="test[dev.id]"
@@ -98,7 +98,7 @@
      </div>
 
        </td>
-       <td></td>
+       <!-- <td></td> -->
 
       </tr>
      </tbody>
@@ -433,13 +433,13 @@ input#calibrate-single {
     background: #e9ecef;
     cursor: pointer;
 }
-.duration::before {
+/* .duration::before {
   font-family: FontAwesome;
   content: "\f254";
   display: inline-block;
   padding-right: 10px;
   vertical-align: middle;
-}
+} */
 /* .datepick{
   padding: .375rem .75rem;
 } */
@@ -457,7 +457,7 @@ input#calibrate-single {
   margin-left: 20px;
   max-width: 94px;
 }
-.pow::before{
+/* .pow::before{
       font-family: FontAwesome;
       content: "\f884";
       display: inline-block;
@@ -472,7 +472,7 @@ input#calibrate-single {
   padding-right: 5px;
   vertical-align: middle;
   padding-left: 8px;
-}
+} */
 .flexi .form-group {
   float: left;
 }
@@ -532,12 +532,13 @@ input.power-in {
     max-height: 36px;
 }
 .flexi {
-  padding-top: 14px;
+  /* padding-top: 14px; */
 }
 .table td, .table th {
     vertical-align: middle;
 }
 .sendIt {
-    margin-top: 48px;
+    margin-top: 24px;
+    margin-left: 15px;
 }
 </style>

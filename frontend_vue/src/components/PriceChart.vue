@@ -93,9 +93,9 @@ export default {
   responsive: true,
   maintainAspectRatio: true,
   grid: {
-                   left: '5%',
+                   left: '10%',
                    bottom: '0%',
-                   right: '5%',
+                   right: '10%',
                    top: '10%'},
   tooltip: {
 
@@ -176,7 +176,7 @@ export default {
       },
     },
     {
-      name: "priceBefore",
+      name: "price",
       smooth: true,
       step: 'middle',
       clip: true,
@@ -189,7 +189,7 @@ export default {
       type: 'line'
     },
     {
-      name: "priceAfter",
+      name: "price",
       smooth: false,
       step: 'middle',
       lineStyle:{

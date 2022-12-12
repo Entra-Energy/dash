@@ -31,14 +31,14 @@
     <thead class="thead-light">
       <tr>
         <th>
-          <div class="form-check"> <input class="sel-all" type="checkbox" v-model="allSelected" @change="selectAll($event)" /></div>
+          <div class="form-check select-all-box"> <input class="sel-all" type="checkbox" v-model="allSelected" @change="selectAll($event)" /></div>
         </th>
         <th>DevID</th>
         <th>Status</th>
-        <th>Power</th>
+        <th>Power kW</th>
         <th>Device Name</th>
         <th>Location</th>
-        <th>Capacity</th>
+        <th>Capacity kW</th>
         <!-- <th>T['S']</th>
         <th>P['W']</th>
         <th></th> -->
@@ -47,7 +47,7 @@
     </thead>
     <tbody>
       <tr v-for="(dev,i) in all" :key="i">
-        <td>
+        <td class="check-dev">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="checked[dev.id]" @change="check($event)" id="flexCheck">
           </div>
@@ -57,7 +57,7 @@
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
          <td>{{ dev.lat+"/"+dev.long }}</td>
-         <td>{{ 10000 }}</td>
+         <td>{{ 22 }}</td>
          <!-- <td>{{ dev.correctionT }}</td>
          <td>{{ dev.correctionP }}</td> -->
          <!-- <td>
@@ -299,5 +299,18 @@ input#calibrate-single {
     border-radius: 50%;
     background: orange;
     margin: 0 auto;
+}
+.form-check.select-all-box {
+    padding: 0;
+    margin-left: -5px;
+}
+
+td.check-dev {
+    padding-top: 5px;
+    vertical-align: top !important;
+}
+
+.table td {    
+    vertical-align: middle;   
 }
 </style>

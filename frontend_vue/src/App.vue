@@ -300,6 +300,8 @@ min-height: 53px;
     background: none !important;
 }
 
-
+.v-sidebar-menu .vsm--link {
+  font-size: 15px !important;
+}
 
 </style>
