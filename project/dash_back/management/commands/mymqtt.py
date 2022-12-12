@@ -84,7 +84,9 @@ class Command(BaseCommand):
                     else:
                         budgetM = 0               
                    
-                if dev_id is not 'sm-0000':
+                if dev_id == 'sm-0000':
+                    pass
+                else:
                     Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM)
 
             if myList[0] == 'ping':                
@@ -139,7 +141,9 @@ class Command(BaseCommand):
                     if online > 1000:
                         Online.objects.all().delete()
                     #print(prov)
-                    if dev_id is not 'sm-0000':
+                    if dev_id == 'sm-0000':
+                        pass
+                    else:
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':
