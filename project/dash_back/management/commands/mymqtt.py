@@ -83,7 +83,7 @@ class Command(BaseCommand):
                         budgetM = budgetMonth
                     else:
                         budgetM = 0               
-                   
+                print(dev_id)   
                 if dev_id == 'sm-0000':
                     pass
                 else:
