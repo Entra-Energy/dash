@@ -324,10 +324,20 @@ selectAll(e) {
         )
         .then(response => response.data.forEach(el=>{
 
+          let time = el.response_time
+
+          time = time.split('T')
+          let datePart = time[0]
+          let timePart = time[1].slice(0, -1);
+          let day = datePart.split('-')[2]
+          let month = datePart.split('-')[1]
+          let year = datePart.split('-')[0]
+
+          let date = day + "/" + month + "/" + year + "|" + timePart
 
             let respObj = {
               'dev': el.flexiDev,
-              'time': el.response_time,
+              'time': date,
               'pow': el.res_pow,
               'duration': el.res_durr
             }
