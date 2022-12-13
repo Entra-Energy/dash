@@ -290,7 +290,7 @@ input#calibrate-single {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #5fd85f;
+    background: #782686;
     margin: 0 auto;
 }
 .providing {
