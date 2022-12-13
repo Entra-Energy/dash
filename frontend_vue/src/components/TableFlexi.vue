@@ -37,7 +37,8 @@
         <!-- <th>Customer</th>
         <th>Location</th>
         <th>Capacity</th> -->
-        <th>Flexibility</th>
+        <th><span class="pull-left">Start</span> <span class="dur">Duration /min/</span></th>
+        <th><span class="power">Power kW</span></th>
         <th>Log</th>
 
       </tr>
@@ -55,19 +56,18 @@
          <!-- <td>{{ dev.location }}</td>
          <td>{{ "Sofia" }}</td>
          <td>{{ 10000 }}</td> -->
-         <td>
-          <div class="inter">
+         <td class="date-durr">
+          <!-- <div class="inter">
           <div class="row">
-            <div class="col-md-12">
-           <div class='request-date-pick' >
-             
+          <div class="col-md-12"> -->
+           <div class='request-date-pick' >             
                <div class='form-row'>
                 <div class="form-inline">
                  <div class="calendar-pick">
                    <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                    <template v-slot="{ inputValue, inputEvents }">
                      <!-- <i class="far fa-calendar-alt"></i> -->
-                     <label for="schedule">Start</label>
+                     <!-- <label for="schedule">Start</label> -->
                      <input
                        class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300 form-control"
                        :value="test[dev.id]"
@@ -79,15 +79,20 @@
                   </DatePicker>
                 </div>
                <div class="duration">
-                <label for="duration">duration /min/</label>
+                <!-- <label for="duration">duration /min/</label> -->
                  <select class="form-control d-inline-block" id="duration" :class="testClass" v-model="duration[dev.id]" @change="onChange($event)" :disabled="!dev.ready">
                    <option v-for="item in items" :value="item.val" :key="item.id" >{{item.val}}</option>
                  </select>
                </div>
                </div>
+               <!-- new -->
+               </div>
+               </div>
+              </td>
+              <td class="pow-second">
                <div class="form-inline second-inline">
                <div class="pow">
-                 <label for="power">Power /kW/</label>
+                 <!-- <label for="power">Power /kW/</label> -->
                  <input type="text" name="power" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" :disabled="!dev.ready" >
                </div>
 
@@ -95,21 +100,20 @@
                  <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)" :disabled="!dev.ready">Send</button>
                </div> 
                </div>              
-               </div>
+               <!-- </div>-->
+               </td>
 
-           
-
-
+     <!-- </div> -->
+     <!-- </div>
      </div>
-     </div>
-     </div>
-     </div>
-       </td>
+     </div> -->
+       <!-- </td> -->
        <td>
         
          <div class='rowww'>
            <div class='col-sm-12w'>
-             <div class="flexi-display overflow-auto pt-3 pb-2" style="max-height: 35px;">
+           <!-- <Modal :flexi="flexiResp" :mydev="dev.id"/> -->
+             <div class="flexi-display overflow-auto pt-2 pb-2" style="max-height: 30px;">
              <ul>
                <li v-for="flexi in flexiResp" :key="dev.id">
                  <span v-if="flexi.dev === dev.id"><b>{{flexi.dev}}</b>|{{flexi.time}}|Power:{{flexi.pow}}|Duration:{{flexi.duration}}</span>
@@ -131,13 +135,14 @@
 </template>
 
 <script>
-
+import Modal from '@/components/Modal.vue'
 import axios from 'axios';
 import { Calendar, DatePicker } from 'v-calendar';
 export default {
   components: {
      Calendar,
      DatePicker,
+     Modal
    },
 
   data() {
@@ -440,7 +445,7 @@ input#calibrate-single {
     margin-right: 10px;
 }
 .duration {    
-    /* margin-left: 9px; */
+    margin-left: 9px;
 }
 select#duration {
     max-width: 53px;
@@ -507,7 +512,7 @@ select#duration {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #5fd85f;
+    background: #782686;
     margin: 0 auto;
 }
 .providing {
@@ -541,7 +546,7 @@ input.power-in {
   background-color: #5c5c66;
 }
 .sendIt {
-    margin-top: 18px;
+    /* margin-top: 18px; */
     margin-left: -5px;
  }
 
@@ -557,5 +562,25 @@ input.power-in {
 }
 .cal-input {
     max-width: 120px;
+}
+th {
+    font-size: 12px;
+}
+span.pull-left {
+    float: left;
+    margin-left: 44px;
+}
+span.power {
+    float: left;
+    margin-left: 17px;
+}
+td.date-durr {
+    padding-right: 0;
+}
+td.pow-second {
+    padding-left: 0;
+}
+.dur {
+    margin-left: 14px;
 }
 </style>
