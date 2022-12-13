@@ -30,7 +30,7 @@
   <table class="table table-striped table-sm">
     <thead class="thead-light">
       <tr>
-        <th><input type="checkbox" v-model="allSelected" @change="selectAll" /></th>
+        <th><input class="sel-all" type="checkbox" v-model="allSelected" @change="selectAll" /></th>
         <th>DevID</th>
         <th>Status</th>
         <th>Power kW</th>
@@ -45,7 +45,7 @@
     </thead>
     <tbody>
       <tr v-for="(dev,i) in all" :key="i">
-        <td>
+        <td class="chckbox">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="checked[dev.id]" @change="check($event)" id="flexCheck">
           </div>
@@ -116,7 +116,7 @@
              <div class="flexi-display overflow-auto pt-2 pb-2" style="max-height: 30px;">
              <ul>
                <li v-for="flexi in flexiResp" :key="dev.id">
-                 <span v-if="flexi.dev === dev.id"><b>{{flexi.dev}}</b>|{{flexi.time}}|Power:{{flexi.pow}}|Duration:{{flexi.duration}}</span>
+                 <span v-if="flexi.dev === dev.id">{{flexi.time}} | Duration:{{flexi.duration}} | Power: {{flexi.pow}}</span>
 
                </li>
              </ul>
@@ -333,7 +333,7 @@ selectAll(e) {
           let month = datePart.split('-')[1]
           let year = datePart.split('-')[0]
 
-          let date = day + "/" + month + "/" + year + "|" + timePart
+          let date = day + "/" + month + "/" + year + " | " + timePart
 
             let respObj = {
               'dev': el.flexiDev,
@@ -582,7 +582,7 @@ span.pull-left {
 }
 span.power {
     float: left;
-    margin-left: 17px;
+    margin-left: 4px;
 }
 td.date-durr {
     padding-right: 0;
@@ -591,6 +591,14 @@ td.pow-second {
     padding-left: 0;
 }
 .dur {
-    margin-left: 14px;
+    margin-left: 9px;
+}
+.sel-all {
+    margin: 7px;
+}
+.chckbox[data-v-bff3c4dc] {
+    vertical-align: top !important;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 </style>

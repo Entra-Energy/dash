@@ -24,7 +24,8 @@
         <!-- <th>T['S']</th>
         <th>P['W']</th> -->
         <!-- <th></th> -->
-        <th>Simulate <div class="pull-right"><button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></div></th>
+        <th class="start-dur"><span class="pull-left">Start</span> <span class="dur">Duration /min/</span></th>
+        <th><span class="power">Power kW </span><div class="pull-right exec-all"><button type="submit" class="btn btn-success" @click="execAll()">Execute all!</button></div></th>
         <!-- <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></th> -->
 
 
@@ -32,7 +33,7 @@
     </thead>
     <tbody>
       <tr v-for="(dev,i) in all" :key="i">
-        <td>
+        <td class="checkboxes">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="checked[dev.id]" @change="check($event)" id="flexCheck">
           </div>
@@ -40,38 +41,19 @@
          <td>{{ dev.id }}</td>
          <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
-         <!-- <td>{{ dev.customer }}</td>
-         <td>{{ dev.location }}</td> -->
-         <!-- <td>{{ 10000 }}</td> -->
-         <!-- <td>{{ dev.correctionT }}</td>
-         <td>{{ dev.correctionP }}</td> -->
-         <!-- <td>
-          <div class='row'>
-            <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-               <div class="form-group form-group-sm">
-                 <label for="inputpower" class="sr-only">Reduce Power</label>
-                 <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Correction">
-               </div>
-               <div class="form-group form-group-sm">
-                 <label for="inputtime" class="sr-only">Time Interval</label>
-                 <input type="text" class="form-control ml-2 mr-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
-               </div>
-               <button type="submit" class="btn btn-warning mb-2 mt-2">Send </button>
-            </form>
-          </div>
-         </td> -->
+        
          <td>
-           <div class='row flexi'>
+           <!-- <div class='row flexi'> -->
              <!-- <div class='col-md-3'> -->
-             <div class='form-row'>
+             <!-- <div class='form-row'> -->
               <div class="form-inline">
                <div class="calendar-pick">
                  <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
                    <!-- <i class="far fa-calendar-alt"></i> -->
-                   <label for="schedule">Start</label>
+                   <!-- <label for="schedule">Start</label> -->
                    <input
-                     class="cal-input px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                     class="cal-input px-2 border rounded focus:outline-none focus:border-blue-300"
                      :value="test[dev.id]"
                      v-on="inputEvents"
                    />
@@ -80,22 +62,25 @@
               </div>
 
              <div class="duration">
-              <label for="duration">duration /min/</label>
+              <!-- <label for="duration">duration /min/</label> -->
                <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
                <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
                </select>
              </div>
-         
+            </div>
+            <!-- </div> -->
+            <!-- </div> -->
+            </td>
+          <td>
+            <div class="form-inline">
              <div class="pow">
-              <label for="power">Power /kW/</label>
+              <!-- <label for="power">Power /kW/</label> -->
                <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" >
              </div>
              <div class = "sendIt">
                <button type="submit" class="btn btn-warning" @click="sendIt(dev.id)">Send</button>
              </div>
-           </div>
-     </div>
-     </div>
+             </div>  
 
        </td>
        <!-- <td></td> -->
@@ -523,6 +508,7 @@ input#calibrate-single {
 
 input.cal-input {
     max-width: 72%;
+    padding: 2px;
 }
 input.power-in {
     max-height: 36px;
@@ -530,6 +516,8 @@ input.power-in {
 }
 .sendIt .btn {
     max-height: 36px;
+    padding: 6px 20px;
+    font-size: 12px;
 }
 .flexi {
   /* padding-top: 14px; */
@@ -538,7 +526,42 @@ input.power-in {
     vertical-align: middle;
 }
 .sendIt {
-    margin-top: 24px;
-    margin-left: 15px;
+    /* margin-top: 24px;
+    margin-left: 15px; */
+}
+span.pull-left {
+    float: left;
+    margin: 0 auto;
+    width: 70%;    
+}
+.dur {
+    float: left;
+}
+th {
+    font-size: 12px;
+}
+.exec-all .btn {
+    padding: 4px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #e6e4e4;
+}
+.form-inline .form-control {
+    max-height: 31px;
+    font-size: 13px;
+}
+th.start-dur {
+    width: 300px;
+}
+span.power {
+    float: left;
+    padding: 5px;
+    margin: 0 auto;
+    width: 38%;
+}
+table td.checkboxes {
+    /* margin-top: 37px; */
+    vertical-align: top !important;
+    padding: 9px 0px 0px 5px;
 }
 </style>
