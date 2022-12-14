@@ -144,6 +144,7 @@ export default {
     splitLine: {
      show: false
    },
+   max: 1,
    boundaryGap: [0, '800%'],
    axisLabel: {
         formatter: ''
@@ -357,7 +358,8 @@ export default {
           "connectNulls": false,
           "lineStyle": {
               "width": 1
-          },          
+          },
+          "areaStyle": {},          
         }
       )
      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+readyParam

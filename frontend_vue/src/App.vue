@@ -102,13 +102,7 @@ export default {
             icon: 'fa-solid fa-microchip',
 
           },
-          {
-            href: '/system',
-            title: 'System',
-            icon: 'fa-solid fa-list-check',
-
-          },
-
+          
           {
             href: '/flexi',
             title: 'Flexability',
@@ -119,6 +113,12 @@ export default {
             href: '/grid',
             title: 'Flexability Simulate',
             icon: 'fa-solid fa-sliders',
+
+          },
+          {
+            href: '/system',
+            title: 'System',
+            icon: 'fa-solid fa-list-check',
 
           },
           {
