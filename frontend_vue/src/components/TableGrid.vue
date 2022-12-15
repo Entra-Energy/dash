@@ -180,8 +180,8 @@ export default {
         .get(
           "http://64.225.100.195:8000/api/flexi_sim/"
         )
-        //.then(response => console.log(response.data.results))
-        .then(response => response.data.results.forEach(el=>{
+        //.then(response => console.log(response.data))
+        .then(response => response.data.forEach(el=>{
               
           let time = el.scheduled
           time = time.split('T')
