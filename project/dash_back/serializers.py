@@ -11,8 +11,11 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         value = serializers.FloatField()
         grid = serializers.IntegerField()
+        actualCorr = serializers.FloatField()
+        actualProviding = serializers.IntegerField()
+        providingAmount = serializers.FloatField()
         # fields = "__all__"
-        fields = ('devId','value','created_date','created','grid')
+        fields = ('devId','value','created_date','created','grid','actualCorr','actualProviding','providingAmount')
 
 
 class ArisSerializer(serializers.ModelSerializer):

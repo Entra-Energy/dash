@@ -82,12 +82,28 @@ class Command(BaseCommand):
                     if budgetMonth:
                         budgetM = budgetMonth
                     else:
-                        budgetM = 0               
+                        budgetM = 0     
+                        
+                    providing_amount = data_out['payload'].get('providingAmount', None)
+                    if providing_amount:
+                        prov_amount =  providing_amount
+                    else:
+                        prov_amount = 0
+                    actual_correction = data_out['payload'].get('actualCorr', None)
+                    if actual_correction:
+                        actual_corr = actual_correction
+                    else:
+                        actual_corr = 0
+                    actual_providing = data_out['payload'].get('actualProvide', None)
+                    if actual_providing:
+                        actual_prov = actual_providing
+                    else:
+                        actual_prov = 0    
                 print(dev_id)   
                 if dev_id == 'sm-0000':
                     pass
                 else:
-                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM)
+                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
 
             if myList[0] == 'ping':                
                 dev_id = myList[1]

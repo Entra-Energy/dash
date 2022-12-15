@@ -62,7 +62,7 @@ class MonthArisManager(models.Manager):
 
 class MonthPostManager(models.Manager):
     def get_queryset(self):
-        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value','grid').order_by('created')
+        dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value','grid','actualCorr','actualProviding','providingAmount').order_by('created')
         return dataset
 
 class MonthPostForecastManager(models.Manager):
@@ -86,6 +86,9 @@ class Post(models.Model):
     budgetH = models.IntegerField(default=0, null=True)
     budgetD = models.IntegerField(default=0, null=True)
     budgetM = models.IntegerField(default=0, null=True)
+    actualCorr = models.FloatField(default=0, null=True)
+    actualProviding = models.IntegerField(default=0, null=True)
+    providingAmount = models.FloatField(default=0, null=True)
     
     def __str__(self):
         return self.devId

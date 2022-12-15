@@ -27,7 +27,7 @@ createApp(App).use(store).use(VueScreen,'bootstrap')
 .use(loader)
 .use(VueSidebarMenu)
 .use(VueGoogleHeatmap, {
-    apiKey: 'AIzaSyBOCx0egD3RtmVHKdj_xWTdz0nKiL3l9lw'
+    apiKey: 'AIzaSyBOCx0egD3RtmVHKdj_xWTdz0nKiL3l9lw',libraries: 'visualization'
   })
 .use(SetupCalendar, {}).mount('#app')
 import "bootstrap/dist/js/bootstrap.js"
