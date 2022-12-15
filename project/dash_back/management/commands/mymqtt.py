@@ -99,7 +99,7 @@ class Command(BaseCommand):
                         actual_prov = actual_providing
                     else:
                         actual_prov = 0    
-                print(dev_id)   
+                #print(dev_id)   
                 if dev_id == 'sm-0000':
                     pass
                 else:
@@ -114,7 +114,7 @@ class Command(BaseCommand):
                     
                     timestamp = (data_out['payload'].get('timestamp', None))
                     if timestamp:
-                        print(timestamp)
+                        #print(timestamp)
                         timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     else:
                         timestamp = 0

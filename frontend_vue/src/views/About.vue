@@ -14,6 +14,7 @@
    </div>
    <div class='row'><div class='col'><LineCharts :query="query" /></div></div>
    <div class='row'><div class='col'><ReadyChart :query="query" /></div></div>
+   <div class='row'><div class='col'><DealSimChart :query="query" /></div></div>
    <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
 
 
@@ -27,6 +28,8 @@ import Select from '@/components/Select.vue'
 import LineCharts from '@/components/LineCharts.vue'
 import PriceChart from '@/components/PriceChart.vue'
 import ReadyChart from '@/components/ReadyChart.vue'
+import DealSimChart from '@/components/DealSimChart.vue'
+
 
 export default {
   name: 'About',
@@ -36,6 +39,8 @@ export default {
     LineCharts,
     PriceChart,
     ReadyChart,
+    DealSimChart
+
   },
   data() {
     return {
