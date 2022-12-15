@@ -304,4 +304,8 @@ min-height: 53px;
   font-size: 15px !important;
 }
 
+.v-sidebar-menu .vsm--link_level-1.vsm--link_active{
+  background: #550a61;
+}
+
 </style>

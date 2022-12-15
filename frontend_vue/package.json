@@ -27,6 +27,7 @@
       "vue": "^3.2.45",
       "vue-echarts": "^6.0.2",
       "vue-functional-calendar": "^2.9.93",
+      "vue-google-heatmap": "^1.1.0",
       "vue-router": "^4.0.0-0",
       "vue-screen": "^2.1.0-beta.1",
       "vue-sidebar-menu": "^5.2.2",

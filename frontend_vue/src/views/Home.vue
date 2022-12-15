@@ -5,6 +5,7 @@
     <div class='row'><div class='col'><LineCharts :query="query" /></div></div>
     <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
     <div class='row'><div class='col'><Table /></div></div>
+    <div class='row'><div class='col'><div id="map"><Heatmap/></div></div></div>
 
 
 </template>
@@ -17,7 +18,7 @@ import Range from '@/components/Range.vue'
 import Table from '@/components/Table.vue'
 import LineCharts from '@/components/LineCharts.vue'
 import PriceChart from '@/components/PriceChart.vue'
-
+import Heatmap from '@/components/Heatmap.vue'
 
 export default {
   name: 'Home',
@@ -25,11 +26,11 @@ export default {
     Range,
     Table,
     LineCharts,
-    PriceChart
+    PriceChart,
+    Heatmap
   },
   data() {
     return {
-
       query:"today",
       rangeTitle:'',
 
@@ -70,3 +71,14 @@ export default {
 
 }
 </script>
+
+<style scoped>
+
+/* #map
+{
+    filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="g"><feColorMatrix type="matrix" values="0.3 0.3 0.3 0 0 0.3 0.3 0.3 0 0 0.3 0.3 0.3 0 0 0 0 0 1 0"/></filter></svg>#g');
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);    
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayScale=1);
+} */
+</style>
