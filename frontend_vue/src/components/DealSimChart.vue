@@ -241,8 +241,8 @@
        let test = this.param
        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
          
-         const responseOne = responses[0].data.results
-         
+         const responseOne = responses[0].data
+         console.log(this.option.series[1])
          responseOne.forEach((itemFirstRes) => {
             let found = this.option.series.find(element => element.name === itemFirstRes.devId)
             
@@ -250,11 +250,14 @@
             {
               if (test == 'today')
               {
-                found.data.push([itemFirstRes.created_date,itemFirstRes.actualCorr])
+                //found.data.push([itemFirstRes.created_date,itemFirstRes.actualCorr])
+                this.option.series[0].data.push([itemFirstRes.created_date,itemFirstRes.actualCorr])
+                this.option.series[1].data.push([itemFirstRes.created_date,itemFirstRes.providingAmount])
               }
               else
               {
-                found.data.push([itemFirstRes.created,itemFirstRes.actualCorr])
+                this.option.series[0].data.push([itemFirstRes.created,itemFirstRes.actualCorr])
+                this.option.series[1].data.push([itemFirstRes.created,itemFirstRes.providingAmount])
               }
             }
   
@@ -276,7 +279,6 @@
                let startArr = [startStr,null]           
               
                this.option.series[0].data.unshift(startArr)
-               console.log(this.option.series[0].data)
                this.option.series[0].data.push(endArr)
                
              }
@@ -358,6 +360,20 @@
         this.option.series.push(
           {
             "name": this.dev,
+            "data": [],
+            "type": "line",
+            "sampling": "lttb",
+            "showSymbol": false,
+            "connectNulls": false,
+            "lineStyle": {
+                "width": 1
+            },
+            "areaStyle": {},          
+          } 
+        )
+        this.option.series.push(
+          {
+            "name": this.dev+"/"+"sim",
             "data": [],
             "type": "line",
             "sampling": "lttb",
