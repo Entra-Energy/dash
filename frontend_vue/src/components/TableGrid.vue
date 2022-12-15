@@ -24,10 +24,10 @@
         <!-- <th>T['S']</th>
         <th>P['W']</th> -->
         <!-- <th></th> -->
-        <th class="start-dur"><span class="pull-left">Start</span> <span class="dur">Duration /min/</span></th>
-        <th><span class="power">Power kW </span><div class="pull-right exec-all"><button type="submit" class="btn btn-success" @click="execAll()">Execute all!</button></div></th>
+        <th><span class="pull-left">Start</span> <span class="dur">Duration /min/</span></th>
+        <th><span class="power">Power kW </span></th>
         <!-- <th> <button type="submit" class="btn btn-warning" @click="execAll()">Execute all!</button></th> -->
-
+        <th>Log<div class="pull-right exec-all"><button type="submit" class="btn btn-success" @click="execAll()">Execute all!</button></div></th>
 
       </tr>
     </thead>
@@ -42,7 +42,7 @@
          <td><div v-bind:class="dev.online"></div></td>
          <td>{{ dev.pow }}</td>
         
-         <td>
+         <td class="date-durr">
            <!-- <div class='row flexi'> -->
              <!-- <div class='col-md-3'> -->
              <!-- <div class='form-row'> -->
@@ -53,7 +53,7 @@
                    <!-- <i class="far fa-calendar-alt"></i> -->
                    <!-- <label for="schedule">Start</label> -->
                    <input
-                     class="cal-input px-2 border rounded focus:outline-none focus:border-blue-300"
+                     class="cal-input form-control px-2 border rounded focus:outline-none focus:border-blue-300"
                      :value="test[dev.id]"
                      v-on="inputEvents"
                    />
@@ -63,7 +63,7 @@
 
              <div class="duration">
               <!-- <label for="duration">duration /min/</label> -->
-               <select class="form-control d-inline-block" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
+               <select class="form-control d-inline-block" id="duration" style="width: auto;" v-model="duration[dev.id]" @change="onChange($event)" >
                <option v-for="item in items" :value="item.val" :key="item.id">{{item.val}}</option>
                </select>
              </div>
@@ -71,8 +71,8 @@
             <!-- </div> -->
             <!-- </div> -->
             </td>
-          <td>
-            <div class="form-inline">
+          <td class="pow-second">
+            <div class="form-inline second-inline">
              <div class="pow">
               <!-- <label for="power">Power /kW/</label> -->
                <input type="text" class="form-control d-inline-block power-in" style="width: auto;" v-model="powVolume[dev.id]" >
@@ -83,7 +83,20 @@
              </div>  
 
        </td>
-       <!-- <td></td> -->
+       <td>        
+        <div class='rowww'>
+           <div class='col-sm-12w'>
+           <!-- <Modal :flexi="flexiResp" :mydev="dev.id"/> -->
+             <div class="flexi-display overflow-auto pt-2 pb-2" style="max-height: 30px;">
+             <ul>
+               <li v-for="flexi in simLog" :key="dev.id">
+                 <span v-if="flexi.dev === dev.id">{{flexi.time}} | Duration:{{flexi.duration}} | Power: {{flexi.pow}}</span>
+
+               </li>
+             </ul>
+           </div>
+           </div>
+         </div></td>
 
       </tr>
      </tbody>
@@ -119,6 +132,7 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
+      simLog:[],
       checked: {'sm-0001':true,'sm-0009':true, 'sm-0002':true,'sm-0003':true,'sm-0004':true,'sm-0000':true,'sm-00011':true,'sm-00012':true},
       allSelected: true,
       activeClass: 'disabled',
@@ -159,6 +173,44 @@ export default {
   },
 
   methods: {
+
+    getSimLog(){
+      try {
+        axios
+        .get(
+          "http://64.225.100.195:8000/api/flexi_sim/"
+        )
+        //.then(response => console.log(response.data.results))
+        .then(response => response.data.results.forEach(el=>{
+              
+          let time = el.scheduled
+          time = time.split('T')
+          let datePart = time[0]
+          let timePart = time[1].slice(0, -1);
+          let day = datePart.split('-')[2]
+          let month = datePart.split('-')[1]
+          let year = datePart.split('-')[0]
+
+          let date = day + "/" + month + "/" + year + " | " + timePart
+          let respObj = {
+            'dev': el.provided_dev,
+            'time': date,
+            'pow': el.sched_pow,
+            'duration': el.sched_durration
+          }
+          this.simLog.push(respObj)
+
+
+        }
+
+      ))
+
+    }
+    catch (error) {
+      //console.log(error);
+    }
+
+    },
 
     execAll(){
       axios.post('http://64.225.100.195:8000/api/execall/', {
@@ -363,11 +415,13 @@ export default {
     this.getData();
     this.pollData();
     this.createMins();
+    this.getSimLog();
     this.all = this.$store.state.allDevs
     let ids = this.$store.state.allIds
     ids.forEach(el=>{
       this.checked[el]=true
     })
+    console.log(this.simLog)
 
     // const selected = this.all.map((u) => u.id);
     // this.checked = selected;
@@ -439,8 +493,8 @@ input#calibrate-single {
     /* text-align: left; */
 }
 .pow {
-  margin-left: 20px;
-  max-width: 94px;
+  max-width: 50%;
+  margin-left: -20px;
 }
 /* .pow::before{
       font-family: FontAwesome;
@@ -471,6 +525,7 @@ input#calibrate-single {
     padding: 0;
     color: gray;
     text-align: left;
+    font-size: 12px;
 }
 .flexi-display {
     margin: 0 auto;
@@ -511,13 +566,13 @@ input.cal-input {
     padding: 2px;
 }
 input.power-in {
-    max-height: 36px;
-    max-width: 74%;
+    
+    max-width: 50%;
 }
 .sendIt .btn {
-    max-height: 36px;
-    padding: 6px 20px;
-    font-size: 12px;
+    padding: 5px 7px;
+    font-size: 13px;
+    color: #3c3a3a;
 }
 .flexi {
   /* padding-top: 14px; */
@@ -525,17 +580,17 @@ input.power-in {
 .table td, .table th {
     vertical-align: middle;
 }
-.sendIt {
-    /* margin-top: 24px;
-    margin-left: 15px; */
+.sendIt {   
+    margin-left: -5px; 
 }
 span.pull-left {
-    float: left;
-    margin: 0 auto;
-    width: 70%;    
+  float: left;
+  margin-left: 75px; 
 }
 .dur {
-    float: left;
+    /* float: left; */
+    margin-left: 9px;
+
 }
 th {
     font-size: 12px;
@@ -564,4 +619,14 @@ table td.checkboxes {
     vertical-align: top !important;
     padding: 9px 0px 0px 5px;
 }
+select#duration {
+    max-width: 53px;
+    padding: 3px;
+}
+td.pow-second {
+    margin-right: 0;
+    padding-right: 0;
+   
+}
+
 </style>

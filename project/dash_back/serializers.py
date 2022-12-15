@@ -1,7 +1,7 @@
 from multiprocessing.sharedctypes import Value
 from rest_framework import serializers #type ignore
 from datetime import datetime, timedelta, time
-from dash_back.models import Post,Online,Price, Flexi, Aris, UserIp, PostForecast
+from dash_back.models import Post,Online,Price, Flexi, Aris, UserIp, PostForecast, FlexabilitySim
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -43,6 +43,11 @@ class OnlineSerializer(serializers.ModelSerializer):
 class FlexiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flexi
+        fields = "__all__"
+        
+class FlexiSimSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FlexabilitySim
         fields = "__all__"
         
 class UserIpSerializer(serializers.ModelSerializer):

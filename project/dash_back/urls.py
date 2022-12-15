@@ -15,6 +15,7 @@ router.register(r'price', views.PriceViewset, basename='price')
 router.register(r'flexi_res', views.FlexiViewset, basename='flexi_res')
 router.register(r'userip', views.userIpViewset, basename='userip')
 router.register(r'post_forecast', views.PostForecastViewset, basename='postForecast')
+router.register(r'flexi_sim', views.SimLogViewset, basename='sim_log')
 
 urlpatterns = [
     path('online/', views.OnlineView.as_view(), name = 'test'),

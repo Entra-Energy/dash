@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer
 from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, ArisFilter
@@ -135,6 +135,10 @@ class PriceViewset(viewsets.ModelViewSet):
 class FlexiViewset(viewsets.ModelViewSet):
     queryset = Flexi.objects.all().order_by('-response_time')
     serializer_class = FlexiSerializer
+
+class SimLogViewset(viewsets.ModelViewSet):    
+    queryset = FlexabilitySim.objects.all().order_by('-scheduled')
+    serializer_class = FlexiSimSerializer
 
 
 
