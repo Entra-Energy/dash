@@ -82,19 +82,23 @@ export default {
   setup () {
    const option = ref({
    title: {
-   text: 'Grid Ready/ Not Ready',
-   left: 'left',
-   color:'#fff'
+   text: 'Availability',
+   left: 'center',
+   padding: [1, 1, 1, 1],
+   textStyle: {
+      fontSize: 12,
+      color:'#dfdfdf'
+    },
   },
   test: '',
   responsive: true,
 
   maintainAspectRatio: true,
   grid: {
-         left: '10%',
-         bottom: '0%',
-         right: '10%',
-         top: '25%'
+        //  left: '10%',
+        //  bottom: '0%',
+        //  right: '10%',
+        //  top: '25%'
         },
   legend: {
         orient: 'vertical',
@@ -146,8 +150,9 @@ export default {
    },
    max: 1,
    boundaryGap: [0, '800%'],
+   splitNumber: 1,
    axisLabel: {
-        formatter: ''
+        formatter: '{value}'
       }
   },
 
@@ -250,10 +255,12 @@ export default {
             if (test == 'today')
             {
               found.data.push([itemFirstRes.created_date,itemFirstRes.grid])
+              this.option.series[1].data.push([itemFirstRes.created_date,itemFirstRes.actualProviding])
             }
             else
             {
               found.data.push([itemFirstRes.created,itemFirstRes.grid])
+              this.option.series[1].data.push([itemFirstRes.created,itemFirstRes.actualProviding])
             }
           }
 
@@ -350,6 +357,7 @@ export default {
       //let num = 1
      
       this.option.series.push(
+  
         {
           "name": this.dev,
           "data": [],
@@ -361,6 +369,18 @@ export default {
               "width": 1
           },
           "areaStyle": {},          
+        },
+        {
+          "name": this.dev+"/"+"providing",
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1
+          },
+          "areaStyle": {}, 
         }
       )
      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+readyParam

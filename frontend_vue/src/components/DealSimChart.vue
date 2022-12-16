@@ -81,11 +81,16 @@
     },
     setup () {
      const option = ref({
-     title: {
-     text: 'Deal/ Simulatiuon',
-     left: 'left',
-     color:'#fff'
-    },
+
+      title: {
+        text: 'Deal/Simulated',
+        left: 'center',
+        padding: [1, 1, 1, 1],
+        textStyle: {
+            fontSize: 12,
+            color:'#dfdfdf'
+          },
+  },
     test: '',
     responsive: true,
   
@@ -144,10 +149,11 @@
       splitLine: {
        show: false
      },
+     //splitNumber: 2,
      max: 1,
      boundaryGap: [0, '800%'],
      axisLabel: {
-          formatter: ''
+          formatter: '{value}'
         }
     },
   

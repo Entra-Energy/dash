@@ -16,6 +16,7 @@
    <div class='row'><div class='col'><ReadyChart :query="query" /></div></div>
    <div class='row'><div class='col'><DealSimChart :query="query" /></div></div>
    <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
+  
 
 
 
@@ -39,7 +40,7 @@ export default {
     LineCharts,
     PriceChart,
     ReadyChart,
-    DealSimChart
+    DealSimChart,  
 
   },
   data() {

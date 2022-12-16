@@ -90,6 +90,15 @@ export default {
   setup () {
    const option = ref({
   test: '',
+  title: {
+   text: 'Price',
+   left: 'center',
+   padding: [1, 1, 1, 1],
+   textStyle: {
+      fontSize: 12,
+      color:'#dfdfdf'
+    },
+  },
   responsive: true,
   maintainAspectRatio: true,
   grid: {
