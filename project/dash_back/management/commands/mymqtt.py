@@ -50,7 +50,11 @@ class Command(BaseCommand):
                     timestamp = int(data_out['payload']['timestamp'])
                     timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     value = float(data_out['payload']['power'])
-                    readyness = int(data_out['payload']['gridReady'])
+                    readyness = data_out['payload'].get('gridReady', None)
+                    if readyness:
+                        ready_grid = readyness
+                    else:
+                        ready_grid = 0
                    
                     costHour = data_out['payload'].get('costH', None)
                     if costHour:
@@ -103,7 +107,7 @@ class Command(BaseCommand):
                 if dev_id == 'sm-0000':
                     pass
                 else:
-                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=readyness, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
+                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=ready_grid, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
