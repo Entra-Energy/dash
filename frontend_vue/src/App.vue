@@ -102,6 +102,12 @@ export default {
             icon: 'fa-solid fa-microchip',
 
           },
+          {
+            href: '/analytics',
+            title: 'Analytics',
+            icon: 'fa-solid fa-microchip',
+
+          },
           
           {
             href: '/flexi',
