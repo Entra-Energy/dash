@@ -247,7 +247,7 @@ export default {
 
 
       }).then(response => {
-        
+        console.log(response.data)
         // this.response = response.data
         this.success = 'Data saved successfully';
         this.response = JSON.stringify(response, null, 2)
