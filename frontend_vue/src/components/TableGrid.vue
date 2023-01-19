@@ -232,7 +232,7 @@ export default {
 
     sendIt(dev){
       let date = this.test[dev]
-      axios.post('64.225.100.195:8000/api/sched/', {        
+      axios.post('http://64.225.100.195:8000/api/sched/', {        
           "date": this.test[dev],
           "duration": this.duration[dev],
           "dev":dev,
