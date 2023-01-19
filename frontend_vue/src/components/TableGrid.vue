@@ -232,22 +232,22 @@ export default {
 
     sendIt(dev){
       let date = this.test[dev]
-      console.log(date)
-
-      axios.post('http://64.225.100.195:8000/api/sched/', {
-
-        myObj:  {
+      axios.post('64.225.100.195:8000/api/sched/', {        
           "date": this.test[dev],
           "duration": this.duration[dev],
           "dev":dev,
-          "pow": this.powVolume[dev]
-        }
-
-
+          "pow": this.powVolume[dev],
+          'key':'14252)5q?12FGs'
+          
+          // 'date':'2023-01-17T13:53',
+          // 'duration':2,
+          // 'dev': 'sm-0005',
+          // 'pow': '-10',
+          // 'key':'14252)5q?12FGs'        
 
 
       }).then(response => {
-        // console.log(response);
+        
         // this.response = response.data
         this.success = 'Data saved successfully';
         this.response = JSON.stringify(response, null, 2)

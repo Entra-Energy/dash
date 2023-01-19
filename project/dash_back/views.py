@@ -177,19 +177,23 @@ def post_single_correction(request):
 #flexi sim with calendar
 @api_view(['POST',])
 def sched_flexi(request):
-
+    
+    key='14252)5q?12FGs'
     sched_data = request.data
-    device = sched_data['myObj']['dev']
-    date_for_sched = sched_data['myObj']['date']
-    pow = sched_data['myObj']['pow']
-    duration = sched_data['myObj']['duration']
-    print(duration)
+    print(sched_data)
+    
+    key_received = sched_data['key']
+    device = sched_data['dev']
+    date_for_sched = sched_data['date']
+    pow = sched_data['pow']
+    duration = sched_data['duration']    
     # Put the requested power into new db field into FlexabilitySim
     #requested = Flexi.objects.filter(response_time=date_for_sched,flexiDev=device)
     #requested_pow = requested.res_pow
-    if device and date_for_sched and pow and duration:
-        FlexabilitySim.objects.create(provided_dev=device,scheduled=date_for_sched,sched_pow=pow,sched_durration=duration)
-        return Response({"Success": "ok"})
+    if key_received == key:
+        if device and date_for_sched and pow and duration:
+            FlexabilitySim.objects.create(provided_dev=device,scheduled=date_for_sched,sched_pow=pow,sched_durration=duration)
+            return Response({"Success": "ok"})
 
 
 
