@@ -263,7 +263,13 @@ class Command(BaseCommand):
                     'costM':costPerM,
                     'budgetH':budgetPerH,
                     'budgetD':budgetPerD,
-                    'budgetM':budgetPerM
+                    'budgetM':budgetPerM,
+                    'setY': now.year,
+                    'setM': now.month,
+                    'setD':now.day,
+                    'setH':now.hour,
+                    'setmm':now.minute,
+                    'setS':now.second
                     
                 }
                 topic = "initial/"+dev_id

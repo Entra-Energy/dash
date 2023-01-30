@@ -239,10 +239,10 @@ export default {
           "pow": this.powVolume[dev],
           'key':'14252)5q?12FGs'
           
-          // 'date':'2023-01-17T13:53',
+          // 'date':'2023-01-19T16:02',
           // 'duration':2,
-          // 'dev': 'sm-0005',
-          // 'pow': '-10',
+          // 'dev': 'sm-0016',
+          // 'pow': -10.5,
           // 'key':'14252)5q?12FGs'        
 
 
