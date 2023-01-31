@@ -212,6 +212,7 @@ class Command(BaseCommand):
             if myList[0] == 'init':
                 dev_id = myList[1]
                 now = datetime.now(timezone('Europe/Sofia'))
+                now_setTime = datetime.now(timezone('Europe/Sofia'))
                 datem = str(datetime(now.year, now.month, 1))
                 datem = datem.split(" ")[0]
                 now = str(now)
@@ -264,12 +265,12 @@ class Command(BaseCommand):
                     'budgetH':budgetPerH,
                     'budgetD':budgetPerD,
                     'budgetM':budgetPerM,
-                    'setY': now.year,
-                    'setM': now.month,
-                    'setD':now.day,
-                    'setH':now.hour,
-                    'setmm':now.minute,
-                    'setS':now.second
+                    'setY': now_setTime.year,
+                    'setM': now_setTime.month,
+                    'setD':now_setTime.day,
+                    'setH':now_setTime.hour,
+                    'setmm':now_setTime.minute,
+                    'setS':now_setTime.second
                     
                 }
                 print(str(consum_obj))
