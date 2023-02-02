@@ -164,6 +164,7 @@ class Command(BaseCommand):
                     if dev_id == 'sm-0000':
                         pass
                     else:
+                        print(timestamp)
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':
