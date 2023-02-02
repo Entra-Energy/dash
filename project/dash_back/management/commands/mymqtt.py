@@ -274,9 +274,10 @@ class Command(BaseCommand):
                     'setS':now_setTime.second
                     
                 }
+                test = "init"
                 print(str(consum_obj))
                 topic = "initial/"+dev_id
-                publish.single(topic, str(consum_obj), hostname="159.89.103.242", port=1883)               
+                publish.single(topic, test, hostname="159.89.103.242", port=1883)               
                 
 
 
