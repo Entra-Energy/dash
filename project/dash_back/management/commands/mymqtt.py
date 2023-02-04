@@ -164,23 +164,23 @@ class Command(BaseCommand):
                     if dev_id == 'sm-0000':
                         pass
                     else:
-                        print(timestamp)
+                        #print(timestamp)
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
-            if myList[0] == 'error':
-                dev_id = myList[2]
-                data_out = json.loads(msg.payload.decode())
-                timestamp = int(data_out['payload']['timestamp'])
-                timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-                value = float(data_out['payload']['power'])
-                test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
-                topic = dev_id + "/timestamp"
-                if test:
-                    jObj = {
-                    "time": timestamp,
-                    "pow": value,
-                    }
-                    publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+            # if myList[0] == 'error':
+            #     dev_id = myList[2]
+            #     data_out = json.loads(msg.payload.decode())
+            #     timestamp = int(data_out['payload']['timestamp'])
+            #     timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+            #     value = float(data_out['payload']['power'])
+            #     test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
+            #     topic = dev_id + "/timestamp"
+            #     if test:
+            #         jObj = {
+            #         "time": timestamp,
+            #         "pow": value,
+            #         }
+            #         publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
 
             if myList[0] == 'flexiResponse':
                 dev_id = myList[1]
