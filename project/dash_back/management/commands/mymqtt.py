@@ -211,6 +211,7 @@ class Command(BaseCommand):
             #     Aris.objects.create(power_aris=power,wind_aris=wind,timestamp_aris = query_date)
             
             if myList[0] == 'init':
+                print("Received INIT")
                 dev_id = myList[1]
                 now = datetime.now(timezone('Europe/Sofia'))
                 now_setTime = datetime.now(timezone('Europe/Sofia'))
