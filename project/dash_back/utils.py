@@ -206,6 +206,18 @@ def get_pv():
                 topic = "pv/local"
                 publish.single(topic, str(pv), hostname="159.89.103.242", port=1883)
                 break
+def timeSet():
+    now_setTime = datetime.now(timezone('Europe/Sofia'))
+    consum_obj = {
+                    'setY': now_setTime.year,
+                    'setM': now_setTime.month,
+                    'setD':now_setTime.day,
+                    'setH':now_setTime.hour,
+                    'setmm':now_setTime.minute,
+                    'setS':now_setTime.second                    
+                }
+    topic = "initial"
+    publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
                 
 # def device_forecast():
 #     PostForecast.objects.create(devId='sm-0002', value = )
