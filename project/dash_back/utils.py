@@ -216,7 +216,7 @@ def timeSet():
                     'setmm':now_setTime.minute,
                     'setS':now_setTime.second                    
                 }
-    topic = "initial"
+    topic = "price"
     publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
                 
 # def device_forecast():
