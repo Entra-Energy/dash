@@ -180,6 +180,8 @@ class Command(BaseCommand):
                     "time": timestamp,
                     "pow": value,
                     }
+                    print("ERROR")
+                    print(str(jObj))
                     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
 
             if myList[0] == 'flexiResponse':
