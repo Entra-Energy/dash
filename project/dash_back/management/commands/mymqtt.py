@@ -257,16 +257,16 @@ class Command(BaseCommand):
                     budgetPerM = 0
                 
                 consum_obj = {
-                    # 'for_hour':for_last_hour_consumption,
-                    # 'for_today':for_today_consumption,
-                    # 'for_month':for_month_consumption,
-                    # 'ready':grid,
-                    # 'costH':costPerH,
-                    # 'costD':costPerD,
-                    # 'costM':costPerM,
-                    # 'budgetH':budgetPerH,
-                    # 'budgetD':budgetPerD,
-                    # 'budgetM':budgetPerM,
+                    'for_hour':for_last_hour_consumption,
+                    'for_today':for_today_consumption,
+                    'for_month':for_month_consumption,
+                    'ready':grid,
+                    'costH':costPerH,
+                    'costD':costPerD,
+                    'costM':costPerM,
+                    'budgetH':budgetPerH,
+                    'budgetD':budgetPerD,
+                    'budgetM':budgetPerM,
                     'setY': now_setTime.year,
                     'setM': now_setTime.month,
                     'setD':now_setTime.day,
@@ -274,8 +274,7 @@ class Command(BaseCommand):
                     'setmm':now_setTime.minute,
                     'setS':now_setTime.second
                     
-                }
-                test = "init"
+                }                
                 print(str(consum_obj))
                 topic = "initial/"+dev_id
                 publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)       
