@@ -45,7 +45,7 @@ class Command(BaseCommand):
             myList = topic.split('/')
             if myList[0] == 'data':
                 dev_id = myList[1]
-                if dev_id is not "sm-0004" and dev_id is not "sm-0005" and dev_id is not "sm-0006" and dev_id is not "sm-0009":
+                if dev_id != "sm-0004" and dev_id != "sm-0005" and dev_id != "sm-0006" and dev_id != "sm-0009":
                     is_valid = validateJSON(msg.payload)
                     if is_valid:                      
                         data_out=json.loads(msg.payload.decode())                
