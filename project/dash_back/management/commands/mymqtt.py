@@ -41,6 +41,7 @@ class Command(BaseCommand):
         def on_message(client, userdata, msg):
             #print(msg.topic+" "+str(msg.payload))
             topic = msg.topic
+            print(topic)
             myList = topic.split('/')
             if myList[0] == 'data':
                 dev_id = myList[1]
