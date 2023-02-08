@@ -289,6 +289,10 @@ class Command(BaseCommand):
         client.on_connect = on_connect
         client.on_message = on_message
 
-        client.connect("159.89.103.242", 1883, 60)
+        client.connect("159.89.103.242", 1883)
+        #client.connect_async("159.89.103.242", 1883)
 
         client.loop_forever()
+        #client.loop_start()
+
+        #May be try also setConnectionTimeout(0)
