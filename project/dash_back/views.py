@@ -210,6 +210,7 @@ def reset_data(request):
 
 @api_view(['POST',])
 def flexi_send(request):
+    key='14252)5q?12FGs'
     time_shift = 7200
     flexi_data = request.data
     dev = flexi_data['myObj']['dev']
@@ -227,18 +228,21 @@ def flexi_send(request):
 
     pow = flexi_data['myObj']['pow']
     duration = int(flexi_data['myObj']['duration'])*60
+    key_received = flexi_data['myObj']['key']
+    
     topic = dev+"/flexi"
     print(dev,date,pow,duration)
-    if dev and date and pow and duration:
-        payload = {
-            "pow": pow,
-            "duration": duration,
-            "date": timestamp,
-            "dev": dev
-        }
-        print(payload)
-        publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
-        return Response({"Success": "ok"})
+    if key_received == key:
+        if dev and date and pow and duration:
+            payload = {
+                "pow": pow,
+                "duration": duration,
+                "date": timestamp,
+                "dev": dev
+            }
+            print(payload)
+            publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
+            return Response({"Success": "ok"})
 
 
 @api_view(['POST',])

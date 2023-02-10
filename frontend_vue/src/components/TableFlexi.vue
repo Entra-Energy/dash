@@ -187,15 +187,13 @@ export default {
     sendIt(dev){
 
 
-      axios.post('http://64.225.100.195:8000/api/flexi/', {
-
-        //flexi: this.myObjSend,
-        myObj:  {
+      axios.post('http://64.225.100.195:8000/api/flexi/', {       
           "date": this.test[dev],
           "duration": this.duration[dev],
           "dev":dev,
-          "pow": this.powVolume[dev]
-        }
+          "pow": this.powVolume[dev],
+          'key':'14252)5q?12FGs'
+        
 
 
 
