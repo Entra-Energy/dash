@@ -214,10 +214,10 @@ export default {
 //
 //
 //
-//     onChange(event) {
-//           //console.log(event.target.value);
-//           //console.log(this.selected)
-//         },
+    onChange(event) {
+          //console.log(event.target.value);
+          //console.log(this.selected)
+        },
 //
       createMins(){
         for(let i=1; i<=60; i++)
