@@ -213,8 +213,8 @@ def flexi_send(request):
     key='14252)5q?12FGs'
     time_shift = 7200
     flexi_data = request.data
-    dev = flexi_data['myObj']['dev']
-    date = flexi_data['myObj']['date']
+    dev = flexi_data['dev']
+    date = flexi_data['date']
     date_part = date.split("T")[0]
     hour_part = date.split("T")[1]
     hours = hour_part.split(":")[0]
@@ -226,9 +226,9 @@ def flexi_send(request):
     t = str(t).split(".")[0]
     timestamp = int(t) + time_shift
 
-    pow = flexi_data['myObj']['pow']
-    duration = int(flexi_data['myObj']['duration'])*60
-    key_received = flexi_data['myObj']['key']
+    pow = flexi_data['pow']
+    duration = int(flexi_data['duration'])*60
+    key_received = flexi_data['key']
     
     topic = dev+"/flexi"
     print(dev,date,pow,duration)

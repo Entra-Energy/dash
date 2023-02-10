@@ -193,9 +193,6 @@ export default {
           "dev":dev,
           "pow": this.powVolume[dev],
           'key':'14252)5q?12FGs'
-        
-
-
 
       }).then(response => {
         // console.log(response);
