@@ -210,10 +210,11 @@ def reset_data(request):
 
 @api_view(['POST',])
 def flexi_send(request):
+    print(request)
     key='14252)5q?12FGs'
     time_shift = 7200
     flexi_data = request.data
-    print(flexi_data)
+    
     dev = flexi_data['dev']
     date = flexi_data['date']
     date_part = date.split("T")[0]
