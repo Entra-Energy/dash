@@ -188,19 +188,19 @@ export default {
 
 
       axios.post('http://64.225.100.195:8000/api/flexi/', {       
-          // "date": this.test[dev],
-          // "duration": this.duration[dev],
-          // "dev":dev,
-          // "pow": this.powVolume[dev],
-          // 'key':'14252)5q?12FGs'
-          'date':'2023-02-19T16:02',
-          'duration':2,
-          'dev': 'sm-0016',
-          'pow': -10.5,
-          'key':'14252)5q?12FGs'    
+          "date": this.test[dev],
+          "duration": this.duration[dev],
+          "dev":dev,
+          "pow": this.powVolume[dev],
+          'key':'14252)5q?12FGs'
+          // 'date':'2023-02-19T16:02',
+          // 'duration':2,
+          // 'dev': 'sm-0016',
+          // 'pow': -10.5,
+          // 'key':'14252)5q?12FGs'    
 
       }).then(response => {
-        // console.log(response);
+        console.log(response);
         // this.response = response.data
         this.success = 'Data saved successfully';
         this.response = JSON.stringify(response, null, 2)
