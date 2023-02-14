@@ -19,6 +19,22 @@ def get_curr_time():
     query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
     return query_date
 
+def date_to_timestamp(date):
+    due_date_part = str(date.split("T"))[0]
+    due_time_part = str(date.split("T"))[1]
+    due_year = int(due_date_part.split("-")[0])
+    due_month = int(due_date_part.split("-")[1])
+    due_day = int(due_date_part.split("-")[2])
+    
+    due_hour = int(due_time_part.split(":")[0])
+    due_min = int(due_time_part.split(":")[1])
+    due_sec = 0
+    to_timestamp = datetime(due_year, due_month, due_day, due_hour, due_min, due_sec, tzinfo=pytz.utc)
+    return to_timestamp
+    
+
+
+
 def convert(str):
     todays_date = date.today()
     year = todays_date.year
@@ -51,20 +67,21 @@ def scheduled_flexi():
     # test = FlexabilitySim.objects.all().last()
     # yourdate = test.scheduled
     curr = get_curr_time()
-    print(curr)
+    
     sched_obj = FlexabilitySim.objects.filter(scheduled=curr)
     if(sched_obj):
         for obj in sched_obj:
             dev = obj.provided_dev
             pow = obj.sched_pow
             timer = int(obj.sched_durration)*60
-            
+            due_stamp = date_to_timestamp(curr)*timer
+            print(due_stamp)
             topic = str(dev+"/correction")
-            single_data = {
-                "power":pow,
-                "timer":timer
-            }
-            publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
+            # single_data = {
+            #     "power":pow,
+            #     "timer":due_stamp
+            # }
+            # publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     else:
         print("There is no objects")
     actual_provide = Flexi.objects.filter(response_time=curr)
