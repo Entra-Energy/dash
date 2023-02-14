@@ -112,7 +112,7 @@ class Command(BaseCommand):
                     Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=ready_grid, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
 
             
-            if myList[0] == 'dataR':
+            if myList[0] == 'err':
                 dev_id = myList[1]                
                 is_valid = validateJSON(msg.payload)
                 if is_valid:                      

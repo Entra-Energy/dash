@@ -212,39 +212,44 @@ def reset_data(request):
 def flexi_send(request):
     print(request)
     key='14252)5q?12FGs'
-    time_shift = 7200
+    
     flexi_data = request.data
     
     dev = flexi_data['dev']
     date = flexi_data['date']
-    date_part = date.split("T")[0]
-    hour_part = date.split("T")[1]
-    hours = hour_part.split(":")[0]
-    mins = hour_part.split(":")[1]
-    sec = ":00Z"
-    time_part = hours+":"+mins+sec
-    date_str = date_part+"T"+time_part
-    t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
-    t = str(t).split(".")[0]
-    timestamp = int(t) + time_shift
+    # time_shift = 7200
+    # date_part = date.split("T")[0]
+    # hour_part = date.split("T")[1]
+    # hours = hour_part.split(":")[0]
+    # mins = hour_part.split(":")[1]
+    # sec = ":00Z"
+    # time_part = hours+":"+mins+sec
+    # date_str = date_part+"T"+time_part
+    # t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
+    # t = str(t).split(".")[0]
+    # timestamp = int(t) + time_shift
 
     pow = flexi_data['pow']
-    duration = int(flexi_data['duration'])*60
+    duration = flexi_data['duration']
     key_received = flexi_data['key']
-    
-    topic = dev+"/flexi"
-    print(dev,date,pow,duration)
     if key_received == key:
         if dev and date and pow and duration:
-            payload = {
-                "pow": pow,
-                "duration": duration,
-                "date": timestamp,
-                "dev": dev
-            }
-            print(payload)
-            publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
-            return Response({"Success": "ok"})
+            Flexi.objects.create(flexiDev = dev, response_time = date, res_pow = pow, res_durr = duration)
+            return Response({"Success": "ok"})      
+    
+    # topic = dev+"/flexi"
+    # print(dev,date,pow,duration)
+    # if key_received == key:
+    #     if dev and date and pow and duration:
+    #         payload = {
+    #             "pow": pow,
+    #             "duration": duration,
+    #             "date": timestamp,
+    #             "dev": dev
+    #         }
+    #         print(payload)
+    #         publish.single(topic, str(payload), hostname="159.89.103.242", port=1883)
+            
 
 
 @api_view(['POST',])

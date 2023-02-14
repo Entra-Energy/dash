@@ -78,11 +78,13 @@ def scheduled_flexi():
         for act_obj in actual_provide:
             dev_id = act_obj.flexiDev
             power = act_obj.res_pow
-            duration = int(act_obj.res_durr)
+            duration = int(act_obj.res_durr)*60
+            due_date_actual = curr[:-1]
+            stamp_actual = date_to_timestamp(due_date_actual)+duration
             actual_topic = str(dev_id+"/actualProvide")
             actual_data = {
                 "power":power,
-                "timer":duration
+                "due_stamp":stamp_actual
             }
             publish.single(actual_topic, str(actual_data), hostname="159.89.103.242", port=1883)
             
