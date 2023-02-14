@@ -19,21 +19,10 @@ def get_curr_time():
     query_date = currDate+cur_hour+":"+cur_hour_min+":00Z"
     return query_date
 
-def date_to_timestamp(date):
-    due_date_part = str(date.split("T"))[0]
-    due_time_part = str(date.split("T"))[1]
-    due_year = int(due_date_part.split("-")[0])
-    due_month = int(due_date_part.split("-")[1])
-    due_day = int(due_date_part.split("-")[2])
-    
-    due_hour = int(due_time_part.split(":")[0])
-    due_min = int(due_time_part.split(":")[1])
-    due_sec = 0
-    to_timestamp = datetime(due_year, due_month, due_day, due_hour, due_min, due_sec, tzinfo=pytz.utc)
-    return to_timestamp
-    
 
-
+def date_to_timestamp(date :str) -> int:   
+    stamp = datetime.fromisoformat(date).timestamp()
+    return int(stamp)
 
 def convert(str):
     todays_date = date.today()
@@ -74,8 +63,11 @@ def scheduled_flexi():
             dev = obj.provided_dev
             pow = obj.sched_pow
             timer = int(obj.sched_durration)*60
-            due_stamp = date_to_timestamp(curr)*timer
-            print(due_stamp)
+            due_date = curr[:-1]
+            stamp = date_to_timestamp(due_date)*timer
+            print(stamp)
+            
+            
             topic = str(dev+"/correction")
             # single_data = {
             #     "power":pow,
