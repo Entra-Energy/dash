@@ -64,7 +64,7 @@ def scheduled_flexi():
             pow = obj.sched_pow
             timer = int(obj.sched_durration)*60
             due_date = curr[:-1]
-            stamp = date_to_timestamp(due_date)*timer
+            stamp = date_to_timestamp(due_date)+timer
             print(stamp)
             
             
