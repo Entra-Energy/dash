@@ -64,16 +64,13 @@ def scheduled_flexi():
             pow = obj.sched_pow
             timer = int(obj.sched_durration)*60
             due_date = curr[:-1]
-            stamp = date_to_timestamp(due_date)+timer
-            print(stamp)
-            
-            
+            stamp = date_to_timestamp(due_date)+timer            
             topic = str(dev+"/correction")
-            # single_data = {
-            #     "power":pow,
-            #     "timer":due_stamp
-            # }
-            # publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
+            single_data = {
+                "power":pow,
+                "due_sim_stamp":stamp
+            }
+            publish.single(topic, str(single_data), hostname="159.89.103.242", port=1883)
     else:
         print("There is no objects")
     actual_provide = Flexi.objects.filter(response_time=curr)
