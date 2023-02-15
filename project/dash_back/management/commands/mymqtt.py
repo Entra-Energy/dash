@@ -36,6 +36,7 @@ class Command(BaseCommand):
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
             client.subscribe("init/#")
+            client.subscribe("err/#")
             
 
         def on_message(client, userdata, msg):
