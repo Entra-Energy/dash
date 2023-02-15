@@ -119,61 +119,8 @@ class Command(BaseCommand):
                     data_out=json.loads(msg.payload.decode())                
                     timestamp = int(data_out['payload']['timestamp'])
                     timestamp = datetime.fromtimestamp(timestamp).isoformat()
-                    value = float(data_out['payload']['power'])
-                    readyness = data_out['payload'].get('gridReady', None)
-                    if readyness:
-                        ready_grid = readyness
-                    else:
-                        ready_grid = 0
-                
-                    costHour = data_out['payload'].get('costH', None)
-                    if costHour:
-                        costH = costHour
-                    else:
-                        costH = 0
-                    costDay = data_out['payload'].get('costD', None)
-                    if costDay:
-                        costD = costDay
-                    else:
-                        costD = 0
-                    costMonth = data_out['payload'].get('costM', None)
-                    if costMonth:
-                        costM = costMonth
-                    else:
-                        costM = 0                    
-                    
-                    budgetHour = data_out['payload'].get('budgetH', None)
-                    if budgetHour:
-                        budgetH = budgetHour
-                    else:
-                        budgetH = 0              
-                    budgetDay = data_out['payload'].get('budgetD', None)                    
-                    if budgetDay:
-                        budgetD = budgetDay
-                    else:
-                        budgetD = 0   
-                    budgetMonth= data_out['payload'].get('budgetM', None)                    
-                    if budgetMonth:
-                        budgetM = budgetMonth
-                    else:
-                        budgetM = 0     
-                        
-                    providing_amount = data_out['payload'].get('providingAmount', None)
-                    if providing_amount:
-                        prov_amount =  providing_amount
-                    else:
-                        prov_amount = 0
-                    actual_correction = data_out['payload'].get('actualCorr', None)
-                    if actual_correction:
-                        actual_corr = actual_correction
-                    else:
-                        actual_corr = 0
-                    actual_providing = data_out['payload'].get('actualProvide', None)
-                    if actual_providing:
-                        actual_prov = actual_providing
-                    else:
-                        actual_prov = 0    
-                #print(dev_id)   
+                    value = float(data_out['payload']['power'])                    
+                print(dev_id)   
                 if dev_id == 'sm-0000':
                     pass
                 else:
@@ -181,8 +128,9 @@ class Command(BaseCommand):
                     if exist.first():
                         pass
                     else:
-                        Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=ready_grid, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
-        
+                        print(timestamp)
+                        Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
+                                
             if myList[0] == 'ping':                
                 dev_id = myList[1]
                 is_valid = validateJSON(msg.payload)
@@ -260,14 +208,14 @@ class Command(BaseCommand):
                     print(str(jObj))
                     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
 
-            if myList[0] == 'flexiResponse':
-                dev_id = myList[1]
-                data_out=json.loads(msg.payload.decode())
-                time = int(data_out['payload']['date'])
-                time_iso = datetime.fromtimestamp(time).isoformat()
-                res_power = float(data_out['payload']['power'])
-                durr = int(data_out['payload']['duration'])
-                Flexi.objects.create(flexiDev = dev_id, response_time = time_iso, res_pow = res_power, res_durr = durr)
+            # if myList[0] == 'flexiResponse':
+            #     dev_id = myList[1]
+            #     data_out=json.loads(msg.payload.decode())
+            #     time = int(data_out['payload']['date'])
+            #     time_iso = datetime.fromtimestamp(time).isoformat()
+            #     res_power = float(data_out['payload']['power'])
+            #     durr = int(data_out['payload']['duration'])
+            #     Flexi.objects.create(flexiDev = dev_id, response_time = time_iso, res_pow = res_power, res_durr = durr)
 
 
             # if myList[0] == 'corrResponse':
