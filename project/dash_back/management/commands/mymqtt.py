@@ -250,7 +250,7 @@ class Command(BaseCommand):
                 value = float(data_out['payload']['power'])
                 test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
                 topic = dev_id + "/timestamp"
-                print(str(timestamp_iso)+"||"+str(dev_id)+"||"+str(test))
+                
                 if test:
                     jObj = {
                     "time": timestamp,

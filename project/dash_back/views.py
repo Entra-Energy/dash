@@ -180,8 +180,7 @@ def sched_flexi(request):
     
     key='14252)5q?12FGs'
     sched_data = request.data
-    print(sched_data)
-    
+      
     key_received = sched_data['key']
     device = sched_data['dev']
     date_for_sched = sched_data['date']
@@ -210,13 +209,14 @@ def reset_data(request):
 
 @api_view(['POST',])
 def flexi_send(request):
-    print(request)
-    key='14252)5q?12FGs'
     
-    flexi_data = request.data
-    
+    key='14252)5q?12FGs'    
+    flexi_data = request.data    
     dev = flexi_data['dev']
     date = flexi_data['date']
+    pow = flexi_data['pow']
+    duration = flexi_data['duration']
+    print(date)
     # time_shift = 7200
     # date_part = date.split("T")[0]
     # hour_part = date.split("T")[1]
@@ -227,10 +227,7 @@ def flexi_send(request):
     # date_str = date_part+"T"+time_part
     # t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
     # t = str(t).split(".")[0]
-    # timestamp = int(t) + time_shift
-
-    pow = flexi_data['pow']
-    duration = flexi_data['duration']
+    # timestamp = int(t) + time_shift    
     key_received = flexi_data['key']
     if key_received == key:
         if dev and date and pow and duration:
