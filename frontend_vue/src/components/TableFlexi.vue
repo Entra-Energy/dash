@@ -186,7 +186,7 @@ export default {
 
     sendIt(dev){
 
-
+     console.log(this.test[dev])
       axios.post('http://64.225.100.195:8000/api/flexi/', {       
           "date": this.test[dev],
           "duration": this.duration[dev],

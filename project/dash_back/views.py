@@ -11,6 +11,7 @@ from dash_back.tasks import task_exec_all
 import paho.mqtt.publish as publish
 import time
 import datetime as dt
+from pytz import timezone
 
 
 
@@ -225,13 +226,14 @@ def flexi_send(request):
     sec = ":00Z"
     time_part = hours+":"+mins+sec
     date_str = date_part+"T"+time_part
-    # t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
-    # t = str(t).split(".")[0]
-    # timestamp = int(t) + time_shift    
+    t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
+    t = str(t).split(".")[0]
+    timestamp = int(t) + time_shift   
+    date_to_import = datetime.fromtimestamp(timestamp).isoformat() 
     key_received = flexi_data['key']
     if key_received == key:
         if dev and date and pow and duration:
-            Flexi.objects.create(flexiDev = dev, response_time = date_str, res_pow = pow, res_durr = duration)
+            Flexi.objects.create(flexiDev = dev, response_time = date_to_import, res_pow = pow, res_durr = duration)
             return Response({"Success": "ok"})      
     
     # topic = dev+"/flexi"
