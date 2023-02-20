@@ -110,10 +110,14 @@
 
 <script>
 import axios from 'axios';
+
 export default {
 
   data() {
     return {
+      //mqtt
+
+
       power: '',
       powerCorr:'',
       time:'',
@@ -132,8 +136,9 @@ export default {
     };
   },
 
-  methods: {
+  methods: {      
 
+    
       reset(e)
       {
           axios.post('http://64.225.100.195:8000/api/reset/', {

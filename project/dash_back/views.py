@@ -218,22 +218,23 @@ def flexi_send(request):
     pow = flexi_data['pow']
     duration = flexi_data['duration']
     print(date)
-    time_shift = 7200
-    date_part = date.split("T")[0]
-    hour_part = date.split("T")[1]
-    hours = hour_part.split(":")[0]
-    mins = hour_part.split(":")[1]
-    sec = ":00Z"
-    time_part = hours+":"+mins+sec
-    date_str = date_part+"T"+time_part
-    t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
-    t = str(t).split(".")[0]
-    timestamp = int(t) + time_shift   
-    date_to_import = datetime.fromtimestamp(timestamp).isoformat() 
+    print(dev)
+    # time_shift = 7200
+    # date_part = date.split("T")[0]
+    # hour_part = date.split("T")[1]
+    # hours = hour_part.split(":")[0]
+    # mins = hour_part.split(":")[1]
+    # sec = ":00Z"
+    # time_part = hours+":"+mins+sec
+    # date_str = date_part+"T"+time_part
+    # t = time.mktime(dt.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").timetuple())
+    # t = str(t).split(".")[0]
+    # timestamp = int(t) + time_shift   
+    # date_to_import = datetime.fromtimestamp(timestamp).isoformat() 
     key_received = flexi_data['key']
     if key_received == key:
         if dev and date and pow and duration:
-            Flexi.objects.create(flexiDev = dev, response_time = date_to_import, res_pow = pow, res_durr = duration)
+            Flexi.objects.create(flexiDev = dev, response_time = date, res_pow = pow, res_durr = duration)
             return Response({"Success": "ok"})      
     
     # topic = dev+"/flexi"
