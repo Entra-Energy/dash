@@ -36,7 +36,7 @@ class Command(BaseCommand):
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
             client.subscribe("init/#")
-            client.subscribe("err/#")
+            #client.subscribe("err/#")
             
 
         def on_message(client, userdata, msg):
@@ -199,17 +199,15 @@ class Command(BaseCommand):
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
                 value = float(data_out['payload']['power'])
-                test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
+                #test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
                 topic = dev_id + "/timestamp"
-                
-                if test:
-                    jObj = {
-                    "time": timestamp,
-                    "pow": value,
-                    }
-                    
-                    print(str(jObj))
-                    publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp_iso)
+                #if test:
+                jObj = {
+                "time": timestamp,
+                "pow": value,
+                }
+                publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
 
             # if myList[0] == 'flexiResponse':
             #     dev_id = myList[1]
