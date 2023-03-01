@@ -120,17 +120,13 @@ class Command(BaseCommand):
                     data_out=json.loads(msg.payload.decode())                
                     timestamp = int(data_out['payload']['timestamp'])
                     timestamp = datetime.fromtimestamp(timestamp).isoformat()
-                    value = float(data_out['payload']['power'])                    
-                print(dev_id)   
-                if dev_id == 'sm-0000':
-                    pass
-                else:
-                    exist = Post.objects.filter(devId=dev_id, created_date=timestamp)
-                    if exist.first():
-                        pass
-                    else:
+                    value = float(data_out['payload']['power'])            
+                    exist = Post.objects.filter(devId=dev_id, created_date=timestamp)     
+                    if exist:  
+                        print("ERR")            
                         print(timestamp)
-                        Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
+                    
+                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
                                 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
@@ -191,7 +187,7 @@ class Command(BaseCommand):
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':
-                print("ERROR")
+                #print("ERROR")
                 dev_id = myList[2]
                 data_out = json.loads(msg.payload.decode())
                 timestamp = int(data_out['payload']['timestamp'])
