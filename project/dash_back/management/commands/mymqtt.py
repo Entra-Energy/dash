@@ -119,14 +119,20 @@ class Command(BaseCommand):
                 if is_valid:                      
                     data_out=json.loads(msg.payload.decode())                
                     timestamp = int(data_out['payload']['timestamp'])
+                    return_stamp = timestamp
                     timestamp = datetime.fromtimestamp(timestamp).isoformat()
                     value = float(data_out['payload']['power'])            
                     exist = Post.objects.filter(devId=dev_id, created_date=timestamp)     
-                    if exist:  
-                        print("ERR")            
-                        print(timestamp)
-                    
-                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
+                    if exist:                    
+                        topic = dev_id + "/timestamp"                       
+                        jObj = {
+                        "time": return_stamp,
+                        "pow": 0,
+                        }       
+              
+                        publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+                    else:
+                        Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
                                 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
