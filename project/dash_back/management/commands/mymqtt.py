@@ -202,12 +202,12 @@ class Command(BaseCommand):
                 #test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
                 topic = dev_id + "/timestamp"
                 #Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp_iso)
-                #if test:
-                jObj = {
-                "time": timestamp,
-                "pow": value,
-                }
-                publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+                
+                # jObj = {
+                # "time": timestamp,
+                # "pow": value,
+                # }
+                #publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
 
             # if myList[0] == 'flexiResponse':
             #     dev_id = myList[1]
