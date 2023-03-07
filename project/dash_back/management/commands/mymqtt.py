@@ -201,7 +201,7 @@ class Command(BaseCommand):
                 value = float(data_out['payload']['power'])
                 #test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
                 topic = dev_id + "/timestamp"
-                Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp_iso)
+                #Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp_iso)
                 #if test:
                 jObj = {
                 "time": timestamp,
