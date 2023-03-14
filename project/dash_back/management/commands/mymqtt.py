@@ -198,12 +198,13 @@ class Command(BaseCommand):
                 
                 
                 dev_id = myList[2]
-                data = msg.payload
-                timestamp = int(data['payload']['timestamp'])
+                data_out = json.loads(msg.payload.decode())
+                timestamp = int(data_out['payload']['timestamp'])
                 timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-                value = float(data['payload']['power'])                
+                value = float(data_out['payload']['power'])                
                 error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}                               
                 error_objects.append(error_obj)
+                print(len(error_objects))
                 if len(error_objects) >= 100:
                     task_mqtt_error(error_objects)
                     error_objects = []
