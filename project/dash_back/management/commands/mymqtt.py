@@ -197,7 +197,7 @@ class Command(BaseCommand):
                 
                 dev_id = myList[2]
                 data = msg.payload
-                #task_mqtt_error(dev_id,data)
+                task_mqtt_error(dev_id,data)
                 
                 #data_out = json.loads(msg.payload.decode())
                 # timestamp = int(data_out['payload']['timestamp'])
