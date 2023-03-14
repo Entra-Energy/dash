@@ -235,14 +235,24 @@ def mqttErr(error_lst):
         value = obj["value"]
         created = obj["created_date"]
         stamp = obj["timestamp"]
-        p = Post(devId=dev_id,value=value,created_date=created )
-        post_list_init.append(p)
-        topic = dev_id + "/timestamp"
-        jObj = {
-            "time": stamp,
-            "pow": 0,
-            }
-        publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+        exist = Post.objects.filter(created_date=created,devId = dev_id)
+        if exist.count() == 1:
+            topic = dev_id + "/timestamp"
+            jObj = {
+                "time": stamp,
+                "pow": 0,
+                }
+            publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+            
+        else:
+            p = Post(devId=dev_id,value=value,created_date=created)
+            post_list_init.append(p)
+            topic = dev_id + "/timestamp"
+            jObj = {
+                "time": stamp,
+                "pow": 0,
+                }
+            publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
     Post.objects.bulk_create(post_list_init)
 
        
