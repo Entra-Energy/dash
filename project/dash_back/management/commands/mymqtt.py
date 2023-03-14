@@ -19,13 +19,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         
+        self.error_objects = []
+        
         def validateJSON(jsonData):
             try:
                 json.loads(jsonData)
             except ValueError as err:
                 return False
-            return True       
-        
+            return True              
+                
         def on_connect(client, userdata, flags, rc):
             #print("Connected with result code "+str(rc))
             # Subscribing in on_connect() means that if we lose the connection and
@@ -38,7 +40,7 @@ class Command(BaseCommand):
             client.subscribe("windData")
             client.subscribe("init/#")
             #client.subscribe("err/#")
-            error_objects = []
+            
             
 
         def on_message(client, userdata, msg):
@@ -204,11 +206,11 @@ class Command(BaseCommand):
                 timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
                 value = float(data_out['payload']['power'])                
                 error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}                               
-                error_objects.append(error_obj)
-                print(len(error_objects))
-                if len(error_objects) >= 100:
-                    task_mqtt_error(error_objects)
-                    error_objects = []
+                self.error_objects.append(error_obj)
+                print(len(self.error_objects))
+                if len(self.error_objects) >= 100:
+                    task_mqtt_error(self.error_objects)
+                    self.error_objects = []
                     
                 
                 
