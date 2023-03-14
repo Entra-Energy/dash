@@ -15,8 +15,8 @@ export default {
   data() {
     return {
       points: [
-        {lat: 43.2526052344952, lng:27.909300, weight:6}
-        {lat: 43.22659389711073, lng:27.95049, weight:7}
+        {lat: 43.2526052344952, lng:27.909300, weight:6},
+        {lat: 43.22659389711073, lng:27.95049, weight:7},
         {lat: 43.2456, lng:27.929292, weight:8},
         {lat: 43.2470, lng:27.929191,weight: 22},
         {lat: 43.3001, lng:27.8378,weight: 20},
