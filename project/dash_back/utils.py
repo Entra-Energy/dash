@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from dash_back.models import Price, FlexabilitySim, Flexi, Hydro, PostForecast
+from dash_back.models import Price, FlexabilitySim, Flexi, Hydro, PostForecast, Post
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
@@ -231,8 +231,17 @@ def mqttErr(devId,msg):
     data_out = json.loads(msg.decode())
     timestamp = int(data_out['payload']['timestamp'])
     timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-    value = float(data_out['payload']['power'])
-    print(devId +"||" + str(timestamp_iso))
+    value = float(data_out['payload']['power'])    
+    exist = Post.objects.filter(created_date=timestamp_iso,devId = devId)
+    topic = devId + "/timestamp"
+    if exist.count() == 1:
+        jObj = {
+            "time": timestamp,
+            "pow": 0,
+            }
+        publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+    else:
+        Post.objects.create(devId=devId,value=value,created_date=timestamp_iso)
 
 
 
