@@ -226,6 +226,16 @@ def timeSet():
                 }
     topic = "setRTC"
     publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
-                
+
+def mqttErr(devId,msg):
+    data_out = json.loads(msg.decode())
+    timestamp = int(data_out['payload']['timestamp'])
+    timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+    value = float(data_out['payload']['power'])
+    print(devId +"||" + str(timestamp_iso))
+
+
+
+           
 # def device_forecast():
 #     PostForecast.objects.create(devId='sm-0002', value = )

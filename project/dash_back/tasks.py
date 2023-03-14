@@ -3,7 +3,7 @@
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
-from dash_back.utils import price_to_db, scheduled_flexi, exec_all, get_hydro, get_pv, timeSet
+from dash_back.utils import price_to_db, scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr
 
 #from photos.utils import emptying_variants_table
 
@@ -65,6 +65,13 @@ def task_pv():
 def task_setTime():
     timeSet()
     logger.info("TimeSet")
+    
+    
+@shared_task()
+def task_mqtt_error(dev,payload):
+    mqttErr(dev,payload)
+    logger.info("MQTT ERROR")
+    
 
 # @periodic_task(
 #     run_every=(crontab(minute='*/2')),

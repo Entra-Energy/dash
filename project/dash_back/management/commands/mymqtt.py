@@ -10,6 +10,7 @@ from django.utils.timezone import activate
 import pytz
 from pytz import timezone
 from django.db.models import Sum
+from dash_back.tasks import task_mqtt_error 
 #from pytz import timezone
 
 class Command(BaseCommand):
@@ -193,22 +194,26 @@ class Command(BaseCommand):
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':
-                #print("ERROR")
+                
                 dev_id = myList[2]
-                data_out = json.loads(msg.payload.decode())
-                timestamp = int(data_out['payload']['timestamp'])
-                timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-                value = float(data_out['payload']['power'])
-                test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
-                topic = dev_id + "/timestamp"
-                if test.count() == 1:
-                    jObj = {
-                        "time": timestamp,
-                        "pow": value,
-                        }
-                    publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
-                else:
-                    Post.objects.create(devId=dev_id,value=value,created_date=timestamp_iso)
+                data = msg.payload
+                task_mqtt_error(dev_id,data)
+                
+                #data_out = json.loads(msg.payload.decode())
+                # timestamp = int(data_out['payload']['timestamp'])
+                # timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+                # value = float(data_out['payload']['power'])
+                
+                # test = Post.objects.filter(created_date=timestamp_iso,devId = dev_id)
+                # topic = dev_id + "/timestamp"
+                # if test.count() == 1:
+                #     jObj = {
+                #         "time": timestamp,
+                #         "pow": 0,
+                #         }
+                #     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+                # else:
+                #     Post.objects.create(devId=dev_id,value=value,created_date=timestamp_iso)
                 
                 # jObj = {
                 # "time": timestamp,
