@@ -44,6 +44,7 @@ class Command(BaseCommand):
             #print(msg.topic+" "+str(msg.payload))
             topic = msg.topic
             #print(topic)
+            error_objects = []
             myList = topic.split('/')
             if myList[0] == 'data':
                 dev_id = myList[1]
@@ -195,9 +196,22 @@ class Command(BaseCommand):
 
             if myList[0] == 'error':
                 
+                
                 dev_id = myList[2]
                 data = msg.payload
-                task_mqtt_error(dev_id,data)
+                timestamp = int(data_out['payload']['timestamp'])
+                timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+                value = float(data_out['payload']['power'])                
+                error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}                               
+                error_objects.append(error_obj)
+                if len(error_objects) >= 100:
+                    task_mqtt_error(error_objects)
+                    error_objects = []
+                    
+                
+                
+                
+                
                 
                 #data_out = json.loads(msg.payload.decode())
                 # timestamp = int(data_out['payload']['timestamp'])

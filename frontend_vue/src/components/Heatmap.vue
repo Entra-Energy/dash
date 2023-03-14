@@ -2,9 +2,9 @@
     <vue-google-heatmap :points="points"
                         
                         :height="350"
-                        :initial-zoom=10
-                        :lat="42.6443910020"
-                        :lng="23.3731367"
+                        :initial-zoom=8
+                        :lat="43.2456"
+                        :lng="27.929292"
                         :mapTypeId= 'satellite'                       
                         :options="{maxIntensity: 12,radius:10,saturation: -100,}"
                          />

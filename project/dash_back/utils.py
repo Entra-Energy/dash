@@ -227,21 +227,39 @@ def timeSet():
     topic = "setRTC"
     publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
 
-def mqttErr(devId,msg):
-    data_out = json.loads(msg.decode())
-    timestamp = int(data_out['payload']['timestamp'])
-    timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-    value = float(data_out['payload']['power'])    
-    exist = Post.objects.filter(created_date=timestamp_iso,devId = devId)
-    topic = devId + "/timestamp"
-    if exist.count() == 1:
+def mqttErr(error_lst):
+    er_list = error_lst
+    post_list_init = []
+    for obj in er_list:
+        dev_id = obj["devId"]
+        value = obj["value"]
+        created = obj["created_date"]
+        stamp = obj["timestamp"]
+        p = Post(devId=dev_id,value=value,created_date=created )
+        post_list_init.append(p)
+        topic = dev_id + "/timestamp"
         jObj = {
-            "time": timestamp,
+            "time": stamp,
             "pow": 0,
             }
         publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
-    else:
-        Post.objects.create(devId=devId,value=value,created_date=timestamp_iso)
+    Post.objects.bulk_create(post_list_init)
+
+       
+    # data_out = json.loads(msg.decode())
+    # timestamp = int(data_out['payload']['timestamp'])
+    # timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+    # value = float(data_out['payload']['power'])    
+    # exist = Post.objects.filter(created_date=timestamp_iso,devId = devId)
+    # topic = devId + "/timestamp"
+    # if exist.count() == 1:
+    #     jObj = {
+    #         "time": timestamp,
+    #         "pow": 0,
+    #         }
+    #     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+    # else:
+    #     Post.objects.create(devId=devId,value=value,created_date=timestamp_iso)
 
 
 

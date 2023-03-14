@@ -71,22 +71,9 @@ def task_setTime():
     
     
 @shared_task()
-def task_mqtt_error(dev,payload):
-    #mqttErr(dev,payload)
-    data_out = json.loads(payload.decode())
-    timestamp = int(data_out['payload']['timestamp'])
-    timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-    value = float(data_out['payload']['power'])    
-    exist = Post.objects.filter(created_date=timestamp_iso,devId = dev)
-    topic = dev + "/timestamp"
-    if exist.count() == 1:
-        jObj = {
-            "time": timestamp,
-            "pow": 0,
-            }
-        publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
-    else:
-        Post.objects.create(devId=dev,value=value,created_date=timestamp_iso)
+def task_mqtt_error(error_list):
+    mqttErr(error_list)
+    
     logger.info("MQTT ERROR")
     
 
