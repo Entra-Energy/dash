@@ -196,7 +196,7 @@ class Command(BaseCommand):
 
             if myList[0] == 'error':
                 
-                
+                print("ERRROORRR ERRRRORRRR ERRRRORRRR")
                 dev_id = myList[2]
                 data_out = json.loads(msg.payload.decode())
                 timestamp = int(data_out['payload']['timestamp'])
@@ -329,7 +329,7 @@ class Command(BaseCommand):
                     'setS':now_setTime.second
                     
                 }                
-                print(str(consum_obj))
+                #print(str(consum_obj))
                 topic = "initial/"+dev_id
                 publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)       
       
