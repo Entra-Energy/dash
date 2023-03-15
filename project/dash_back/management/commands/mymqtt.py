@@ -34,7 +34,7 @@ class Command(BaseCommand):
             # reconnect then subscriptions will be renewed.
             client.subscribe("data/#")
             client.subscribe("ping/#")
-            #client.subscribe("error/check/#")
+            client.subscribe("error/check/#")
             client.subscribe("flexiResponse/#")
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
@@ -205,12 +205,17 @@ class Command(BaseCommand):
                 timestamp = int(data_out['payload']['timestamp'])
                 timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
                 value = float(data_out['payload']['power'])                
-                error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}                               
-                self.error_objects.append(error_obj)
-                print(len(self.error_objects))
-                if len(self.error_objects) >= 1000:
-                    task_mqtt_error(self.error_objects)
-                    self.error_objects = []
+                error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}  
+                has_entry = any(x for x in self.error_objects if x["timestamp"] == timestamp and x["devId"] == dev_id) 
+                                          
+                if has_entry:
+                    pass
+                else:                                             
+                    self.error_objects.append(error_obj)
+                    print(len(self.error_objects))
+                    if len(self.error_objects) >= 100:
+                        task_mqtt_error(self.error_objects)
+                        self.error_objects = []
                     
                 
                 
