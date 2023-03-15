@@ -34,7 +34,7 @@ class Command(BaseCommand):
             # reconnect then subscriptions will be renewed.
             client.subscribe("data/#")
             client.subscribe("ping/#")
-            client.subscribe("error/check/#")
+            #client.subscribe("error/check/#")
             client.subscribe("flexiResponse/#")
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
