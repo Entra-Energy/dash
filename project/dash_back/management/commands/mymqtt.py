@@ -199,7 +199,7 @@ class Command(BaseCommand):
 
             if myList[0] == 'error':
                 
-                print("ERRROORRR ERRRRORRRR ERRRRORRRR")
+                # print("ERRROORRR ERRRRORRRR ERRRRORRRR")
                 dev_id = myList[2]
                 data_out = json.loads(msg.payload.decode())
                 timestamp = int(data_out['payload']['timestamp'])
@@ -208,7 +208,7 @@ class Command(BaseCommand):
                 error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}                               
                 self.error_objects.append(error_obj)
                 print(len(self.error_objects))
-                if len(self.error_objects) >= 100:
+                if len(self.error_objects) >= 1000:
                     task_mqtt_error(self.error_objects)
                     self.error_objects = []
                     
