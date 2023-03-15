@@ -235,7 +235,7 @@ def mqttErr(error_lst):
         value = obj["value"]
         created = obj["created_date"]
         stamp = obj["timestamp"]
-        exist = Post.objects.filter(created_date=created,devId = dev_id)
+        exist = Post.objects.filter(created_date=created,devId = dev_id,value=value)
         if exist.count() == 1:
             topic = dev_id + "/timestamp"
             jObj = {
