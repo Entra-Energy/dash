@@ -125,7 +125,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'task_pv_data':{
         'task':'dash_back.tasks.task_pv',
-        'schedule': 5.0,
+        'schedule': 1.0,
         #'schedule': crontab()
         
     },
