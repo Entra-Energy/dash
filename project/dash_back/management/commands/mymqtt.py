@@ -34,12 +34,12 @@ class Command(BaseCommand):
             # reconnect then subscriptions will be renewed.
             client.subscribe("data/#")
             client.subscribe("ping/#")
-            client.subscribe("error/check/#")
+            #client.subscribe("error/check/#")
             client.subscribe("flexiResponse/#")
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
             client.subscribe("init/#")
-            #client.subscribe("err/#")
+            client.subscribe("err/#")
             
             
 
@@ -120,24 +120,49 @@ class Command(BaseCommand):
             
             if myList[0] == 'err':
                 dev_id = myList[1]                
-                is_valid = validateJSON(msg.payload)
-                if is_valid:                      
-                    data_out=json.loads(msg.payload.decode())                
-                    timestamp = int(data_out['payload']['timestamp'])
-                    return_stamp = timestamp
-                    timestamp = datetime.fromtimestamp(timestamp).isoformat()
-                    value = float(data_out['payload']['power'])            
-                    #exist = Post.objects.filter(devId=dev_id, created_date=timestamp)     
-                    #if exist:                    
-                    topic = dev_id + "/timestamp"                       
-                    jObj = {
-                    "time": return_stamp,
-                    "pow": 0,
-                    }       
+                data_out = json.loads(msg.payload.decode())
+                timestamp = int(data_out['payload']['timestamp'])
+                timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+                value = float(data_out['payload']['power'])                
+                error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}  
+                has_entry = any(x for x in self.error_objects if x["timestamp"] == timestamp and x["devId"] == dev_id) 
+                #print(has_entry)                          
+                if has_entry:
+                    pass
+                else:                                             
+                    self.error_objects.append(error_obj)
+                    print(len(self.error_objects))
+                    if len(self.error_objects) >= 200:
+                        task_mqtt_error(self.error_objects)
+                        self.error_objects = []
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                # dev_id = myList[1]                
+                # is_valid = validateJSON(msg.payload)
+                # if is_valid:                      
+                #     data_out=json.loads(msg.payload.decode())                
+                #     timestamp = int(data_out['payload']['timestamp'])
+                #     return_stamp = timestamp
+                #     timestamp = datetime.fromtimestamp(timestamp).isoformat()
+                #     value = float(data_out['payload']['power'])            
+                #     #exist = Post.objects.filter(devId=dev_id, created_date=timestamp)     
+                #     #if exist:                    
+                #     topic = dev_id + "/timestamp"                       
+                #     jObj = {
+                #     "time": return_stamp,
+                #     "pow": 0,
+                #     }       
               
-                    publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
-                    #else:
-                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
+                #     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
+                #     #else:
+                #     Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
                                 
             if myList[0] == 'ping':                
                 dev_id = myList[1]
@@ -198,24 +223,25 @@ class Command(BaseCommand):
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':
+                pass
                 
                 # print("ERRROORRR ERRRRORRRR ERRRRORRRR")
-                dev_id = myList[2]
-                data_out = json.loads(msg.payload.decode())
-                timestamp = int(data_out['payload']['timestamp'])
-                timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-                value = float(data_out['payload']['power'])                
-                error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}  
-                has_entry = any(x for x in self.error_objects if x["timestamp"] == timestamp and x["devId"] == dev_id) 
-                                          
-                if has_entry:
-                    pass
-                else:                                             
-                    self.error_objects.append(error_obj)
-                    print(len(self.error_objects))
-                    if len(self.error_objects) >= 100:
-                        task_mqtt_error(self.error_objects)
-                        self.error_objects = []
+                # dev_id = myList[2]
+                # data_out = json.loads(msg.payload.decode())
+                # timestamp = int(data_out['payload']['timestamp'])
+                # timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
+                # value = float(data_out['payload']['power'])                
+                # error_obj = {"devId":dev_id,"value":value,"created_date":timestamp_iso,"timestamp":timestamp}  
+                # has_entry = any(x for x in self.error_objects if x["timestamp"] == timestamp and x["devId"] == dev_id) 
+                # print(has_entry)                          
+                # if has_entry:
+                #     pass
+                # else:                                             
+                #     self.error_objects.append(error_obj)
+                #     print(len(self.error_objects))
+                #     if len(self.error_objects) >= 100:
+                #         task_mqtt_error(self.error_objects)
+                #         self.error_objects = []
                     
                 
                 
