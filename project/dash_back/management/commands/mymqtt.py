@@ -11,6 +11,7 @@ import pytz
 from pytz import timezone
 from django.db.models import Sum
 from dash_back.tasks import task_mqtt_error 
+import time
 #from pytz import timezone
 
 class Command(BaseCommand):
@@ -20,6 +21,11 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         
         self.error_objects = []
+        self.counter = 0
+        self.t1 = 0
+        self.t2 = 0
+        self.gps = ''
+        self.newGps = ''
         
         def validateJSON(jsonData):
             try:
@@ -39,8 +45,7 @@ class Command(BaseCommand):
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
             client.subscribe("init/#")
-            client.subscribe("err/#")
-            
+            client.subscribe("err/#")           
             
 
         def on_message(client, userdata, msg):
@@ -48,7 +53,9 @@ class Command(BaseCommand):
             topic = msg.topic
             #print(topic)
             
-            myList = topic.split('/')
+            myList = topic.split('/')               
+           
+            
             if myList[0] == 'data':
                 dev_id = myList[1]
                 
@@ -131,7 +138,7 @@ class Command(BaseCommand):
                     pass
                 else:                                             
                     self.error_objects.append(error_obj)
-                    print(len(self.error_objects))
+                    #print(len(self.error_objects))
                     if len(self.error_objects) >= 200:
                         task_mqtt_error(self.error_objects)
                         self.error_objects = []

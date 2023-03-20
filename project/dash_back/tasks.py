@@ -36,7 +36,7 @@ def task_test():
     test!!!
     """
     price_to_db()
-    logger.info("test!!! abcdef")
+    #logger.info("test!!! abcdef")
 
 @shared_task()
 def task_schedule():
@@ -52,29 +52,29 @@ def task_exec_all():
     Execute all requests
     """
     exec_all()
-    logger.info("execute all")
+    #logger.info("execute all")
 
 @shared_task()
 def task_hydro():
     get_hydro()
-    logger.info("Hydro")
+    #logger.info("Hydro")
     
 @shared_task()
 def task_pv():
     get_pv()
-    logger.info("PV")
+    #logger.info("PV")
 
 @shared_task()
 def task_setTime():
     timeSet()
-    logger.info("TimeSet")
+    #logger.info("TimeSet")
     
     
 @shared_task()
 def task_mqtt_error(error_list):
     mqttErr(error_list)
     
-    logger.info("MQTT ERROR")
+    #logger.info("MQTT ERROR")
     
 
 # @periodic_task(
