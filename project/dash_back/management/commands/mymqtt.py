@@ -54,10 +54,10 @@ class Command(BaseCommand):
             #print(topic)
             
             myList = topic.split('/')               
-           
+            sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]
             
             if myList[0] == 'data':
-                dev_id = myList[1]
+                dev_id = myList[1]                 
                 
                 is_valid = validateJSON(msg.payload)
                 if is_valid:                      
@@ -118,6 +118,11 @@ class Command(BaseCommand):
                         actual_prov = actual_providing
                     else:
                         actual_prov = 0    
+                        
+                for d in sm_coeff:
+                    coeff = d.get(dev_id,None)
+                    if coeff:
+                        value = value*coeff
                 #print(dev_id)   
                 if dev_id == 'sm-0000':
                     pass

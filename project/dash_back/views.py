@@ -12,6 +12,7 @@ import paho.mqtt.publish as publish
 import time
 import datetime as dt
 from pytz import timezone
+#from dash_back.paginations import CustomPagination
 
 
 
@@ -77,6 +78,7 @@ class PostViewset(viewsets.ModelViewSet):
                 return queryset
     #queryset = Post.objects.all()
     serializer_class = PostSerializer
+    #pagination_class = CustomPagination
 
     # filter_class = PostFilter
     # search_fields = (
