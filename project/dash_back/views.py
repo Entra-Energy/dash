@@ -215,10 +215,10 @@ def flexi_send(request):
     
     key='14252)5q?12FGs'    
     flexi_data = request.data    
-    dev = flexi_data['dev']
-    date = flexi_data['date']
-    pow = flexi_data['pow']
-    duration = flexi_data['duration']
+    dev = flexi_data.get("dev",None)
+    date = flexi_data.get("date",None)
+    pow = flexi_data.get('pow',None)
+    duration = flexi_data.get('duration',None)
     print(date)
     print(dev)
     # time_shift = 7200
