@@ -123,6 +123,7 @@ class Command(BaseCommand):
                     coeff = d.get(dev_id,None)
                     if coeff:
                         value = value*coeff
+                        value = round(value,2)
                 #print(dev_id)   
                 if dev_id == 'sm-0000':
                     pass
@@ -147,14 +148,7 @@ class Command(BaseCommand):
                     if len(self.error_objects) >= 200:
                         task_mqtt_error(self.error_objects)
                         self.error_objects = []
-                
-                
-                
-                
-                
-                
-                
-                
+                     
                 
                 # dev_id = myList[1]                
                 # is_valid = validateJSON(msg.payload)
@@ -237,6 +231,7 @@ class Command(BaseCommand):
                             coeff = d.get(dev_id,None)
                             if coeff:
                                 value = value*coeff
+                                value = round(value, 2)
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':

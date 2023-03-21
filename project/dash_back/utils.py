@@ -53,6 +53,8 @@ def price_to_db():
         Price.objects.get_or_create(timestamp=time, value = price)
 
 def scheduled_flexi():
+    sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]          
+
     # test = FlexabilitySim.objects.all().last()
     # yourdate = test.scheduled
     curr = get_curr_time()
@@ -66,6 +68,11 @@ def scheduled_flexi():
             due_date = curr[:-1]
             stamp = date_to_timestamp(due_date)+timer            
             topic = str(dev+"/correction")
+            for d in sm_coeff:
+                coeff = d.get(dev, None)
+                if coeff:
+                    pow = pow/coeff
+                    pow = round(pow, 2)
             single_data = {
                 "power":pow,
                 "due_sim_stamp":stamp
@@ -82,6 +89,11 @@ def scheduled_flexi():
             due_date_actual = curr[:-1]
             stamp_actual = date_to_timestamp(due_date_actual)+duration
             actual_topic = str(dev_id+"/actualProvide")
+            for d in sm_coeff:
+                coeff = d.get(dev_id, None)
+                if coeff:
+                    power = power/coeff
+                    power = round(power, 2)
             actual_data = {
                 "power":power,
                 "due_stamp":stamp_actual
@@ -239,7 +251,8 @@ def mqttErr(error_lst):
         for d in sm_coeff:
             coeff = d.get(dev_id,None)
             if coeff:
-                value = value*coeff       
+                value = value*coeff
+                value = round(value,2)       
         
         exist = Post.objects.filter(created_date=created,devId = dev_id,value=value)
         if exist.count() > 0:
