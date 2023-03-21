@@ -176,7 +176,8 @@ class Command(BaseCommand):
                 #     #else:
                 #     Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
                                 
-            if myList[0] == 'ping':                
+            if myList[0] == 'ping':      
+                sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]          
                 dev_id = myList[1]
                 is_valid = validateJSON(msg.payload)
                 if is_valid:      
@@ -232,6 +233,10 @@ class Command(BaseCommand):
                         pass
                     else:
                         #print(timestamp)
+                        for d in sm_coeff:
+                            coeff = d.get(dev_id,None)
+                            if coeff:
+                                value = value*coeff
                         Online.objects.create(dev=dev_id, saved_date=timestamp, pow=value, ready=ready,signal=connectivity,providing = prov, dev_name = name, lat = latitude, long = longitude)
 
             if myList[0] == 'error':

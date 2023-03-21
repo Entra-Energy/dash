@@ -228,6 +228,7 @@ def timeSet():
     publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
 
 def mqttErr(error_lst):
+    sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]
     er_list = error_lst
     post_list_init = []
     for obj in er_list:
@@ -235,6 +236,10 @@ def mqttErr(error_lst):
         value = obj["value"]
         created = obj["created_date"]
         stamp = obj["timestamp"]          
+        for d in sm_coeff:
+            coeff = d.get(dev_id,None)
+            if coeff:
+                value = value*coeff       
         
         exist = Post.objects.filter(created_date=created,devId = dev_id,value=value)
         if exist.count() > 0:
