@@ -14,7 +14,7 @@ import loader from "vue-ui-preloader";
 
 import 'bootstrap/dist/css/bootstrap.css'
 import VueGoogleHeatmap from 'vue-google-heatmap';
-//import { createAuth0 } from '@auth0/auth0-vue';
+import { createAuth0 } from '@auth0/auth0-vue';
 
 //import Userfront from "@userfront/vue";
 
