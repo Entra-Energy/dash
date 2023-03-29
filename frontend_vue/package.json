@@ -7,6 +7,7 @@
       "build": "vue-cli-service build"
    },
    "dependencies": {
+      "-": "0.0.1",
       "@auth0/auth0-vue": "^2.1.0",
       "@fortawesome/fontawesome": "^1.1.8",
       "@fortawesome/fontawesome-free-brands": "^5.0.13",
@@ -14,7 +15,7 @@
       "@fortawesome/fontawesome-svg-core": "^6.1.1",
       "@fortawesome/free-solid-svg-icons": "^6.1.1",
       "@fortawesome/vue-fontawesome": "^2.0.6",
-      "@popperjs/core": "^2.11.4",
+      "@popperjs/core": "^2.11.7",
       "@userfront/vue": "^0.1.18",
       "axios": "^0.24.0",
       "bootstrap": "^4.6.2",
@@ -25,9 +26,10 @@
       "mitt": "^3.0.0",
       "mqtt": "^4.3.7",
       "paho-mqtt": "^1.1.0",
-      "v-calendar": "^3.0.0-alpha.8",
+      "v-calendar": "^3.0.0-alpha.7",
       "v-md-date-range-picker": "^2.6.0",
       "vue": "^3.2.45",
+      "vue-calendar-3": "^2.0.0",
       "vue-echarts": "^6.0.2",
       "vue-functional-calendar": "^2.9.93",
       "vue-google-heatmap": "^1.1.0",
