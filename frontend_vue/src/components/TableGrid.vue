@@ -48,16 +48,17 @@
              <!-- <div class='form-row'> -->
               <div class="form-inline">
                <div class="calendar-pick">
-                 <!-- <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
+                 <DatePicker class="datepick" v-model="test[dev.id]" mode="dateTime" :model-config="modelConfig" is24hr color="purple" :popover="{ visibility: 'focus' }" >
                  <template v-slot="{ inputValue, inputEvents }">
-                  
+                   <!-- <i class="far fa-calendar-alt"></i> -->
+                   <!-- <label for="schedule">Start</label> -->
                    <input
                      class="cal-input form-control px-2 border rounded focus:outline-none focus:border-blue-300"
                      :value="test[dev.id]"
                      v-on="inputEvents"
                    />
                  </template>
-               </DatePicker> -->
+               </DatePicker>
               </div>
 
              <div class="duration">
