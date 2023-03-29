@@ -33,18 +33,33 @@
 
     <div class='wrapper'>
       <Login/>
-      <div class="sidebar">
+      <div class="sidebar" v-if="isAuthenticated">
 
         <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
 
       </div>
       <div class='main-panel'>
-        <nav class='navbar navbar-expand-lg navbar-absolute navbar-transparent'>
-
+        <nav class='navbar navbar-expand-lg navbar-absolute navbar-transparent'>          
           <img src="@/assets/logo.png" />
-
+          <div class="navy">
+            <ul>
+            <li v-if="!isAuthenticated && !isLoading" class="nav-item">
+              <button
+                id="qsLoginBtn"
+                class="btn btn-primary btn-margin"
+                @click.prevent="login"
+              >Login</button>
+            </li>
+            <li v-if="isAuthenticated" class="nav-item">
+              <button
+              class="btn btn-primary btn-margin"
+              @click.prevent="logout"
+              >Logout</button>
+            </li>
+        </ul>       
+        </div>
         </nav>
-        <div class='content'>
+        <div class='content' v-if="isAuthenticated">
           <router-view/>
         </div>
         <footer class='footer'></footer>
@@ -66,12 +81,28 @@
 /**/
 import { Calendar, DatePicker } from 'v-calendar';
 import Login from '@/components/Login.vue'
+import { useAuth0 } from '@auth0/auth0-vue';
+import { is } from '@babel/types';
 
 
 export default {
   components: {
     Login,
   },
+  setup() {
+      const { loginWithRedirect } = useAuth0();
+      const { logout } = useAuth0();
+      const { isAuthenticated } = useAuth0();
+       return {  
+        login: () => {
+          loginWithRedirect();
+        },
+        logout: () => {
+          logout({ returnTo: window.location.origin });
+        },
+       isAuthenticated  
+     }
+   },
 
 // setup() {
 //  const screen = useScreen()
@@ -313,5 +344,10 @@ min-height: 53px;
 .v-sidebar-menu .vsm--link_level-1.vsm--link_active{
   background: #550a61;
 }
-
+.navy ul {
+    float: left;
+    margin: 0 17px;
+    padding: 0px;
+    list-style: none;
+}
 </style>
