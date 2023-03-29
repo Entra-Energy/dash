@@ -33,7 +33,7 @@
 
     <div class='wrapper'>
       <Login/>
-      <div class="sidebar" v-if="isAuthenticated">
+      <div class="sidebar">
 
         <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
 
@@ -43,8 +43,8 @@
           <img src="@/assets/logo.png" />
           <div class="navy">
             <ul>
-            <li v-if="!isAuthenticated && !isLoading" class="nav-item">
-              <button
+            <li class="nav-item">
+              <!-- <button
                 id="qsLoginBtn"
                 class="btn btn-primary btn-margin"
                 @click.prevent="login"
@@ -54,12 +54,12 @@
               <button
               class="btn btn-primary btn-margin"
               @click.prevent="logout"
-              >Logout</button>
+              >Logout</button> -->
             </li>
         </ul>       
         </div>
         </nav>
-        <div class='content' v-if="isAuthenticated">
+        <div class='content'>
           <router-view/>
         </div>
         <footer class='footer'></footer>
@@ -81,7 +81,7 @@
 /**/
 import { Calendar, DatePicker } from 'v-calendar';
 import Login from '@/components/Login.vue'
-import { useAuth0 } from '@auth0/auth0-vue';
+//import { useAuth0 } from '@auth0/auth0-vue';
 import { is } from '@babel/types';
 
 
@@ -89,20 +89,20 @@ export default {
   components: {
     Login,
   },
-  setup() {
-      const { loginWithRedirect } = useAuth0();
-      const { logout } = useAuth0();
-      const { isAuthenticated } = useAuth0();
-       return {  
-        login: () => {
-          loginWithRedirect();
-        },
-        logout: () => {
-          logout({ returnTo: window.location.origin });
-        },
-       isAuthenticated  
-     }
-   },
+  // setup() {
+  //     const { loginWithRedirect } = useAuth0();
+  //     const { logout } = useAuth0();
+  //     const { isAuthenticated } = useAuth0();
+  //      return {  
+  //       login: () => {
+  //         loginWithRedirect();
+  //       },
+  //       logout: () => {
+  //         logout({ returnTo: window.location.origin });
+  //       },
+  //      isAuthenticated  
+  //    }
+  //  },
 
 // setup() {
 //  const screen = useScreen()
