@@ -1,5 +1,5 @@
 <template>
-  <div :class="hiddenLogin">
+  <div class = "login">
                  <form @submit.prevent="loginForm" class="form-inline">
                      <div class="form-group form-group-sm">
                        <label for="call" class="sr-only">Login</label>
@@ -11,101 +11,23 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
+
 export default {
   name: "Login",
   data() {
     return {
       username: "",
-      password: "",
-      ipArr: [],
-      userIp:'',
-      hiddenLogin: {
-        isHidden:true,
-        loginShowed:false
-      }
-      
+      password: "",     
     };
   },
   methods: {
+    
     loginForm(){
-      axios.post('http://64.225.100.195:8000/api/login-data/', {
-        //"test":"test2"
-
-        login: {
-          "username": this.username,
-          "password": this.password,
-          "ip": this.userIp
-        },
-
-
-      }).then(response => {
-        
-        if(response.data){
-          location.reload();
-          //this.fetchIp()          
-        }
-        // this.response = response.data
-        this.success = 'Data saved successfully';
-        this.response = JSON.stringify(response, null, 2)
-      }).catch(error => {
-        this.response = 'Error: ' + error.response.status
-      })
-      //this.newEntries = {}
-
-    },
-    fetchIp(){      
-      let test = 'x'
-    try {
-        axios
-        .get(
-          "https://api.ipify.org?format=json"
-        )
-        .then(response => {
-            test = response.data["ip"]
-            this.userIp = test
-            console.log(this.userIp)
-            let vals = this.ipArr
-            vals.forEach(el=>{              
-              if (el == test)
-               {
-                 this.hiddenLogin.isHidden = false
-                 this.hiddenLogin.loginShowed = true
-               }
-            })
-
-        }      
-        )
-
-      }catch (error) {
-        //console.log(error);
-      }
- 
-      //console.log(test)
-  },
-    getIps(){
-      try {
-        axios
-        .get(
-          "http://64.225.100.195:8000/api/userip/"
-        )
-        .then(response => response.data.forEach(el=>{
-          this.ipArr.push(el.user_ip)
-        }))       
-
-      }catch (error) {
-        //console.log(error);
-      } 
-      finally {
-        this.fetchIp()
-      }     
-    },
-
+      this.$emit("emit-it", {username:this.username,pass:this.password})
+    }
+   
   },
   created(){
-    this.getIps();
-    //this.fetchIp();    
-    //this.checkIp();
     
     
   }
@@ -115,39 +37,6 @@ export default {
 
 <style scoped>
 
-/* div#test {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    min-width: 500px;
-    min-height: 500px;
-    background: #837676;
-    z-index: 999;
-    display: none; 
-} */
-.isHidden{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    min-width: 500px;
-    min-height: 500px;
-    background: #837676;
-    z-index: 999;   
-    display: none; 
-}
-.loginShowed{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    min-width: 500px;
-    min-height: 500px;
-    background: #837676;
-    z-index: 999; 
-    display: none;   
-}
-.isHidden .form-control {    
-    margin: 18px;
-}
 
 
 

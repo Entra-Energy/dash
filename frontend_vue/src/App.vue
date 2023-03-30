@@ -32,8 +32,8 @@
     <router-view/> -->
 
     <div class='wrapper'>
-      <Login/>
-      <div class="sidebar">
+      <div class="login" v-if="hideLogin"><Login @emit-it="usrName"/></div>
+      <div class="sidebar" v-if="isAuth">
 
         <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
 
@@ -59,7 +59,7 @@
         </ul>       
         </div> -->
         </nav>
-        <div class='content'>
+        <div class='content' v-if="isAuth">
           <router-view/>
         </div>
         <footer class='footer'></footer>
@@ -175,13 +175,21 @@ export default {
         collapsed: false,
         disableHover: true,
         hideToggle: true,
-        all:[]
-
-
+        all:[],
+        isAuth: false,
+        hideLogin: true
       }
     },
 
     methods: {
+
+      usrName(payload){
+        if(payload.username === "admin" && payload.pass === "admin")
+        {
+          this.isAuth = true
+          this.hideLogin = false
+        }
+    },
 
         createAllDevs(){          
           let prefix = 'sm-'          
