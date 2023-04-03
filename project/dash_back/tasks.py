@@ -3,7 +3,7 @@
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
-from dash_back.utils import price_to_db, scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr
+from dash_back.utils import price_to_db, scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr, update_db_coeff
 from dash_back.models import Post
 import paho.mqtt.publish as publish
 from datetime import datetime,tzinfo,timedelta
@@ -75,7 +75,10 @@ def task_mqtt_error(error_list):
     mqttErr(error_list)
     
     #logger.info("MQTT ERROR")
-    
+
+@shared_task()
+def task_update_db(error_list):
+    update_db_coeff()
 
 # @periodic_task(
 #     run_every=(crontab(minute='*/2')),
