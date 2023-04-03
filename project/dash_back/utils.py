@@ -12,21 +12,21 @@ import paho.mqtt.publish as publish
 
 
 
-def update_db_coeff():
-    date = "2023-03-20T17:00:00Z"
-    delete_date = "2023-03-21T00:00:00Z" 
+# def update_db_coeff():
+#     date = "2023-03-20T17:00:00Z"
+#     delete_date = "2023-03-21T00:00:00Z" 
    
-    sms = ["sm-0007","sm-0012","sm-0013","sm-0017","sm-0018","sm-0019","sm-0020","sm-0024","sm-0025"]
-    for d in sms:
-        delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
-        delete_query.delete()
+#     sms = ["sm-0007","sm-0012","sm-0013","sm-0017","sm-0018","sm-0019","sm-0020","sm-0024","sm-0025"]
+#     for d in sms:
+#         delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+#         delete_query.delete()
     
-    # for obj in query:
-    #     #print(obj.id)     
-    #     u = Post.objects.get(id=obj.id)
-    #     print(u)
-    #     u.value = obj.value*120
-    #     u.save()         
+#     # for obj in query:
+#     #     #print(obj.id)     
+#     #     u = Post.objects.get(id=obj.id)
+#     #     print(u)
+#     #     u.value = obj.value*120
+#     #     u.save()         
     
 
 def get_curr_time():
