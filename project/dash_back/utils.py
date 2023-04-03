@@ -10,6 +10,25 @@ from django.conf import settings
 import os
 import paho.mqtt.publish as publish
 
+
+
+def get_offset_date():
+    date = "2023-03-20T17:00:00Z"
+    sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]
+    query = Post.objects.filter(created_date__lte = date)
+    for obj in query:
+        if obj.devId == 'sm-0001':
+            u = Post.objects.get(id=obj.id)
+            u.value = obj.value*120
+            u.save() 
+                
+    
+
+
+
+
+
+
 def get_curr_time():
     now = datetime.now(timezone('Europe/Sofia'))
     now = str(now)
@@ -275,7 +294,7 @@ def mqttErr(error_lst):
     Post.objects.bulk_create(post_list_init)
 
 
-    
+    def updateDbConstants():
         
        
     # data_out = json.loads(msg.decode())
