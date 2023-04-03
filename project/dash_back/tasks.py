@@ -79,6 +79,7 @@ def task_mqtt_error(error_list):
 @shared_task()
 def task_update_db(error_list):
     update_db_coeff()
+    logger.info("COEFF")
 
 # @periodic_task(
 #     run_every=(crontab(minute='*/2')),
