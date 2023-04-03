@@ -288,7 +288,7 @@ def mqttErr(error_lst):
     Post.objects.bulk_create(post_list_init)
 
 
-    def updateDbConstants():
+    
         
        
     # data_out = json.loads(msg.decode())
