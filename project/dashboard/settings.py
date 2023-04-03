@@ -109,34 +109,34 @@ CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 
 CELERY_BEAT_SCHEDULE = {
-#       'task_test_it': {
-#         'task': 'dash_back.tasks.task_test',
-#         'schedule': crontab(hour=4, minute=10),
-#     },
-#     'task_schedule_it': {
-#       'task': 'dash_back.tasks.task_schedule',
-#       'schedule': crontab(),
-#   },
-#     'task_hydro_data':{
-#         'task':'dash_back.tasks.task_hydro',
-#         'schedule': 5.0,
-#         #'schedule': crontab()       
+      'task_test_it': {
+        'task': 'dash_back.tasks.task_test',
+        'schedule': crontab(hour=4, minute=10),
+    },
+    'task_schedule_it': {
+      'task': 'dash_back.tasks.task_schedule',
+      'schedule': crontab(),
+  },
+    'task_hydro_data':{
+        'task':'dash_back.tasks.task_hydro',
+        'schedule': 5.0,
+        #'schedule': crontab()       
         
-#     },
-#     'task_pv_data':{
-#         'task':'dash_back.tasks.task_pv',
-#         'schedule': 1.0,
-#         #'schedule': crontab()
+    },
+    'task_pv_data':{
+        'task':'dash_back.tasks.task_pv',
+        'schedule': 1.0,
+        #'schedule': crontab()
         
-#     },
-#     'task_set_rtc':{
-#         'task':'dash_back.tasks.task_setTime',
-#         'schedule': crontab(minute="*/10")
-#     },
-    'task_update_coeff':{
-        'task':'dash_back.tasks.task_update_db',
-        'schedule': crontab(minute="*/5")
+    },
+    'task_set_rtc':{
+        'task':'dash_back.tasks.task_setTime',
+        'schedule': crontab(minute="*/10")
     }
+    # 'task_update_coeff':{
+    #     'task':'dash_back.tasks.task_update_db',
+    #     'schedule': crontab(minute="*/5")
+    # }
 }
 CELERY_TIMEZONE = 'Europe/Sofia'
 
