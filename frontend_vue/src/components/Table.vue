@@ -19,6 +19,7 @@
         <th>Power kW</th>
         <th>Device Name</th>
         <th>Location</th>
+        <th>Type</th>
         <th>Capacity kW</th>
         <!-- <th>T['S']</th>
         <th>P['W']</th>
@@ -38,6 +39,7 @@
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
          <td>{{ dev.lat+"/"+dev.long }}</td>
+         <td>{{ dev.type }}</td>
          <td>{{ 22 }}</td>        
       </tr>
      </tbody>

@@ -150,7 +150,7 @@ export default {
   tooltip: {
 
         trigger: 'axis',
-        show:true,
+        show:false,
         position: function (pt) {
             return [pt[0], '10%'];
         }
@@ -356,14 +356,20 @@ export default {
             let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
             if (found)
             {
-             
+              // add negative value to the producers              
+              let prodCoeff = 1
+              if(found.name == "sm-0001" || found.name == "sm-0016")
+              {
+                prodCoeff = -1
+              }
+              
               if (test == 'today')
               {
-                found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+                found.data.push([itemFirstRes.created_date,itemFirstRes.value*prodCoeff])
               }
               else
               {
-                found.data.push([itemFirstRes.created,itemFirstRes.value])
+                found.data.push([itemFirstRes.created,itemFirstRes.value*prodCoeff])
               }
             }
           });
@@ -378,7 +384,8 @@ export default {
             .finally(() => {
               if(test == 'today'){
                 this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
-                this.option.tooltip.formatter =  toolTipSet
+                //this.option.tooltip.formatter =  toolTipSet
+                //this.tooltip.show = false
                 this.option.xAxis.splitNumber = 24
                 let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
                 let endArr = [endStr,null]

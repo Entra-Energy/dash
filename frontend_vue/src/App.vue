@@ -252,7 +252,14 @@ export default {
               el.long = coords[i][keyId].long 
               //continue;             
             }
-            
+            //Add producer or consumer
+            if(el.id == "sm-0001" || el.id == "sm-0016")
+            {
+              el.type = "Producer"
+            }
+            else{
+              el.type = "Consumer"
+            }
           }
           ids.push(el.id)
           forecastIds.push(el.id + 'F')
