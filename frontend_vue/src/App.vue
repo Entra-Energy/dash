@@ -1,120 +1,57 @@
 <template>
-
-  <!-- <Calendar /> -->
-  <!-- <DatePicker v-model="range" is-range /> -->
-
- <!-- <div class="container-fluid">
-      <div class="row flex-nowrap">
-          <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-              <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-
-                <sidebar-menu :menu="menu" :relative=true :hideToggle=true  />
-
-              </div>
-          </div>
-          <div class="col py-3">
-              <router-view/>
-          </div>
+  <div class='wrapper'>
+    <div class="login" v-if="hideLogin"><Login @emit-it="usrName"/></div>
+    <div class="sidebar" v-if="isAuth">
+    <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
+    </div>
+    <div class='main-panel'>
+      <nav class='navbar navbar-expand-lg navbar-absolute navbar-transparent'>          
+        <img src="@/assets/logo.png" />         
+      </nav>
+      <div class='content' v-if="isAuth">
+        <router-view/>
       </div>
+      <footer class='footer'></footer>
+    </div>
   </div>
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-<sidebar-menu :menu="menu" :relative=false  />
-<div class="row">
-      <router-view/>
-    </div>
-    </div>
-
-  </div>
-
-
-
-    <router-view/> -->
-
-    <div class='wrapper'>
-      <div class="login" v-if="hideLogin"><Login @emit-it="usrName"/></div>
-      <div class="sidebar" v-if="isAuth">
-
-        <sidebar-menu :menu="menu" :collapsed="collapsed" :disableHover="disableHover" :hideToggle="hideToggle" />
-
-      </div>
-      <div class='main-panel'>
-        <nav class='navbar navbar-expand-lg navbar-absolute navbar-transparent'>          
-          <img src="@/assets/logo.png" />
-          <!-- <div class="navy">
-            <ul>
-            <li v-if="!isAuthenticated && !isLoading" class="nav-item">
-              <button
-                id="qsLoginBtn"
-                class="btn btn-primary btn-margin"
-                @click.prevent="login"
-              >Login</button>
-            </li>
-            <li v-if="isAuthenticated" class="nav-item">
-              <button
-              class="btn btn-primary btn-margin"
-              @click.prevent="logout"
-              >Logout</button>
-            </li>
-        </ul>       
-        </div> -->
-        </nav>
-        <div class='content' v-if="isAuth">
-          <router-view/>
-        </div>
-        <footer class='footer'></footer>
-
-      </div>
-
-    </div>
-
-
-    <!-- <router-link to="/dashboard">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <sidebar-menu :menu="menu" :relative=false  />
-      <router-view/> -->
-
-
-
 </template>
 <script>
-/**/
-import { Calendar, DatePicker } from 'v-calendar';
 import Login from '@/components/Login.vue'
-//import { useAuth0 } from '@auth0/auth0-vue';
 import { is } from '@babel/types';
-
-
+import mqtt from 'mqtt';
+import { coords } from './coord.js'
 export default {
   components: {
     Login,
   },
-  // setup() {
-  //     const { loginWithRedirect } = useAuth0();
-  //     const { logout } = useAuth0();
-  //     const { isAuthenticated } = useAuth0();
-  //      return {  
-  //       login: () => {
-  //         loginWithRedirect();
-  //       },
-  //       logout: () => {
-  //         logout({ returnTo: window.location.origin });
-  //       },
-  //      isAuthenticated  
-  //    }
-  //  },
-
-// setup() {
-//  const screen = useScreen()
-//  const grid = useGrid('tailwind')
-//
-//  return {
-//    screen,
-//    grid,
-//  }
-// },
     data() {
       return {
+        //mqtt
+        connection: {
+          protocol: "ws",
+          host: "159.89.103.242",
+          // ws: 8083; wss: 8084
+          port: 9001,
+          endpoint: "/mqtt",
+          // for more options, please refer to https://github.com/mqttjs/MQTT.js#mqttclientstreambuilder-options
+          clean: true,
+          connectTimeout: 30 * 1000, // ms
+          reconnectPeriod: 4000, // ms
+          clientId: "emqx_vue_" + Math.random().toString(16).substring(2, 8),
+          // auth
+          //username: "emqx_test",
+          //password: "emqx_test",
+        },
+        subscription: {
+          topic: "ping/+",
+          qos: 0,
+        },
+        client: {
+          connected: false,
+        },
+        subscribeSuccess: false,
+        connecting: false,
+        retryTimes: 0,
 
         menu: [
           {
@@ -172,6 +109,8 @@ export default {
           },
 
         ],
+        sm_coeff: [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}],  
+     
         collapsed: false,
         disableHover: true,
         hideToggle: true,
@@ -182,35 +121,147 @@ export default {
     },
 
     methods: {
+    initData() {
+      this.client = {
+        connected: false,
+      };
+      this.retryTimes = 0;
+      this.connecting = false;
+      this.subscribeSuccess = false;
+    },
+    handleOnReConnect() {
+      this.retryTimes += 1;
+      if (this.retryTimes > 5) {
+        try {
+          this.client.end();
+          this.initData();
+          this.$message.error("Connection maxReconnectTimes limit, stop retry");
+        } catch (error) {
+          this.$message.error(error.toString());
+        }
+      }
+    },
+    doSubscribe() {
+      const { topic, qos } = this.subscription
+      this.client.subscribe(topic, { qos }, (error, res) => {
+        if (error) {
+          console.log('Subscribe to topics error', error)
+          return
+        }
+        this.subscribeSuccess = true
+        console.log('Subscribe to topics res', res)
+      })
+    },
 
-      usrName(payload){
-        if(payload.username === "admin" && payload.pass === "admin")
-        {
-          this.isAuth = true
-          this.hideLogin = false
+    createConnection() {
+        try {
+          this.connecting = true;
+          const { protocol, host, port, endpoint, ...options } = this.connection;
+          const connectUrl = `${protocol}://${host}:${port}${endpoint}`;
+          this.client = mqtt.connect(connectUrl, options);
+          if (this.client.on) {
+            this.client.on("connect", () => {
+              this.connecting = false;
+              console.log("Connection succeeded!");
+            });
+            this.client.on("reconnect", this.handleOnReConnect);
+            this.client.on("error", (error) => {
+              console.log("Connection failed", error);
+            });
+            this.client.on("message", (topic, message) => {
+              let parser = JSON.parse(`${message}`)              
+              let dev = topic.split("/")[1]
+              let pow = parser.payload.power
+              this.sm_coeff.forEach(el=>{
+                let keyId = Object.keys(el);                
+                if(keyId[0] === dev){
+                  pow *=el[keyId[0]]
+                }
+              })
+              let devObj = {
+                "dev":dev,
+                "pow":pow.toFixed(2),
+                "ready":parser.payload.gridReady,
+                "providing":parser.payload.providing                
+              }
+            // console.log(devObj.dev)
+              let found = this.all.find(element => element.id === devObj.dev)
+              if(found){              
+                found.pow = devObj.pow
+                found.providing = devObj.providing
+                found.online = 'online'
+                found.ready = devObj.ready
+                found.customer = parser.payload.blynkName
+                if (found.ready == 1)
+                {
+                  if (found.providing == 0)
+                  {
+                  found.online = 'ready'
+                  }
+                  else if (found.providing == 1)
+                  {
+                    found.online = 'providing'
+                  }
+                }
+                else if (found.ready == 0)
+                {
+                  found.online = 'not-ready'
+                }
+                else{
+                  found.online = 'offline'
+                }
+                
+              }
+              this.$store.commit('createAllDevs', this.all)
+              //console.log(this.all)
+            
+            });
+          }
+        } catch (error) {
+          this.connecting = false;
+          console.log("mqtt.connect error", error);
         }
     },
 
-        createAllDevs(){          
-          let prefix = 'sm-'          
-          for(let i = 0; i <= 30; i++)
+    usrName(payload){
+      if(payload.username === "admin" && payload.pass === "admin")
+      {
+        this.isAuth = true
+        this.hideLogin = false
+      }
+    },
+
+      createAllDevs(){          
+        let prefix = 'sm-'          
+        for(let i = 0; i <= 30; i++)
+        {
+          let new_dev = prefix+'000'+i;            
+          if (i >= 10){
+            new_dev = prefix + '00' + i;              
+          }                         
+          this.all.push({"id":new_dev,"online":"offline"})
+        }          
+        let ids = []
+        let forecastIds = []
+        this.all.forEach(el=>{
+          for(let i=0;i<coords.length;i++)
           {
-            let new_dev = prefix+'000'+i;            
-            if (i >= 10){
-              new_dev = prefix + '00' + i;              
-            }                         
-            this.all.push({"id":new_dev,"online":"offline"})
-          }          
-          let ids = []
-          let forecastIds = []
-          this.all.forEach(el=>{
-            ids.push(el.id)
-            forecastIds.push(el.id + 'F')
-          })
-          this.$store.commit('createAllDevs', this.all)
-          this.$store.commit('createAllIds', ids)
-          this.$store.commit('createAllForecastIds', forecastIds)
-      },
+            let keyId = Object.keys(coords[i]); 
+            if(el.id === keyId[0]){
+              el.lat = coords[i][keyId].lat
+              el.long = coords[i][keyId].long 
+              //continue;             
+            }
+            
+          }
+          ids.push(el.id)
+          forecastIds.push(el.id + 'F')
+        })
+        // this.$store.commit('createAllDevs', this.all)
+        this.$store.commit('createAllIds', ids)
+        this.$store.commit('createAllForecastIds', forecastIds)
+        console.log(this.all)
+    },
 
       detectIt(){
 
@@ -225,8 +276,11 @@ export default {
 
     },
     created () {  
+     
      this.createAllDevs()
      this.detectIt()
+     this.createConnection();
+     this.doSubscribe();
      
     },
     computed: {

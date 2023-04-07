@@ -1,28 +1,9 @@
 <template>
   <div class='row'>
     <div class='col-md-6'>
-
-  <!-- <form @submit.prevent="submitForm" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-    <div class="form-group form-group-sm">
-      <label for="inputpower" class="sr-only">Reduce Power</label>
-      <input type="text" class="form-control" id="inputpower" v-model="power" placeholder="Power Correction">
-    </div>
-    <div class="form-group form-group-sm">
-      <label for="inputtime" class="sr-only">Time Interval</label>
-      <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown" placeholder="Time">
-    </div>
-    <button type="submit" :disabled='isDisabled' class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
-  </form> -->
 </div>
 <div class="col-md-6">
   <div class="pull-right">
-  <!-- <form @submit.prevent="submitFormCali" v-on:submit="cali" class="form-inline">
-    <div class="form-group mx-sm-3 mb-2">
-      <label for="calibration" class="sr-only">Calibration</label>
-      <input type="text" class="form-control" id="calibration" v-model="cali" placeholder="Calibration">
-    </div>
-    <button type="submit" :disabled='isDisabled' class="btn btn-warning mb-2">Send </button>
-  </form> -->
 </div>
 </div>
 </div>
@@ -57,52 +38,7 @@
          <td>{{ dev.pow }}</td>
          <td>{{ dev.customer }}</td>
          <td>{{ dev.lat+"/"+dev.long }}</td>
-         <td>{{ 22 }}</td>
-         <!-- <td>{{ dev.correctionT }}</td>
-         <td>{{ dev.correctionP }}</td> -->
-         <!-- <td>
-           <div class='row'>
-
-             <form @submit.prevent="submitForm2" class="form-inline">
-                 <div class="form-group form-group-sm">
-                   <label for="call" class="sr-only">Calibrate</label>
-                    <input type="text" class="form-control" v-model="newEntries[dev.id]" id="calibrate-single" placeholder="Calibrate">
-                 </div>
-                <button type="submit" class="btn btn-warning btn btn-warning mb-2 mt-2 ml-2">Send</button>
-             </form>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2 reset" @click="reset(dev.id)">R </button>
-
-        </div>
-          <div class='row'>
-            <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-               <div class="form-group form-group-sm">
-                 <label for="inputpower" class="sr-only">Reduce Power</label>
-                 <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Correction">
-               </div>
-               <div class="form-group form-group-sm">
-                 <label for="inputtime" class="sr-only">Time Interval</label>
-                 <input type="text" class="form-control ml-2 mr-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
-               </div>
-               <button type="submit" class="btn btn-warning mb-2 mt-2">Send </button>
-            </form>
-          </div>
-         </td> -->
-         <!-- Timer -->
-         <!-- <td><div class="mx-auto">
-           <form @submit.prevent="submitFormSingle" v-on:submit="countDownTimer" class="form-inline col-xs-3">
-             <div class="form-group form-group-sm">
-               <label for="inputpower" class="sr-only">Reduce Power</label>
-               <input type="text" class="form-control" id="inputpower" v-model="singleCorrection[dev.id]" placeholder="Power Correction">
-             </div>
-             <div class="form-group form-group-sm">
-               <label for="inputtime" class="sr-only">Time Interval</label>
-               <input type="text" class="form-control ml-2" id="inputtime" v-model="countDown[dev.id]" placeholder="Timer">
-             </div>
-             <button type="submit" class="btn btn-warning mb-2 mt-2 ml-2">Send </button>
-           </form>
-         </div>
-         </td> -->
-         <!-- end_Timer -->
+         <td>{{ 22 }}</td>        
       </tr>
      </tbody>
   </table>
@@ -111,41 +47,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import mqtt from 'mqtt';
 export default {
-
   data() {
     return {
-      //mqtt
-        connection: {
-        protocol: "ws",
-        host: "159.89.103.242",
-        // ws: 8083; wss: 8084
-        port: 9001,
-        endpoint: "/mqtt",
-        // for more options, please refer to https://github.com/mqttjs/MQTT.js#mqttclientstreambuilder-options
-        clean: true,
-        connectTimeout: 30 * 1000, // ms
-        reconnectPeriod: 4000, // ms
-        clientId: "emqx_vue_" + Math.random().toString(16).substring(2, 8),
-        // auth
-        //username: "emqx_test",
-        //password: "emqx_test",
-      },
-      subscription: {
-        topic: "test/mqttx",
-        qos: 0,
-      },
-      client: {
-        connected: false,
-      },
-      subscribeSuccess: false,
-      connecting: false,
-      retryTimes: 0,
 
-
-      //end mqtt
       power: '',
       powerCorr:'',
       time:'',
@@ -159,76 +64,12 @@ export default {
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
       all:[],    
-    posts: [],
-    errors: []
+      receivedDevs: [],
+      errors: []
     };
   },
 
   methods: { 
-
-    initData() {
-      this.client = {
-        connected: false,
-      };
-      this.retryTimes = 0;
-      this.connecting = false;
-      this.subscribeSuccess = false;
-    },
-    handleOnReConnect() {
-      this.retryTimes += 1;
-      if (this.retryTimes > 5) {
-        try {
-          this.client.end();
-          this.initData();
-          this.$message.error("Connection maxReconnectTimes limit, stop retry");
-        } catch (error) {
-          this.$message.error(error.toString());
-        }
-      }
-    },
-    createConnection() {
-      try {
-        this.connecting = true;
-        const { protocol, host, port, endpoint, ...options } = this.connection;
-        const connectUrl = `${protocol}://${host}:${port}${endpoint}`;
-        this.client = mqtt.connect(connectUrl, options);
-        if (this.client.on) {
-          this.client.on("connect", () => {
-            this.connecting = false;
-            console.log("Connection succeeded!");
-          });
-          this.client.on("reconnect", this.handleOnReConnect);
-          this.client.on("error", (error) => {
-            console.log("Connection failed", error);
-          });
-          this.client.on("message", (topic, message) => {
-            // this.receiveNews = this.receiveNews.concat(message);
-            console.log(`Received message ${message} from topic ${topic}`);
-          });
-        }
-      } catch (error) {
-        this.connecting = false;
-        console.log("mqtt.connect error", error);
-      }
-    },
-    doSubscribe() {
-      const { topic, qos } = this.subscription
-      this.client.subscribe(topic, { qos }, (error, res) => {
-        if (error) {
-          console.log('Subscribe to topics error', error)
-          return
-        }
-        this.subscribeSuccess = true
-        console.log('Subscribe to topics res', res)
-      })
-    },
-
-      pollData () {
-          this.polling = setInterval(() => {
-            this.getData();
-          
-        }, 4000)
-      },
 
       selectAll(e) {
           let ids = this.$store.state.allIds
@@ -250,86 +91,34 @@ export default {
 
         this.$store.commit('setChecked', checked_state)
         
-      },
+      },        
 
-
-      getData() {
-        
-      try {
-        axios
-        .get(
-          "http://64.225.100.195:8000/api/online/"
-        )
-        .then(response => response.data.online.forEach(el=>{
-
-            let found = this.all.find(element => element.id === el.dev)
-
-
-            if (found)
-            {
-              found.ready = el.ready
-              found.pow = el.pow
-              found.providing = el.providing
-              found.online = 'online'
-              found.customer = el.dev_name
-              found.lat = el.lat
-              found.long = el.long
-
-              if (found.ready == 1)
-              {
-                if (found.providing == 0)
-                {
-                found.online = 'ready'
-                }
-                else if (found.providing == 1)
-                {
-                  found.online = 'providing'
-                }
-              }
-              else if (found.ready == 0)
-              {
-                found.online = 'not-ready'
-              }
-              else{
-                found.online = 'offline'
-              }
-          }          
-
-        }) )
-        
-
-      } catch (error) {
-        //console.log(error);
-      }
-    },
   },
 
   created (){
-    this.createConnection();
-    this.doSubscribe();
-    this.getData();
-    this.pollData();
+  
     this.all = this.$store.state.allDevs
     let ids = this.$store.state.allIds
     ids.forEach(el=>{
       this.checked[el]=true
     })
-   // console.log(this.checked)
+    console.log(this.all)
     
   },
-  beforeDestroy () {
-	   clearInterval(this.polling)
-  },
+
   computed: {
     isDisabled: function(){
         return !this.power || !this.countDown;
     }
   },
-  
- 
-
-
-
+  watch: {
+   '$store.state.allDevs': {
+      immediate: true,
+      handler() {           
+        this.all = this.$store.state.allDevs
+      },
+    }
+   },
 };
 </script>
 

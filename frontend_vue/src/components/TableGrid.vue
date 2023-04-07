@@ -138,35 +138,7 @@ export default {
       activeClass: 'disabled',
       btn_class: 'btn btn-success mb-2',
 
-      all: [
-
-        {
-          "id":"sm-0009","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0001","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0002","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0003","pow":"", "online":"offline","customer":"","location":"Teodor's Home","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0004","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-0000","pow":"", "online":"offline","customer":"","location":"Office","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00011","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-        {
-          "id":"sm-00012","pow":"", "online":"offline","customer":"","location":"Energo Pro","capacity":"","correctionT":"","correctionP":"","calibration":"","ready":0
-        },
-
-
-    ],
+      all: [],
       posts: [],
       errors: []
     };
@@ -224,11 +196,6 @@ export default {
         this.response = 'Error: ' + error.response.status
       })
     },
-
-    onChange(event) {
-          //console.log(event.target.value);
-          //console.log(this.selected)
-        },
 
     sendIt(dev){
       let date = this.test[dev]
@@ -310,30 +277,30 @@ export default {
         })
       },
 
-    countDownTimer () {
-                let dev = Object.keys(this.singleCorrection)[0];
-                //let value = this.singleCorrection[dev]
-                this.countDown[dev] = this.time
-                let found = this.all.find(element => element.id === dev)
-                if (found){
-                  found.correctionT = this.time
-                  found.correctionP = this.singleCorrection[dev]
-                }
+    // countDownTimer () {
+    //             let dev = Object.keys(this.singleCorrection)[0];
+    //             //let value = this.singleCorrection[dev]
+    //             this.countDown[dev] = this.time
+    //             let found = this.all.find(element => element.id === dev)
+    //             if (found){
+    //               found.correctionT = this.time
+    //               found.correctionP = this.singleCorrection[dev]
+    //             }
 
-                if (this.time > 0) {
-                    setTimeout(() => {
-                        this.time -= 1
-                        this.countDownTimer()
+    //             if (this.time > 0) {
+    //                 setTimeout(() => {
+    //                     this.time -= 1
+    //                     this.countDownTimer()
 
-                    }, 1000)
-                }
-            },
+    //                 }, 1000)
+    //             }
+    //         },
 
-      pollData () {
-          this.polling = setInterval(() => {
-            this.getData();
-        }, 10000)
-      },
+      // pollData () {
+      //     this.polling = setInterval(() => {
+      //       this.getData();
+      //   }, 10000)
+      // },
 
       selectAll(e) {
           let ids = this.$store.state.allIds
@@ -359,61 +326,61 @@ export default {
 
 
 
-      getData() {
-      try {
-        axios
-        .get(
-          "http://64.225.100.195:8000/api/online/"
-        )
-        .then(response => response.data.online.forEach(el=>{
-            //this.posts.push(el)
-            //console.log(el.dev)
-            let found = this.all.find(element => element.id === el.dev)
+    //   getData() {
+    //   try {
+    //     axios
+    //     .get(
+    //       "http://64.225.100.195:8000/api/online/"
+    //     )
+    //     .then(response => response.data.online.forEach(el=>{
+    //         //this.posts.push(el)
+    //         //console.log(el.dev)
+    //         let found = this.all.find(element => element.id === el.dev)
 
 
-            if (found)
-            {
-              found.ready = el.ready
-              found.pow = el.pow
-              found.providing = el.providing
-              found.online = 'online'
+    //         if (found)
+    //         {
+    //           found.ready = el.ready
+    //           found.pow = el.pow
+    //           found.providing = el.providing
+    //           found.online = 'online'
 
-              if (found.ready == 1)
-              {
-                if (found.providing == 0)
-                {
-                found.online = 'ready'
-                }
-                else if (found.providing == 1)
-                {
-                  found.online = 'providing'
-                }
-              }
-              else if (found.ready == 0)
-              {
-                found.online = 'not-ready'
-              }
-              else{
-                found.online = 'offline'
-              }
-            }
+    //           if (found.ready == 1)
+    //           {
+    //             if (found.providing == 0)
+    //             {
+    //             found.online = 'ready'
+    //             }
+    //             else if (found.providing == 1)
+    //             {
+    //               found.online = 'providing'
+    //             }
+    //           }
+    //           else if (found.ready == 0)
+    //           {
+    //             found.online = 'not-ready'
+    //           }
+    //           else{
+    //             found.online = 'offline'
+    //           }
+    //         }
 
-            //console.log(this.all[0].id)
+    //         //console.log(this.all[0].id)
 
-        }) )
-        //console.log(this.all)
+    //     }) )
+    //     //console.log(this.all)
 
-      } catch (error) {
-        //console.log(error);
-      }
-    },
+    //   } catch (error) {
+    //     //console.log(error);
+    //   }
+    // },
 
 },
 
   created (){
     
-    this.getData();
-    this.pollData();
+    //this.getData();
+   // this.pollData();
     this.createMins();
     this.getSimLog();
     this.all = this.$store.state.allDevs

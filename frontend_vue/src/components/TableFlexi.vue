@@ -234,11 +234,11 @@ export default {
         }
       },
 //
-      pollData(){
-          this.polling = setInterval(() => {
-            this.getData();
-        }, 10000)
-      },
+      // pollData(){
+      //     this.polling = setInterval(() => {
+      //       this.getData();
+      //   }, 10000)
+      // },
 //
 selectAll(e) {
           let ids = this.$store.state.allIds
@@ -265,57 +265,57 @@ selectAll(e) {
 //
 //
 //
-      getData() {
-      try {
-        axios
-        .get(
-          "http://64.225.100.195:8000/api/online/"
-        )
-        .then(response => response.data.online.forEach(el=>{
-            //this.posts.push(el)
-            //console.log(el.dev)
-            let found = this.all.find(element => element.id === el.dev)
+    //   getData() {
+    //   try {
+    //     axios
+    //     .get(
+    //       "http://64.225.100.195:8000/api/online/"
+    //     )
+    //     .then(response => response.data.online.forEach(el=>{
+    //         //this.posts.push(el)
+    //         //console.log(el.dev)
+    //         let found = this.all.find(element => element.id === el.dev)
 
 
-            if (found)
-            {
-              found.ready = el.ready
-              found.pow = el.pow
-              found.providing = el.providing
-              found.online = 'online'
+    //         if (found)
+    //         {
+    //           found.ready = el.ready
+    //           found.pow = el.pow
+    //           found.providing = el.providing
+    //           found.online = 'online'
 
-              if (found.ready == 1)
-              {
-                if (found.providing == 0)
-                {
-                found.online = 'ready'
-                }
-                else if (found.providing == 1)
-                {
-                  found.online = 'providing'
-                }
-              }
-              else if (found.ready == 0)
-              {
-                found.online = 'not-ready'
-              }
-              else{
-                found.online = 'offline'
-              }
+    //           if (found.ready == 1)
+    //           {
+    //             if (found.providing == 0)
+    //             {
+    //             found.online = 'ready'
+    //             }
+    //             else if (found.providing == 1)
+    //             {
+    //               found.online = 'providing'
+    //             }
+    //           }
+    //           else if (found.ready == 0)
+    //           {
+    //             found.online = 'not-ready'
+    //           }
+    //           else{
+    //             found.online = 'offline'
+    //           }
 
 
 
-            }
+    //         }
 
-            //console.log(this.all[0].id)
+    //         //console.log(this.all[0].id)
 
-        }) )
-        //console.log(this.all)
+    //     }) )
+    //     //console.log(this.all)
 
-      } catch (error) {
-        //console.log(error);
-      }
-    },
+    //   } catch (error) {
+    //     //console.log(error);
+    //   }
+    // },
     getFlexi(){
       try {
         axios
@@ -358,10 +358,10 @@ selectAll(e) {
 
   created (){
     //console.log(this.date)
-    this.getData();
+    //this.getData();
     this.createMins();
     this.getFlexi();
-    this.pollData();
+    //this.pollData();
     this.all = this.$store.state.allDevs
     let ids = this.$store.state.allIds
     ids.forEach(el=>{
