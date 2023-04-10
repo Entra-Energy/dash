@@ -12,14 +12,14 @@ import paho.mqtt.publish as publish
 
 
 
-# def update_db_coeff():
-#     date = "2023-03-20T17:00:00Z"
-#     delete_date = "2023-03-21T00:00:00Z" 
+def update_db_coeff():
+    date = "2023-03-20T17:00:00Z"
+    delete_date = "2023-03-21T00:00:00Z" 
    
-#     sms = ["sm-0007","sm-0012","sm-0013","sm-0017","sm-0018","sm-0019","sm-0020","sm-0024","sm-0025"]
-#     for d in sms:
-#         delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
-#         delete_query.delete()
+    sms = ["sm-0007","sm-0012","sm-0013","sm-0017","sm-0018","sm-0019","sm-0020","sm-0024","sm-0025"]
+    for d in sms:
+        delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+        delete_query.delete()
     
 #     # for obj in query:
 #     #     #print(obj.id)     
@@ -27,7 +27,10 @@ import paho.mqtt.publish as publish
 #     #     print(u)
 #     #     u.value = obj.value*120
 #     #     u.save()         
-    
+
+
+sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},
+{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250},{"sm-0017":200},{"sm-0018":400},{"sm-0019":500},{"sm-0020":500},{"sm-0025":200}]         
 
 def get_curr_time():
     now = datetime.now(timezone('Europe/Sofia'))
@@ -71,8 +74,7 @@ def price_to_db():
         #print(price)
         Price.objects.get_or_create(timestamp=time, value = price)
 
-def scheduled_flexi():
-    sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]          
+def scheduled_flexi():        
 
     # test = FlexabilitySim.objects.all().last()
     # yourdate = test.scheduled
@@ -258,8 +260,7 @@ def timeSet():
     topic = "setRTC"
     publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
 
-def mqttErr(error_lst):
-    sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]
+def mqttErr(error_lst):    
     er_list = error_lst
     post_list_init = []
     for obj in er_list:

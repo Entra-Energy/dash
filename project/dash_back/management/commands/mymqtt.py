@@ -54,7 +54,8 @@ class Command(BaseCommand):
             #print(topic)
             
             myList = topic.split('/')               
-            sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]
+            sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},
+                        {"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250},{"sm-0017":200},{"sm-0018":400},{"sm-0019":500},{"sm-0020":500},{"sm-0025":200}]
             
             if myList[0] == 'data':
                 dev_id = myList[1]                 
@@ -170,8 +171,8 @@ class Command(BaseCommand):
                 #     #else:
                 #     Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp)
                                 
-            if myList[0] == 'ping':      
-                sm_coeff = [{"sm-0001":120},{"sm-0002":320},{"sm-0003":400},{"sm-0004":200},{"sm-0006":200},{"sm-0008":200},{"sm-0009":80},{"sm-0010":60},{"sm-0011":60},{"sm-0015":60},{"sm-0016":250}]          
+            if myList[0] == 'ping':     
+                       
                 dev_id = myList[1]
                 is_valid = validateJSON(msg.payload)
                 if is_valid:      
