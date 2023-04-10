@@ -175,6 +175,10 @@ export default {
               this.sm_coeff.forEach(el=>{
                 let keyId = Object.keys(el);                
                 if(keyId[0] === dev){
+                  if(keyId[0] === "sm-0001" || keyId[0] === "sm-0016")
+                  {
+                    pow *=-1
+                  }
                   pow *=el[keyId[0]]
                 }
               })
