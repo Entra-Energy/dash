@@ -9,6 +9,7 @@ from pytz import timezone
 from django.conf import settings
 import os
 import paho.mqtt.publish as publish
+import time
 
 
 
@@ -166,19 +167,20 @@ def get_hydro():
 
     # hour = int(hour_part[0])
     # last_min = int(hour_part[1])
-    now = datetime.now()
+    # now = datetime.now()
 
-    year_part = int(str(now).split(" ")[0].split("-")[0])
-    month_part = int(str(now).split(" ")[0].split("-")[1])
-    day_part = int(str(now).split(" ")[0].split("-")[2])
+    # year_part = int(str(now).split(" ")[0].split("-")[0])
+    # month_part = int(str(now).split(" ")[0].split("-")[1])
+    # day_part = int(str(now).split(" ")[0].split("-")[2])
 
-    hour_part = int(str(now).split(" ")[1].split(":")[0])
-    min_part = int(str(now).split(" ")[1].split(":")[1])
-    sec_part = str(now).split(" ")[1].split(":")[2]
+    # hour_part = int(str(now).split(" ")[1].split(":")[0])
+    # min_part = int(str(now).split(" ")[1].split(":")[1])
+    # sec_part = str(now).split(" ")[1].split(":")[2]
 
-    sec_part = float(sec_part)
-    sec_part = int(sec_part)
-    timestamp_now = datetime(year_part, month_part, day_part, hour_part, min_part, sec_part, tzinfo=pytz.utc).timestamp()    
+    # sec_part = float(sec_part)
+    # sec_part = int(sec_part)
+    # timestamp_now = datetime(year_part, month_part, day_part, hour_part, min_part, sec_part, tzinfo=pytz.utc).timestamp()    
+    timestamp_now = round(time.time() * 1000)
     stamp = str(timestamp_now)
     HY_PW = str(power)
     HY_GV = str(guide_vains)
@@ -203,7 +205,7 @@ def get_hydro():
         count = Hydro.objects.all().count()
         # if count > 200:
         #     Hydro.objects.all().delete()
-        Hydro.objects.create(hydro_pow=power,guide_vains=guide_vains,level=level,gen_temp=gen_tmp,gen_curr=gen_curr,gen_vol=gen_u)
+        #Hydro.objects.create(hydro_pow=power,guide_vains=guide_vains,level=level,gen_temp=gen_tmp,gen_curr=gen_curr,gen_vol=gen_u)
         
     #return data
     
