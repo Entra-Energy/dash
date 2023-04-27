@@ -104,7 +104,7 @@ export default {
     ids.forEach(el=>{
       this.checked[el]=true
     })
-    console.log(this.all)
+    //console.log(this.all)
     
   },
 

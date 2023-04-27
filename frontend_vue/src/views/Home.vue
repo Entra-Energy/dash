@@ -1,6 +1,7 @@
 <template>
 
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+    <!-- <div class='row'><div class='col'><TreeChartMap :query="query" /></div></div> -->
     <div class='row'><div class='col'><Range @emit-it="handleChange"/></div></div>
     <div class='row'><div class='col'><LineCharts :query="query" /></div></div>
     <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
@@ -19,6 +20,7 @@ import Table from '@/components/Table.vue'
 import LineCharts from '@/components/LineCharts.vue'
 import PriceChart from '@/components/PriceChart.vue'
 import Heatmap from '@/components/Heatmap.vue'
+import TreeChartMap from '@/components/TreeChartMap.vue'
 
 export default {
   name: 'Home',
@@ -27,7 +29,8 @@ export default {
     Table,
     LineCharts,
     PriceChart,
-    Heatmap
+    Heatmap,
+    TreeChartMap
   },
   data() {
     return {
