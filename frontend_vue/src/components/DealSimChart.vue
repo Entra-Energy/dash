@@ -160,17 +160,10 @@
   
     dataZoom: [{
   
-         bottom: 300,
-         height: 20,
-         // handleIcon: "pin",
-         // handleSize: "75%",
-         // handleStyle: {
-         //          color: "#9a9a9a",
-         //          borderColor: "rgba(255, 255, 255, 1)",
-         //          opacity: 0.5
-         //  },
-  
-         show: true,
+      show: false,
+
+      start: 0,
+      end: 100,
   
          // backgroundColor:'#9a9a9a',
             //  fillerColor: "rgba(255, 255, 255, 0.1)",
@@ -409,6 +402,23 @@
    },
   
    watch: {
+    '$store.state.zoom': {
+      immediate: true,
+      handler() {
+
+            this.zoom = this.$store.state.zoom;
+            let end = this.zoom.end
+            let start = this.zoom.start
+            this.option.dataZoom[0].start = start
+            this.option.dataZoom[0].end = end
+            // if(parseInt(end) <= 35)
+            // {
+            //
+            //   this.option.xAxis.splitNumber = 3
+            // }
+
+          }
+    },
      '$store.state.count': {
        immediate: true,
        handler() {

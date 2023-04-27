@@ -55,7 +55,7 @@ export default {
       immediate: true,
       handler() {           
         this.all = this.$store.state.allDevs
-        console.log(this.all)
+        //console.log(this.all)
         this.all.forEach(el=>{
           if(el.lat && el.pow){
           let heatObj = {
@@ -66,7 +66,7 @@ export default {
           this.points.push(heatObj)
         }
         })
-        console.log(this.points)
+        //console.log(this.points)
       },
     }
    },

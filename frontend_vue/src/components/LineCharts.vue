@@ -4,7 +4,7 @@
     <div v-if="dataLoader">
       <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>
     </div>
-    <v-chart class="chart" ref='lineChart' style="background-color:#27293d;max-width: 100%; height: 350px" @dataZoom="updateZoom" :option="option" autoresize />
+    <v-chart class="chart" ref='lineChart' style="background-color:#27293d;max-width: 100%; height: 350px" @mouseover="getDataSubset" @dataZoom="updateZoom" :option="option" autoresize  />
   </div>
 </div>
 </template>
@@ -87,11 +87,16 @@ var timeLineSetMonth = function(value,index){
   return texts
 }
 
+
+var tooltipDisplay = ""
+
+
 export default {
 
   data() {
     return {
       dataLoader:true,
+      active: false
     }
   },
 
@@ -147,10 +152,15 @@ export default {
           orient: 'vertical',
           padding:[-500,100,0,0],
         },
+       
   tooltip: {
 
         trigger: 'axis',
-        show:false,
+        //triggerOn: "click",
+        show:true,
+        formatter : (params) => {
+          return tooltipDisplay;
+        },
         position: function (pt) {
             return [pt[0], '10%'];
         }
@@ -222,15 +232,7 @@ export default {
 
  ],
   series: [
-    // {
-    //   name: "sm-0009",
-    //   data: [],
-    //   type: 'line',
-    //   itemStyle: {
-    //     color: '#d725bb'
-    //   },
-    //   sampling: 'lttb',
-    // },
+    
      {
       name: "sm-0001F",
       data: [],
@@ -254,7 +256,19 @@ export default {
  },
 
 
- methods: {
+ methods: {        
+   
+
+      getDataSubset(params) {
+
+          if(params.seriesType == 'line'){
+            if (params.data){
+              tooltipDisplay = '<div class="tooltip-set">' + '<ul>' + '<li>' + params.seriesName + "&nbsp;&nbsp;" + "</li>" + "<li>" + params.data[0] + "</li>" + "<li>" + "Power: "+ params.data[1] + "</li>" + '</ul>' + '</div>'
+            }
+          }   
+
+      },
+
 
       daysInMonth (month, year) {
           return new Date(year, month, 0).getDate();
@@ -388,11 +402,23 @@ export default {
                 //this.tooltip.show = false
                 this.option.xAxis.splitNumber = 24
                 let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
-                let endArr = [endStr,null]
-                this.option.series[1].data.push(endArr)
+                let startForZero = this.currDate.split("T")[0]+"T00:00:00.000Z"    
+                //Add zero line
+                this.option.series[0] = {
+                  name: "default",
+                  data: [[startForZero,0],[endStr,0]],   
+                  type: 'line',
+                  itemStyle: {
+                    color: '#fbc808'
+                  },
+                  lineStyle:{
+                    type: 'dotted',
+                    width: 1
+                  },        
+                }                
                 this.dataLoader = false
-                //console.log(endArr)
-                //console.log(this.option.series)
+                //console.log(this.option.series[0])
+                
               }
               else if(test == 'month')
               {
@@ -407,25 +433,49 @@ export default {
                 }
                   let monthLenthArr = this.currDate.split("T")[0].split("-")
                   monthLenthArr[2] = this.monthLenthDays.toString()
-                  let monthEnd = [monthLenthArr.join("-"),null]
-
-
-                  let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-                  this.option.series[1].data[0]=monthBegin
-                  this.option.series[1].data.push(monthEnd)
+                  let monthEnd = [monthLenthArr.join("-"),0]
+                  let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',0]
+                  //month ZeroLine
+                  this.option.series[0] = {
+                  name: "default",
+                  data: [monthBegin,monthEnd],   
+                  type: 'line',
+                  itemStyle: {
+                    color: '#fbc808'
+                  },
+                  lineStyle:{
+                    type: 'dotted',
+                    width: 1
+                  },        
+                }                
+                  // this.option.series[1].data[0]=monthBegin
+                  // this.option.series[1].data.push(monthEnd)
                   this.option.xAxis.splitNumber = 30
                   this.dataLoader = false
-                  //console.log(this.option.series[1].data)
+                  
               }
               else {
                   this.option.xAxis.axisLabel.formatter = {
                     month:'{MMM}',
                     day: '{d}',
                   }
-                  let yearBegin = [this.currYear+"-"+"01"+"-"+"01"]
-                  let yearEnd = [this.currYear+"-"+"12"+"-"+"31"]
-                  this.option.series[1].data[0]=yearBegin
-                  this.option.series[1].data.push(yearEnd)
+                  let yearBegin = [this.currYear+"-"+"01"+"-"+"01",0]
+                  let yearEnd = [this.currYear+"-"+"12"+"-"+"31",0]
+                  this.option.series[0] = {
+                  name: "default",
+                  data: [yearBegin,yearEnd],   
+                  type: 'line',
+                  itemStyle: {
+                    color: '#fbc808'
+                  },
+                  lineStyle:{
+                    type: 'dotted',
+                    width: 1
+                  },        
+                }  
+                
+                  // this.option.series[1].data[0]=yearBegin
+                  // this.option.series[1].data.push(yearEnd)
                   this.option.xAxis.splitNumber = 12
                   this.dataLoader = false
 
@@ -524,7 +574,7 @@ export default {
     //
     //      });
 
-    this.option.series = []
+    this.option.series = []   
 
     this.getCurrTime()
 
@@ -548,7 +598,9 @@ export default {
           "connectNulls": false,
           "lineStyle": {
               "width": 1
-          },          
+          },
+          triggerLineEvent: true,
+          emphasis: { focus: 'series' }          
         }
       )
     })
@@ -602,9 +654,10 @@ export default {
      immediate: true,
      handler() {
 
-           this.getCurrTime();
-           this.option.series = []
-           let devs = this.$store.state.allIds            
+          this.getCurrTime();
+          this.option.series = []          
+    
+          let devs = this.$store.state.allIds            
            devs.forEach((item, i) => {
              this.option.series.push(
                {
@@ -659,7 +712,20 @@ export default {
    '$store.state.selected': {
      immediate: true,
      handler() {
-       this.option.series = []
+        this.option.series = []
+        let startForZero = this.currDate.split("T")[0]+"T00:00:00.000Z"    
+        this.option.series[0] = {
+          name: "default",
+          data: [[startForZero,0]],   
+          type: 'line',
+          itemStyle: {
+            color: '#fbc808'
+          },
+          lineStyle:{
+            type: 'dotted',
+            width: 1
+          },        
+        } 
        let devs = this.$store.state.allIds 
        devs.forEach((item, i) => {
          this.option.series.push(

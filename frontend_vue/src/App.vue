@@ -272,7 +272,7 @@ export default {
         // this.$store.commit('createAllDevs', this.all)
         this.$store.commit('createAllIds', ids)
         this.$store.commit('createAllForecastIds', forecastIds)
-        console.log(this.all)
+        //console.log(this.all)
     },
 
       detectIt(){

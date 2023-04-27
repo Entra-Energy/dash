@@ -267,6 +267,24 @@
   
    },
    watch: {
+    
+    '$store.state.zoom': {
+      immediate: true,
+      handler() {
+
+            this.zoom = this.$store.state.zoom;
+            let end = this.zoom.end
+            let start = this.zoom.start
+            this.option.dataZoom[0].start = start
+            this.option.dataZoom[0].end = end
+            // if(parseInt(end) <= 35)
+            // {
+            //
+            //   this.option.xAxis.splitNumber = 3
+            // }
+
+          }
+    },
    '$store.state.count': {
      immediate: true,
      handler() {

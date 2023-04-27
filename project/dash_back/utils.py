@@ -15,12 +15,38 @@ import time
 
 def update_db_coeff():
     date = "2023-03-20T17:00:00Z"
-    delete_date = "2023-03-21T00:00:00Z" 
+    delete_date = "2023-03-23T00:00:00Z" 
    
-    sms = ["sm-0007","sm-0012","sm-0013","sm-0017","sm-0018","sm-0019","sm-0020","sm-0024","sm-0025"]
+    sms = ["sm-0012","sm-0014","sm-0017","sm-0018","sm-0019","sm-0020","sm-0030"]
     for d in sms:
-        delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
-        delete_query.delete()
+        if d == "sm-0012":                 
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+        elif d == "sm-0017":                       
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+        elif d == "sm-0018":
+            delete_date = "2023-04-11T00:00:00Z"
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+        elif d == "sm-0019":
+            delete_date = "2023-04-11T00:00:00Z"
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+        elif d == "sm-0020":
+            delete_date = "2023-04-11T00:00:00Z"
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+        elif d == "sm-0014":
+            delete_date = "2023-04-27T00:00:00Z"
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+        elif d == "sm-0030":
+            delete_date = "2023-04-03T00:00:00Z"
+            delete_query = Post.objects.filter(created_date__lte = delete_date, devId = d)        
+            delete_query.delete()
+            
+            
     
 #     # for obj in query:
 #     #     #print(obj.id)     
