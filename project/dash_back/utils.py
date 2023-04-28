@@ -14,7 +14,8 @@ import time
 
 
 def update_db_coeff():
-    delete_price = Price.objects.all().delete()
+    pass
+    #delete_price = Price.objects.all().delete()
     # date = "2023-03-20T17:00:00Z"
     # delete_date = "2023-03-23T00:00:00Z" 
    
