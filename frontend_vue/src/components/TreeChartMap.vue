@@ -39,6 +39,7 @@ props: {
 
 param:'today',
 all:[],
+polling: null,
 
 
 name: "TreeChartMap",
