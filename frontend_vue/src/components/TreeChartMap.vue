@@ -205,7 +205,7 @@ methods: {
             case "sm-0001":      
      
             GN1Count += parseFloat(el.pow)
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
+            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':(-1)*el.pow})
             break
             case "sm-0002":
             GN2Count += parseFloat(el.pow)
@@ -258,7 +258,7 @@ methods: {
             break
           case "sm-0016":
             GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
+            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':(-1)*el.pow})
             break
           case "sm-0017":
             GN1Count += parseFloat(el.pow) 
