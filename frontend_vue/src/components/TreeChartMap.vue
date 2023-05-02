@@ -133,7 +133,7 @@ methods: {
           this.polling = setInterval(() => {
             //this.option.series[0].data[0].children[0].children = []
             this.getData();
-        }, 10000)
+        }, 30000)
       },
 
        getData() {

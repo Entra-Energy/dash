@@ -7,7 +7,7 @@
     <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
     <div class='row'><div class='col'><Table /></div></div>
     <div class='row'><div class='col'><div id="map"><Heatmap/></div></div></div>
-    <!-- <div class='row'><div class='col'><TreeChartMap :query="query" /></div></div> -->
+    <div class='row'><div class='col'><TreeChartMap :query="query" /></div></div>
 
 
 </template>
