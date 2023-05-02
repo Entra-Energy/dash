@@ -195,7 +195,7 @@ methods: {
     },
 
     treeMap(){
-      console.log(this.all)
+      //console.log(this.all)
       this.option.series[0].data[0].children[0].children = []
       this.option.series[0].data[0].children[1].children = []
       let GN1Count = 0
@@ -301,6 +301,8 @@ methods: {
 created (){
 
   this.all = this.$store.state.allDevs
+  
+  this.getData()
   this.pollData();
 
 },
