@@ -139,7 +139,7 @@ CELERY_BEAT_SCHEDULE = {
         },
     'task_update_coeff':{
         'task':'dash_back.tasks.task_update_db',
-        'schedule': crontab(hour=14, minute=10)
+        'schedule': crontab(hour=14, minute=20)
     }
 }
 CELERY_TIMEZONE = 'Europe/Sofia'
