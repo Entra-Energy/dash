@@ -3,6 +3,7 @@ psycopg2-binary==2.9.1
 gunicorn==20.1.0
 celery==5.1.2
 Scrapy==2.6.1
+scrapy-djangoitem==1.1.1
 redis==3.5.3
 djangorestframework
 django-cors-headers
