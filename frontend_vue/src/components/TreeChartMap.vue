@@ -193,9 +193,10 @@ methods: {
     fetchAsignApi(){
       axios
           .get("http://64.225.100.195:8000/api/grid_asign/")
-          .then(response =>{          
-            this.apiAsignAll = response.data.results
-            const distinctValues = [...new Set(response.data.results.map(item => item.grid_name))];            
+          .then(response =>{                  
+            this.apiAsignAll = response.data
+            console.log(this.apiAsignAll)
+            const distinctValues = [...new Set(response.data.map(item => item.grid_name))];            
             this.apiResponse = distinctValues; 
           })
           .catch(error=>{
