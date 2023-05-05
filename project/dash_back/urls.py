@@ -16,6 +16,7 @@ router.register(r'flexi_res', views.FlexiViewset, basename='flexi_res')
 router.register(r'userip', views.userIpViewset, basename='userip')
 router.register(r'post_forecast', views.PostForecastViewset, basename='postForecast')
 router.register(r'flexi_sim', views.SimLogViewset, basename='sim_log')
+router.register(r'grid_asign', views.GridViewset, basename='gridset')
 
 urlpatterns = [
     path('online/', views.OnlineView.as_view(), name = 'test'),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('login-data/',views.login_data, name='login_data'),
     path('sched/',views.sched_flexi, name='sched_flexi'),
     path('execall/',views.exec_all, name='exec_all'),
+    path('asign/',views.asign_node, name='asign'),
     
 ]
 

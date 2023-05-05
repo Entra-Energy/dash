@@ -21,6 +21,7 @@
         <th>Location</th>
         <th>Type</th>
         <th>Capacity kW</th>
+        <th class="node">Node Asign</th>
         <!-- <th>T['S']</th>
         <th>P['W']</th>
         <th></th> -->
@@ -40,7 +41,19 @@
          <td>{{ dev.customer }}</td>
          <td>{{ dev.lat+"/"+dev.long }}</td>
          <td>{{ dev.type }}</td>
-         <td>{{ 22 }}</td>        
+         <td>{{ 22 }}</td>  
+         <td class="node">
+            <div class="form-inline">
+             <div class="asign">
+              <!-- <label for="power">Power /kW/</label> -->
+               <input type="text" class="form-control d-inline-block node-asign" placeholder="#" style="width: auto;" v-model="nodeAsign[dev.id]" >
+             </div>
+             <div class = "submitNode">
+               <button type="submit" class="btn btn-warning sbmt-button" @click="submitNode(dev.id)">Asign</button>
+             </div>
+             </div>  
+
+         </td>      
       </tr>
      </tbody>
   </table>
@@ -49,6 +62,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -60,6 +75,7 @@ export default {
       polling: null,
       newEntries: {},
       singleCorrection:{},
+      nodeAsign:{},
       
       checked: {},
       allSelected: true,
@@ -72,6 +88,22 @@ export default {
   },
 
   methods: { 
+
+
+    submitNode(dev){      
+      
+      axios.post('http://127.0.0.1:8000/api/asign/', {
+        "dev" : dev,
+        "node": this.nodeAsign[dev]
+      }).then(response =>{
+        console.log(response.data)
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+      }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+      })
+      this.nodeAsign = {}
+    },
 
       selectAll(e) {
           let ids = this.$store.state.allIds
@@ -191,5 +223,19 @@ td.check-dev {
 
 .table td {    
     vertical-align: middle;   
+}
+.asign{
+  max-width: 50%;
+  margin-left: -20px;
+}
+.node-asign {
+    max-width: 50%;
+    max-height: 31px;
+    font-size: 13px;
+}
+.sbmt-button{
+    padding: 5px 7px;
+    font-size: 13px;
+    color: #3c3a3a;
 }
 </style>

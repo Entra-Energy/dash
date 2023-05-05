@@ -157,3 +157,8 @@ class Hydro(models.Model):
     gen_temp = models.FloatField()
     gen_curr = models.FloatField()
     gen_vol = models.FloatField()
+    
+class GridAsign(models.Model):
+    dev = models.CharField(max_length=100)
+    grid_name = models.CharField(max_length=300)
+    

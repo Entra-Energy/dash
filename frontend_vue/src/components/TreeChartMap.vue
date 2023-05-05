@@ -1,7 +1,7 @@
 <template>
     <div class="card card-chart">
     <div class="card-body">
-        <v-chart class="chart" :option="option" style="background-color:#27293d;max-width: 100%; height: 950px" autoresize />
+        <v-chart class="chart" :option="option" style="background-color:#27293d;max-width: 100%; height: 650px" autoresize />
     </div>
   </div>
   
@@ -10,7 +10,7 @@
 
 <script>
 import axios from 'axios';
-import { use } from "echarts/core";
+import { helper, use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { TreeChart } from "echarts/charts";
 import {
@@ -40,6 +40,7 @@ props: {
 param:'today',
 all:[],
 polling: null,
+//apiResponse: [],
 
 
 name: "TreeChartMap",
@@ -55,8 +56,8 @@ title: {
  left: 'center',
  padding: [1, 1, 1, 1],
  textStyle: {
-    fontSize: 12,
-    color:'#dfdfdf'
+    fontSize: 16,
+    color:'white'
   },
 },
 responsive: true,
@@ -75,25 +76,26 @@ series: [
       data: [{
             name: 'EnergoPro',
             children: [
-                          {
-                          name: 'GN1',value:0,
-                          children: []
-                          },
-                          {name: 'GN2',
-                          children: []           
-                          },
+                          // {
+                          // name: 'GN1',value:0,
+                          // children: []
+                          // },
+                          // {name: 'GN2',
+                          // children: []           
+                          // },
                       ]
             }],
-      top: '1%',
+      top: '25%',
       left: '8%',
-      bottom: '1%',
+      bottom: '25%',
       right: '20%',
-      symbolSize: 17,
+      symbolSize: 12,
       edgeShape: 'polyline',
-      edgeForkPosition: '63%',
+      edgeForkPosition: '70%',
       initialTreeDepth: 3,
       lineStyle: {
-        width: 2
+        width: 2,
+        color: '#e07c58'
       },
       label: {
         backgroundColor: "none",
@@ -109,15 +111,14 @@ series: [
           position: 'right',
           verticalAlign: 'middle',
           align: 'left',
-          color: 'red'
+          color: '#FFF'
         }
       },
       emphasis: {
         focus: 'descendant'
       },
       expandAndCollapse: false,
-      //animationDuration: 550,
-      //animationDurationUpdate: 750
+
   },
 ],
 
@@ -125,19 +126,25 @@ series: [
 
  return { option };
 },
+data() {
+    return {
+      apiResponse:[],
+      apiAsignAll:[]
+    };
+  },
 
 
 methods: { 
 
         pollData(){
           this.polling = setInterval(() => {
-            //this.option.series[0].data[0].children[0].children = []
+            this.option.series[0].data[0].children = []
             this.getData();
         }, 30000)
       },
 
        getData() {
-      try {
+      
         axios
         .get(
           "http://64.225.100.195:8000/api/online/"
@@ -173,125 +180,99 @@ methods: {
               else{
                 found.online = 'offline'
               }
-
-
-
             }
-
-            //console.log(this.all[0].id)
-
         }) )
+        .catch(error=>{
+          console.log(error)
+        })
+        .finally(() => {
+          this.fetchAsignApi()
+        })
 
-        
-
-      } catch (error) {
-        //console.log(error);
-      }
-      this.treeMap();
-
-      
-
-      
+    },
+    fetchAsignApi(){
+      axios
+          .get("http://127.0.0.1:8000/api/grid_asign/")
+          .then(response =>{          
+            this.apiAsignAll = response.data.results
+            const distinctValues = [...new Set(response.data.results.map(item => item.grid_name))];            
+            this.apiResponse = distinctValues; 
+          })
+          .catch(error=>{
+            console.log(error)
+          })
+          .finally(()=>{
+            this.treeMap()
+          })      
     },
 
-    treeMap(){
-      //console.log(this.all)
-      this.option.series[0].data[0].children[0].children = []
-      this.option.series[0].data[0].children[1].children = []
-      let GN1Count = 0
-      let GN2Count = 0
-       this.all.forEach(el=>{
-        if(el.online != "offline"){
-        switch(el.id){
-            case "sm-0001":      
-     
-            GN1Count += parseFloat(el.pow)
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':(-1)*el.pow})
-            break
-            case "sm-0002":
-            GN2Count += parseFloat(el.pow)
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-            case "sm-0003":
-            GN1Count += parseFloat(el.pow)            
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0004":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0006":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0007":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0008":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0009":
-            GN1Count += parseFloat(el.pow)  
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0010":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0011":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0012":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0013":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0015":
-            GN2Count += parseFloat(el.pow) 
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0016":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':(-1)*el.pow})
-            break
-          case "sm-0017":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0018":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0019":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0020":
-            GN2Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[1].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0024":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
-          case "sm-0025":
-            GN1Count += parseFloat(el.pow) 
-            this.option.series[0].data[0].children[0].children.push({'name' :el.id +" " + el.pow,'value':el.pow})
-            break
+    treeMap(){ 
+      this.apiResponse.forEach(el=>{
+        let obj = {
+          'name':el,'value':0,"children":[]
         }
-        this.option.series[0].data[0].children[0].value = GN1Count
-        this.option.series[0].data[0].children[1].value = GN2Count
-      }
-
+        this.option.series[0].data[0].children.push(obj)
       })
-    }
+        let helperArr = []
+        this.apiAsignAll.forEach(el=>{
+          this.all.forEach(elm=>{
+            if(el.dev === elm.id){
+              let test = {
+                "id":el.dev,
+                "node":el.grid_name,
+                "pow":elm.pow
+              }
+              helperArr.push(test)              
+            }
+          })
+        
+        })
+        console.log(helperArr)
+       
+        let graphArr = this.option.series[0].data[0].children        
+
+        helperArr.forEach(em=>{
+          graphArr.forEach(it=>{
+            if(it.name === em.node )
+            {
+              
+              let childOb = {
+                "name":em.id+" | "+ em.pow +" kW",
+                "value":em.pow
+              }
+              it.children.push(childOb)  
+                              
+            }
+          })        
+        })
+        let result = helperArr.reduce((acc, curr) => {
+        let item = acc.find(item => item.node === curr.node);
+
+        if (item) {
+          item.pow += curr.pow;
+        } else {
+          acc.push(curr);
+        }
+
+        return acc;
+      }, []);
+      graphArr.forEach((gr) => {
+        const res = result.find((r) => r.node === gr.name)
+        if (res) {
+          gr.value = res.pow
+          gr.name = gr.name + " | " + res.pow + " kW" 
+        }
+      })
+      // graphArr.forEach(gr=>{
+      //   result.forEach(res=>{
+      //     if(gr.name === res.node){
+      //       gr.value = res.pow
+      //     }
+      //   })
+      
+      // })
+
+      }
   
 
 },
@@ -299,9 +280,9 @@ methods: {
 
 
 created (){
-
+ 
   this.all = this.$store.state.allDevs
-  
+  //this.fetchAsignApi();
   this.getData()
   this.pollData();
 
@@ -313,88 +294,6 @@ beforeDestroy () {
 	   clearInterval(this.polling)
   },
 
-// watch: {
-//    '$store.state.allDevs': {
-//       immediate: true,
-//       handler() {           
-//        let all = this.$store.state.allDevs
-      
-//        let GN1Count = 0
-//        all.forEach(el=>{
-
-//         switch(el.id){
-//           case "sm-0001":
-//             GN1Count += parseFloat(el.pow)
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0002":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0003":
-//             GN1Count += parseFloat(el.pow)
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0004":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0006":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0007":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0008":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0009":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0010":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0011":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0012":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0013":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0015":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0016":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0017":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0018":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0019":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0020":
-//             this.option.series[0].data[0].children[1].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0024":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//           case "sm-0025":
-//             this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-//             break
-//         }
-//        })
-//        //this.option.series[0].data[0].children[0].children.push({'name':el.id,'value':el.pow})
-
-
-       
-        
-//       },
-//     }
-//    },
 
 
 

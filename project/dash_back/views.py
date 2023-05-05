@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer
-from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer,GridAsignSerializer
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast, GridAsign
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, ArisFilter
 from dash_back.tasks import task_exec_all
@@ -26,6 +26,11 @@ from pytz import timezone
 class userIpViewset(viewsets.ModelViewSet):    
     queryset = UserIp.objects.all()
     serializer_class = UserIpSerializer
+    
+    
+class GridViewset(viewsets.ModelViewSet):    
+    queryset = GridAsign.objects.all()
+    serializer_class = GridAsignSerializer
 
 
 class ArisViewset(viewsets.ModelViewSet):
@@ -273,5 +278,20 @@ def exec_all(request):
     if(req_data == 'all'):
         task_exec_all.delay()
 
+    return Response({"Success": "ok"})
 
+@api_view(['POST',])
+def asign_node(request):
+    node_data = request.data
+    dev_id = node_data["dev"]
+    node = node_data["node"]
+    dev = GridAsign.objects.filter(dev=dev_id)
+    if dev:
+        for d in dev:
+            d.grid_name = node
+            d.save()
+    else:
+        GridAsign.objects.create(dev=dev_id,grid_name=node)
+   
+    #print(node_data)   
     return Response({"Success": "ok"})

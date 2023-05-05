@@ -10,6 +10,7 @@ from django.conf import settings
 import os
 import paho.mqtt.publish as publish
 import time
+from django.core import management
 
 
 
@@ -325,7 +326,8 @@ def mqttErr(error_lst):
     Post.objects.bulk_create(post_list_init)
 
 
-    
+def manage_comm():
+    management.call_command('crawl')    
         
        
     # data_out = json.loads(msg.decode())
