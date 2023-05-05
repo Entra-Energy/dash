@@ -76,10 +76,10 @@ def task_mqtt_error(error_list):
     
     #logger.info("MQTT ERROR")
 
-@shared_task()
-def task_update_db():
-    update_db_coeff()
-    logger.info("COEFF")
+# @shared_task()
+# def task_update_db():
+#     update_db_coeff()
+#     logger.info("COEFF")
 
 @shared_task()
 def task_command_run():
