@@ -12,10 +12,10 @@ class Command(BaseCommand):
         #settings = get_project_settings()
         file = 'items.json'  
         base = settings.BASE_DIR
-        path = os.path.join(base, file)
-        if path:  
-            os.remove(path)
-        #print(base)        
+        # path = os.path.join(base, file)
+        # if path:  
+        #     os.remove(path)
+        print(base)        
         process = CrawlerProcess(settings={
                                 "FEEDS": {
                                 "items.json": {"format": "json"},
