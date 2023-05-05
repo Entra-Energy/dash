@@ -455,6 +455,7 @@ export default {
                   
               }
               else {
+                this.option.series[1].data[0]
                   this.option.xAxis.axisLabel.formatter = {
                     month:'{MMM}',
                     day: '{d}',

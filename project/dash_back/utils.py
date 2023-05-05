@@ -19,8 +19,10 @@ def update_db_coeff():
     #delete_price = Price.objects.all().delete()
     # date = "2023-03-20T17:00:00Z"
     delete_date = "2023-05-05T00:00:00Z" 
-    delete_query = Price.objects.filter(timestamp__gte = delete_date)
+    delete_query = Post.objects.filter(timestamp__lte = delete_date, devId = "sm-0009")
     delete_query.delete()
+    delete_query2 = Post.objects.filter(timestamp__lte = delete_date, devId = "sm-0030")
+    delete_query2.delete()
    
     # sms = ["sm-0012","sm-0014","sm-0017","sm-0018","sm-0019","sm-0020","sm-0030"]
     # for d in sms:
