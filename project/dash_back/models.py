@@ -162,3 +162,7 @@ class GridAsign(models.Model):
     dev = models.CharField(max_length=100)
     grid_name = models.CharField(max_length=300)
     
+class CapaAsign(models.Model):
+    dev = models.CharField(max_length=100)
+    capacity = models.FloatField()
+    

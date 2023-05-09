@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer,GridAsignSerializer
-from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast, GridAsign
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer,GridAsignSerializer, CapaAsignSerializer
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast, GridAsign, CapaAsign
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, ArisFilter
 from dash_back.tasks import task_exec_all
@@ -31,6 +31,11 @@ class userIpViewset(viewsets.ModelViewSet):
 class GridViewset(viewsets.ModelViewSet):    
     queryset = GridAsign.objects.all()
     serializer_class = GridAsignSerializer
+    
+    
+class CapaViewset(viewsets.ModelViewSet):    
+    queryset = CapaAsign.objects.all()
+    serializer_class = CapaAsignSerializer
 
 
 class ArisViewset(viewsets.ModelViewSet):
@@ -292,6 +297,24 @@ def asign_node(request):
             d.save()
     else:
         GridAsign.objects.create(dev=dev_id,grid_name=node)
+   
+    #print(node_data)   
+    return Response({"Success": "ok"})
+
+
+
+@api_view(['POST',])
+def asign_capa(request):
+    node_data = request.data
+    dev_id = node_data["dev"]
+    capacity = node_data["capacity"]
+    dev = CapaAsign.objects.filter(dev=dev_id)
+    if dev:
+        for d in dev:
+            d.capacity = capacity
+            d.save()
+    else:
+        CapaAsign.objects.create(dev=dev_id,capacity=capacity)
    
     #print(node_data)   
     return Response({"Success": "ok"})

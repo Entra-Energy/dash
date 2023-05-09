@@ -41,7 +41,26 @@
          <td>{{ dev.customer }}</td>
          <td>{{ dev.lat+"/"+dev.long }}</td>
          <td>{{ dev.type }}</td>
-         <td>{{ 22 }}</td>  
+         <td class="capacity">
+            <div class="form-inline pull-left">
+             <div class="capa">
+              <!-- <label for="power">Power /kW/</label> -->
+               <input type="text" class="form-control d-inline-block capacity-asign" placeholder="capacity" style="width: auto;" v-model="capacityAsign[dev.id]" >
+             </div>
+             <div class = "submitCapa">
+               <button type="submit" class="btn btn-warning sbmt-button" @click="submitCapacity(dev.id)">Submit</button>
+             </div>
+             </div> 
+             <div class="capa-log">
+              <ul>
+               <li v-for="log in capaLog" :key="dev.id">
+                 <span v-if="log.dev === dev.id">{{log.capacity}}</span>
+
+               </li>
+             </ul> 
+            </div>
+
+         </td>   
          <td class="node">
             <div class="form-inline">
              <div class="asign">
@@ -76,6 +95,8 @@ export default {
       newEntries: {},
       singleCorrection:{},
       nodeAsign:{},
+      capacityAsign:{},
+      capaLog:[],
       
       checked: {},
       allSelected: true,
@@ -88,6 +109,37 @@ export default {
   },
 
   methods: { 
+
+    capacityLog(){
+
+      axios
+          .get("http://127.0.0.1:8000/api/capa_asign/")
+          .then(response => response.data.results.forEach(el=>{         
+            let dev = el.dev
+            let capacity = el.capacity
+            this.capaLog.push(
+              {"dev":dev,"capacity":capacity}
+            )    
+          }))
+          .catch(error=>{
+            console.log(error)
+          })
+
+    },
+
+    submitCapacity(dev){
+      axios.post('http://127.0.0.1:8000/api/capa/', {
+        "dev" : dev,
+        "capacity": this.capacityAsign[dev]
+      }).then(response =>{
+        console.log(response.data)
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+      }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+      })
+      this.capacityAsign = {}
+    }, 
 
 
     submitNode(dev){      
@@ -130,7 +182,7 @@ export default {
   },
 
   created (){
-  
+    this.capacityLog()
     this.all = this.$store.state.allDevs
     let ids = this.$store.state.allIds
     ids.forEach(el=>{
@@ -233,9 +285,29 @@ td.check-dev {
     max-height: 31px;
     font-size: 13px;
 }
+.capacity-asign {
+    max-width: 50%;
+    max-height: 31px;
+    font-size: 13px;
+}
 .sbmt-button{
     padding: 5px 7px;
     font-size: 13px;
     color: #3c3a3a;
+}
+.capa{
+  max-width: 50%;
+  margin-left: -20px;
+}
+.capa-log ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pull-left{
+  float:left
+}
+.capa-log {
+    float: left;
 }
 </style>
