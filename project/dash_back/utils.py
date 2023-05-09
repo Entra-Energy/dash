@@ -11,6 +11,7 @@ import os
 import paho.mqtt.publish as publish
 import time
 from django.core import management
+import csv
 
 
 
@@ -97,16 +98,16 @@ def post_forecast():
 
 
 
-def price_to_db():
-    price_path = os.path.join(settings.BASE_DIR, 'ibex.json')
-    #print(price_path)
-    with open(price_path, 'r') as f:
-        my_json_obj = json.load(f)
-    for data in my_json_obj:
-        time = convert(data["time"])
-        price = float(data["price"])
-        #print(price)
-        Price.objects.get_or_create(timestamp=time, value = price)
+# def price_to_db():
+#     price_path = os.path.join(settings.BASE_DIR, 'ibex.json')
+#     #print(price_path)
+#     with open(price_path, 'r') as f:
+#         my_json_obj = json.load(f)
+#     for data in my_json_obj:
+#         time = convert(data["time"])
+#         price = float(data["price"])
+#         #print(price)
+#         Price.objects.get_or_create(timestamp=time, value = price)
 
 def scheduled_flexi():        
 
@@ -330,8 +331,18 @@ def mqttErr(error_lst):
     Post.objects.bulk_create(post_list_init)
 
 
-def manage_comm():
-    management.call_command('crawl')    
+# def manage_comm():
+#     management.call_command('crawl')    
+    
+    
+    
+# def get_sm_data():
+#     data = Post.objects.filter(devId='sm-0002')
+#     fields = ['devId', 'created_date','value']
+#     with open('my_file.csv', 'w') as file:
+#         write = csv.writer(file)
+#         write.writerow(fields)
+#         write.writerows(data)
         
        
     # data_out = json.loads(msg.decode())
