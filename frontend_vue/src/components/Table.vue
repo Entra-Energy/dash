@@ -113,7 +113,7 @@ export default {
     capacityLog(){
 
       axios
-          .get("http://127.0.0.1:8000/api/capa_asign/")
+          .get("http://64.225.100.195:8000/api/capa_asign/")
           .then(response => response.data.results.forEach(el=>{         
             let dev = el.dev
             let capacity = el.capacity
@@ -128,7 +128,7 @@ export default {
     },
 
     submitCapacity(dev){
-      axios.post('http://127.0.0.1:8000/api/capa/', {
+      axios.post('http://64.225.100.195:8000/api/capa/', {
         "dev" : dev,
         "capacity": this.capacityAsign[dev]
       }).then(response =>{
