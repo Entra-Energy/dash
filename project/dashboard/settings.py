@@ -21,14 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = '21221212'
+SECRET_KEY = os.environ.get("SECRET_KEY")
+#SECRET_KEY = '21221212'
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = int(os.environ.get("DEBUG", default=0))
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
-#ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+#ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL=True
 
@@ -78,8 +77,8 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 400,
 }
 
 WSGI_APPLICATION = 'dashboard.wsgi.application'
@@ -88,37 +87,63 @@ WSGI_APPLICATION = 'dashboard.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
+
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
+    }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ.get('POSTGRES_NAME'),
-#         'USER': os.environ.get('POSTGRES_USER'),
-#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-#         'HOST': 'db',
-#         'PORT': 5432,
-#     }
-# }
-
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://127.0.0.1:6379/0")
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 
 CELERY_BEAT_SCHEDULE = {
-    
-      'task_manage': {
-        'task': 'dash_back.tasks.task_command_run',
-        'schedule': crontab(hour=10, minute=31),
+      'task_test_it': {
+        'task': 'dash_back.tasks.task_test',
+        'schedule': crontab(hour=11, minute=15),
     },
-   
+    'task_schedule_it': {
+      'task': 'dash_back.tasks.task_schedule',
+      'schedule': crontab(),
+  },
+    'task_hydro_data':{
+        'task':'dash_back.tasks.task_hydro',
+        'schedule': 5.0,
+        #'schedule': crontab()       
+        
+    },
+    'task_pv_data':{
+        'task':'dash_back.tasks.task_pv',
+        'schedule': 1.0,
+        #'schedule': crontab()
+        
+    },
+    'task_set_rtc':{
+        'task':'dash_back.tasks.task_setTime',
+        'schedule': crontab(minute="*/10")
+    },
+    'task_manage': {
+        'task': 'dash_back.tasks.task_command_run',
+        'schedule': crontab(hour=13, minute=22),
+        },
+    'task_update_coeff':{
+        'task':'dash_back.tasks.task_update_db',
+        'schedule': crontab(hour=13, minute=20)
+    }
 }
-
 CELERY_TIMEZONE = 'Europe/Sofia'
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
