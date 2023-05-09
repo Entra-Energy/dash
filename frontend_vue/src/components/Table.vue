@@ -45,7 +45,7 @@
             <div class="form-inline pull-left">
              <div class="capa">
               <!-- <label for="power">Power /kW/</label> -->
-               <input type="text" class="form-control d-inline-block capacity-asign" placeholder="cap" style="width: auto;" v-model="capacityAsign[dev.id]" >
+               <input type="text" class="form-control d-inline-block capacity-asign" placeholder="#" style="width: auto;" v-model="capacityAsign[dev.id]" >
              </div>
              <div class = "submitCapa">
                <button type="submit" class="btn btn-warning sbmt-button" @click="submitCapacity(dev.id)">Submit</button>
