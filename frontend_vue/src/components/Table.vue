@@ -114,7 +114,7 @@ export default {
 
       axios
           .get("http://64.225.100.195:8000/api/capa_asign/")
-          .then(response => response.data.results.forEach(el=>{         
+          .then(response => response.data.forEach(el=>{         
             let dev = el.dev
             let capacity = el.capacity
             this.capaLog.push(
