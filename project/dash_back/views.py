@@ -287,16 +287,19 @@ def exec_all(request):
 
 @api_view(['POST',])
 def asign_node(request):
-    node_data = request.data
+    node_data = request.data    
     dev_id = node_data["dev"]
-    node = node_data["node"]
-    dev = GridAsign.objects.filter(dev=dev_id)
-    if dev:
-        for d in dev:
-            d.grid_name = node
-            d.save()
+    node = node_data.get("node", None)
+    if node == None:        
+        GridAsign.objects.filter(dev=dev_id).delete()
     else:
-        GridAsign.objects.create(dev=dev_id,grid_name=node)
+        dev = GridAsign.objects.filter(dev=dev_id)
+        if dev:
+            for d in dev:
+                d.grid_name = node
+                d.save()
+        else:
+            GridAsign.objects.create(dev=dev_id,grid_name=node)
    
     #print(node_data)   
     return Response({"Success": "ok"})

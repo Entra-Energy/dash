@@ -62,7 +62,7 @@
 
          </td>   
          <td class="node">
-            <div class="form-inline">
+            <div class="form-inline pull-left">
              <div class="asign">
               <!-- <label for="power">Power /kW/</label> -->
                <input type="text" class="form-control d-inline-block node-asign" placeholder="#" style="width: auto;" v-model="nodeAsign[dev.id]" >
@@ -70,7 +70,15 @@
              <div class = "submitNode">
                <button type="submit" class="btn btn-warning sbmt-button" @click="submitNode(dev.id)">Asign</button>
              </div>
-             </div>  
+             </div>
+             <div class="node-log">
+              <ul>
+               <li v-for="node in nodeLog" :key="dev.id">
+                 <span v-if="node.dev === dev.id">{{node.grid}}</span>
+
+               </li>
+             </ul> 
+            </div>  
 
          </td>      
       </tr>
@@ -97,6 +105,7 @@ export default {
       nodeAsign:{},
       capacityAsign:{},
       capaLog:[],
+      nodeLog:[],
       
       checked: {},
       allSelected: true,
@@ -109,6 +118,22 @@ export default {
   },
 
   methods: { 
+
+    gridLog(){
+      axios
+          .get("http://64.225.100.195:8000/api/grid_asign/")
+          .then(response => response.data.forEach(el=>{         
+            let dev = el.dev
+            let grid = el.grid_name
+            this.nodeLog.push(
+              {"dev":dev,"grid":grid}
+            )    
+          }))
+          .catch(error=>{
+            console.log(error)
+          })
+
+  },
 
     capacityLog(){
 
@@ -144,11 +169,12 @@ export default {
 
     submitNode(dev){      
       
-      axios.post('http://64.225.100.195:8000/api/asign/', {
+      axios.post('http://64.225.100.195:8000/api/asign/',     
+      {
         "dev" : dev,
         "node": this.nodeAsign[dev]
       }).then(response =>{
-        console.log(response.data)
+       
         this.success = 'Data saved successfully';
         this.response = JSON.stringify(response, null, 2)
       }).catch(error => {
@@ -183,6 +209,7 @@ export default {
 
   created (){
     this.capacityLog()
+    this.gridLog()
     this.all = this.$store.state.allDevs
     let ids = this.$store.state.allIds
     ids.forEach(el=>{
@@ -304,10 +331,18 @@ td.check-dev {
   margin: 0;
   padding: 0;
 }
+.node-log ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .pull-left{
   float:left
 }
 .capa-log {
+    float: left;
+}
+.node-log {
     float: left;
 }
 </style>

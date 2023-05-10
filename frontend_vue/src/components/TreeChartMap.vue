@@ -217,14 +217,16 @@ methods: {
         let helperArr = []
         this.apiAsignAll.forEach(el=>{
           this.all.forEach(elm=>{
-            if(el.dev === elm.id){
-              let test = {
-                "id":el.dev,
-                "node":el.grid_name,
-                "pow":elm.pow
+            if(elm.online !== 'offline'){
+              if(el.dev === elm.id){
+                let test = {
+                  "id":el.dev,
+                  "node":el.grid_name,
+                  "pow":elm.pow
+                }
+                helperArr.push(test)              
               }
-              helperArr.push(test)              
-            }
+          }
           })
         
         })
