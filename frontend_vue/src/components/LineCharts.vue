@@ -819,4 +819,8 @@ export default {
     -webkit-box-shadow: 0 1px 20px 0 rgb(0 0 0 / 10%);
     box-shadow: 0 1px 20px 0 rgb(0 0 0 / 10%);
 }
+
+.tooltip-set {    
+    text-align: left;
+}
 </style>

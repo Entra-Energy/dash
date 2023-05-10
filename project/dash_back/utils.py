@@ -331,8 +331,8 @@ def mqttErr(error_lst):
     Post.objects.bulk_create(post_list_init)
 
 
-# def manage_comm():
-#     management.call_command('crawl')    
+def manage_comm():
+    management.call_command('crawl')    
     
     
     
