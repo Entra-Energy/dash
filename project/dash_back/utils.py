@@ -17,10 +17,12 @@ import csv
 
 def update_db_coeff():
     #pass
-    #delete_price = Price.objects.all().delete()
+    date = "2023-05-11T00:00:00Z"
+    delete_price = Price.objects.filter(timestamp__gte=date)
+    delete_price.delete()
     # date = "2023-05-09T00:00:00Z"
     delete_date = "2023-02-05T00:00:00Z" 
-    delete_query = Post.objects.filter(timestamp__lte = delete_date)
+    delete_query = Post.objects.filter(timestamp__lte=delete_date)
     delete_query.delete()
     # delete_query2 = Post.objects.filter(timestamp__lte = delete_date, devId = "sm-0030")
     # delete_query2.delete()
