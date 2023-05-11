@@ -195,7 +195,7 @@ methods: {
           .get("http://64.225.100.195:8000/api/grid_asign/")
           .then(response =>{                  
             this.apiAsignAll = response.data
-            console.log(this.apiAsignAll)
+            //console.log(this.apiAsignAll)
             const distinctValues = [...new Set(response.data.map(item => item.grid_name))];            
             this.apiResponse = distinctValues; 
           })
@@ -230,7 +230,7 @@ methods: {
           })
         
         })
-        console.log(helperArr)
+      
        
         let graphArr = this.option.series[0].data[0].children        
 
@@ -252,13 +252,15 @@ methods: {
         let item = acc.find(item => item.node === curr.node);
 
         if (item) {
-          item.pow += curr.pow;
+          console.log(item) 
+          item.pow += curr.pow         
         } else {
           acc.push(curr);
         }
 
         return acc;
       }, []);
+      
       graphArr.forEach((gr) => {
         const res = result.find((r) => r.node === gr.name)
         if (res) {
