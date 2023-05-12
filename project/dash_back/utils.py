@@ -334,7 +334,14 @@ def mqttErr(error_lst):
 
 
 def manage_comm():
-    management.call_command('crawl')    
+    now = datetime.now(timezone('Europe/Sofia'))
+    now = str(now)
+    currDate = now.split(" ")[0]     
+    exist = Price.objects.filter(timestamp__gte=currDate)
+    if exist.first():
+        pass
+    else:
+        management.call_command('crawl')    
     
     
     
