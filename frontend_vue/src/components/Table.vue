@@ -42,7 +42,8 @@
          <td>{{ dev.lat+"/"+dev.long }}</td>
          <td>{{ dev.type }}</td>
          <td class="capacity">
-            <div class="form-inline pull-left">
+          <div class="row">
+            <div class="form-inline pull-left col-md-8">
              <div class="capa">
               <!-- <label for="power">Power /kW/</label> -->
                <input type="text" class="form-control d-inline-block capacity-asign" placeholder="#" style="width: auto;" v-model="capacityAsign[dev.id]" >
@@ -51,7 +52,7 @@
                <button type="submit" class="btn btn-warning sbmt-button" @click="submitCapacity(dev.id)">Submit</button>
              </div>
              </div> 
-             <div class="capa-log">
+             <div class="capa-log col-md-4">
               <ul>
                <li v-for="log in capaLog" :key="dev.id">
                  <span v-if="log.dev === dev.id">{{log.capacity}}</span>
@@ -59,10 +60,12 @@
                </li>
              </ul> 
             </div>
+          </div>
 
          </td>   
          <td class="node">
-            <div class="form-inline pull-left">
+          <div class="row">
+            <div class="form-inline pull-left col-md-8">
              <div class="asign">
               <!-- <label for="power">Power /kW/</label> -->
                <input type="text" class="form-control d-inline-block node-asign" placeholder="#" style="width: auto;" v-model="nodeAsign[dev.id]" >
@@ -71,14 +74,15 @@
                <button type="submit" class="btn btn-warning sbmt-button" @click="submitNode(dev.id)">Asign</button>
              </div>
              </div>
-             <div class="node-log">
+             <div class="node-log col-md-4">
               <ul>
                <li v-for="node in nodeLog" :key="dev.id">
                  <span v-if="node.dev === dev.id">{{node.grid}}</span>
 
                </li>
              </ul> 
-            </div>  
+            </div>
+          </div>  
 
          </td>      
       </tr>
@@ -336,12 +340,12 @@ td.check-dev {
   margin: 0;
   padding: 0;
 }
-.pull-left{
+/* .pull-left{
   float:left
-}
-.capa-log {
+} */
+/* .capa-log {
     float: left;
-}
+} */
 .node-log {
     float: left;
 }

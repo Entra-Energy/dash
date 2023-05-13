@@ -344,7 +344,35 @@ def manage_comm():
         management.call_command('crawl')    
     
     
-    
+def price_csv():
+    Price.objects.all().delete()
+    test = os.path.join(settings.BASE_DIR, 'day-ahead.csv')    
+    today = date.today()
+    with open(test, 'r') as file:
+        csvreader = csv.reader(file)
+        for row in csvreader:
+            date_p = row[0].split(" - ")[0]
+            date_part = date_p.split(" ")[0]
+            hour_part = "T"+date_p.split(" ")[1]+":00Z"
+            date_convert = date_part.split(".")
+            
+            if len(date_convert) == 3:
+                compare_date = date_convert[2]+"-"+date_convert[1]+"-"+date_convert[0] 
+                past = datetime.strptime(compare_date, "%Y-%m-%d")
+            
+                if past.date() < today:    
+                    date_fin = compare_date+hour_part       
+                    
+                    price = row[1]
+                    if price:
+                        bgn_price = float(row[1])/2
+                    
+                        obj = {
+                            "date":date_fin,
+                            "price":bgn_price
+                        }
+                        #print(obj)
+                        Price.objects.create(timestamp=date_fin, value=bgn_price)    
 # def get_sm_data():
 #     data = Post.objects.filter(devId='sm-0002')
 #     fields = ['devId', 'created_date','value']

@@ -139,6 +139,8 @@ methods: {
         pollData(){
           this.polling = setInterval(() => {
             this.option.series[0].data[0].children = []
+            this.all=[]
+            this.all = this.$store.state.allDevs
             this.getData();
         }, 30000)
       },
@@ -215,6 +217,8 @@ methods: {
         this.option.series[0].data[0].children.push(obj)
       })
         let helperArr = []
+        //console.log("apiAsignAll",this.apiAsignAll)
+        //console.log("thisALLL", this.all)
         this.apiAsignAll.forEach(el=>{
           this.all.forEach(elm=>{
             if(elm.online !== 'offline'){
@@ -222,20 +226,31 @@ methods: {
                 let test = {
                   "id":el.dev,
                   "node":el.grid_name,
-                  "pow":elm.pow
+                  "pow":parseFloat(elm.pow)
                 }
                 helperArr.push(test)              
               }
           }
           })
         
-        })
-      
-       
+        })    
+        
         let graphArr = this.option.series[0].data[0].children        
-
+       // console.log("helperArr", helperArr)
+        let result = [];
         helperArr.forEach(em=>{
+          let node = em.node;
+          let pow = em.pow;
+          let existingNode = result.find(element => element.node === node);
+          if (existingNode) {
+            // If the 'node' already exists, add the 'pow' to its sum
+            existingNode.pow += pow;
+          } else {
+            // If the 'node' doesn't exist, create a new object and add it to the result array
+            result.push({ node, pow });
+          }
           graphArr.forEach(it=>{
+            
             if(it.name === em.node )
             {
               
@@ -248,26 +263,59 @@ methods: {
             }
           })        
         })
-        let result = helperArr.reduce((acc, curr) => {
-        let item = acc.find(item => item.node === curr.node);
+        //  console.log(graphArr)
+        //  console.log("result",result)
+         graphArr.forEach(gr=>{
+          let node = result.find(element => element.node === gr.name);
+          if(node){
+            gr.value = node.pow.toFixed(2)
+            gr.name = gr.name + " | " + gr.value + " kW" 
+            // console.log(node.pow)
+            //console.log(gr.value)
+          }
+         })
+     
+        // let result = [];
 
-        if (item) {
-          console.log(item) 
-          item.pow += curr.pow         
-        } else {
-          acc.push(curr);
-        }
+        // arr.forEach(item => {
+        //   let node = item.node;
+        //   let pow = item.pow;
 
-        return acc;
-      }, []);
-      
-      graphArr.forEach((gr) => {
-        const res = result.find((r) => r.node === gr.name)
-        if (res) {
-          gr.value = res.pow
-          gr.name = gr.name + " | " + res.pow + " kW" 
-        }
-      })
+        //   // Check if the 'node' already exists in the result array
+        //   let existingNode = result.find(element => element.node === node);
+
+        //   if (existingNode) {
+        //     // If the 'node' already exists, add the 'pow' to its sum
+        //     existingNode.pow += pow;
+        //   } else {
+        //     // If the 'node' doesn't exist, create a new object and add it to the result array
+        //     result.push({ node, pow });
+        //   }
+        // });
+        // console.log(result)
+     
+      //   let result = helperArr.reduce((acc, curr) => {
+      //   let item = acc.find(item => item.node === curr.node);
+
+      //   if (item) {
+      //     console.log(item)
+          
+      //     // console.log(item.pow)  
+      //     // item.pow += item.pow         
+      //   } else {
+      //     acc.push(curr);
+      //   }
+
+      //   return acc;
+      // }, []);
+ 
+      // graphArr.forEach((gr) => {
+      //   const res = result.find((r) => r.node === gr.name)
+      //   if (res) {
+      //     gr.value = res.pow
+      //     gr.name = gr.name + " | " + res.pow + " kW" 
+      //   }
+      // })
       // graphArr.forEach(gr=>{
       //   result.forEach(res=>{
       //     if(gr.name === res.node){
