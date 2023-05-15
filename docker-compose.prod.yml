@@ -30,38 +30,38 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  redis:
-    image: redis:6-alpine
+  # redis:
+  #   image: redis:6-alpine
 
-  celery_worker:
-    build:
-      context: ./project
-    command: celery -A dashboard worker -l info
-    volumes:
-      - .:/project
-    environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - DEBUG=1
-      - SECRET_KEY=foo
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
-    depends_on:
-      - redis
-      - web
-      - db
+  # celery_worker:
+  #   build:
+  #     context: ./project
+  #   command: celery -A dashboard worker -l info
+  #   volumes:
+  #     - .:/project
+  #   environment:
+  #     - POSTGRES_NAME=postgres
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - DEBUG=1
+  #     - SECRET_KEY=foo
+  #     - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+  #   depends_on:
+  #     - redis
+  #     - web
+  #     - db
 
 
-  celery_beat:
-    build:
-       context: ./project
-    command: celery -A dashboard beat -l info
-    volumes:
-      - ./peoject/:/app/
-    env_file:
-      - ./.env.prod
-    depends_on:
-      - redis
+  # celery_beat:
+  #   build:
+  #      context: ./project
+  #   command: celery -A dashboard beat -l info
+  #   volumes:
+  #     - ./peoject/:/app/
+  #   env_file:
+  #     - ./.env.prod
+  #   depends_on:
+  #     - redis
 
 
   frontend:

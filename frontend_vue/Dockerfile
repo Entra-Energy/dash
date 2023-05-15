@@ -19,8 +19,8 @@ COPY . ./
 RUN npm run build
 
 # Build step 2(Deploying build on NGINX)
-FROM nginx:1.13
-#FROM nginx:alpine
+#FROM nginx:1.13
+FROM nginx:alpine
 
 RUN apk update \
   && apk add --no-cache wget \
