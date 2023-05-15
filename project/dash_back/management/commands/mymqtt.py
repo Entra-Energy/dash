@@ -64,72 +64,73 @@ class Command(BaseCommand):
                 if is_valid:                      
                     data_out=json.loads(msg.payload.decode())                
                     timestamp = int(data_out['payload']['timestamp'])
-                    timestamp = datetime.fromtimestamp(timestamp).isoformat()
-                    value = float(data_out['payload']['power'])
-                    readyness = data_out['payload'].get('gridReady', None)
-                    if readyness:
-                        ready_grid = readyness
-                    else:
-                        ready_grid = 0
-                
-                    costHour = data_out['payload'].get('costH', None)
-                    if costHour:
-                        costH = costHour
-                    else:
-                        costH = 0
-                    costDay = data_out['payload'].get('costD', None)
-                    if costDay:
-                        costD = costDay
-                    else:
-                        costD = 0
-                    costMonth = data_out['payload'].get('costM', None)
-                    if costMonth:
-                        costM = costMonth
-                    else:
-                        costM = 0                    
+                    if timestamp > 1672546687:
+                        timestamp = datetime.fromtimestamp(timestamp).isoformat()
+                        value = float(data_out['payload']['power'])
+                        readyness = data_out['payload'].get('gridReady', None)
+                        if readyness:
+                            ready_grid = readyness
+                        else:
+                            ready_grid = 0
                     
-                    budgetHour = data_out['payload'].get('budgetH', None)
-                    if budgetHour:
-                        budgetH = budgetHour
-                    else:
-                        budgetH = 0              
-                    budgetDay = data_out['payload'].get('budgetD', None)                    
-                    if budgetDay:
-                        budgetD = budgetDay
-                    else:
-                        budgetD = 0   
-                    budgetMonth= data_out['payload'].get('budgetM', None)                    
-                    if budgetMonth:
-                        budgetM = budgetMonth
-                    else:
-                        budgetM = 0     
+                        costHour = data_out['payload'].get('costH', None)
+                        if costHour:
+                            costH = costHour
+                        else:
+                            costH = 0
+                        costDay = data_out['payload'].get('costD', None)
+                        if costDay:
+                            costD = costDay
+                        else:
+                            costD = 0
+                        costMonth = data_out['payload'].get('costM', None)
+                        if costMonth:
+                            costM = costMonth
+                        else:
+                            costM = 0                    
                         
-                    providing_amount = data_out['payload'].get('providingAmount', None)
-                    if providing_amount:
-                        prov_amount =  providing_amount
+                        budgetHour = data_out['payload'].get('budgetH', None)
+                        if budgetHour:
+                            budgetH = budgetHour
+                        else:
+                            budgetH = 0              
+                        budgetDay = data_out['payload'].get('budgetD', None)                    
+                        if budgetDay:
+                            budgetD = budgetDay
+                        else:
+                            budgetD = 0   
+                        budgetMonth= data_out['payload'].get('budgetM', None)                    
+                        if budgetMonth:
+                            budgetM = budgetMonth
+                        else:
+                            budgetM = 0     
+                            
+                        providing_amount = data_out['payload'].get('providingAmount', None)
+                        if providing_amount:
+                            prov_amount =  providing_amount
+                        else:
+                            prov_amount = 0
+                        actual_correction = data_out['payload'].get('actualCorr', None)
+                        if actual_correction:
+                            actual_corr = actual_correction
+                        else:
+                            actual_corr = 0
+                        actual_providing = data_out['payload'].get('actualProvide', None)
+                        if actual_providing:
+                            actual_prov = actual_providing
+                        else:
+                            actual_prov = 0    
+                            
+                    for d in sm_coeff:
+                        coeff = d.get(dev_id,None)
+                        if coeff:
+                            value = value*coeff
+                            value = round(value,2)
+                    #print(dev_id)   
+                    if dev_id == 'sm-0000':
+                        pass
                     else:
-                        prov_amount = 0
-                    actual_correction = data_out['payload'].get('actualCorr', None)
-                    if actual_correction:
-                        actual_corr = actual_correction
-                    else:
-                        actual_corr = 0
-                    actual_providing = data_out['payload'].get('actualProvide', None)
-                    if actual_providing:
-                        actual_prov = actual_providing
-                    else:
-                        actual_prov = 0    
-                        
-                for d in sm_coeff:
-                    coeff = d.get(dev_id,None)
-                    if coeff:
-                        value = value*coeff
-                        value = round(value,2)
-                #print(dev_id)   
-                if dev_id == 'sm-0000':
-                    pass
-                else:
-                    Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=ready_grid, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
+                        Post.objects.get_or_create(devId=dev_id,value=value,created_date=timestamp,grid=ready_grid, costH = costH, costD = costD, costM = costM, budgetH = budgetH,budgetD = budgetD, budgetM = budgetM, providingAmount= prov_amount,actualCorr=actual_corr,actualProviding=actual_prov )
 
             
             if myList[0] == 'err':

@@ -152,10 +152,8 @@ methods: {
           "http://64.225.100.195:8000/api/online/"
         )
         .then(response => response.data.online.forEach(el=>{
-            //this.posts.push(el)
-            //console.log(el.dev)
-            let found = this.all.find(element => element.id === el.dev)
 
+            let found = this.all.find(element => element.id === el.dev)
 
             if (found)
             {
@@ -192,142 +190,77 @@ methods: {
         })
 
     },
-    fetchAsignApi(){
-      axios
-          .get("http://64.225.100.195:8000/api/grid_asign/")
-          .then(response =>{                  
-            this.apiAsignAll = response.data
-            //console.log(this.apiAsignAll)
-            const distinctValues = [...new Set(response.data.map(item => item.grid_name))];            
-            this.apiResponse = distinctValues; 
-          })
-          .catch(error=>{
-            console.log(error)
-          })
-          .finally(()=>{
-            this.treeMap()
-          })      
-    },
-
-    treeMap(){ 
-      this.apiResponse.forEach(el=>{
-        let obj = {
-          'name':el,'value':0,"children":[]
-        }
-        this.option.series[0].data[0].children.push(obj)
-      })
-        let helperArr = []
-        //console.log("apiAsignAll",this.apiAsignAll)
-        //console.log("thisALLL", this.all)
-        this.apiAsignAll.forEach(el=>{
-          this.all.forEach(elm=>{
-            if(elm.online !== 'offline'){
-              if(el.dev === elm.id){
-                let test = {
-                  "id":el.dev,
-                  "node":el.grid_name,
-                  "pow":parseFloat(elm.pow)
-                }
-                helperArr.push(test)              
-              }
-          }
-          })
-        
-        })    
-        
-        let graphArr = this.option.series[0].data[0].children        
-       // console.log("helperArr", helperArr)
-        let result = [];
-        helperArr.forEach(em=>{
-          let node = em.node;
-          let pow = em.pow;
-          let existingNode = result.find(element => element.node === node);
-          if (existingNode) {
-            // If the 'node' already exists, add the 'pow' to its sum
-            existingNode.pow += pow;
-          } else {
-            // If the 'node' doesn't exist, create a new object and add it to the result array
-            result.push({ node, pow });
-          }
-          graphArr.forEach(it=>{
-            
-            if(it.name === em.node )
-            {
-              
-              let childOb = {
-                "name":em.id+" | "+ em.pow +" kW",
-                "value":em.pow
-              }
-              it.children.push(childOb)  
-                              
-            }
-          })        
-        })
-        //  console.log(graphArr)
-        //  console.log("result",result)
-         graphArr.forEach(gr=>{
-          let node = result.find(element => element.node === gr.name);
-          if(node){
-            gr.value = node.pow.toFixed(2)
-            gr.name = gr.name + " | " + gr.value + " kW" 
-            // console.log(node.pow)
-            //console.log(gr.value)
-          }
-         })
-     
-        // let result = [];
-
-        // arr.forEach(item => {
-        //   let node = item.node;
-        //   let pow = item.pow;
-
-        //   // Check if the 'node' already exists in the result array
-        //   let existingNode = result.find(element => element.node === node);
-
-        //   if (existingNode) {
-        //     // If the 'node' already exists, add the 'pow' to its sum
-        //     existingNode.pow += pow;
-        //   } else {
-        //     // If the 'node' doesn't exist, create a new object and add it to the result array
-        //     result.push({ node, pow });
-        //   }
-        // });
-        // console.log(result)
-     
-      //   let result = helperArr.reduce((acc, curr) => {
-      //   let item = acc.find(item => item.node === curr.node);
-
-      //   if (item) {
-      //     console.log(item)
-          
-      //     // console.log(item.pow)  
-      //     // item.pow += item.pow         
-      //   } else {
-      //     acc.push(curr);
-      //   }
-
-      //   return acc;
-      // }, []);
- 
-      // graphArr.forEach((gr) => {
-      //   const res = result.find((r) => r.node === gr.name)
-      //   if (res) {
-      //     gr.value = res.pow
-      //     gr.name = gr.name + " | " + res.pow + " kW" 
-      //   }
-      // })
-      // graphArr.forEach(gr=>{
-      //   result.forEach(res=>{
-      //     if(gr.name === res.node){
-      //       gr.value = res.pow
-      //     }
-      //   })
-      
-      // })
-
+    async fetchAsignApi() {
+      try {
+        const response = await axios.get("http://64.225.100.195:8000/api/grid_asign/");
+        this.apiAsignAll = response.data;        
+        const distinctValues = [...new Set(response.data.map(item => item.grid_name))];
+        this.apiResponse = distinctValues;
+      } catch (error) {
+          console.log(error);
+      } finally {
+          this.treeMap();
       }
-  
+    },
+    treeMap() {
+      const graphArr = this.option.series[0].data[0].children;
 
+      this.apiResponse.forEach(el => {
+        const obj = {
+          name: el,
+          value: 0,
+          children: []
+        };
+        graphArr.push(obj);
+      });
+
+      const helperArr = [];
+      this.apiAsignAll.forEach(el => {
+        this.all.forEach(elm => {
+          if (elm.online !== 'offline' && el.dev === elm.id) {
+            let pow = parseFloat(elm.pow);
+            if (el.dev === "sm-0016") {
+              pow = -pow;
+            }
+            const sm_data = {
+              id: el.dev,
+              node: el.grid_name,
+              pow: pow
+            };
+            helperArr.push(sm_data);
+          }
+        });
+      });
+
+      const result = [];
+      helperArr.forEach(em => {
+        const node = em.node;
+        const pow = em.pow;
+        const existingNode = result.find(element => element.node === node);
+        if (existingNode) {
+          existingNode.pow += pow;
+        } else {
+          result.push({ node, pow });
+        }
+        graphArr.forEach(it => {
+          if (it.name === em.node) {
+            const childOb = {
+              name: em.id + " | " + em.pow + " kW",
+              value: em.pow
+            };
+            it.children.push(childOb);
+          }
+        });
+      });
+
+  graphArr.forEach(gr => {
+    const node = result.find(element => element.node === gr.name);
+    if (node) {
+      gr.value = node.pow.toFixed(2);
+      gr.name = gr.name + " | " + gr.value + " kW";
+    }
+  });
+} 
 },
 
 

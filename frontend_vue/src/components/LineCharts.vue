@@ -263,7 +263,7 @@ export default {
 
           if(params.seriesType == 'line'){
             if (params.data){
-              tooltipDisplay = '<div class="tooltip-set">' + '<ul>' + '<li>' + params.seriesName + "&nbsp;&nbsp;" + "</li>" + "<li>" + params.data[0] + "</li>" + "<li>" + "Power: "+ params.data[1] + "</li>" + '</ul>' + '</div>'
+              tooltipDisplay = '<div class="tooltip-set" style="text-align:left; padding:0;margin:0;">' + '<ul style="padding-right:0;padding-left:15px;padding-bottom:0px;margin-bottom:0;">' + '<li>' + params.seriesName + "&nbsp;&nbsp;" + "</li>" + "<li>" + params.data[0] + "</li>" + "<li>" + "Power: "+ params.data[1] + "</li>" + '</ul>' + '</div>'
             }
           }   
 
@@ -820,7 +820,7 @@ export default {
     box-shadow: 0 1px 20px 0 rgb(0 0 0 / 10%);
 }
 
-.tooltip-set {    
+.tooltip-set ul {    
     text-align: left;
 }
 </style>

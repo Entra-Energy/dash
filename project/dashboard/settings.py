@@ -77,8 +77,8 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    # 'PAGE_SIZE': 400,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50,
 }
 
 WSGI_APPLICATION = 'dashboard.wsgi.application'
@@ -141,10 +141,10 @@ CELERY_BEAT_SCHEDULE = {
     #     'task': 'dash_back.tasks.task_price_csv',
     #     'schedule': crontab(hour=9, minute=43),
     # },
-    # 'task_update_coeff':{
-    #     'task':'dash_back.tasks.task_update_db',
-    #     'schedule': crontab(hour=17, minute=53)
-    # },
+    'task_update_coeff':{
+        'task':'dash_back.tasks.task_update_db',
+        'schedule': crontab(hour=12, minute=34)
+    },
     # 'task_csv':{
     #     'task': 'dash_back.tasks.task_sm_csv',
     #     'schedule': crontab(hour=13, minute=22),
