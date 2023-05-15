@@ -11,7 +11,7 @@ RUN npm run build
 
 # Build step 2(Deploying build on NGINX)
 FROM nginx:1.13
-RUN  apt-get update \
+RUN  apt-get -y update \
   && apt-get install -y wget \
   && rm -rf /var/lib/apt/lists/*
 RUN rm -rf /usr/share/nginx/html/*
