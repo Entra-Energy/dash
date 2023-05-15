@@ -21,7 +21,7 @@ RUN npm run build
 # Build step 2(Deploying build on NGINX)
 #FROM nginx:1.13
 FROM nginx:alpine
-RUN  apt-get update
+RUN  apk update
 # RUN  apt-get -y update \
 #   && apt-get install -y wget \
 #   && rm -rf /var/lib/apt/lists/*
