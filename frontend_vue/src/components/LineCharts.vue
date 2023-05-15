@@ -96,7 +96,9 @@ export default {
   data() {
     return {
       dataLoader:true,
-      active: false
+      active: false,
+      currPage:1,
+      items: [],
     }
   },
 
@@ -118,6 +120,8 @@ export default {
   myChart: null,
   zoomUpdater:{},
   checked_update: [],
+  
+  
 
   name: "LineCharts",
   components: {
@@ -321,200 +325,201 @@ export default {
 
     },
 
+
     get_data_helper(url,url2){
       
-        console.log(url)
-        console.log(url2)        
-        let test = this.param
-        const requestOne = axios.get(url);
-       
-        let requestTwo = [] 
-        if (url2)
-        {
-          requestTwo = axios.get(url2); 
-        }
-       
-       
-        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
-          
-          const responseOne = responses[0].data
-          
-          const responseTwo = responses[1]    
-          
-          let resObj = Object.keys(responseTwo)
-          console.log(resObj)
-          if (resObj.length > 0)
-          {
-            if (responseTwo.data.length > 0)
-            {
-              responseTwo.data.results.forEach(elm=>{
-                
-                let found = this.option.series.find(element => element.name === elm.devId)
-                
-                if (found)
-                {
-                  if (test == 'today')
-                  {
-                    found.data.push([elm.created_date,elm.value])
-                  }
-                  else{
-                    found.data.push([elm.created,elm.value])
-                  }
-                  
-                }
-              })
-            }
-          }         
-          responseOne.forEach((itemFirstRes) => {           
-           
-            let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
-            if (found)
-            {
-              // add negative value to the producers              
-              let prodCoeff = 1
-              if(found.name == "sm-0001" || found.name == "sm-0016")
-              {
-                prodCoeff = -1
-              }
-              
-              if (test == 'today')
-              {
-                found.data.push([itemFirstRes.created_date,itemFirstRes.value*prodCoeff])
-              }
-              else
-              {
-                found.data.push([itemFirstRes.created,itemFirstRes.value*prodCoeff])
-              }
-            }
-          });
-   
-          }))     
+      console.log(url)
+      console.log(url2)        
+      let test = this.param
+      const requestOne = axios.get(url);
+     
+      let requestTwo = [] 
+      if (url2)
+      {
+        requestTwo = axios.get(url2); 
+      }
+     
+     
+      axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
         
-      
-            .catch(errors =>  {
-                         
-
-             })
-            .finally(() => {
-              if(test == 'today'){
-                this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
-                //this.option.tooltip.formatter =  toolTipSet
-                //this.tooltip.show = false
-                this.option.xAxis.splitNumber = 24
-                let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
-                let startForZero = this.currDate.split("T")[0]+"T00:00:00.000Z"    
-                //Add zero line
-                this.option.series[0] = {
-                  name: "default",
-                  data: [[startForZero,0],[endStr,0]],   
-                  type: 'line',
-                  itemStyle: {
-                    color: '#fbc808'
-                  },
-                  lineStyle:{
-                    type: 'dotted',
-                    width: 1
-                  },        
-                }                
-                this.dataLoader = false
-                //console.log(this.option.series[0])
-                
-              }
-              else if(test == 'month')
+        const responseOne = responses[0].data
+        
+        const responseTwo = responses[1]    
+        
+        let resObj = Object.keys(responseTwo)
+        console.log(resObj)
+        if (resObj.length > 0)
+        {
+          if (responseTwo.data.length > 0)
+          {
+            responseTwo.data.results.forEach(elm=>{
+              
+              let found = this.option.series.find(element => element.name === elm.devId)
+              
+              if (found)
               {
-                this.option.xAxis.axisLabel.formatter = {
-                  day: '{dayStyle|{d}}',
-                  hour: '{hourStyle|{HH}}'
+                if (test == 'today')
+                {
+                  found.data.push([elm.created_date,elm.value])
                 }
-                this.option.xAxis.axisLabel.rich = {
-                  hourStyle: {
-                    color: '#27293d'
-                  }
+                else{
+                  found.data.push([elm.created,elm.value])
                 }
-                  let monthLenthArr = this.currDate.split("T")[0].split("-")
-                  monthLenthArr[2] = this.monthLenthDays.toString()
-                  let monthEnd = [monthLenthArr.join("-"),0]
-                  let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',0]
-                  //month ZeroLine
-                  this.option.series[0] = {
-                  name: "default",
-                  data: [monthBegin,monthEnd],   
-                  type: 'line',
-                  itemStyle: {
-                    color: '#fbc808'
-                  },
-                  lineStyle:{
-                    type: 'dotted',
-                    width: 1
-                  },        
-                }                
-                  // this.option.series[1].data[0]=monthBegin
-                  // this.option.series[1].data.push(monthEnd)
-                  this.option.xAxis.splitNumber = 30
-                  this.dataLoader = false
-                  
-              }
-              else {
-                this.option.series[1].data[0]
-                  this.option.xAxis.axisLabel.formatter = {
-                    month:'{MMM}',
-                    day: '{d}',
-                  }
-                  let yearBegin = [this.currYear+"-"+"01"+"-"+"01",0]
-                  let yearEnd = [this.currYear+"-"+"12"+"-"+"31",0]
-                  this.option.series[0] = {
-                  name: "default",
-                  data: [yearBegin,yearEnd],   
-                  type: 'line',
-                  itemStyle: {
-                    color: '#fbc808'
-                  },
-                  lineStyle:{
-                    type: 'dotted',
-                    width: 1
-                  },        
-                }  
                 
-                  // this.option.series[1].data[0]=yearBegin
-                  // this.option.series[1].data.push(yearEnd)
-                  this.option.xAxis.splitNumber = 12
-                  this.dataLoader = false
-
-              }        
-
+              }
             })
+          }
+        }         
+        responseOne.forEach((itemFirstRes) => {           
+         
+          let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
+          if (found)
+          {
+            // add negative value to the producers              
+            let prodCoeff = 1
+            if(found.name == "sm-0001" || found.name == "sm-0016")
+            {
+              prodCoeff = -1
+            }
+            
+            if (test == 'today')
+            {
+              found.data.push([itemFirstRes.created_date,itemFirstRes.value*prodCoeff])
+            }
+            else
+            {
+              found.data.push([itemFirstRes.created,itemFirstRes.value*prodCoeff])
+            }
+          }
+        });
+ 
+        }))     
+      
+    
+          .catch(errors =>  {
+                       
 
-      // }
-       // else {
-       //   let monthArrData = this.$store.state.monthData
-       //
-       //   monthArrData.forEach((itemFirstRes) => {
-       //    // console.log(itemFirstRes)
-       //     let found = this.option.series.find(element => element.name === itemFirstRes.devId)
-       //
-       //     if (found)
-       //     {
-       //       found.data.push([itemFirstRes.created_date,itemFirstRes.value])
-       //     }
-       //
-       //   });
-       //   this.option.xAxis.axisLabel.formatter = timeLineSet
-       //   let monthLenthArr = this.currDate.split("T")[0].split("-")
-       //   monthLenthArr[2] = this.monthLenthDays.toString()
-       //   let monthEnd = [monthLenthArr.join("-"),null]
-       //
-       //
-       //   let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
-       //   this.option.series[1].data[0]=monthBegin
-       //   this.option.series[1].data.push(monthEnd)
-       //   this.option.xAxis.splitNumber = 30
-       //
-       // }
+           })
+          .finally(() => {
+            if(test == 'today'){
+              this.option.xAxis.axisLabel.formatter = timeLineSet//'{HH}:{mm}'
+              //this.option.tooltip.formatter =  toolTipSet
+              //this.tooltip.show = false
+              this.option.xAxis.splitNumber = 24
+              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+              let startForZero = this.currDate.split("T")[0]+"T00:00:00.000Z"    
+              //Add zero line
+              this.option.series[0] = {
+                name: "default",
+                data: [[startForZero,0],[endStr,0]],   
+                type: 'line',
+                itemStyle: {
+                  color: '#fbc808'
+                },
+                lineStyle:{
+                  type: 'dotted',
+                  width: 1
+                },        
+              }                
+              this.dataLoader = false
+              //console.log(this.option.series[0])
+              
+            }
+            else if(test == 'month')
+            {
+              this.option.xAxis.axisLabel.formatter = {
+                day: '{dayStyle|{d}}',
+                hour: '{hourStyle|{HH}}'
+              }
+              this.option.xAxis.axisLabel.rich = {
+                hourStyle: {
+                  color: '#27293d'
+                }
+              }
+                let monthLenthArr = this.currDate.split("T")[0].split("-")
+                monthLenthArr[2] = this.monthLenthDays.toString()
+                let monthEnd = [monthLenthArr.join("-"),0]
+                let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',0]
+                //month ZeroLine
+                this.option.series[0] = {
+                name: "default",
+                data: [monthBegin,monthEnd],   
+                type: 'line',
+                itemStyle: {
+                  color: '#fbc808'
+                },
+                lineStyle:{
+                  type: 'dotted',
+                  width: 1
+                },        
+              }                
+                // this.option.series[1].data[0]=monthBegin
+                // this.option.series[1].data.push(monthEnd)
+                this.option.xAxis.splitNumber = 30
+                this.dataLoader = false
+                
+            }
+            else {
+              this.option.series[1].data[0]
+                this.option.xAxis.axisLabel.formatter = {
+                  month:'{MMM}',
+                  day: '{d}',
+                }
+                let yearBegin = [this.currYear+"-"+"01"+"-"+"01",0]
+                let yearEnd = [this.currYear+"-"+"12"+"-"+"31",0]
+                this.option.series[0] = {
+                name: "default",
+                data: [yearBegin,yearEnd],   
+                type: 'line',
+                itemStyle: {
+                  color: '#fbc808'
+                },
+                lineStyle:{
+                  type: 'dotted',
+                  width: 1
+                },        
+              }  
+              
+                // this.option.series[1].data[0]=yearBegin
+                // this.option.series[1].data.push(yearEnd)
+                this.option.xAxis.splitNumber = 12
+                this.dataLoader = false
+
+            }        
+
+          })
+
+    // }
+     // else {
+     //   let monthArrData = this.$store.state.monthData
+     //
+     //   monthArrData.forEach((itemFirstRes) => {
+     //    // console.log(itemFirstRes)
+     //     let found = this.option.series.find(element => element.name === itemFirstRes.devId)
+     //
+     //     if (found)
+     //     {
+     //       found.data.push([itemFirstRes.created_date,itemFirstRes.value])
+     //     }
+     //
+     //   });
+     //   this.option.xAxis.axisLabel.formatter = timeLineSet
+     //   let monthLenthArr = this.currDate.split("T")[0].split("-")
+     //   monthLenthArr[2] = this.monthLenthDays.toString()
+     //   let monthEnd = [monthLenthArr.join("-"),null]
+     //
+     //
+     //   let monthBegin = [this.currYear+"-"+this.currMonth+"-"+'01',null]
+     //   this.option.series[1].data[0]=monthBegin
+     //   this.option.series[1].data.push(monthEnd)
+     //   this.option.xAxis.splitNumber = 30
+     //
+     // }
 
 
 
 
-      },
+    },
 
      getData() {
 
@@ -542,10 +547,10 @@ export default {
 
        let url = ''
        let url2 = ''
-       //let page = "&page="
+       //let page = "&page="+this.currPage
        //let num = 1
 
-      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+page+num
+      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery
       if (this.dev){
       url2 = "http://64.225.100.195:8000/api/post_forecast/?date_range="+query_param+devQueryF
       }
