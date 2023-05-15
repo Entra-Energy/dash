@@ -28,7 +28,7 @@
       "paho-mqtt": "^1.1.0",
       "v-calendar": "^3.0.0-alpha.7",
       "v-md-date-range-picker": "^2.6.0",
-      "vue": "^3.2.45",
+      "vue": "^3.2.26",
       "vue-calendar-3": "^2.0.0",
       "vue-echarts": "^6.0.2",
       "vue-functional-calendar": "^2.9.93",
