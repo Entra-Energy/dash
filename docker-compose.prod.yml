@@ -17,7 +17,7 @@ services:
       - SECRET_KEY=foo
       - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
     depends_on:
-      - redis
+      #- redis
       - db
 
 
