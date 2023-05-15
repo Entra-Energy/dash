@@ -15,7 +15,8 @@ export default createStore({
     monthData:[],
     allDevs:[],
     allIds:[],
-    allForecastIds:[]
+    allForecastIds:[],
+    capacity:[]
     
   },
   mutations: {
@@ -73,7 +74,12 @@ export default createStore({
     createAllForecastIds(state,forecastIds)
     {
         state.allForecastIds = forecastIds
+    },
+    setCapacity(state, capa)
+    {
+      state.capacity = capa
     }
+
 
 
   },

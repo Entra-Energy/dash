@@ -355,7 +355,9 @@ export default {
           "name": this.dev,
           "data": [],
           "type": "line",
-          "sampling": "lttb",
+          //"sampling": "lttb",
+           "step": 'middle',
+          "sampling": 'average',
           "showSymbol": false,
           "connectNulls": false,
           "lineStyle": {
@@ -367,7 +369,8 @@ export default {
           "name": this.dev+"/"+"providing",
           "data": [],
           "type": "line",
-          "sampling": "lttb",
+          "sampling": 'average',
+          "step": 'middle',
           "showSymbol": false,
           "connectNulls": false,
           "lineStyle": {

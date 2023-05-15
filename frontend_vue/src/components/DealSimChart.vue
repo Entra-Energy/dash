@@ -361,7 +361,8 @@
             "name": this.dev,
             "data": [],
             "type": "line",
-            "sampling": "lttb",
+            "step": 'middle',
+            "sampling": 'average',
             "showSymbol": false,
             "connectNulls": false,
             "lineStyle": {
@@ -375,7 +376,8 @@
             "name": this.dev+"/"+"sim",
             "data": [],
             "type": "line",
-            "sampling": "lttb",
+            "step": 'middle',
+            "sampling": 'average',
             "showSymbol": false,
             "connectNulls": false,
             "lineStyle": {

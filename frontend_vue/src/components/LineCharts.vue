@@ -538,6 +538,9 @@ export default {
        let start = this.currDate
        let devQuery = '&dev=' + this.dev
        let devQueryF = '&dev=' + this.dev + 'F'
+      
+      //  let found = capaLog.find(element => element.name === this.dev)    
+      
        
        if(!this.dev)
        {
