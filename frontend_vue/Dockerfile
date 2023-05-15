@@ -1,21 +1,22 @@
+# FROM node:14-alpine as vue-build
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install
+# COPY ./ .
+# RUN npm run build
+
+
+# Build step 1(installing node modules and preparing compiled build)
+#FROM node:12.20.1-alpine as build
 FROM node:14-alpine as vue-build
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY ./ .
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+RUN npm i --silent
+RUN npm install react-scripts@3.4.1 -g --silent
+COPY . ./
+# ENV REACT_APP_HOST_IP_ADDRESS $API_URL
 RUN npm run build
-
-
-# # Build step 1(installing node modules and preparing compiled build)
-# FROM node:12.20.1-alpine as build
-# WORKDIR /app
-# ENV PATH /app/node_modules/.bin:$PATH
-# COPY package.json ./
-# RUN npm i --silent
-# RUN npm install react-scripts@3.4.1 -g --silent
-# COPY . ./
-# # ENV REACT_APP_HOST_IP_ADDRESS $API_URL
-# RUN npm run build
 
 # # Build step 2(Deploying build on NGINX)
 # FROM nginx:1.13
