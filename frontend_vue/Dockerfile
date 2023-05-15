@@ -8,7 +8,7 @@
 
 # Build step 1(installing node modules and preparing compiled build)
 #FROM node:12.20.1-alpine as build
-FROM node:14-alpine as vue-build
+FROM node:14-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
