@@ -2,66 +2,66 @@ version: '3.8'
 
 services:
 
-  # web:
-  #   build:
-  #     context: ./project
-  #     dockerfile: Dockerfile
-  #   command: gunicorn dashboard.wsgi:application --bind 0.0.0.0:8000
-  #   ports:
-  #     - '8000:8000'
-  #   environment:
-  #     - POSTGRES_NAME=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #     - DEBUG=1
-  #     - SECRET_KEY=foo
-  #     - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
-  #   depends_on:
-  #     - redis
-  #     - db
+  web:
+    build:
+      context: ./project
+      dockerfile: Dockerfile
+    command: gunicorn dashboard.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - '8000:8000'
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+    depends_on:
+      - redis
+      - db
 
 
-  # db:
-  #   image: postgres
-  #   volumes:
-  #     - ./data/db:/var/lib/postgresql/data
-  #   environment:
-  #     - POSTGRES_DB=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
 
-  # redis:
-  #   image: redis:6-alpine
+  redis:
+    image: redis:6-alpine
 
-  # celery_worker:
-  #   build:
-  #     context: ./project
-  #   command: celery -A dashboard worker -l info
-  #   volumes:
-  #     - .:/project
-  #   environment:
-  #     - POSTGRES_NAME=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #     - DEBUG=1
-  #     - SECRET_KEY=foo
-  #     - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
-  #   depends_on:
-  #     - redis
-  #     - web
-  #     - db
+  celery_worker:
+    build:
+      context: ./project
+    command: celery -A dashboard worker -l info
+    volumes:
+      - .:/project
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+    depends_on:
+      - redis
+      - web
+      - db
 
 
-  # celery_beat:
-  #   build:
-  #      context: ./project
-  #   command: celery -A dashboard beat -l info
-  #   volumes:
-  #     - ./peoject/:/app/
-  #   env_file:
-  #     - ./.env.prod
-  #   depends_on:
-  #     - redis
+  celery_beat:
+    build:
+       context: ./project
+    command: celery -A dashboard beat -l info
+    volumes:
+      - ./peoject/:/app/
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - redis
 
 
   frontend:
@@ -76,23 +76,23 @@ services:
     ports:
       - 80:80
 
-#   mqtt:
-#     restart: always
-#     build:
-#       context: ./project
-#     command: python manage.py mymqtt
-#     volumes:
-#       - .:/project
-#     environment:
-#       - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
-#       - POSTGRES_NAME=postgres
-#       - POSTGRES_USER=postgres
-#       - POSTGRES_PASSWORD=postgres
-#       - DEBUG=1
-#       - SECRET_KEY=foo
-#     depends_on:
-#       - db
+  mqtt:
+    restart: always
+    build:
+      context: ./project
+    command: python manage.py mymqtt
+    volumes:
+      - .:/project
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=foo
+    depends_on:
+      - db
 
 
-# volumes:
-#   postgres_data:
+volumes:
+  postgres_data:
