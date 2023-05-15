@@ -64,17 +64,17 @@ services:
       - redis
 
 
-  # frontend:
-  #   restart: always
-  #   build:
-  #     context: ./frontend_vue
-  #     dockerfile: Dockerfile
-  #   container_name: frontend
-  #   image: frontend_image
-  #   volumes:
-  #     - ./frontend_vue/nginx:/etc/nginx/conf.d
-  #   ports:
-  #     - 80:80
+  frontend:
+    restart: always
+    build:
+      context: ./frontend_vue
+      dockerfile: Dockerfile
+    container_name: frontend
+    image: frontend_image
+    volumes:
+      - ./frontend_vue/nginx:/etc/nginx/conf.d
+    ports:
+      - 80:80
 
   mqtt:
     restart: always
