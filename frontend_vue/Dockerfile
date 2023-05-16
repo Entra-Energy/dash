@@ -19,7 +19,7 @@ COPY . ./
 RUN npm run build
 
 # Build step 2(Deploying build on NGINX)
-FROM nginx:1.13
+FROM nginx:1.19
 RUN  apt-get update \
   && apt-get install -y wget \
   && rm -rf /var/lib/apt/lists/*
