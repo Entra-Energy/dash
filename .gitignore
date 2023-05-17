@@ -23,4 +23,4 @@ dashboard/settings.py
 
 #docker-compose -f docker-compose.prod.yml logs -f
 
-#docker-compose -f docker-compose.yml exec web python manage.py shell
+#docker-compose -f docker-compose.prod.yml exec web python manage.py shell
