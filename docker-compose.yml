@@ -15,7 +15,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - DEBUG=1
       - SECRET_KEY=foo
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 209.38.208.230 [::1]
     depends_on:
       - redis
       - db
@@ -45,7 +45,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - DEBUG=1
       - SECRET_KEY=foo
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 209.38.208.230 [::1]
     depends_on:
       - redis
       - web
@@ -64,7 +64,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - DEBUG=1
       - SECRET_KEY=foo
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 64.225.100.195 [::1]   
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 209.38.208.230 [::1]   
       
     depends_on:
       - redis
