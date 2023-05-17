@@ -553,9 +553,9 @@ export default {
        //let page = "&page="+this.currPage
        //let num = 1
 
-      url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery
+      url = "http://209.38.208.230:8000/api/posts/?date_range="+query_param+devQuery
       if (this.dev){
-      url2 = "http://64.225.100.195:8000/api/post_forecast/?date_range="+query_param+devQueryF
+      url2 = "http://209.38.208.230:8000/api/post_forecast/?date_range="+query_param+devQueryF
       }
       
       this.get_data_helper(url,url2)
@@ -569,7 +569,7 @@ export default {
 
 
    this.dataLoader = true
-    // let urlMonth = "http://64.225.100.195:8000/api/posts/?date_range=month"
+    // let urlMonth = "http://209.38.208.230:8000/api/posts/?date_range=month"
     // let monthData = []
     // axios.get(urlMonth)
     //       .then(response => response.data.forEach(el=>{

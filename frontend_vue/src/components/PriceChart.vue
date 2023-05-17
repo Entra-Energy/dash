@@ -243,8 +243,8 @@ export default {
          this.option.tooltip.formatter =  toolTipSet
          this.option.xAxis.splitNumber = 20
 
-         url = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
-         url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
+         url = "http://209.38.208.230:8000/api/price/?timestamp=&start_date="+start+"&end_date="+end//+"&date_range="+query_param
+         url2 = "http://209.38.208.230:8000/api/price/?timestamp=&start_date="+end
          const requestOne = axios.get(url);
          const requestTwo = axios.get(url2);
 
@@ -274,7 +274,7 @@ export default {
              color: '#27293d'
            }
          }
-         url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
+         url = "http://209.38.208.230:8000/api/price/?timestamp=&date_range="+query_param
            axios.get(url)
                  .then(response => response.data.forEach(el=>{
                     this.option.series[0].data.push([el.timestamp,el.value])
@@ -300,7 +300,7 @@ export default {
             day: '{d}',
           }
           this.option.xAxis.splitNumber = 12
-          url = "http://64.225.100.195:8000/api/price/?timestamp=&date_range="+query_param
+          url = "http://209.38.208.230:8000/api/price/?timestamp=&date_range="+query_param
           axios.get(url)
                 .then(response => response.data.forEach(el=>{
                    this.option.series[0].data.push([el.timestamp,el.value])

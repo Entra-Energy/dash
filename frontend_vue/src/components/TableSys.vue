@@ -91,7 +91,7 @@ export default {
     
       reset(e)
       {
-          axios.post('http://64.225.100.195:8000/api/reset/', {
+          axios.post('http://209.38.208.230:8000/api/reset/', {
           reset: {
             "devId":e,
             "reset":true
@@ -134,7 +134,7 @@ export default {
       submitForm2(){
 
 
-        axios.post('http://64.225.100.195:8000/api/cali/', {
+        axios.post('http://209.38.208.230:8000/api/cali/', {
           calibrate: this.newEntries,
 
 

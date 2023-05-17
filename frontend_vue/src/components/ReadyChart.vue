@@ -379,8 +379,8 @@ export default {
           "areaStyle": {}, 
         }
       )
-     url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+readyParam
-     url2 = "http://64.225.100.195:8000/api/posts/?created_date=&start_date="+end
+     url = "http://209.38.208.230:8000/api/posts/?date_range="+query_param+devQuery//+readyParam
+     url2 = "http://209.38.208.230:8000/api/posts/?created_date=&start_date="+end
      this.get_data_helper(url,url2)
    },
 

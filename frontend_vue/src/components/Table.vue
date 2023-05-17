@@ -125,7 +125,7 @@ export default {
 
     gridLog(){
       axios
-          .get("http://64.225.100.195:8000/api/grid_asign/")
+          .get("http://209.38.208.230:8000/api/grid_asign/")
           .then(response => response.data.forEach(el=>{         
             let dev = el.dev
             let grid = el.grid_name
@@ -142,7 +142,7 @@ export default {
     capacityLog(){
 
       axios
-          .get("http://64.225.100.195:8000/api/capa_asign/")
+          .get("http://209.38.208.230:8000/api/capa_asign/")
           .then(response => response.data.forEach(el=>{         
             let dev = el.dev
             let capacity = el.capacity
@@ -157,7 +157,7 @@ export default {
     },
 
     submitCapacity(dev){
-      axios.post('http://64.225.100.195:8000/api/capa/', {
+      axios.post('http://209.38.208.230:8000/api/capa/', {
         "dev" : dev,
         "capacity": this.capacityAsign[dev]
       }).then(response =>{
@@ -173,7 +173,7 @@ export default {
 
     submitNode(dev){      
       
-      axios.post('http://64.225.100.195:8000/api/asign/',     
+      axios.post('http://209.38.208.230:8000/api/asign/',     
       {
         "dev" : dev,
         "node": this.nodeAsign[dev]

@@ -211,8 +211,8 @@
            this.option.tooltip.formatter =  toolTipSet
            this.option.xAxis.splitNumber = 20
   
-           url = "http://64.225.100.195:8000/api/posts/?date_range="+query_param+devQuery//+readyParam"
-           url2 = "http://64.225.100.195:8000/api/price/?timestamp=&start_date="+end
+           url = "http://209.38.208.230:8000/api/posts/?date_range="+query_param+devQuery//+readyParam"
+           url2 = "http://209.38.208.230:8000/api/price/?timestamp=&start_date="+end
            const requestOne = axios.get(url);
            const requestTwo = [];
   

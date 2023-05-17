@@ -149,7 +149,7 @@ methods: {
       
         axios
         .get(
-          "http://64.225.100.195:8000/api/online/"
+          "http://209.38.208.230:8000/api/online/"
         )
         .then(response => response.data.online.forEach(el=>{
 
@@ -192,7 +192,7 @@ methods: {
     },
     async fetchAsignApi() {
       try {
-        const response = await axios.get("http://64.225.100.195:8000/api/grid_asign/");
+        const response = await axios.get("http://209.38.208.230:8000/api/grid_asign/");
         this.apiAsignAll = response.data;        
         const distinctValues = [...new Set(response.data.map(item => item.grid_name))];
         this.apiResponse = distinctValues;

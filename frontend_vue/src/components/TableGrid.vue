@@ -150,7 +150,7 @@ export default {
       try {
         axios
         .get(
-          "http://64.225.100.195:8000/api/flexi_sim/"
+          "http://209.38.208.230:8000/api/flexi_sim/"
         )
         //.then(response => console.log(response.data))
         .then(response => response.data.forEach(el=>{
@@ -185,7 +185,7 @@ export default {
     },
 
     execAll(){
-      axios.post('http://64.225.100.195:8000/api/execall/', {
+      axios.post('http://209.38.208.230:8000/api/execall/', {
         "execAll":"all"
       }).then(response => {
         // console.log(response);
@@ -199,7 +199,7 @@ export default {
 
     sendIt(dev){
       let date = this.test[dev]
-      axios.post('http://64.225.100.195:8000/api/sched/', {        
+      axios.post('http://209.38.208.230:8000/api/sched/', {        
           "date": this.test[dev],
           "duration": this.duration[dev],
           "dev":dev,
@@ -262,7 +262,7 @@ export default {
         let time = this.countDown[dev]
         this.time = parseInt(time)
 
-        axios.post('http://64.225.100.195:8000/api/single-corr/', {
+        axios.post('http://209.38.208.230:8000/api/single-corr/', {
           power: value,
           timer: time,
           dev: dev,
@@ -330,7 +330,7 @@ export default {
     //   try {
     //     axios
     //     .get(
-    //       "http://64.225.100.195:8000/api/online/"
+    //       "http://209.38.208.230:8000/api/online/"
     //     )
     //     .then(response => response.data.online.forEach(el=>{
     //         //this.posts.push(el)

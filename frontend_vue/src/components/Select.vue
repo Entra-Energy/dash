@@ -52,7 +52,7 @@ export default {
     },
 
     blynkGetNames(){        
-        let onlineUrl = "http://64.225.100.195:8000/api/online/"
+        let onlineUrl = "http://209.38.208.230:8000/api/online/"
         axios.get(onlineUrl)
              .then(response => response.data.online.forEach(el=>{
                   let found = this.all.find(element => element.id === el.dev)

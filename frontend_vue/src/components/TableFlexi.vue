@@ -187,7 +187,7 @@ export default {
     sendIt(dev){
 
      console.log(this.test[dev])
-      axios.post('http://64.225.100.195:8000/api/flexi/', {       
+      axios.post('http://209.38.208.230:8000/api/flexi/', {       
           "date": this.test[dev],
           "duration": this.duration[dev],
           "dev":dev,
@@ -269,7 +269,7 @@ selectAll(e) {
     //   try {
     //     axios
     //     .get(
-    //       "http://64.225.100.195:8000/api/online/"
+    //       "http://209.38.208.230:8000/api/online/"
     //     )
     //     .then(response => response.data.online.forEach(el=>{
     //         //this.posts.push(el)
@@ -320,7 +320,7 @@ selectAll(e) {
       try {
         axios
         .get(
-          "http://64.225.100.195:8000/api/flexi_res/"
+          "http://209.38.208.230:8000/api/flexi_res/"
         )
         .then(response => response.data.forEach(el=>{
 
