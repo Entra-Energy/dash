@@ -338,7 +338,8 @@ def manage_comm():
     now = str(now)
     currDate = now.split(" ")[0]    
     print(currDate) 
-    exist = Price.objects.filter(timestamp__gte=currDate)    
+    exist = Price.objects.filter(timestamp__gte=currDate)
+    print(exist)    
     if exist.first():
         pass
     else:

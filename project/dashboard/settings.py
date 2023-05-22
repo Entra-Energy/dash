@@ -135,7 +135,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'task_manage': {
         'task': 'dash_back.tasks.task_command_run',
-        'schedule': crontab(hour=12, minute=30),
+        'schedule': crontab(hour=12, minute=36),
         },
     # 'task_csv_price': {
     #     'task': 'dash_back.tasks.task_price_csv',
