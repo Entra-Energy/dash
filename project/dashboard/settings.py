@@ -150,6 +150,13 @@ CELERY_BEAT_SCHEDULE = {
     #     'schedule': crontab(hour=13, minute=22),
     # }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
 CELERY_TIMEZONE = 'Europe/Sofia'
 
 # Password validation
