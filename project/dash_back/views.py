@@ -61,7 +61,7 @@ class ArisViewset(viewsets.ModelViewSet):
 
 class PostViewset(viewsets.ModelViewSet):
 
-    @cache_page(60)  # Cache the response for 60 seconds
+    #@cache_page(60)  # Cache the response for 60 seconds
     def list(self, request, *args, **kwargs):
         range = request.query_params.get('date_range', None)
         device = request.query_params.get('dev', None)
