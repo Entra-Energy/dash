@@ -97,33 +97,41 @@ class PostViewset(viewsets.ModelViewSet):
     #     )
 
 
-class PostForecastViewset(viewsets.ModelViewSet):
-    def get_queryset(self):
-        range = self.request.query_params.get('date_range',None)
-        device = self.request.query_params.get('dev', None)
+
+class PostViewset(viewsets.ModelViewSet):
+
+    @cache_page(60)  # Cache the response for 60 seconds
+    def list(self, request, *args, **kwargs):
+        range = request.query_params.get('date_range', None)
+        device = request.query_params.get('dev', None)
         today = datetime.today()
-        datem = str(datetime(today.year, today.month, 1))
-        datem = datem.split(" ")[0]
+        datem = str(datetime(today.year, today.month, 1)).split(" ")[0]
+
         if range is not None:
             if range == 'today':
                 if device is not None:
-                    queryset = PostForecast.today.filter(devId=device).order_by('created_date')
+                    queryset = Post.today.filter(devId=device).order_by('created_date')
                 else:
-                    queryset = PostForecast.today.all().order_by('created_date')
+                    queryset = Post.today.all().order_by('created_date')
                 return queryset
             if range == 'year':
                 if device is not None:
-                    queryset = PostForecast.month.filter(devId=device)
+                    queryset = Post.month.filter(devId=device)
                 else:
-                    queryset = PostForecast.month.all()
+                    queryset = Post.month.all()
                 return queryset
             if range == 'month':
                 if device is not None:
-                    queryset = PostForecast.month.filter(devId=device,created__gte=datem)
+                    queryset = Post.month.filter(devId=device, created__gte=datem)
                 else:
-                    queryset = PostForecast.month.filter(created__gte=datem)
+                    queryset = Post.month.filter(created__gte=datem)
                 return queryset
-    serializer_class = PostForecastSerializer
+
+        return super().list(request, *args, **kwargs)
+
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
 
         
         
