@@ -12,7 +12,7 @@ import paho.mqtt.publish as publish
 import time
 import datetime as dt
 from pytz import timezone
-#from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page
 #from dash_back.paginations import CustomPagination
 
 
@@ -59,6 +59,7 @@ class ArisViewset(viewsets.ModelViewSet):
 
 #@cache_page(60)
 class PostViewset(viewsets.ModelViewSet):
+    @cache_page(60)  # Cache the response for 60 seconds
     def get_queryset(self):
 
         #queryset = Post.objects.all()

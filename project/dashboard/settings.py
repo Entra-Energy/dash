@@ -151,7 +151,11 @@ CELERY_BEAT_SCHEDULE = {
     # }
 }
 
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
 
 CELERY_TIMEZONE = 'Europe/Sofia'
 
