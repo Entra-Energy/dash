@@ -348,7 +348,7 @@ def manage_comm():
     
     
 def price_csv():
-    Price.objects.all().delete()
+    #Price.objects.all().delete()
     test = os.path.join(settings.BASE_DIR, 'day-ahead.csv')    
     today = date.today()
     with open(test, 'r') as file:
@@ -369,13 +369,12 @@ def price_csv():
                     price = row[1]
                     if price:
                         bgn_price = float(row[1])/2
-                    
-                        obj = {
-                            "date":date_fin,
-                            "price":bgn_price
-                        }
-                        #print(obj)
-                        Price.objects.create(timestamp=date_fin, value=bgn_price)    
+                        bgn_price = round(bgn_price, 2)                                            
+                        exist = Price.objects.filter(timestamp=date_fin)       
+                        if exist.first():
+                            pass
+                        else:
+                            Price.objects.create(timestamp=date_fin, value=bgn_price)    
 # def get_sm_data():
 #     data = Post.objects.filter(devId='sm-0002')
 #     fields = ['devId', 'created_date','value']
