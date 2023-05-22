@@ -57,45 +57,6 @@ class ArisViewset(viewsets.ModelViewSet):
 
     serializer_class = ArisSerializer
 
-class PostViewset(viewsets.ModelViewSet):
-
-    @cache_page(60)  # Cache the response for 60 seconds
-    def list(self, request, *args, **kwargs):
-        range = self.request.query_params.get('date_range', None)
-        device = self.request.query_params.get('dev', None)
-        today = datetime.today()
-        datem = str(datetime(today.year, today.month, 1)).split(" ")[0]
-
-        if range is not None:
-            if range == 'today':
-                if device is not None:
-                    queryset = Post.today.filter(devId=device).order_by('created_date')
-                else:
-                    queryset = Post.today.all().order_by('created_date')
-                return queryset
-            if range == 'year':
-                if device is not None:
-                    queryset = Post.month.filter(devId=device)
-                else:
-                    queryset = Post.month.all()
-                return queryset
-            if range == 'month':
-                if device is not None:
-                    queryset = Post.month.filter(devId=device, created__gte=datem)
-                else:
-                    queryset = Post.month.filter(created__gte=datem)
-                return queryset
-
-        return super().list(request, *args, **kwargs)
-
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    # pagination_class = CustomPagination
-    # filter_class = PostFilter
-    # search_fields = (
-    #         '^devId',
-    #     )
-
 
 
 class PostViewset(viewsets.ModelViewSet):
