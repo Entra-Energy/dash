@@ -18,6 +18,7 @@ class Command(BaseCommand):
         #     os.remove(path)
         if "twisted.internet.reactor" in sys.modules:
             del sys.modules["twisted.internet.reactor"]
+        print("RUNNING!")    
         process = CrawlerProcess(settings={
                                 "FEEDS": {
                                 "items.json": {"format": "json"},
