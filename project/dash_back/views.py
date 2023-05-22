@@ -57,17 +57,14 @@ class ArisViewset(viewsets.ModelViewSet):
 
     serializer_class = ArisSerializer
 
-#@cache_page(60)
 class PostViewset(viewsets.ModelViewSet):
-    @cache_page(60)  # Cache the response for 60 seconds
-    def get_queryset(self):
 
-        #queryset = Post.objects.all()
-        range = self.request.query_params.get('date_range',None)
+    @cache_page(60)  # Cache the response for 60 seconds
+    def list(self, request, *args, **kwargs):
+        range = self.request.query_params.get('date_range', None)
         device = self.request.query_params.get('dev', None)
         today = datetime.today()
-        datem = str(datetime(today.year, today.month, 1))
-        datem = datem.split(" ")[0]
+        datem = str(datetime(today.year, today.month, 1)).split(" ")[0]
 
         if range is not None:
             if range == 'today':
@@ -84,18 +81,21 @@ class PostViewset(viewsets.ModelViewSet):
                 return queryset
             if range == 'month':
                 if device is not None:
-                    queryset = Post.month.filter(devId=device,created__gte=datem)
+                    queryset = Post.month.filter(devId=device, created__gte=datem)
                 else:
                     queryset = Post.month.filter(created__gte=datem)
                 return queryset
-    #queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    #pagination_class = CustomPagination
 
+        return super().list(request, *args, **kwargs)
+
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    # pagination_class = CustomPagination
     # filter_class = PostFilter
     # search_fields = (
     #         '^devId',
     #     )
+
 
 class PostForecastViewset(viewsets.ModelViewSet):
     def get_queryset(self):
