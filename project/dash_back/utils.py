@@ -274,7 +274,7 @@ def get_pv():
             if data["timestamp"] == timestamp_curr:                
                 curr_ts = convert()[1]
                 pv = {
-                    "timestamp": curr_ts,
+                    "timestamp": curr_ts*1000,
                     "PV_AP" : data["Power Active"],
                     "PV_RP" : data["Power Reactive"],
                     "PV_ET" : data["Temperature"],
