@@ -375,6 +375,32 @@ def price_csv():
                             pass
                         else:
                             Price.objects.create(timestamp=date_fin, value=bgn_price)    
+                            
+                            
+def fetch_simavi():
+    
+    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0008&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
+    response=requests.get(url)
+    content = response.text
+    json_data = content.replace("\\'", "'")
+    data_feed = json.loads(json_data)    
+    sm = data_feed.get("smartmeters")  
+    st = "2023-05-24T00:07:00Z"       
+    
+    for data in sm:   
+        stamp = data.get("timestamp3m", None)
+        date_part = stamp.split("T")[0]
+        time_part = stamp.split("T")[1]
+        time_helper = time_part.split("Z")[0] 
+        str = date_part +" "+time_helper    
+        datetime_object = datetime.strptime(str, '%Y-%m-%d %H:%M:%S')
+        power = data.get("power", None)        
+        exist = Post.objects.filter(created_date=stamp,devId = "sm-0008",value=power)
+        #print(exist)
+        if exist.count() > 0:
+            pass
+        else:
+            Post.objects.create(created_date=datetime_object,devId = "sm-0008",value=power)
 # def get_sm_data():
 #     data = Post.objects.filter(devId='sm-0002')
 #     fields = ['devId', 'created_date','value']

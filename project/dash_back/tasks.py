@@ -3,7 +3,7 @@
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
-from dash_back.utils import scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr, update_db_coeff, manage_comm, price_csv 
+from dash_back.utils import scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr, update_db_coeff, manage_comm, price_csv, fetch_simavi 
 from dash_back.models import Post
 import paho.mqtt.publish as publish
 from datetime import datetime,tzinfo,timedelta
@@ -90,6 +90,11 @@ def task_command_run():
 def task_price_csv():
     price_csv()
     logger.info("priceCSV")
+
+@shared_task()
+def task_simavi():
+    fetch_simavi()
+    logger.info("SIMAVI")
     
 # @shared_task()
 # def task_sm_csv():
