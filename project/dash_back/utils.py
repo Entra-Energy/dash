@@ -379,7 +379,7 @@ def price_csv():
                             
 def fetch_simavi():
     
-    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0008&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
+    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0002&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
     response=requests.get(url)
     content = response.text
     json_data = content.replace("\\'", "'")
@@ -395,12 +395,12 @@ def fetch_simavi():
         str = date_part +" "+time_helper    
         datetime_object = datetime.strptime(str, '%Y-%m-%d %H:%M:%S')
         power = data.get("power", None)        
-        exist = Post.objects.filter(created_date=stamp,devId = "sm-0008",value=power)
+        exist = Post.objects.filter(created_date=stamp,devId = "sm-0002",value=power)
         #print(exist)
         if exist.count() > 0:
             pass
         else:
-            Post.objects.create(created_date=datetime_object,devId = "sm-0008",value=power)
+            Post.objects.create(created_date=datetime_object,devId = "sm-0002",value=power)
 # def get_sm_data():
 #     data = Post.objects.filter(devId='sm-0002')
 #     fields = ['devId', 'created_date','value']

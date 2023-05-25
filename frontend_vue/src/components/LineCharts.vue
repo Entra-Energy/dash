@@ -329,20 +329,23 @@ export default {
     get_data_helper(url,url2){
       
       console.log(url)
-      console.log(url2)        
+         
       let test = this.param
       const requestOne = axios.get(url);
-     
+      console.log(requestOne)
+      
       let requestTwo = [] 
-      if (url2)
-      {
-        requestTwo = axios.get(url2); 
-      }
+      // if (url2)
+      // {
+      //   requestTwo = axios.get(url2); 
+      // }
      
      
       axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
         
         const responseOne = responses[0].data
+        
+        
         
         const responseTwo = responses[1]    
         
@@ -371,10 +374,11 @@ export default {
           }
         }         
         responseOne.forEach((itemFirstRes) => {           
-         
+          
           let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
           if (found)
           {
+            
             // add negative value to the producers              
             let prodCoeff = 1
             if(found.name == "sm-0001" || found.name == "sm-0016")
@@ -397,7 +401,7 @@ export default {
       
     
           .catch(errors =>  {
-                       
+            console.log(errors)
 
            })
           .finally(() => {
