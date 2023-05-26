@@ -18,12 +18,12 @@ import csv
 def update_db_coeff():
     #pass
     # date = "2023-05-11T00:00:00Z"
-    #delete_price = Price.objects.all()
-    #delete_price.delete()
+    delete_price = Price.objects.all()
+    delete_price.delete()
     # date = "2023-05-09T00:00:00Z"
-    delete_date = "2023-03-31T00:00:00Z" 
-    delete_query = Post.objects.filter(created_date__lte=delete_date)
-    delete_query.delete()
+    # delete_date = "2023-02-05T00:00:00Z" 
+    # delete_query = Post.objects.filter(created_date__lte=delete_date)
+    # delete_query.delete()
     # delete_query2 = Post.objects.filter(timestamp__lte = delete_date, devId = "sm-0030")
     # delete_query2.delete()
    
@@ -378,32 +378,31 @@ def price_csv():
                             
                             
 def fetch_simavi():
-        
-          
-    #devs = ["sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024","sm-0025"] 
-    devs = ["sm-0007","sm-0009","sm-0010","sm-0011"] 
-    for d in devs:
-        url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName='+d+'&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
-        response=requests.get(url)
-        content = response.text
-        json_data = content.replace("\\'", "'")
-        data_feed = json.loads(json_data)    
-        sm = data_feed.get("smartmeters")  
-        for data in sm:   
-            stamp = data.get("timestamp3m", None)
-            date_part = stamp.split("T")[0]
-            time_part = stamp.split("T")[1]
-            time_helper = time_part.split("Z")[0] 
-            str = date_part +" "+time_helper    
-            datetime_object = datetime.strptime(str, '%Y-%m-%d %H:%M:%S')
-            power = data.get("power", None)        
-            exist = Post.objects.filter(created_date=stamp,devId = d,value=power)
-            #print(exist)
-            if exist.count() > 0:
-                pass
-            else:
-                Post.objects.create(created_date=datetime_object,devId = d,value=power)
-    # def get_sm_data():
+    
+    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0007&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
+    response=requests.get(url)
+    content = response.text
+    json_data = content.replace("\\'", "'")
+    data_feed = json.loads(json_data)    
+    sm = data_feed.get("smartmeters")  
+         
+    #devs = ["sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024",] 
+    
+    for data in sm:   
+        stamp = data.get("timestamp3m", None)
+        date_part = stamp.split("T")[0]
+        time_part = stamp.split("T")[1]
+        time_helper = time_part.split("Z")[0] 
+        str = date_part +" "+time_helper    
+        datetime_object = datetime.strptime(str, '%Y-%m-%d %H:%M:%S')
+        power = data.get("power", None)        
+        exist = Post.objects.filter(created_date=stamp,devId = "sm-0007",value=power)
+        #print(exist)
+        if exist.count() > 0:
+            pass
+        else:
+            Post.objects.create(created_date=datetime_object,devId = "sm-0007",value=power)
+# def get_sm_data():
 #     data = Post.objects.filter(devId='sm-0002')
 #     fields = ['devId', 'created_date','value']
 #     with open('my_file.csv', 'w') as file:
