@@ -16,7 +16,7 @@ import csv
 
 
 def update_db_coeff():
-    #pass
+    pass
     # date1 = "2023-05-22T00:00:00Z"
     # date2 = "2023-05-23T00:00:00Z"
 
