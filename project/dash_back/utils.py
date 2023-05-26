@@ -380,8 +380,8 @@ def price_csv():
 def fetch_simavi():
         
           
-    devs = ["sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024","sm-0025"] 
-    
+    #devs = ["sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024","sm-0025"] 
+    devs = ["sm-0007","sm-0009","sm-0010","sm-0011"] 
     for d in devs:
         url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName='+d+'&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
         response=requests.get(url)
