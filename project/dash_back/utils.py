@@ -16,14 +16,14 @@ import csv
 
 
 def update_db_coeff():
-    #pass
+    pass
     #date1 = "2023-05-23T00:00:00Z"
     # date2 = "2023-05-23T00:00:00Z"
-    id = 32710
+    # id = 32710
 
-    delete_price = Price.objects.filter(id__gte=id)
+    # delete_price = Price.objects.filter(id__gte=id)
     
-    delete_price.delete()
+    # delete_price.delete()
     # # date = "2023-05-09T00:00:00Z"
     # # delete_date = "2023-02-05T00:00:00Z" 
     # delete_query = Price.objects.filter(timestamp__lte=date2, timestamp__gte=date1)
@@ -384,7 +384,7 @@ def price_csv():
                             
 def fetch_simavi():
     
-    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0009&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
+    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0010&fromDate=2023-04-01 00:00:00&toDate=2023-05-18 00:00:00'
     response=requests.get(url)
     content = response.text
     json_data = content.replace("\\'", "'")
@@ -401,12 +401,12 @@ def fetch_simavi():
         str = date_part +" "+time_helper    
         datetime_object = datetime.strptime(str, '%Y-%m-%d %H:%M:%S')
         power = data.get("power", None)        
-        exist = Post.objects.filter(created_date=stamp,devId = "sm-0009",value=power)
+        exist = Post.objects.filter(created_date=stamp,devId = "sm-0010",value=power)
         #print(exist)
         if exist.count() > 0:
             pass
         else:
-            Post.objects.create(created_date=datetime_object,devId = "sm-0009",value=power)
+            Post.objects.create(created_date=datetime_object,devId = "sm-0010",value=power)
 # def get_sm_data():
 #     data = Post.objects.filter(devId='sm-0002')
 #     fields = ['devId', 'created_date','value']
