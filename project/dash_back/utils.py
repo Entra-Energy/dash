@@ -16,12 +16,13 @@ import csv
 
 
 def update_db_coeff():
-    pass
-    # date1 = "2023-05-22T00:00:00Z"
+    #pass
+    date1 = "2023-05-23T00:00:00Z"
     # date2 = "2023-05-23T00:00:00Z"
 
-    # #delete_price = Price.objects.all()
-    # #delete_price.delete()
+    delete_price = Price.objects.filter(timestamp__lte=date1)
+    
+    delete_price.delete()
     # # date = "2023-05-09T00:00:00Z"
     # # delete_date = "2023-02-05T00:00:00Z" 
     # delete_query = Price.objects.filter(timestamp__lte=date2, timestamp__gte=date1)
@@ -371,7 +372,7 @@ def price_csv():
                     
                     price = row[1]
                     if price:
-                        bgn_price = float(row[1])/2
+                        bgn_price = float(row[1])*1.96
                         bgn_price = round(bgn_price, 2)                                            
                         exist = Price.objects.filter(timestamp=date_fin)       
                         if exist.first():
