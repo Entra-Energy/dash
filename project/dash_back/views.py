@@ -138,7 +138,7 @@ class  OnlineView(APIView):
 
 
 class PriceViewset(viewsets.ModelViewSet):
-    queryset = Price.objects.all()
+    queryset = Price.objects.all().order_by('timestamp')
 
     serializer_class = PriceSerializer
     filter_class = PriceFilter

@@ -159,14 +159,20 @@ export default {
        
   tooltip: {
 
-        trigger: 'axis',
+        trigger: 'axis', 
         //triggerOn: "click",
-        show:true,
+        //show:true,
         formatter : (params) => {
           return tooltipDisplay;
         },
-        position: function (pt) {
-            return [pt[0], '10%'];
+        // position: function (pt) {
+        //     return [pt[0], '10%'];
+        // }
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
+          } 
         }
     },
   height: 200,
@@ -424,9 +430,10 @@ export default {
                   type: 'dotted',
                   width: 1
                 },        
-              }                
-              this.dataLoader = false
-              //console.log(this.option.series[0])
+              }
+              //top graph data
+               
+              this.dataLoader = false             
               
             }
             else if(test == 'month')
@@ -600,23 +607,7 @@ export default {
     let devs = this.$store.state.allIds    
     
    
-    devs.forEach(item => {
-      this.option.series.push(
-        {
-          "name": item,
-          "data": [],
-          "type": "line",
-          "sampling": "lttb",
-          "showSymbol": false,
-          "connectNulls": false,
-          "lineStyle": {
-              "width": 1
-          },
-          triggerLineEvent: true,
-          emphasis: { focus: 'series' }          
-        }
-      )
-    })
+
   
       
     let path = this.$route.path
@@ -628,6 +619,26 @@ export default {
       this.option.dataZoom[0].start = zoom.start
       this.option.dataZoom[0].end = zoom.end
 
+      devs.forEach(item => {
+      this.option.series.push(
+        {
+          "name": item,
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1
+          },
+          //triggerLineEvent: true,
+          emphasis: { focus: 'series' },
+          "stack": "Total",
+          "areaStyle": {},        
+        }
+      )
+    })
+
     }
 
     if (path == '/client')
@@ -636,6 +647,22 @@ export default {
       this.option.dataZoom[0].start = zoom.start
       this.option.dataZoom[0].end = zoom.end
       this.dataLoader = false;
+      devs.forEach(item => {
+      this.option.series.push(
+        {
+          "name": item,
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1
+          },
+    
+        }
+      )
+    })
       // if (this.dev)
       //  {
       //   this.getData();
