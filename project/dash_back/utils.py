@@ -408,7 +408,7 @@ def fetch_simavi():
         power = data.get("power", None)        
         exist = Post.objects.filter(created_date=stamp,devId = "sm-0010",value=power)
         #if start_date < datetime_object < end_date:
-        #print(exist)
+        print(str(exist) + "||" + stamp)
         if exist.count() > 0:
             pass
         else:
