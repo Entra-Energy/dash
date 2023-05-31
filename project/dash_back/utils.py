@@ -384,7 +384,7 @@ def price_csv():
                             
 def fetch_simavi():
     
-    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0013&fromDate=2023-04-01 00:00:00&toDate=2023-05-17 00:00:00'
+    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0013&fromDate=2023-04-14 00:00:00&toDate=2023-05-18 00:00:00'
     response=requests.get(url)
     content = response.text
     json_data = content.replace("\\'", "'")
