@@ -422,7 +422,7 @@ export default {
               //this.option.tooltip.formatter =  toolTipSet
               //this.tooltip.show = false
               this.option.xAxis.splitNumber = 24
-              let endStr = this.currDate.split("T")[0]+"T23:00:00.000Z"
+              let endStr = this.currDate.split("T")[0]+"T23:59:00.000Z"
               let startForZero = this.currDate.split("T")[0]+"T00:00:00.000Z"    
               //Add zero line
               this.option.series[0] = {

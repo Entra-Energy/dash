@@ -386,7 +386,7 @@ def price_csv():
                             
 def fetch_simavi():
     
-    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0013&fromDate=2023-04-14 00:00:00&toDate=2023-05-18 00:00:00'
+    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0004&fromDate=2023-04-01 00:00:00&toDate=2023-05-31 00:00:00'
     response=requests.get(url)
     content = response.text
     json_data = content.replace("\\'", "'")
@@ -416,35 +416,35 @@ def fetch_simavi():
         else:
             Post.objects.create(created_date=datetime_object,devId = "sm-0013",value=power)
 
-def forecast_day():
-    arr = []
-    dev = ''    
+# def forecast_day():
+#     arr = []
+#     dev = ''    
     
-    for i in range(0,31):
-        if i < 10:
-            dev = 'sm-000'+str(i)
-        else:
-            dev = 'sm-00' + str(i)
-        arr.append(dev)
-    for dev in arr:        
-        avg = Post.today.filter(devId=dev).aggregate(Avg('value'))
-        if isinstance(avg, dict):
-            avr = avg.get('value__avg', None)
-            if avr:
-                current_datetime = datetime.now() - timedelta(days=1)
+#     for i in range(0,31):
+#         if i < 10:
+#             dev = 'sm-000'+str(i)
+#         else:
+#             dev = 'sm-00' + str(i)
+#         arr.append(dev)
+#     for dev in arr:        
+#         avg = Post.today.filter(devId=dev).aggregate(Avg('value'))
+#         if isinstance(avg, dict):
+#             avr = avg.get('value__avg', None)
+#             if avr:
+#                 current_datetime = datetime.now() - timedelta(days=1)
 
-                # Get tomorrow's date
-                tomorrow = current_datetime + timedelta(days=1)
+#                 # Get tomorrow's date
+#                 tomorrow = current_datetime + timedelta(days=1)
 
-                # Set the starting time to the beginning of tomorrow
-                starting_time = datetime(tomorrow.year, tomorrow.month, tomorrow.day)
+#                 # Set the starting time to the beginning of tomorrow
+#                 starting_time = datetime(tomorrow.year, tomorrow.month, tomorrow.day)
 
-                next_day = starting_time + timedelta(days=1)
+#                 next_day = starting_time + timedelta(days=1)
 
-                # Iterate over each minute
-                while starting_time < next_day:                    
-                    starting_time += timedelta(minutes=1)
-                    PostForecast.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
+#                 # Iterate over each minute
+#                 while starting_time < next_day:                    
+#                     starting_time += timedelta(minutes=1)
+#                     PostForecast.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
                     
                     
                     
