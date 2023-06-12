@@ -33,6 +33,13 @@ class PostForecastSerializer(serializers.ModelSerializer):
          value = serializers.FloatField()
          fields = ('devId','value','created_date','created')
 
+class PostForecastMonthSerializer(serializers.ModelSerializer):
+     created = serializers.ReadOnlyField()
+     class Meta:
+         model = PostForecast
+         value = serializers.FloatField()
+         fields = ('devId','value','created_date','created')
+
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price

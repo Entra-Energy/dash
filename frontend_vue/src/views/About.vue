@@ -12,7 +12,15 @@
       </div>
     </div>
    </div>
-   <div class='row'><div class='col'><LineCharts :query="query" /></div></div>
+   <div class="row">
+      <div class="col-md-12 mb-1">
+        <div class="pull-left">
+          <button type="submit" class="btn btn-warning" @click="sendIt()" >Forecast</button>
+          <button type="submit" class="btn btn-warning ml-2" @click="clearIt()" >Clear</button>
+        </div>  
+      </div>
+    </div>
+   <div class='row'><div class='col'><LineCharts :query="query" :forecast="forecast" /></div></div>
    <div class='row'><div class='col'><ReadyChart :query="query" /></div></div>
    <div class='row'><div class='col'><DealSimChart :query="query" /></div></div>
    <div class='row'><div class='col'><PriceChart :query="query" /></div></div>
@@ -30,7 +38,7 @@ import LineCharts from '@/components/LineCharts.vue'
 import PriceChart from '@/components/PriceChart.vue'
 import ReadyChart from '@/components/ReadyChart.vue'
 import DealSimChart from '@/components/DealSimChart.vue'
-
+import axios from 'axios';
 
 export default {
   name: 'About',
@@ -47,36 +55,58 @@ export default {
     return {
       dev : {},
       query:{},
-      rangeTitle: ''
+      rangeTitle: '',
+      forecast: {}
 
     }
   },
   created() {
     let rangeIndex = this.rangeTitle
+    this.forecast.range = rangeIndex
     let path = this.$route.path
-    //let title = this.$store.state.path
 
     this.$router.push({path:path, query:{"range":rangeIndex}})
 
-    // let path = this.$route.path
-    // let title = this.$store.state.path
-    let selected = this.$store.state.selected
-
-    // this.query["range"] = title
-    // this.query["dev"] = selected
-    // console.log(this.query)
-    // // //
-    // this.query['range'] = title
-    // if (selected){
-    //   this.query['dev'] = selected
-    // }
-    //
-    // this.$router.push({path:path, query:this.query})
-
-
-
   },
   methods: {
+
+    sendIt()
+    {
+      this.forecast.range = this.query 
+
+      axios.post('http://209.38.208.230:8000/api/forecast_today/', {       
+
+                "forecast": this.forecast
+
+      }).then(response => {
+        console.log(response);
+        // this.response = response.data
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+      }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+      })
+
+      
+    },
+
+    clearIt()
+    {
+      this.forecast.range = this.query 
+      axios.post('http://209.38.208.230:8000/api/clear_today/', {       
+
+        "clear": this.forecast
+
+        }).then(response => {
+        console.log(response);
+        // this.response = response.data
+        this.success = 'Data saved successfully';
+        this.response = JSON.stringify(response, null, 2)
+        }).catch(error => {
+        this.response = 'Error: ' + error.response.status
+        })
+
+    },
 
     handleChange(payload){
 
@@ -85,7 +115,7 @@ export default {
       let path = this.$route.path
 
       this.query["range"] = payload
-      console.log(this.query)
+      //console.log(this.query)
       //
       // //
 

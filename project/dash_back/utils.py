@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from dash_back.models import Price, FlexabilitySim, Flexi, Hydro, PostForecast, Post
+from dash_back.models import Price, FlexabilitySim, Flexi, Hydro, PostForecast, Post, PostForecastMonth
 from datetime import datetime,tzinfo,timedelta
 from datetime import date
 import pytz
@@ -12,6 +12,8 @@ import paho.mqtt.publish as publish
 import time
 from django.core import management
 import csv
+from django.db.models import Avg
+import calendar
 
 
 
@@ -413,32 +415,91 @@ def fetch_simavi():
             pass
         else:
             Post.objects.create(created_date=datetime_object,devId = "sm-0013",value=power)
-# def get_sm_data():
-#     data = Post.objects.filter(devId='sm-0002')
-#     fields = ['devId', 'created_date','value']
-#     with open('my_file.csv', 'w') as file:
-#         write = csv.writer(file)
-#         write.writerow(fields)
-#         write.writerows(data)
-        
-       
-    # data_out = json.loads(msg.decode())
-    # timestamp = int(data_out['payload']['timestamp'])
-    # timestamp_iso = datetime.fromtimestamp(timestamp).isoformat()
-    # value = float(data_out['payload']['power'])    
-    # exist = Post.objects.filter(created_date=timestamp_iso,devId = devId)
-    # topic = devId + "/timestamp"
-    # if exist.count() == 1:
-    #     jObj = {
-    #         "time": timestamp,
-    #         "pow": 0,
-    #         }
-    #     publish.single(topic, str(jObj), hostname="159.89.103.242", port=1883)
-    # else:
-    #     Post.objects.create(devId=devId,value=value,created_date=timestamp_iso)
 
+def forecast_day():
+    arr = []
+    dev = ''    
+    
+    for i in range(0,31):
+        if i < 10:
+            dev = 'sm-000'+str(i)
+        else:
+            dev = 'sm-00' + str(i)
+        arr.append(dev)
+    for dev in arr:        
+        avg = Post.today.filter(devId=dev).aggregate(Avg('value'))
+        if isinstance(avg, dict):
+            avr = avg.get('value__avg', None)
+            if avr:
+                current_datetime = datetime.now() - timedelta(days=1)
 
+                # Get tomorrow's date
+                tomorrow = current_datetime + timedelta(days=1)
 
-           
-# def device_forecast():
-#     PostForecast.objects.create(devId='sm-0002', value = )
+                # Set the starting time to the beginning of tomorrow
+                starting_time = datetime(tomorrow.year, tomorrow.month, tomorrow.day)
+
+                next_day = starting_time + timedelta(days=1)
+
+                # Iterate over each minute
+                while starting_time < next_day:                    
+                    starting_time += timedelta(minutes=1)
+                    PostForecast.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
+                    
+                    
+                    
+                # PostForecast.objects.create(devId = dev+'F',created_date='2023-06-08T00:01:00', value=avr)
+               
+  
+def forecast_today_calc(range, dev):
+    if range == 'today':
+        exist = PostForecast.today.filter(devId = dev+'F').count()
+        print(exist)
+        if exist == 0:
+            avg = Post.today.filter(devId=dev).aggregate(Avg('value'))
+            if isinstance(avg, dict):
+                avr = avg.get('value__avg', None)
+                if avr:
+                    current_datetime = datetime.now() - timedelta(days=1)
+
+                    # Get tomorrow's date
+                    tomorrow = current_datetime + timedelta(days=1)
+
+                    # Set the starting time to the beginning of tomorrow
+                    starting_time = datetime(tomorrow.year, tomorrow.month, tomorrow.day)
+
+                    next_day = starting_time + timedelta(days=1)
+
+                # Iterate over each minute
+                while starting_time < next_day:                    
+                    starting_time += timedelta(minutes=1)
+                    PostForecast.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
+                    
+    elif range == 'month':
+        exist = PostForecastMonth.month.filter(devId = dev+'F').count()
+        print(exist)
+        if exist == 0:
+            avg = Post.month.filter(devId=dev).aggregate(Avg('value'))
+            if isinstance(avg, dict):
+                avr = avg.get('value__avg', None)
+                if avr:
+                    now = datetime.now()
+                    days_in_month = calendar.monthrange(now.year, now.month)[1]
+                    today = now.day
+                    days_till_month_end = days_in_month - today
+                    month_start = now - timedelta(days=today-1)
+                    month_end = now + timedelta(days=days_till_month_end)
+                    starting_time = datetime(month_start.year, month_start.month, month_start.day)
+                    finishing_time = datetime(month_end.year, month_end.month, month_end.day)
+                while starting_time < finishing_time:
+                    starting_time += timedelta(minutes=1)
+                    PostForecastMonth.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
+                    
+                
+def clear_forecast_data(range, dev):
+        if range == 'today':
+            exist = PostForecast.today.filter(devId = dev+'F').count()
+            print(exist)
+            if exist > 0:
+                PostForecast.today.filter(devId = dev+'F').delete()
+                                    

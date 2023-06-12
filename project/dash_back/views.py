@@ -3,11 +3,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics
-from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer,GridAsignSerializer, CapaAsignSerializer
-from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast, GridAsign, CapaAsign
+from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSerializer, FlexiSerializer, ArisSerializer, UserIpSerializer, PostForecastSerializer, FlexiSimSerializer,GridAsignSerializer, CapaAsignSerializer, PostForecastMonthSerializer
+from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast, GridAsign, CapaAsign, PostForecastMonth
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, ArisFilter
-from dash_back.tasks import task_exec_all
+from dash_back.tasks import task_exec_all, task_forecast_today, task_clear
 import paho.mqtt.publish as publish
 import time
 import datetime as dt
@@ -123,6 +123,38 @@ class PostForecastViewset(viewsets.ModelViewSet):
                     queryset = PostForecast.month.filter(created__gte=datem)
                 return queryset
     serializer_class = PostForecastSerializer
+    
+    
+    
+    
+    
+class PostForecastMonthViewset(viewsets.ModelViewSet):
+    def get_queryset(self):
+        range = self.request.query_params.get('date_range',None)
+        device = self.request.query_params.get('dev', None)
+        today = datetime.today()
+        datem = str(datetime(today.year, today.month, 1))
+        datem = datem.split(" ")[0]
+        if range is not None:
+            if range == 'today':
+                if device is not None:
+                    queryset = PostForecastMonth.today.filter(devId=device).order_by('created_date')
+                else:
+                    queryset = PostForecastMonth.today.all().order_by('created_date')
+                return queryset
+            if range == 'year':
+                if device is not None:
+                    queryset = PostForecastMonth.month.filter(devId=device)
+                else:
+                    queryset = PostForecastMonth.month.all()
+                return queryset
+            if range == 'month':
+                if device is not None:
+                    queryset = PostForecastMonth.month.filter(devId=device,created__gte=datem)
+                else:
+                    queryset = PostForecastMonth.month.filter(created__gte=datem)
+                return queryset
+    serializer_class = PostForecastMonthSerializer
 
         
         
@@ -321,4 +353,20 @@ def asign_capa(request):
         CapaAsign.objects.create(dev=dev_id,capacity=capacity)
    
     #print(node_data)   
+    return Response({"Success": "ok"})
+
+@api_view(['POST',])
+def forecast_today(request):
+    forecast_data = request.data["forecast"]["range"]
+    range = forecast_data["range"]
+    dev = forecast_data["dev"]
+    task_forecast_today.delay(range, dev)
+    return Response({"Success": "ok"})
+
+@api_view(['POST',])
+def clear_today(request):
+    clear_data = request.data["clear"]["range"]
+    range = clear_data["range"]
+    dev = clear_data["dev"]
+    task_clear.delay(range, dev)
     return Response({"Success": "ok"})

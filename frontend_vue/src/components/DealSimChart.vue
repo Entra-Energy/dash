@@ -234,14 +234,14 @@
      },
      get_data_helper(url,url2){
        const requestOne = axios.get(url);
-       console.log(url)
+       //console.log(url)
        
        const requestTwo = []
        let test = this.param
        axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
          
          const responseOne = responses[0].data
-         console.log(this.option.series[1])
+         //console.log(this.option.series[1])
          responseOne.forEach((itemFirstRes) => {
             let found = this.option.series.find(element => element.name === itemFirstRes.devId)
             

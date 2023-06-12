@@ -14,7 +14,8 @@ router.register(r'aris', views.ArisViewset, basename='aris')
 router.register(r'price', views.PriceViewset, basename='price')
 router.register(r'flexi_res', views.FlexiViewset, basename='flexi_res')
 router.register(r'userip', views.userIpViewset, basename='userip')
-# router.register(r'post_forecast', views.PostForecastViewset, basename='postForecast')
+router.register(r'post_forecast', views.PostForecastViewset, basename='postForecast')
+router.register(r'month_post_forecast', views.PostForecastMonthViewset, basename='postForecastMonth')
 router.register(r'flexi_sim', views.SimLogViewset, basename='sim_log')
 router.register(r'grid_asign', views.GridViewset, basename='gridset')
 router.register(r'capa_asign', views.CapaViewset, basename='capaasign')
@@ -31,6 +32,8 @@ urlpatterns = [
     path('execall/',views.exec_all, name='exec_all'),
     path('asign/',views.asign_node, name='asign'),
     path('capa/',views.asign_capa, name='capa'),
+    path('forecast_today/',views.forecast_today, name='forecast_today'),
+    path('clear_today/',views.clear_today, name='clear_today'),
     
 ]
 

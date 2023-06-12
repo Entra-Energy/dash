@@ -106,6 +106,9 @@ export default {
     query: {
       type: String,
     },
+    forecast: {
+      type: String,
+    }
   },
 
   currTime: '',
@@ -335,33 +338,36 @@ export default {
     get_data_helper(url,url2){
       
       console.log(url)
+      console.log(url2)
          
       let test = this.param
-      const requestOne = axios.get(url);
-      console.log(requestOne)
+      const requestOne = axios.get(url);      
       
       let requestTwo = [] 
-      // if (url2)
-      // {
-      //   requestTwo = axios.get(url2); 
-      // }
+      if (url2)
+      {
+        requestTwo = axios.get(url2); 
+      }
      
      
       axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
         
-        const responseOne = responses[0].data
+        const responseOne = responses[0].data   
         
-        
-        
-        const responseTwo = responses[1]    
-        
+        let responseTwo = {}
+       
+        if(Object.keys(responses[1]).length > 0)
+        {               
+          responseTwo = responses[1].data  
+        }
+        console.log(responseTwo)        
         let resObj = Object.keys(responseTwo)
-        console.log(resObj)
+        
         if (resObj.length > 0)
         {
-          if (responseTwo.data.length > 0)
+          if (responseTwo.length > 0)
           {
-            responseTwo.data.results.forEach(elm=>{
+            responseTwo.forEach(elm=>{
               
               let found = this.option.series.find(element => element.name === elm.devId)
               
@@ -384,7 +390,7 @@ export default {
           let found = this.option.series.find(element => element.name === itemFirstRes.devId)              
           if (found)
           {
-            
+           
             // add negative value to the producers              
             let prodCoeff = 1
             if(found.name == "sm-0001" || found.name == "sm-0016")
@@ -542,11 +548,20 @@ export default {
        }
 
        let query_param = this.param;
-       
+       let dataB = ''
+       if (query_param === 'month')
+       {
+        dataB = 'month_post_forecast'
+       }
+       else if (query_param === 'year')
+       {
+        dataB = 'year_post_forecast'
+       }
+       else if (query_param === 'today')
+       {
+        dataB = 'post_forecast'
+       }
 
-       let end = this.currTime
-
-       let start = this.currDate
        let devQuery = '&dev=' + this.dev
        let devQueryF = '&dev=' + this.dev + 'F'
       
@@ -566,7 +581,7 @@ export default {
 
       url = "http://209.38.208.230:8000/api/posts/?date_range="+query_param+devQuery
       if (this.dev){
-      url2 = "http://209.38.208.230:8000/api/post_forecast/?date_range="+query_param+devQueryF
+      url2 = "http://209.38.208.230:8000/api/"+dataB+"/?date_range="+query_param+devQueryF
       }
       
       this.get_data_helper(url,url2)
@@ -659,7 +674,22 @@ export default {
           "lineStyle": {
               "width": 1
           },
-    
+          "color":'#e14eca'    
+        },
+        {
+          "name": item+'F',
+          "data": [],
+          "type": "line",
+          "sampling": "lttb",
+          "showSymbol": false,
+          "connectNulls": false,
+          "lineStyle": {
+              "width": 1,
+              "type": 'dotted',
+          },  
+          emphasis: { focus: 'series' },
+          "color":'#e14eca'
+         
         }
       )
     })

@@ -69,6 +69,8 @@ class MonthPostForecastManager(models.Manager):
     def get_queryset(self):
         dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value').order_by('created')
         return dataset
+    
+
 
 
 class Post(models.Model):
@@ -94,6 +96,15 @@ class Post(models.Model):
         return self.devId
     
 class PostForecast(models.Model):
+    devId = models.CharField(max_length=200)
+    created_date = models.DateTimeField(default=datetime.now())
+    value = models.FloatField()
+    today = TodayPostManager()
+    objects = models.Manager()
+    month = MonthPostForecastManager()
+    
+    
+class PostForecastMonth(models.Model):
     devId = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=datetime.now())
     value = models.FloatField()
