@@ -555,7 +555,7 @@ export default {
        }
        else if (query_param === 'year')
        {
-        dataB = 'year_post_forecast'
+        dataB = 'month_post_forecast'
        }
        else if (query_param === 'today')
        {
