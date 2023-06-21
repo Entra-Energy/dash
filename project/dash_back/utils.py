@@ -451,49 +451,49 @@ def fetch_simavi():
                 # PostForecast.objects.create(devId = dev+'F',created_date='2023-06-08T00:01:00', value=avr)
                
   
-def forecast_today_calc(range, dev):
-    if range == 'today':
-        exist = PostForecast.today.filter(devId = dev+'F').count()
-        print(exist)
-        if exist == 0:
-            avg = Post.today.filter(devId=dev).aggregate(Avg('value'))
-            if isinstance(avg, dict):
-                avr = avg.get('value__avg', None)
-                if avr:
-                    current_datetime = datetime.now() - timedelta(days=1)
+# def forecast_today_calc(range, dev):
+#     if range == 'today':
+#         exist = PostForecast.today.filter(devId = dev+'F').count()
+#         print(exist)
+#         if exist == 0:
+#             avg = Post.today.filter(devId=dev).aggregate(Avg('value'))
+#             if isinstance(avg, dict):
+#                 avr = avg.get('value__avg', None)
+#                 if avr:
+#                     current_datetime = datetime.now() - timedelta(days=1)
 
-                    # Get tomorrow's date
-                    tomorrow = current_datetime + timedelta(days=1)
+#                     # Get tomorrow's date
+#                     tomorrow = current_datetime + timedelta(days=1)
 
-                    # Set the starting time to the beginning of tomorrow
-                    starting_time = datetime(tomorrow.year, tomorrow.month, tomorrow.day)
+#                     # Set the starting time to the beginning of tomorrow
+#                     starting_time = datetime(tomorrow.year, tomorrow.month, tomorrow.day)
 
-                    next_day = starting_time + timedelta(days=1)
+#                     next_day = starting_time + timedelta(days=1)
 
-                # Iterate over each minute
-                while starting_time < next_day:                    
-                    starting_time += timedelta(minutes=1)
-                    PostForecast.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
+#                 # Iterate over each minute
+#                 while starting_time < next_day:                    
+#                     starting_time += timedelta(minutes=1)
+#                     PostForecast.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
                     
-    elif range == 'month':
-        exist = PostForecastMonth.month.filter(devId = dev+'F').count()
-        print(exist)
-        if exist == 0:
-            avg = Post.month.filter(devId=dev).aggregate(Avg('value'))
-            if isinstance(avg, dict):
-                avr = avg.get('value__avg', None)
-                if avr:
-                    now = datetime.now()
-                    days_in_month = calendar.monthrange(now.year, now.month)[1]
-                    today = now.day
-                    days_till_month_end = days_in_month - today
-                    month_start = now - timedelta(days=today-1)
-                    month_end = now + timedelta(days=days_till_month_end)
-                    starting_time = datetime(month_start.year, month_start.month, month_start.day)
-                    finishing_time = datetime(month_end.year, month_end.month, month_end.day)
-                while starting_time < finishing_time:
-                    starting_time += timedelta(minutes=1)
-                    PostForecastMonth.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
+#     elif range == 'month':
+#         exist = PostForecastMonth.month.filter(devId = dev+'F').count()
+#         print(exist)
+#         if exist == 0:
+#             avg = Post.month.filter(devId=dev).aggregate(Avg('value'))
+#             if isinstance(avg, dict):
+#                 avr = avg.get('value__avg', None)
+#                 if avr:
+#                     now = datetime.now()
+#                     days_in_month = calendar.monthrange(now.year, now.month)[1]
+#                     today = now.day
+#                     days_till_month_end = days_in_month - today
+#                     month_start = now - timedelta(days=today-1)
+#                     month_end = now + timedelta(days=days_till_month_end)
+#                     starting_time = datetime(month_start.year, month_start.month, month_start.day)
+#                     finishing_time = datetime(month_end.year, month_end.month, month_end.day)
+#                 while starting_time < finishing_time:
+#                     starting_time += timedelta(minutes=1)
+#                     PostForecastMonth.objects.create(devId = dev+'F',created_date=starting_time, value=avr)
                     
                 
 def clear_forecast_data(range, dev):

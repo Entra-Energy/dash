@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand
 import random
 import json
-from dash_back.models import Post, Online, Flexi, Aris #type: ignore
+from dash_back.models import Post, Online, Flexi, Aris, PostForecast #type: ignore
 from paho.mqtt import client as mqtt_client #type: ignore
-from datetime import datetime, timezone
+from datetime import datetime, timezone,timedelta
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 from django.utils.timezone import activate
@@ -45,7 +45,8 @@ class Command(BaseCommand):
             client.subscribe("corrResponse/#")
             client.subscribe("windData")
             client.subscribe("init/#")
-            client.subscribe("err/#")           
+            client.subscribe("err/#")
+            client.subscribe("forecast/#")           
             
 
         def on_message(client, userdata, msg):
@@ -379,7 +380,24 @@ class Command(BaseCommand):
                 }                
                 #print(str(consum_obj))
                 topic = "initial/"+dev_id
-                publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)       
+                publish.single(topic,str(consum_obj),hostname="159.89.103.242",port=1883)
+                
+            if myList[0] == 'forecast':
+                dev_forecast = myList[1]
+                range = myList[2]   
+                      
+                json_data = msg.payload.decode().replace("'", '"')
+                data_out = json.loads(json_data)        
+                date = data_out['date']
+                power = float(data_out['power'])
+                
+                if range == 'today':
+                    exist = PostForecast.today.filter(devId = dev_forecast+'F').count()    
+                    if exist <= 24:
+                        PostForecast.objects.create(devId = dev_forecast+'F',created_date=date, value=power)
+                        
+                        
+               
       
         client = mqtt.Client()
         client.on_connect = on_connect

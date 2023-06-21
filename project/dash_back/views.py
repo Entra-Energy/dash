@@ -7,7 +7,7 @@ from dash_back.serializers import PostSerializer, OnlineSerializer, PriceSeriali
 from dash_back.models import Post, Online, Price, Flexi, FlexabilitySim, Aris, UserIp, PostForecast, GridAsign, CapaAsign, PostForecastMonth
 from datetime import datetime
 from dash_back.custom_filters import PriceFilter, ArisFilter
-from dash_back.tasks import task_exec_all, task_forecast_today, task_clear
+from dash_back.tasks import task_exec_all, task_clear
 import paho.mqtt.publish as publish
 import time
 import datetime as dt
@@ -360,7 +360,10 @@ def forecast_today(request):
     forecast_data = request.data["forecast"]["range"]
     range = forecast_data["range"]
     dev = forecast_data["dev"]
-    task_forecast_today.delay(range, dev)
+    topic = str("tensor/"+range)
+    payload = dev
+    publish.single(topic, payload, hostname="159.89.103.242", port=1883)
+    # task_forecast_today.delay(range, dev)
     return Response({"Success": "ok"})
 
 @api_view(['POST',])
