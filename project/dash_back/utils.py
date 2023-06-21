@@ -386,35 +386,36 @@ def price_csv():
                             
 def fetch_simavi():
     
-    url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0016&fromDate=2023-04-01 00:00:00&toDate=2023-05-17 00:00:00'
-    response=requests.get(url)
-    content = response.text
-    json_data = content.replace("\\'", "'")
-    data_feed = json.loads(json_data)    
-    sm = data_feed.get("smartmeters")  
+    #url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName=sm-0008&fromDate=2023-06-21 12:00:00&toDate=2023-06-21 13:00:00'
+    # response=requests.get(url)
+    # content = response.text
+    # json_data = content.replace("\\'", "'")
+    # data_feed = json.loads(json_data)    
+    # sm = data_feed.get("smartmeters")  
          
-    #devs = ["sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024",] 
-    
-    for data in sm:   
-        # start_date_str = '2023-04-26 17:00:00'
-        # end_date_str = '2023-05-04 08:00:00'
-        # start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S')
-        # end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S')      
-
-        stamp = data.get("timestamp3m", None)
-        date_part = stamp.split("T")[0]
-        time_part = stamp.split("T")[1]
-        time_helper = time_part.split("Z")[0] 
-        str = date_part +" "+time_helper    
-        datetime_object = datetime.strptime(str, '%Y-%m-%d %H:%M:%S')
-        power = data.get("power", None)        
-        exist = Post.objects.filter(created_date=stamp,devId = "sm-0016",value=power)
-        #if start_date < datetime_object < end_date:
-       
-        if exist.count() > 0:
-            pass
-        else:
-            Post.objects.create(created_date=datetime_object,devId = "sm-0016",value=power)
+    devs = ["sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024",] 
+    for d in devs:
+        url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName='+d+'&fromDate=2023-06-21 12:00:00&toDate=2023-06-21 13:00:00'
+        response=requests.get(url)
+        content = response.text
+        json_data = content.replace("\\'", "'")
+        data_feed = json.loads(json_data)    
+        sm = data_feed.get("smartmeters")  
+        for data in sm:
+            stamp = data.get("timestamp3m", None)
+            date_part = stamp.split("T")[0]
+            time_part = stamp.split("T")[1]
+            time_helper = time_part.split("Z")[0] 
+            str_date = date_part +" "+time_helper    
+            datetime_object = datetime.strptime(str_date, '%Y-%m-%d %H:%M:%S')+timedelta(hours=3)
+            power = data.get("power", None)        
+            exist = Post.objects.filter(created_date=stamp,devId = d,value=power)
+            #if start_date < datetime_object < end_date:
+        
+            if exist.count() > 0:
+                pass
+            else:
+                Post.objects.create(created_date=datetime_object,devId = d,value=power)
 
 # def forecast_day():
 #     arr = []
