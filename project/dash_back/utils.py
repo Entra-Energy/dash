@@ -392,8 +392,8 @@ def fetch_simavi():
     # json_data = content.replace("\\'", "'")
     # data_feed = json.loads(json_data)    
     # sm = data_feed.get("smartmeters")  
-         
-    devs = ["sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024",] 
+    #devs = ["sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0015","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024"]      
+    devs = ["sm-0001","sm-0002","sm-0004","sm-0025"] 
     for d in devs:
         url = 'http://ec2-35-180-235-215.eu-west-3.compute.amazonaws.com:8080/flexigrid/api/emax/data/bulgaria?deviceName='+d+'&fromDate=2023-06-21 12:00:00&toDate=2023-06-21 13:00:00'
         response=requests.get(url)
