@@ -499,7 +499,7 @@ def fetch_simavi():
 def clear_forecast_data(range, dev):
         if range == 'today':
             exist = PostForecast.today.filter(devId = dev+'F').count()
-            print(exist)
+            print("HERE")
             if exist > 0:
                 PostForecast.today.filter(devId = dev+'F').delete()
                                     
