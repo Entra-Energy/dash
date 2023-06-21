@@ -139,7 +139,7 @@ CELERY_BEAT_SCHEDULE = {
         },
     'task_simavi_fetch_data':{
         'task': 'dash_back.tasks.task_simavi',
-        'schedule': crontab(hour=10, minute=46),
+        'schedule': crontab(hour=18, minute=2),
     },
     # 'task_csv_price': {
     #     'task': 'dash_back.tasks.task_price_csv',
