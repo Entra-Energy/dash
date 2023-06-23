@@ -98,7 +98,7 @@ class Post(models.Model):
     objects = models.Manager()
     grid = models.IntegerField(default=0, null=True)
     today = TodayPostManager()
-    today_fifteen = FifteenMinsTodayPostManager()
+    
     month = MonthPostManager()
     costH = models.FloatField(default=0, null=True)
     costD = models.FloatField(default=0, null=True)
