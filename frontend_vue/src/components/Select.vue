@@ -34,8 +34,10 @@ export default {
       selected: 'sm-0001',
       resolution: 'min',  
       options:[],
+      
       //resOptions:[],
-      all:[]
+      all:[],
+      
 
     };
   },
@@ -46,6 +48,7 @@ export default {
     this.all = this.$store.state.allDevs
     //console.log(this.all)
     this.blynkGetNames()
+    
     // this.resOptions = [
     //   { value: '1', label: '1min' },
     //   { value: '15', label: '15min' },
@@ -55,7 +58,10 @@ export default {
     
   },
 
+
   methods: {
+
+
     handleSliderRelease() {
       // Perform actions when the slider is released
       if (this.sliderValue == 0)

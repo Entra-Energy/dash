@@ -17,7 +17,8 @@ export default createStore({
     allIds:[],
     allForecastIds:[],
     capacity:[],
-    resolution:1
+    resolution:1,
+    loadingTensor:false
    
     
   },
@@ -84,6 +85,10 @@ export default createStore({
     setResolution(state, res)
     {
       state.resolution = res
+    },
+    setLoadingTensor(state, load)
+    {
+      state.loadingTensor = load
     },
 
 

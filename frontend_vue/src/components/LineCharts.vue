@@ -317,7 +317,7 @@ export default {
            if (path == '/dashboard')
            {
              this.$store.commit('dashZoomInit', myZoom)
-             console.log(myZoom)
+             //console.log(myZoom)
            }
            if (path == '/client')
            {
@@ -490,7 +490,7 @@ export default {
               // }
               
                   let found = this.option.series.find(element => element.name === this.dev)
-                  console.log(found)
+                  //console.log(found)
                   if (found){
                     found.data.forEach(([timestamp, value]) => {
 
@@ -520,7 +520,7 @@ export default {
                       resampledArr.push([currentTimestamp, average]);
                     }
                    // found.data = resampledArr
-                    console.log(resampledArr)
+                    //console.log(resampledArr)
                     found.data = resampledArr
          
                   }
@@ -1011,7 +1011,8 @@ export default {
 
 
 
-        let path = this.$route.path  
+        let path = this.$route.path
+       
           if (path == '/client')
           {
             if(this.dev){
