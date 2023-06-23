@@ -6,7 +6,7 @@ from django.utils.timezone import activate
 from pytz import timezone
 import pytz
 from django.db.models import Avg
-from django.db.models.functions import TruncHour
+from django.db.models.functions import TruncHour, TruncMinute
 
 
 class UniqueOnlineManager(models.Manager):
@@ -41,6 +41,15 @@ class TodayPostManager(models.Manager):
         today_end = str(tomorrow)+'T'+'00:00:00Z'
         print(today_start,today_end)
         return super().get_queryset().filter(created_date__gt = today_start, created_date__lt = today_end)
+    
+    
+class FifteenMinsTodayPostManager(models.Manager):
+    def get_queryset(self):
+        today = datetime.now(timezone('Europe/Sofia')).date()
+        tomorrow = today + timedelta(1)
+        today_start = datetime.combine(today, datetime.min.time(), timezone('Europe/Sofia'))
+        today_end = datetime.combine(tomorrow, datetime.min.time(), timezone('Europe/Sofia'))
+        return super().get_queryset().filter(created_date__gt=today_start, created_date__lt=today_end).annotate(created=TruncMinute('created_date', minute=15)).values('created').annotate(value=Avg('value')).values('devId','created','value').order_by('created')
 
 
 class TodayArisManager(models.Manager):
@@ -65,6 +74,14 @@ class MonthPostManager(models.Manager):
         dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value','grid','actualCorr','actualProviding','providingAmount').order_by('created')
         return dataset
 
+
+# class FifteenMinsPostManager(models.Manager):
+#     def get_queryset(self):
+#         dataset = super().get_queryset().annotate(created=TruncMinute('created_date', minute=15)).values('created').annotate(value=Avg('value')).values('devId','created','value').order_by('created')
+#         return dataset
+
+
+
 class MonthPostForecastManager(models.Manager):
     def get_queryset(self):
         dataset = super().get_queryset().annotate(created=TruncHour('created_date')).values('created').annotate(value=Avg('value')).values('devId','created','value').order_by('created')
@@ -81,6 +98,7 @@ class Post(models.Model):
     objects = models.Manager()
     grid = models.IntegerField(default=0, null=True)
     today = TodayPostManager()
+    today_fifteen = FifteenMinsTodayPostManager()
     month = MonthPostManager()
     costH = models.FloatField(default=0, null=True)
     costD = models.FloatField(default=0, null=True)

@@ -90,6 +90,23 @@ var timeLineSetMonth = function(value,index){
 
 var tooltipDisplay = ""
 
+var smData = []
+
+// let arr1 = [1, 2, 3, 4, 5, 6];
+// let arr2 = [];
+// let i = 2;
+
+// for (let j = 0; j < arr1.length; j += i) {
+//   let sum = 0;
+//   for (let k = j; k < j + i; k++) {
+//     sum += arr1[k];
+//   }
+//   let average = sum / i;
+//   for (let k = 0; k < i; k++) {
+//     arr2.push(average);
+//   }
+// }
+
 
 export default {
 
@@ -99,6 +116,7 @@ export default {
       active: false,
       currPage:1,
       items: [],
+      resamp:1
     }
   },
 
@@ -119,7 +137,7 @@ export default {
   param:'today',
   nextP:'',
   pageNum:1,
-  dev:'',
+  dev:'',  
   myChart: null,
   zoomUpdater:{},
   checked_update: [],
@@ -339,7 +357,17 @@ export default {
       
       console.log(url)
       console.log(url2)
-         
+      let dateArr = []
+      let arr1 = [];
+      let arr2 = [];
+      let smoothedArr = []
+      
+      let resampledArr = [];
+      let currentTimestamp = null;
+      let sum = 0;
+      let count = 0;
+      let resamplingInterval = this.resamp;
+              
       let test = this.param
       const requestOne = axios.get(url);      
       
@@ -360,7 +388,7 @@ export default {
         {               
           responseTwo = responses[1].data  
         }
-        console.log(responseTwo)        
+          
         let resObj = Object.keys(responseTwo)
         
         if (resObj.length > 0)
@@ -399,7 +427,12 @@ export default {
             }
             
             if (test == 'today')
+
             {
+
+              // dateArr.push(itemFirstRes.created_date)
+              // arr1.push(itemFirstRes.value*prodCoeff)            
+
               found.data.push([itemFirstRes.created_date,itemFirstRes.value*prodCoeff])
             }
             else
@@ -439,8 +472,62 @@ export default {
               }
               //top graph data
                
-              this.dataLoader = false             
+              this.dataLoader = false  
               
+              
+              // for (let j = 0; j < arr1.length; j += i) {
+              //   let sum = 0;
+              //   for (let k = j; k < j + i; k++) {
+              //     sum += arr1[k];
+              //   }
+              //   let average = parseFloat((sum / i).toFixed(2));
+              //   for (let k = 0; k < i; k++) {
+              //     arr2.push(average);
+              //   }
+              // }
+              // for (let i = 0; i < arr1.length; i++) {
+              //     smoothedArr.push([dateArr[i], arr2[i]]);
+              // }
+              
+                  let found = this.option.series.find(element => element.name === this.dev)
+                  console.log(found)
+                  if (found){
+                    found.data.forEach(([timestamp, value]) => {
+
+                      const date = new Date(timestamp);
+                      const minute = date.getMinutes();
+
+                      if (currentTimestamp === null || minute % resamplingInterval === 0) {
+                        if (currentTimestamp !== null) {
+                          const average = sum / count;
+                          resampledArr.push([currentTimestamp, average]);
+                        }
+
+                        const adjustedMinute = Math.floor(minute / resamplingInterval) * resamplingInterval;
+                        date.setMinutes(adjustedMinute);
+                        currentTimestamp = date.toISOString();
+                        sum = 0;
+                        count = 0;
+                      }
+
+                      sum += value;
+                      count++;
+                  });
+
+                    // Add the last interval's average
+                    if (count > 0) {
+                      const average = sum / count;
+                      resampledArr.push([currentTimestamp, average]);
+                    }
+                   // found.data = resampledArr
+                    console.log(resampledArr)
+                    found.data = resampledArr
+         
+                  }
+
+
+
+
             }
             else if(test == 'month')
             {
@@ -537,6 +624,25 @@ export default {
 
 
     },
+     smooth(){
+              // for (let j = 0; j < arr1.length; j += i) {
+              //   let sum = 0;
+              //   for (let k = j; k < j + i; k++) {
+              //     sum += arr1[k];
+              //   }
+              //   let average = parseFloat((sum / i).toFixed(2));
+              //   for (let k = 0; k < i; k++) {
+              //     arr2.push(average);
+              //   }
+              // }
+              // for (let i = 0; i < arr1.length; i++) {
+              //     smoothedArr.push([dateArr[i], arr1[i]]);
+              // }
+              // this.option.series.forEach(em=>{
+              //   console.log(this.dev)  
+              // })
+
+     },
 
      getData() {
 
@@ -564,6 +670,7 @@ export default {
 
        let devQuery = '&dev=' + this.dev
        let devQueryF = '&dev=' + this.dev + 'F'
+      //  let resQuery = '&res=' + this.resolution
       
       //  let found = capaLog.find(element => element.name === this.dev)    
       
@@ -572,6 +679,7 @@ export default {
        {
          devQuery = ''
          devQueryF = ''
+        // resQuery = ''
        }
 
        let url = ''
@@ -649,7 +757,8 @@ export default {
           //triggerLineEvent: true,
           emphasis: { focus: 'series' },
           "stack": "Total",
-          "areaStyle": {},        
+          "areaStyle": {},
+
         }
       )
     })
@@ -671,6 +780,7 @@ export default {
           "sampling": "lttb",
           "showSymbol": false,
           "connectNulls": false,
+          // "smooth": true,
           "lineStyle": {
               "width": 1
           },
@@ -703,6 +813,7 @@ export default {
       // if(this.$store.state.selected) {
       //   this.option.legend.selected[this.$store.state.selected] = true
       // }
+      
     }
     else {
     //  this.option.legend.selected = {}
@@ -857,14 +968,62 @@ export default {
        // }
        this.option.legend.selected = selDevs
 
-       //this.option.legend.selected = selObj
-       //console.log(this.option.legend.selected)
-
-
-
      }
 
-   }
+   },
+   '$store.state.resolution': {
+     immediate: true,
+     handler() {
+        this.resamp = this.$store.state.resolution;
+        this.getCurrTime();
+          this.option.series = []          
+    
+          let devs = this.$store.state.allIds            
+           devs.forEach((item, i) => {
+             this.option.series.push(
+               {
+                 "name": item,
+                 "data": [],
+                 "type": "line",
+                 "sampling": "lttb",
+               }
+             )
+
+           });
+          let forecastDevs = this.$store.state.allForecastIds
+          forecastDevs.forEach(item => {
+          
+          this.option.series.push(
+            {
+              "name": item,
+              "data": [],
+              "type": "line",
+              "sampling": "lttb",
+              "showSymbol": false,
+              "connectNulls": false,
+              "lineStyle": {
+                  "width": 1,
+                  "type":"dotted"
+              },          
+            }
+          )
+        })
+
+
+
+        let path = this.$route.path  
+          if (path == '/client')
+          {
+            if(this.dev){
+            this.getData();
+            }
+          }
+        
+        
+     }
+
+   },
+
  }
 
 

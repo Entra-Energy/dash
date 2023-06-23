@@ -52,6 +52,7 @@ export default {
         subscribeSuccess: false,
         connecting: false,
         retryTimes: 0,
+        tensor:{},
 
         menu: [
           {
@@ -294,10 +295,12 @@ export default {
      this.createConnection();
      this.doSubscribe();
      
+     
     },
-    computed: {
+    computed: {  
 
     },
+
   }
 
 </script>

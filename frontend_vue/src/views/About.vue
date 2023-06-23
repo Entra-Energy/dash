@@ -144,7 +144,13 @@ export default {
       this.$router.push({path:path, query:this.query})
       //this.$router.push({path:path,query:this.query})
 
-    }
+    },
+    // resChange(value){
+    //   let path = this.$route.path
+    //   let resolution = value      
+    //   this.query["res"] = resolution
+    //   this.$router.push({path:path, query:this.query})      
+    // }
   },
   watch: {
     '$store.state.client_init': {

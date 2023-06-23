@@ -16,7 +16,9 @@ export default createStore({
     allDevs:[],
     allIds:[],
     allForecastIds:[],
-    capacity:[]
+    capacity:[],
+    resolution:1
+   
     
   },
   mutations: {
@@ -78,8 +80,11 @@ export default createStore({
     setCapacity(state, capa)
     {
       state.capacity = capa
-    }
-
+    },
+    setResolution(state, res)
+    {
+      state.resolution = res
+    },
 
 
   },
