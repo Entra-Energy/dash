@@ -358,6 +358,7 @@ def asign_capa(request):
 @api_view(['POST',])
 def forecast_today(request):
     forecast_data = request.data["forecast"]["range"]
+    print(forecast_data)
     range = forecast_data["range"]
     dev = forecast_data["dev"]
     topic = str("tensor/"+range)
