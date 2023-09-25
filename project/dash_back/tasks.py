@@ -113,6 +113,7 @@ def task_clear(range, dev):
 @shared_task()
 def task_auto_forecast():
     make_auto_forecast()
+    logger.info("TensorFlowForecast")
       
     
 # @shared_task()
