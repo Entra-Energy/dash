@@ -506,10 +506,14 @@ def clear_forecast_data(range, dev):
                 
                 
 def make_auto_forecast():
-    devs = ["sm-0002","sm-0004","sm-0006","sm-0007","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024", "sm-0025", "sm-0030"] 
+    devs = ["sm-0002","sm-0004","sm-0006","sm-0009","sm-0010","sm-0011","sm-0012","sm-0013","sm-0014","sm-0016","sm-0017","sm-0018","sm-0019","sm-0020","sm-0022","sm-0024", "sm-0025", "sm-0030"] 
     for d in devs:
-        topic = "tensor/today"
-        publish.single(topic, str(d), hostname="159.89.103.242", port=1883)
+        exist = PostForecast.today.filter(devId = d+'F').count()
+        if exist > 0:
+            pass
+        else:
+            topic = "tensor/today"
+            publish.single(topic, str(d), hostname="159.89.103.242", port=1883)
 
         
     
