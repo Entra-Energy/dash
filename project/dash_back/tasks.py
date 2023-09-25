@@ -3,7 +3,7 @@
 from celery.utils.log import get_task_logger # type: ignore
 from celery import shared_task #type: ignore
 
-from dash_back.utils import scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr, update_db_coeff, manage_comm, price_csv, fetch_simavi, clear_forecast_data 
+from dash_back.utils import scheduled_flexi, exec_all, get_hydro, get_pv, timeSet, mqttErr, update_db_coeff, manage_comm, price_csv, fetch_simavi, clear_forecast_data, make_auto_forecast 
 from dash_back.models import Post
 import paho.mqtt.publish as publish
 from datetime import datetime,tzinfo,timedelta
@@ -109,6 +109,10 @@ def task_simavi():
 @shared_task()
 def task_clear(range, dev):
     clear_forecast_data(range, dev)
+    
+@shared_task()
+def task_auto_forecast():
+    make_auto_forecast()
       
     
 # @shared_task()

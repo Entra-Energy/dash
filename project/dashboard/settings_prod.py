@@ -117,12 +117,12 @@ CELERY_BEAT_SCHEDULE = {
       'task': 'dash_back.tasks.task_schedule',
       'schedule': crontab(),
   },
-    'task_hydro_data':{
-        'task':'dash_back.tasks.task_hydro',
-        'schedule': 5.0,
-        #'schedule': crontab()       
+    # 'task_hydro_data':{
+    #     'task':'dash_back.tasks.task_hydro',
+    #     'schedule': 5.0,
+    #     #'schedule': crontab()       
         
-    },
+    # },
     # 'task_pv_data':{
     #     'task':'dash_back.tasks.task_pv',
     #     'schedule': 1.0,
@@ -137,10 +137,14 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'dash_back.tasks.task_command_run',
         'schedule': crontab(hour=8, minute=4),
         },
-    'task_simavi_fetch_data':{
-        'task': 'dash_back.tasks.task_simavi',
-        'schedule': crontab(hour=10, minute=46),
-    },
+    'task_auto_forecast':{
+        'task':'dash_back.tasks.task_auto_forecast',
+        'schedule': crontab(hour=1, minute=56),
+    }
+    # 'task_simavi_fetch_data':{
+    #     'task': 'dash_back.tasks.task_simavi',
+    #     'schedule': crontab(hour=18, minute=38),
+    # },
     # 'task_csv_price': {
     #     'task': 'dash_back.tasks.task_price_csv',
     #     'schedule': crontab(hour=11, minute=5),

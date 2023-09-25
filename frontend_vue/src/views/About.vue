@@ -123,12 +123,13 @@ export default {
       this.forecast.range = this.query 
       
       this.isButtonDisabled = true
+      console.log(this.forecast)
       axios.post('http://209.38.208.230:8000/api/forecast_today/', {       
 
                 "forecast": this.forecast
 
       }).then(response => {
-        
+        console.log(response)
         // this.response = response.data
         this.success = 'Data saved successfully';
         this.response = JSON.stringify(response, null, 2)
