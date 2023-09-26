@@ -120,6 +120,9 @@ class PostForecast(models.Model):
     today = TodayPostManager()
     objects = models.Manager()
     month = MonthPostForecastManager()
+    model_loss = models.FloatField(default=0, null=True)
+    mean_abs_error = models.FloatField(default=0, null=True)
+    
     
     
 class PostForecastMonth(models.Model):
