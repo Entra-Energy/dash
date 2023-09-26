@@ -349,8 +349,7 @@ def manage_comm():
        
     if exist.first():
         pass
-    else:
-        
+    else:        
         management.call_command('crawl')    
     
     
