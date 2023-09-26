@@ -88,6 +88,9 @@ ITEM_PIPELINES = {'ibex.pipelines.IbexPipeline': 300}
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+TWISTED_REACTOR = 'twisted.internet.default.DefaultReactor'
+
 FEED_FORMAT = "json"
 FEED_URI = "ibex.json"
 FEED_EXPORT_ENCODING = 'utf-8'
