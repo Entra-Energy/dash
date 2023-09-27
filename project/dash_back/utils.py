@@ -232,7 +232,7 @@ def get_hydro():
     HY_GC = str(gen_curr)
     HY_GVOL = str(gen_u)
     hydro = {
-        "timestamp":stamp,
+        #"timestamp":stamp,
         "HY_PW":HY_PW,
         "HY_GV":HY_GV,
         "HY_WL":HY_WL,
