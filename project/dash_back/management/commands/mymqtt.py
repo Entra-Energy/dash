@@ -390,13 +390,14 @@ class Command(BaseCommand):
                 data_out = json.loads(json_data)        
                 date = data_out['date']
                 power = float(data_out['power'])
+                print(f"Here {data_out}")
                 lost = float(data_out['loss'])
                 mae = float(data_out['mae'])
                 
                 if range == 'today':
                     exist = PostForecast.today.filter(devId = dev_forecast+'F').count()    
                     if exist <= 24:
-                        PostForecast.objects.create(devId = dev_forecast+'F',created_date=date, value=power, model_loss=lost, mean_abs_error = mae)
+                        PostForecast.objects.create(devId = dev_forecast+'F',created_date=date, value=power,model_loss=lost, mean_abs_error = mae)
                         
                         
                
