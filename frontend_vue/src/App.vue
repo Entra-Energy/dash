@@ -18,7 +18,8 @@
 <script>
 import Login from '@/components/Login.vue'
 import { is } from '@babel/types';
-import mqtt from 'mqtt';
+import PahoMQTT from 'paho-mqtt';
+
 import { coords } from './coord.js'
 export default {
   components: {
@@ -123,111 +124,189 @@ export default {
     },
 
     methods: {
-    initData() {
-      this.client = {
-        connected: false,
-      };
-      this.retryTimes = 0;
-      this.connecting = false;
-      this.subscribeSuccess = false;
-    },
-    handleOnReConnect() {
-      this.retryTimes += 1;
-      if (this.retryTimes > 5) {
-        try {
-          this.client.end();
-          this.initData();
-          this.$message.error("Connection maxReconnectTimes limit, stop retry");
-        } catch (error) {
-          this.$message.error(error.toString());
-        }
-      }
-    },
-    doSubscribe() {
-      const { topic, qos } = this.subscription
-      this.client.subscribe(topic, { qos }, (error, res) => {
-        if (error) {
-          console.log('Subscribe to topics error', error)
-          return
-        }
-        this.subscribeSuccess = true
-        console.log('Subscribe to topics res', res)
-      })
-    },
 
-    createConnection() {
+      doSubscribe() {
+        const { topic, qos } = this.subscription;
+        this.client.subscribe(topic, { qos: qos });
+      },
+
+      createConnection() {
         try {
           this.connecting = true;
-          const { protocol, host, port, endpoint, ...options } = this.connection;
+          const { protocol, host, port, endpoint, clientId, clean, connectTimeout, reconnectPeriod } = this.connection;
           const connectUrl = `${protocol}://${host}:${port}${endpoint}`;
-          this.client = mqtt.connect(connectUrl, options);
-          if (this.client.on) {
-            this.client.on("connect", () => {
+          this.client = new PahoMQTT.Client(connectUrl, clientId);
+
+          // Set additional client options if needed
+          this.client.connectTimeout = connectTimeout;
+          this.client.reconnectPeriod = reconnectPeriod;
+
+          // Set up event listeners
+        
+          this.client.onConnectionLost = this.onConnectionLost.bind(this); // Bind to the component's context
+          this.client.onMessageArrived = this.onMessageArrived.bind(this); // Bind to the component's context
+
+
+          // Connect to the MQTT broker
+          this.client.connect({
+            onSuccess: () => {
               this.connecting = false;
-              console.log("Connection succeeded!");
-            });
-            this.client.on("reconnect", this.handleOnReConnect);
-            this.client.on("error", (error) => {
-              console.log("Connection failed", error);
-            });
-            this.client.on("message", (topic, message) => {
-              let parser = JSON.parse(`${message}`)              
-              let dev = topic.split("/")[1]
-              let pow = parser.payload.power
-              this.sm_coeff.forEach(el=>{
-                let keyId = Object.keys(el);                
-                if(keyId[0] === dev){
-                  if(keyId[0] === "sm-0001" || keyId[0] === "sm-0016")
-                  {
-                    pow *=-1
-                  }
-                  pow *=el[keyId[0]]
-                }
-              })
-              let devObj = {
-                "dev":dev,
-                "pow":pow.toFixed(2),
-                "ready":parser.payload.gridReady,
-                "providing":parser.payload.providing                
-              }
-            // console.log(devObj.dev)
-              let found = this.all.find(element => element.id === devObj.dev)
-              if(found){              
-                found.pow = devObj.pow
-                found.providing = devObj.providing
-                found.online = 'online'
-                found.ready = devObj.ready
-                found.customer = parser.payload.blynkName
-                if (found.ready == 1)
-                {
-                  if (found.providing == 0)
-                  {
-                  found.online = 'ready'
-                  }
-                  else if (found.providing == 1)
-                  {
-                    found.online = 'providing'
-                  }
-                }
-                else if (found.ready == 0)
-                {
-                  found.online = 'not-ready'
-                }
-                else{
-                  found.online = 'offline'
-                }
-                
-              }
-              this.$store.commit('createAllDevs', this.all)
-              //console.log(this.all)
-            
-            });
-          }
+              console.log('Connected to MQTT broker');
+              this.doSubscribe(); // Subscribe after successful connection
+            },
+            onFailure: (error) => {
+              this.connecting = false;
+              console.error('MQTT connection failed:', error);
+            },
+          });
         } catch (error) {
           this.connecting = false;
-          console.log("mqtt.connect error", error);
+          console.error('mqtt.connect error', error);
         }
-    },
+      },
+      onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+          console.error('MQTT Connection Lost:', responseObject.errorMessage);
+          // Handle reconnection logic here if needed
+        }
+      },
+      onMessageArrived(message) {
+        try {
+          const topic = message.destinationName;
+          const payload = message.payloadString;
+
+          // Process the incoming message here
+          const parsedPayload = JSON.parse(payload);
+          let dev = topic.split("/")[1]
+          let pow = parsedPayload.payload.power
+
+          this.sm_coeff.forEach(el=>{
+            let keyId = Object.keys(el);                
+              if(keyId[0] === dev){
+                if(keyId[0] === "sm-0001" || keyId[0] === "sm-0016")
+                {
+                  pow *=-1
+                }
+                pow *=el[keyId[0]]
+              }
+          })
+          let devObj = {
+            "dev":dev,
+            "pow":pow.toFixed(2),
+            "ready":parsedPayload.payload.gridReady,
+            "providing":parsedPayload.payload.providing                
+          }
+          let found = this.all.find(element => element.id === devObj.dev)
+          if(found){              
+            found.pow = devObj.pow
+            found.providing = devObj.providing
+            found.online = 'online'
+            found.ready = devObj.ready
+            found.customer = parsedPayload.payload.blynkName
+            if (found.ready == 1)
+            {
+              if (found.providing == 0)
+              {
+              found.online = 'ready'
+              }
+              else if (found.providing == 1)
+              {
+                found.online = 'providing'
+              }
+            }
+            else if (found.ready == 0)
+            {
+              found.online = 'not-ready'
+            }
+            else{
+              found.online = 'offline'
+            }
+            
+          }
+          this.$store.commit('createAllDevs', this.all)
+        
+          
+
+
+        } catch (error) {
+          console.error('Error processing MQTT message:', error);
+        }
+      },
+
+
+    // createConnection() {
+    //     try {
+    //       this.connecting = true;
+    //       const { protocol, host, port, endpoint, ...options } = this.connection;
+    //       const connectUrl = `${protocol}://${host}:${port}${endpoint}`;
+    //       this.client = new PahoMQTT.Client(host, port, clientId);
+    //       if (this.client.on) {
+    //         this.client.on("connect", () => {
+    //           this.connecting = false;
+    //           console.log("Connection succeeded!");
+    //         });
+    //         this.client.on("reconnect", this.handleOnReConnect);
+    //         this.client.on("error", (error) => {
+    //           console.log("Connection failed", error);
+    //         });
+    //         this.client.on("message", (topic, message) => {
+    //           let parser = JSON.parse(`${message}`)              
+    //           let dev = topic.split("/")[1]
+    //           let pow = parser.payload.power
+    //           this.sm_coeff.forEach(el=>{
+    //             let keyId = Object.keys(el);                
+    //             if(keyId[0] === dev){
+    //               if(keyId[0] === "sm-0001" || keyId[0] === "sm-0016")
+    //               {
+    //                 pow *=-1
+    //               }
+    //               pow *=el[keyId[0]]
+    //             }
+    //           })
+    //           let devObj = {
+    //             "dev":dev,
+    //             "pow":pow.toFixed(2),
+    //             "ready":parser.payload.gridReady,
+    //             "providing":parser.payload.providing                
+    //           }
+    //         // console.log(devObj.dev)
+    //           let found = this.all.find(element => element.id === devObj.dev)
+    //           if(found){              
+    //             found.pow = devObj.pow
+    //             found.providing = devObj.providing
+    //             found.online = 'online'
+    //             found.ready = devObj.ready
+    //             found.customer = parser.payload.blynkName
+    //             if (found.ready == 1)
+    //             {
+    //               if (found.providing == 0)
+    //               {
+    //               found.online = 'ready'
+    //               }
+    //               else if (found.providing == 1)
+    //               {
+    //                 found.online = 'providing'
+    //               }
+    //             }
+    //             else if (found.ready == 0)
+    //             {
+    //               found.online = 'not-ready'
+    //             }
+    //             else{
+    //               found.online = 'offline'
+    //             }
+                
+    //           }
+    //           this.$store.commit('createAllDevs', this.all)
+    //           //console.log(this.all)
+            
+    //         });
+    //       }
+    //     } catch (error) {
+    //       this.connecting = false;
+    //       console.log("mqtt.connect error", error);
+    //     }
+    // },
 
     usrName(payload){
       if(payload.username === "admin" && payload.pass === "admin")
@@ -293,7 +372,7 @@ export default {
      this.createAllDevs()
      this.detectIt()
      this.createConnection();
-     this.doSubscribe();
+     //this.doSubscribe();
      
      
     },

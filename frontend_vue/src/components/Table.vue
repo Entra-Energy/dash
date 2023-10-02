@@ -8,7 +8,7 @@
 </div>
 </div>
   <div class="table-responsive-sm">
-  <table class="table table-striped table-sm">
+  <table class="table table-striped table-sm table-dark">
     <thead class="thead-light">
       <tr>
         <th>
@@ -42,46 +42,56 @@
          <td>{{ dev.lat+"/"+dev.long }}</td>
          <td>{{ dev.type }}</td>
          <td class="capacity">
-          <div class="row">
-            <div class="form-inline pull-left col-md-8">
-             <div class="capa">
-              <!-- <label for="power">Power /kW/</label> -->
-               <input type="text" class="form-control d-inline-block capacity-asign" placeholder="#" style="width: auto;" v-model="capacityAsign[dev.id]" >
-             </div>
-             <div class = "submitCapa">
-               <button type="submit" class="btn btn-warning sbmt-button" @click="submitCapacity(dev.id)">Submit</button>
-             </div>
-             </div> 
-             <div class="capa-log col-md-4">
-              <ul>
-               <li v-for="log in capaLog" :key="dev.id">
-                 <span v-if="log.dev === dev.id">{{log.capacity}}</span>
-
-               </li>
-             </ul> 
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <div class="capa">
+                <!-- <label for="power">Power /kW/</label> -->
+                <input type="text" class="form-control d-inline-block capacity-asign" placeholder="#" v-model="capacityAsign[dev.id]">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex flex-md-row flex-column align-items-md-center justify-content-between">
+              <div class="submitCapa">
+                <button type="submit" class="btn btn-warning sbmt-button" @click="submitCapacity(dev.id)">Submit</button>
+              </div>
+              <div class="capa-log mt-md-0 mt-2">
+                <ul>
+                  <li v-for="log in capaLog" :key="dev.id">
+                    <span v-if="log.dev === dev.id">{{log.capacity}}</span>
+                  </li>
+                </ul>
+              </div>
+             
+              </div>
             </div>
           </div>
+        </td>
 
-         </td>   
+
          <td class="node">
-          <div class="row">
-            <div class="form-inline pull-left col-md-8">
+          <div class="row align-items-center">
+            <div class="col-md-8">
              <div class="asign">
               <!-- <label for="power">Power /kW/</label> -->
                <input type="text" class="form-control d-inline-block node-asign" placeholder="#" style="width: auto;" v-model="nodeAsign[dev.id]" >
              </div>
-             <div class = "submitNode">
-               <button type="submit" class="btn btn-warning sbmt-button" @click="submitNode(dev.id)">Asign</button>
              </div>
-             </div>
-             <div class="node-log col-md-4">
-              <ul>
-               <li v-for="node in nodeLog" :key="dev.id">
-                 <span v-if="node.dev === dev.id">{{node.grid}}</span>
+             <div class="col-md-4">
+              <div class="d-flex flex-md-row flex-column align-items-md-center justify-content-between">
+                <div class = "submitNode">
+                <button type="submit" class="btn btn-warning sbmt-button" @click="submitNode(dev.id)">Asign</button>
+                </div>
+                <div class="node-log mt-md-0 mt-2">
+                <ul>
+                  <li v-for="node in nodeLog" :key="dev.id">
+                    <span v-if="node.dev === dev.id">{{node.grid}}</span>
 
-               </li>
-             </ul> 
+                  </li>
+                </ul> 
+              </div>
+              </div>
             </div>
+         
           </div>  
 
          </td>      
@@ -315,6 +325,7 @@ td.check-dev {
     max-width: 50%;
     max-height: 31px;
     font-size: 13px;
+    margin-left: 90px;
 }
 .capacity-asign {
     max-width: 50%;
@@ -326,10 +337,10 @@ td.check-dev {
     font-size: 13px;
     color: #3c3a3a;
 }
-.capa{
+/* .capa{
   max-width: 50%;
   margin-left: -20px;
-}
+} */
 .capa-log ul {
   list-style: none;
   margin: 0;
@@ -343,9 +354,9 @@ td.check-dev {
 /* .pull-left{
   float:left
 } */
-/* .capa-log {
+.capa-log {
     float: left;
-} */
+}
 .node-log {
     float: left;
 }

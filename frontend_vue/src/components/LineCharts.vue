@@ -1,9 +1,9 @@
 <template>
   <div class="card card-chart">
   <div class="card-body">
-    <div v-if="dataLoader">
-      <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>
-    </div>
+    <!-- <div v-if="dataLoader">
+     <loader object="#ff9633" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40" objectbg="#999793" opacity="80" name="circular"></loader>
+    </div> -->
     <v-chart class="chart" ref='lineChart' style="background-color:#27293d;max-width: 100%; height: 350px" @mouseover="getDataSubset" @dataZoom="updateZoom" :option="option" autoresize  />
   </div>
 </div>
@@ -13,6 +13,7 @@
 <script>
 
 import axios from 'axios';
+//import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { LineChart } from "echarts/charts";
@@ -146,7 +147,8 @@ export default {
 
   name: "LineCharts",
   components: {
-    VChart
+    VChart,
+    //PulseLoader    
   },
   // provide: {
   //   [THEME_KEY]: "dark"
